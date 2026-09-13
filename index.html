@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>IRO — Catalogue mobile</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f6f4f1;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+header{position:sticky;top:0;z-index:10;background:rgba(246,244,241,.96);backdrop-filter:blur(10px);border-bottom:1px solid #e6e0da;padding:14px}
+.brand{font-weight:900;letter-spacing:.18em;font-size:23px}
+.sub{font-size:12px;color:#777;margin-top:3px}
+.toolbar{display:flex;gap:8px;margin-top:10px;overflow:auto}
+.toolbar button,.toolbar select{border:1px solid #ddd6cf;background:white;padding:8px 12px;border-radius:999px;white-space:nowrap}
+main{padding:10px;max-width:1100px;margin:auto}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.pic{aspect-ratio:3/4;background:#ece8e3;position:relative;overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.placeholder{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;color:#999;font-weight:700;padding:15px}
+.status{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.94);font-size:10px;font-weight:800;border-radius:999px;padding:5px 7px}
+.info{padding:9px}
+.name{font-size:14px;font-weight:800;line-height:1.2}
+.size{font-size:12px;color:#777;margin-top:4px}
+.prices{margin-top:7px;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.retail{font-size:11px;color:#999;text-decoration:line-through}
+.sale{font-size:18px;font-weight:900}
+.discount{font-size:10px;background:#111;color:#fff;padding:3px 6px;border-radius:999px}
+.zoomhint{font-size:10px;color:#999;margin-top:6px}
+.error{padding:40px 20px;text-align:center;color:#777}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+.viewer{position:fixed;inset:0;background:#050505;z-index:99;display:none;touch-action:none}
+.viewer.open{display:block}
+.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage img{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center;will-change:transform}
+.top{position:absolute;top:0;left:0;right:0;z-index:3;padding:calc(env(safe-area-inset-top) + 10px) 12px 20px;color:white;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);display:flex;justify-content:space-between;align-items:center}
+.top button,.nav{border:0;background:rgba(255,255,255,.18);color:#fff;width:44px;height:44px;border-radius:50%;font-size:24px}
+.nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3}
+.prev{left:10px}.next{right:10px}
+.bottom{position:absolute;left:0;right:0;bottom:0;color:#fff;text-align:center;padding:22px 12px calc(env(safe-area-inset-bottom) + 14px);background:linear-gradient(to top,rgba(0,0,0,.62),transparent);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">IRO</div>
+  <div class="sub">CATALOGUE MOBILE</div>
+  <div class="toolbar">
+    <button onclick="setStatus('')">Tous</button>
+    <button onclick="setStatus('Disponible')">Disponibles</button>
+    <select id="sizeFilter" onchange="applyFilters()"><option value="">Toutes tailles</option></select>
+  </div>
+</header>
+
+<main>
+  <div id="grid" class="grid"><div class="error">Chargement du catalogue…</div></div>
+</main>
+
+<div id="viewer" class="viewer">
+  <div class="stage" id="stage"><img id="vimg"></div>
+  <div class="top"><span id="vtitle"></span><button id="close">×</button></div>
+  <button class="nav prev" id="prev">‹</button>
+  <button class="nav next" id="next">›</button>
+  <div class="bottom" id="vcounter"></div>
+</div>
+
+<script>
+let products=[], visible=[], current=null, pi=0, statusFilter='';
+const grid=document.getElementById('grid');
+const sizeFilter=document.getElementById('sizeFilter');
+
+function parseCSV(text){
+  const lines=text.replace(/\r/g,'').split('\n').filter(x=>x.trim()!=='');
+  const headers=lines.shift().split(';').map(x=>x.trim());
+  return lines.map(line=>{
+    const values=line.split(';');
+    const o={};
+    headers.forEach((h,i)=>o[h]=(values[i]??'').trim());
+    return o;
+  });
+}
+function euro(v){
+  const n=Number(String(v).replace(',','.'));
+  return n?new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n):'';
+}
+async function load(){
+  try{
+    const r=await fetch('produits.csv?ts='+Date.now());
+    if(!r.ok) throw new Error('produits.csv introuvable');
+    const txt=await r.text();
+    const rows=parseCSV(txt);
+    products=rows.filter(r=>r.Nom).map(r=>({
+      name:r.Nom,
+      size:r.Taille||'—',
+      retail:Number((r['Prix retail']||'0').replace(',','.')),
+      sale:Number((r['Prix vente']||'0').replace(',','.')),
+      status:r.Statut||'Disponible',
+      photos:[r.Photo1,r.Photo2,r.Photo3,r.Photo4,r.Photo5].filter(Boolean).map(x=>'photos/'+x)
+    }));
+    populateSizes();
+    applyFilters();
+  }catch(e){
+    grid.innerHTML='<div class="error"><b>Impossible de charger le catalogue.</b><br><br>Lance le fichier DEMARRER_CATALOGUE.command sur Mac ou DEMARRER_CATALOGUE.bat sur Windows.</div>';
+  }
+}
+function populateSizes(){
+  const sizes=[...new Set(products.map(p=>p.size).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+  sizeFilter.innerHTML='<option value="">Toutes tailles</option>'+sizes.map(s=>`<option>${s}</option>`).join('');
+}
+function setStatus(s){statusFilter=s;applyFilters()}
+function applyFilters(){
+  visible=products.filter(p=>(!statusFilter||p.status===statusFilter)&&(!sizeFilter.value||p.size===sizeFilter.value));
+  render();
+}
+function render(){
+  grid.innerHTML=visible.map((p,i)=>{
+    const pct=p.retail&&p.sale?Math.round((1-p.sale/p.retail)*100):0;
+    return `<article class="card">
+      <div class="pic" onclick="${p.photos.length?`openViewer(${i})`:''}">
+        ${p.photos.length?`<img src="${p.photos[0]}">`:`<div class="placeholder">PHOTO<br>PRODUIT IRO</div>`}
+        <span class="status">${p.status}</span>
+      </div>
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="size">Taille : ${p.size}</div>
+        <div class="prices">
+          ${p.retail?`<span class="retail">${euro(p.retail)}</span>`:''}
+          ${p.sale?`<span class="sale">${euro(p.sale)}</span>`:''}
+          ${pct>0?`<span class="discount">-${pct}%</span>`:''}
+        </div>
+        ${p.photos.length?`<div class="zoomhint">Touchez pour voir / zoomer</div>`:''}
+      </div>
+    </article>`;
+  }).join('') || '<div class="error">Aucun produit.</div>';
+}
+
+const viewer=document.getElementById('viewer'),vimg=document.getElementById('vimg');
+let scale=1,tx=0,ty=0,pointers=new Map(),startDist=0,startScale=1,startX=0;
+function openViewer(i){current=visible[i];pi=0;viewer.classList.add('open');document.body.style.overflow='hidden';show()}
+function show(){reset();vimg.src=current.photos[pi];document.getElementById('vtitle').textContent=current.name;document.getElementById('vcounter').textContent=`${pi+1} / ${current.photos.length} · pincez pour zoomer · glissez pour changer`}
+function reset(){scale=1;tx=0;ty=0;apply()}
+function apply(){vimg.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
+function nxt(){pi=(pi+1)%current.photos.length;show()}
+function prv(){pi=(pi-1+current.photos.length)%current.photos.length;show()}
+document.getElementById('close').onclick=()=>{viewer.classList.remove('open');document.body.style.overflow=''};
+document.getElementById('next').onclick=nxt;document.getElementById('prev').onclick=prv;
+vimg.ondblclick=()=>{scale=scale===1?2.5:1;tx=ty=0;apply()};
+const stage=document.getElementById('stage');
+stage.addEventListener('pointerdown',e=>{
+  stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size===1)startX=e.clientX;
+  if(pointers.size===2){const a=[...pointers.values()];startDist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);startScale=scale}
+});
+stage.addEventListener('pointermove',e=>{
+  if(!pointers.has(e.pointerId))return;
+  const old=pointers.get(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size===2){
+    const a=[...pointers.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+    scale=Math.min(5,Math.max(1,startScale*d/startDist));apply()
+  } else if(pointers.size===1&&scale>1){
+    tx+=e.clientX-old.x;ty+=e.clientY-old.y;apply()
+  }
+});
+stage.addEventListener('pointerup',e=>{
+  const end=e.clientX;pointers.delete(e.pointerId);
+  if(scale===1&&Math.abs(end-startX)>55){end<startX?nxt():prv()}
+});
+stage.addEventListener('pointercancel',e=>pointers.delete(e.pointerId));
+load();
+</script>
+</body>
+</html>

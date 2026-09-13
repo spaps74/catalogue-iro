@@ -1,0 +1,22 @@
+CATALOGUE IRO — MODE D'EMPLOI
+
+1. Modifie uniquement produits.csv.
+2. Ajoute tes photos dans le dossier photos.
+3. Dans le CSV, écris seulement les noms de fichiers photo :
+   exemple : robe-iro-1.jpg
+4. Sur Mac : double-clique DEMARRER_CATALOGUE.command
+   Si macOS bloque le fichier : clic droit > Ouvrir.
+5. Sur Windows : double-clique DEMARRER_CATALOGUE.bat
+6. Le navigateur s'ouvre sur http://localhost:8000
+
+Colonnes :
+Nom ; Taille ; Prix retail ; Prix vente ; Statut ; Photo1 ; Photo2 ; Photo3 ; Photo4 ; Photo5
+
+Le site affiche :
+- listing mobile 2 colonnes
+- prix retail barré
+- prix de vente
+- statut
+- filtres
+- galerie plein écran
+- zoom et swipe
