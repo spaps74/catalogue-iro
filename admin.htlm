@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Upstyle Admin</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f5f5f3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;color:#111}.wrap{max-width:1050px;margin:auto;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.box{background:#fff;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 2px 12px #0000000c}h1{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}label{font-size:12px;font-weight:800;display:block;margin-bottom:5px}input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;font:inherit}textarea{min-height:120px}button{border:0;border-radius:10px;padding:10px 13px;font-weight:900;cursor:pointer}.primary{background:#111;color:#fff}.yellow{background:#ffd600}.danger{background:#f1dede;color:#8b0000}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px}.muted{color:#777;font-size:12px}.photos{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.photos img{width:100%;aspect-ratio:1;object-fit:contain;background:#fafafa;border-radius:8px}.status{padding:10px;border-radius:10px;background:#fff5c2;margin-top:10px;font-size:13px}.hidden{display:none}@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.photos{grid-template-columns:repeat(3,1fr)}}
+
+.photos img{
+  cursor:zoom-in;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.photos img:hover{
+  transform:scale(1.03);
+  box-shadow:0 3px 12px rgba(0,0,0,.14);
+}
+.photo-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.photo-lightbox.open{display:flex}
+.photo-lightbox img{
+  max-width:96vw;
+  max-height:92vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:10px;
+  box-shadow:0 10px 40px rgba(0,0,0,.45);
+}
+.photo-lightbox-close{
+  position:fixed;
+  right:16px;
+  top:16px;
+  width:44px;
+  height:44px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  font-size:28px;
+  line-height:44px;
+  padding:0;
+  cursor:pointer;
+}
+.photo-lightbox-hint{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:16px;
+  text-align:center;
+  color:#ddd;
+  font-size:12px;
+}
+
+
+.photo-edit-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin-top:8px;
+}
+.photo-edit-card{
+  border:1px solid #e5e5e5;
+  border-radius:10px;
+  padding:6px;
+  background:#fafafa;
+}
+.photo-edit-card img{
+  width:100%;
+  aspect-ratio:1;
+  object-fit:contain;
+  background:white;
+  border-radius:7px;
+  cursor:zoom-in;
+}
+.photo-edit-actions{
+  display:flex;
+  gap:5px;
+  margin-top:5px;
+}
+.photo-edit-actions button{
+  flex:1;
+  padding:6px;
+  font-size:11px;
+}
+.image-editor{
+  position:fixed;
+  inset:0;
+  z-index:10050;
+  display:none;
+  background:rgba(0,0,0,.92);
+  padding:14px;
+  overflow:auto;
+}
+.image-editor.open{display:block}
+.image-editor-box{
+  max-width:760px;
+  margin:2vh auto;
+  background:#fff;
+  border-radius:18px;
+  padding:15px;
+}
+.image-editor-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.image-editor-head h3{margin:0}
+.image-editor-canvas-wrap{
+  margin-top:12px;
+  background:#222;
+  border-radius:12px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:360px;
+  touch-action:none;
+}
+#editCanvas{
+  max-width:100%;
+  max-height:66vh;
+  display:block;
+  background:#fff;
+  touch-action:none;
+  cursor:grab;
+}
+#editCanvas.dragging{cursor:grabbing}
+.image-editor-controls{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:12px;
+}
+.image-editor-controls .full{grid-column:1/-1}
+.editor-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+.editor-buttons button{flex:1;min-width:120px}
+@media(max-width:700px){
+  .photo-edit-grid{grid-template-columns:repeat(3,1fr)}
+  .image-editor-controls{grid-template-columns:1fr}
+  .image-editor-controls .full{grid-column:auto}
+}
+
+
+.photo-order-actions{
+  display:flex;
+  gap:5px;
+  margin-top:5px;
+}
+.photo-order-actions button{
+  flex:1;
+  padding:6px;
+  font-size:11px;
+}
+.photo-main-badge{
+  display:inline-block;
+  margin-top:5px;
+  padding:3px 6px;
+  border-radius:999px;
+  background:#ffd600;
+  color:#111;
+  font-size:10px;
+  font-weight:900;
+}
+
+
+.publish-status{margin-top:10px;padding:11px 12px;border-radius:10px;font-size:13px;line-height:1.45}
+.publish-status.working{background:#fff4bf}
+.publish-status.ok{background:#dff4e4;color:#145c2d}
+.publish-status.warn{background:#ffe8c7;color:#7a4800}
+.publish-status.error{background:#f8dddd;color:#8c1919}
+.publish-status a{font-weight:900;color:inherit}
+
+
+.photo-edit-card{
+  position:relative;
+  user-select:none;
+}
+.photo-edit-card.dragging{
+  opacity:.45;
+  outline:2px dashed #111;
+}
+.photo-edit-card.drag-over{
+  outline:3px solid #ffd600;
+  transform:scale(1.02);
+}
+.photo-drag-handle{
+  position:absolute;
+  top:8px;
+  left:8px;
+  z-index:3;
+  background:rgba(17,17,17,.82);
+  color:#fff;
+  border-radius:999px;
+  padding:4px 7px;
+  font-size:11px;
+  cursor:grab;
+}
+.photo-drag-handle:active{cursor:grabbing}
+.set-main{
+  width:100%;
+  margin-top:5px;
+  padding:6px;
+  font-size:11px;
+  background:#fff3a4;
+}
+.set-main.active{
+  background:#ffd600;
+  font-weight:950;
+}
+.avif-note{
+  margin-top:6px;
+  font-size:11px;
+  color:#666;
+}
+
+
+.photo-delete-x{
+  position:absolute;
+  top:6px;
+  right:6px;
+  z-index:5;
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:50%;
+  background:#c62828;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  line-height:28px;
+  padding:0;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
+}
+.photo-source-label{
+  font-size:10px;
+  color:#777;
+  margin-top:4px;
+}
+
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
+<div class="box"><label>Adresse API sécurisée</label>
+<div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
+  https://soft-tree-927f.stephane-0f5.workers.dev
+</div>
+<input id="api" type="hidden" value="https://soft-tree-927f.stephane-0f5.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" id="connectBtn" style="margin-top:10px" onclick="connect()">Charger le catalogue</button>
+<div id="connectionStatus" class="publish-status hidden" style="margin-top:10px"></div></div>
+<div class="box">
+<h2>Articles</h2>
+<input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
+<div id="list" class="list">Connectez l'API pour charger les produits.</div>
+</div>
+<div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
+<div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div>
+<div><label>Catégorie *</label><input id="categorie" list="catlist"><datalist id="catlist"><option>Chaussures</option>
+<div class="field">
+  <label for="sousCategorie">Sous-catégorie</label>
+  <input id="sousCategorie" name="sousCategorie" type="text" placeholder="Ex. Baskets, Robes, Pantalons, Cartes graphiques, Jardin...">
+</div>
+<option>Vestes</option><option>Pulls</option><option>T-shirts</option><option>Accessoires</option><option>Jeans</option><option>Pantalons</option><option>Robes</option><option>Chemises</option></datalist></div>
+<div><label>Taille</label><input id="taille"></div><div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
+<div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
+<div><label>Référence / SKU</label><input id="sku"></div><div class="full"><label>Description</label><textarea id="description" placeholder="Décrivez la matière, la coupe, la couleur, l'état, les détails..."></textarea></div>
+<div class="full">
+<label>Photos (jusqu'à 5) — la première sera la photo principale</label>
+<input id="photos" type="file" accept=".jpg,.jpeg,.png,.webp,.avif,image/*" multiple onchange="preview()">
+<div class="photo-edit-grid" id="previews"></div>
+<div class="muted">Toutes les photos, y compris celles des annonces existantes, peuvent être recadrées, tournées, réordonnées ou supprimées. Faites glisser pour changer l’ordre ; la première photo est la photo principale. Formats : JPG, PNG, WebP et AVIF.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
+</div>
+</div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="primary" onclick="publish()">Publier / Enregistrer</button><button onclick="hideEditor()">Annuler</button><button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button></div><div id="msg" class="publish-status hidden"></div></div>
+</div><div class="image-editor" id="imageEditor">
+  <div class="image-editor-box">
+    <div class="image-editor-head">
+      <h3>Modifier la photo</h3>
+      <button type="button" onclick="closeImageEditor()">×</button>
+    </div>
+
+    <div class="image-editor-canvas-wrap">
+      <canvas id="editCanvas" width="600" height="750"></canvas>
+    </div>
+
+    <div class="image-editor-controls">
+      <div>
+        <label>Format de recadrage</label>
+        <select id="cropRatio" onchange="setCropRatio(this.value)">
+          <option value="4:5">4:5 — recommandé catalogue</option>
+          <option value="1:1">1:1 — carré</option>
+          <option value="3:4">3:4 — portrait</option>
+          <option value="original">Format original</option>
+        </select>
+      </div>
+      <div>
+        <label>Zoom</label>
+        <input id="cropZoom" type="range" min="1" max="3" step="0.01" value="1" oninput="setEditZoom(this.value)">
+      </div>
+      <div class="full muted">
+        Faites glisser l'image dans le cadre pour choisir la zone à conserver.
+      </div>
+    </div>
+
+    <div class="editor-buttons">
+      <button type="button" onclick="rotateEdit(-90)">↶ Rotation gauche</button>
+      <button type="button" onclick="rotateEdit(90)">↷ Rotation droite</button>
+      <button type="button" onclick="resetImageEdit()">Réinitialiser</button>
+      <button class="primary" type="button" onclick="applyImageEdit()">Appliquer</button>
+      <button type="button" onclick="closeImageEditor()">Annuler</button>
+    </div>
+  </div>
+</div>
+<script>
+let products=[],editing=null,oldPhotos=[];
+let selectedPhotoFiles=[];
+let galleryItems=[];
+const $=id=>document.getElementById(id);
+function cfg(){return {api:$('api').value.trim().replace(/\/$/,''),key:$('key').value}}
+function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
+$('api').value='https://soft-tree-927f.stephane-0f5.workers.dev';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
+$('key').addEventListener('keydown',e=>{
+  if(e.key==='Enter') connect();
+});
+
+async function req(path,opt={}){
+  const c=cfg();
+  saveCfg();
+
+  if(!c.key){
+    throw new Error('Clé admin vide.');
+  }
+
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),15000);
+
+  try{
+    opt.headers={...(opt.headers||{}),'X-Admin-Key':c.key};
+    opt.signal=controller.signal;
+
+    const r=await fetch(c.api+path,opt);
+    const t=await r.text();
+
+    if(!r.ok){
+      if(r.status===401) throw new Error('Clé admin incorrecte (HTTP 401). Vérifie ADMIN_KEY dans Cloudflare et la clé saisie ici.');
+      if(r.status===403) throw new Error('Accès refusé par le Worker (HTTP 403).');
+      if(r.status===404) throw new Error('Route introuvable sur le Worker (HTTP 404).');
+      throw new Error(`Worker HTTP ${r.status} : ${t||'aucun détail'}`);
+    }
+
+    return t?JSON.parse(t):{};
+  }catch(e){
+    if(e.name==='AbortError'){
+      throw new Error('Le Worker ne répond pas après 15 secondes.');
+    }
+    throw e;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function setConnectionStatus(text,type='working'){
+  const el=$('connectionStatus');
+  el.className='publish-status '+type;
+  el.textContent=text;
+  el.classList.remove('hidden');
+}
+
+async function connect(){
+  const btn=$('connectBtn');
+  try{
+    btn.disabled=true;
+    btn.textContent='Connexion…';
+    setConnectionStatus('Connexion au Worker et chargement du catalogue…','working');
+
+    products=await req('/products');
+
+    if(!Array.isArray(products)){
+      throw new Error('Réponse invalide : /products ne renvoie pas une liste de produits.');
+    }
+
+    renderList();
+    setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) chargé(s).`,'ok');
+  }catch(e){
+    console.error(e);
+    setConnectionStatus('❌ '+e.message,'error');
+    alert('Connexion impossible : '+e.message);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Charger le catalogue';
+  }
+}
+function renderList(){
+  const q=( $('catalogSearch')?.value || '' ).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const list=products.filter(p=>{
+    if(!q) return true;
+    const hay=[
+      p.nom,p.marque,p.categorie,p.taille,p.sku,p.statut,p.description,p.prixVente,p.prixRetail
+    ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    return hay.includes(q);
+  });
+  $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
+}
+function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function clear(){
+  ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>$(x).value='');
+  $('statut').value='Disponible';
+  $('stock').value=1;
+  $('photos').value='';
+  selectedPhotoFiles=[];
+  galleryItems=[];
+  renderPhotoPreviews();
+}
+
+function preview(){
+  const remaining=Math.max(0,5-galleryItems.length);
+  const incoming=[...$('photos').files].slice(0,remaining);
+  incoming.forEach(file=>galleryItems.push({type:'new',file}));
+  $('photos').value='';
+  renderPhotoPreviews();
+}
+
+function itemPreviewUrl(item){
+  return item.type==='existing' ? item.path : URL.createObjectURL(item.file);
+}
+
+function renderPhotoPreviews(){
+  $('previews').innerHTML=galleryItems.map((item,i)=>{
+    const u=itemPreviewUrl(item);
+    const safe=u.replace(/'/g,"\\'");
+    return `
+      <div class="photo-edit-card" draggable="true"
+           ondragstart="startPhotoDrag(event,${i})"
+           ondragover="photoDragOver(event)"
+           ondragleave="photoDragLeave(event)"
+           ondrop="dropPhoto(event,${i})"
+           ondragend="endPhotoDrag(event)">
+        <div class="photo-drag-handle">☰</div>
+        <button class="photo-delete-x" type="button" title="Supprimer cette photo" onclick="removeGalleryPhoto(${i})">×</button>
+        <img src="${u}" onclick="openPhotoLightbox('${safe}')" title="Cliquer pour agrandir">
+        ${i===0 ? '<div class="photo-main-badge">Photo principale</div>' : ''}
+        <div class="photo-source-label">${item.type==='existing'?'Photo existante':'Nouvelle / modifiée'}</div>
+        <button class="set-main ${i===0?'active':''}" type="button" onclick="setGalleryMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>
+        <div class="photo-edit-actions">
+          <button type="button" onclick="openGalleryImageEditor(${i})">Modifier</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function removeGalleryPhoto(i){
+  galleryItems.splice(i,1);
+  renderPhotoPreviews();
+}
+
+function setGalleryMain(i){
+  if(i<=0 || i>=galleryItems.length) return;
+  const [item]=galleryItems.splice(i,1);
+  galleryItems.unshift(item);
+  renderPhotoPreviews();
+}
+
+let draggedPhotoIndex=null;
+
+function startPhotoDrag(e,index){
+  draggedPhotoIndex=index;
+  e.currentTarget.classList.add('dragging');
+  try{e.dataTransfer.effectAllowed='move'}catch(_){}
+}
+function photoDragOver(e){
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+  try{e.dataTransfer.dropEffect='move'}catch(_){}
+}
+function photoDragLeave(e){ e.currentTarget.classList.remove('drag-over'); }
+function endPhotoDrag(e){
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.photo-edit-card').forEach(x=>x.classList.remove('drag-over'));
+}
+function dropPhoto(e,targetIndex){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(draggedPhotoIndex===null || draggedPhotoIndex===targetIndex) return;
+  const [item]=galleryItems.splice(draggedPhotoIndex,1);
+  galleryItems.splice(targetIndex,0,item);
+  draggedPhotoIndex=null;
+  renderPhotoPreviews();
+}
+
+async function galleryItemToFile(item,index){
+  if(item.type==='new') return item.file;
+  const r=await fetch(item.path+'?edit='+Date.now(),{cache:'no-store'});
+  if(!r.ok) throw new Error('Impossible de charger la photo existante.');
+  const blob=await r.blob();
+  const ext=(item.path.split('.').pop()||'jpg').split('?')[0];
+  return new File([blob],`photo-existante-${index+1}.${ext}`,{type:blob.type||'image/jpeg'});
+}
+
+async function openGalleryImageEditor(index){
+  editPhotoIndex=index;
+  const item=galleryItems[index];
+  if(!item) return;
+  try{
+    const file=await galleryItemToFile(item,index);
+    const img=new Image();
+    img.onload=()=>{
+      editSourceImage=img;
+      editRotation=0; editZoom=1; editOffsetX=0; editOffsetY=0;
+      $('cropZoom').value='1';
+      $('cropRatio').value='4:5';
+      setCanvasRatio();
+      drawEditCanvas();
+      $('imageEditor').classList.add('open');
+      document.body.style.overflow='hidden';
+    };
+    img.src=URL.createObjectURL(file);
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+
+function setMsg(text,type='working'){
+  const m=$('msg');
+  m.className='publish-status '+type;
+  m.innerHTML=text;
+  m.classList.remove('hidden');
+}
+
+async function waitForStoreProduct(id, attempts=15){
+  // admin.html is served from the same GitHub Pages site as produits.json.
+  for(let i=0;i<attempts;i++){
+    try{
+      const r=await fetch('produits.json?verify='+Date.now(),{cache:'no-store'});
+      if(r.ok){
+        const list=await r.json();
+        if(Array.isArray(list) && list.some(p=>p.id===id)) return true;
+      }
+    }catch(e){}
+    await new Promise(resolve=>setTimeout(resolve,2000));
+  }
+  return false;
+}
+
+async function publish(){
+  try{
+    const fd=new FormData();
+    const data={
+      id:editing||slug($('marque').value+'-'+$('nom').value+'-'+$('taille').value),
+      nom:$('nom').value.trim(),
+      marque:$('marque').value.trim(),
+      categorie:$('categorie').value.trim(),
+      sousCategorie: (document.getElementById('sousCategorie')?.value || '').trim(),
+taille:$('taille').value.trim(),
+      prixRetail:Number($('retail').value||0),
+      prixVente:Number($('vente').value||0),
+      statut:$('statut').value,
+      sku:$('sku').value.trim(),
+      stock:Number($('stock').value||0),
+      description:$('description').value.trim(),
+      photos:[]
+    };
+
+    if(!data.nom||!data.marque||!data.categorie||!data.prixVente){
+      throw new Error('Nom, marque, catégorie et prix de vente sont obligatoires.');
+    }
+
+    const photoPlan=[];
+    let uploadIndex=0;
+    for(const item of galleryItems.slice(0,5)){
+      if(item.type==='existing'){
+        photoPlan.push({type:'existing',path:item.path});
+      }else{
+        photoPlan.push({type:'upload',index:uploadIndex});
+        fd.append('photos',item.file);
+        uploadIndex++;
+      }
+    }
+
+    fd.append('product',JSON.stringify(data));
+    fd.append('photoPlan',JSON.stringify(photoPlan));
+
+    setMsg('Publication vers GitHub en cours…','working');
+
+    const c=cfg();
+    const r=await fetch(c.api+'/product',{
+      method:'POST',
+      headers:{'X-Admin-Key':c.key},
+      body:fd
+    });
+
+    const t=await r.text();
+    if(!r.ok) throw new Error(t);
+
+    products=await req('/products');
+    const saved=products.find(p=>p.id===data.id);
+    if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
+    renderList();
+
+    setMsg(
+      'Article enregistré dans <b>produits.json</b>. GitHub Pages met maintenant la boutique à jour…',
+      'working'
+    );
+
+    const visible=await waitForStoreProduct(data.id,15);
+    if(visible){
+      setMsg('✅ Article publié et visible dans la boutique. <a href="index.html?refresh='+Date.now()+'" target="_blank">Ouvrir la boutique</a>','ok');
+    }else{
+      setMsg('✅ Article enregistré sur GitHub. La boutique publique peut avoir un léger délai. <a href="index.html?refresh='+Date.now()+'" target="_blank">Vérifier la boutique</a>','warn');
+    }
+
+    editing=data.id;
+    oldPhotos=saved.photos||[];
+    galleryItems=oldPhotos.map(path=>({type:'existing',path}));
+    selectedPhotoFiles=[];
+    renderPhotoPreviews();
+    $('editTitle').textContent='Modifier : '+saved.nom;
+    $('deleteBtn').classList.remove('hidden');
+
+  }catch(e){
+    setMsg('Erreur : '+e.message,'error');
+  }
+}
+async function deleteProduct(){if(!confirm('Supprimer définitivement cet article ?'))return;try{await req('/product/'+encodeURIComponent(editing),{method:'DELETE'});await connect();hideEditor()}catch(e){alert(e.message)}}
+
+
+/* Editeur photo : recadrage + rotation */
+let editPhotoIndex=null;
+let editSourceImage=null;
+let editRotation=0;
+let editZoom=1;
+let editOffsetX=0, editOffsetY=0;
+let editDragging=false, editLastX=0, editLastY=0;
+let editOriginalState=null;
+
+function ratioSize(ratio,img){
+  if(ratio==='1:1') return [700,700];
+  if(ratio==='3:4') return [700,933];
+  if(ratio==='4:5') return [700,875];
+  const r=img.naturalWidth/img.naturalHeight;
+  if(r>=1) return [900,Math.max(1,Math.round(900/r))];
+  return [Math.max(1,Math.round(900*r)),900];
+}
+
+function openImageEditor(index){
+  editPhotoIndex=index;
+  const file=selectedPhotoFiles[index];
+  if(!file) return;
+
+  const img=new Image();
+  img.onload=()=>{
+    editSourceImage=img;
+    editOriginalState={rotation:0,zoom:1,offsetX:0,offsetY:0};
+    editRotation=0; editZoom=1; editOffsetX=0; editOffsetY=0;
+    $('cropZoom').value='1';
+    $('cropRatio').value='4:5';
+    setCanvasRatio();
+    drawEditCanvas();
+    $('imageEditor').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+  img.src=URL.createObjectURL(file);
+}
+
+function closeImageEditor(){
+  $('imageEditor').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function setCropRatio(){
+  if(!editSourceImage) return;
+  editOffsetX=0; editOffsetY=0;
+  setCanvasRatio();
+  drawEditCanvas();
+}
+
+function setCanvasRatio(){
+  const c=$('editCanvas');
+  const [w,h]=ratioSize($('cropRatio').value,editSourceImage);
+  c.width=w; c.height=h;
+}
+
+function setEditZoom(v){
+  editZoom=Number(v)||1;
+  drawEditCanvas();
+}
+
+function rotateEdit(deg){
+  editRotation=(editRotation+deg)%360;
+  editOffsetX=0; editOffsetY=0;
+  drawEditCanvas();
+}
+
+function resetImageEdit(){
+  editRotation=0; editZoom=1; editOffsetX=0; editOffsetY=0;
+  $('cropZoom').value='1';
+  $('cropRatio').value='4:5';
+  setCanvasRatio();
+  drawEditCanvas();
+}
+
+function drawEditCanvas(){
+  if(!editSourceImage) return;
+  const c=$('editCanvas'),ctx=c.getContext('2d');
+  ctx.save();
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height);
+
+  const rad=editRotation*Math.PI/180;
+  const rotated=(Math.abs(editRotation)%180===90);
+  const iw=rotated?editSourceImage.naturalHeight:editSourceImage.naturalWidth;
+  const ih=rotated?editSourceImage.naturalWidth:editSourceImage.naturalHeight;
+
+  const base=Math.max(c.width/iw,c.height/ih);
+  const scale=base*editZoom;
+
+  ctx.translate(c.width/2+editOffsetX,c.height/2+editOffsetY);
+  ctx.rotate(rad);
+  ctx.drawImage(
+    editSourceImage,
+    -editSourceImage.naturalWidth*scale/2,
+    -editSourceImage.naturalHeight*scale/2,
+    editSourceImage.naturalWidth*scale,
+    editSourceImage.naturalHeight*scale
+  );
+  ctx.restore();
+
+  ctx.strokeStyle='rgba(0,0,0,.22)';
+  ctx.lineWidth=2;
+  ctx.strokeRect(1,1,c.width-2,c.height-2);
+}
+
+const editCanvas=$('editCanvas');
+if(editCanvas) editCanvas.addEventListener('pointerdown',e=>{
+  editDragging=true;
+  editLastX=e.clientX; editLastY=e.clientY;
+  editCanvas.setPointerCapture?.(e.pointerId);
+  editCanvas.classList.add('dragging');
+});
+if(editCanvas) editCanvas.addEventListener('pointermove',e=>{
+  if(!editDragging) return;
+  const rect=editCanvas.getBoundingClientRect();
+  const sx=editCanvas.width/rect.width;
+  const sy=editCanvas.height/rect.height;
+  editOffsetX+=(e.clientX-editLastX)*sx;
+  editOffsetY+=(e.clientY-editLastY)*sy;
+  editLastX=e.clientX; editLastY=e.clientY;
+  drawEditCanvas();
+});
+function endEditDrag(){
+  editDragging=false;
+  editCanvas.classList.remove('dragging');
+}
+if(editCanvas){
+  editCanvas.addEventListener('pointerup',endEditDrag);
+  editCanvas.addEventListener('pointercancel',endEditDrag);
+}
+
+async function applyImageEdit(){
+  if(editPhotoIndex===null) return;
+  const c=$('editCanvas');
+  const blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',0.92));
+  if(!blob){ alert('Impossible de générer la photo.'); return; }
+
+  const current=galleryItems[editPhotoIndex];
+  const old=current?.type==='new'?current.file:null;
+  const base=(old?.name||`photo-${editPhotoIndex+1}`).replace(/\.[^.]+$/,'');
+  const edited=new File([blob],base+'-edited.jpg',{type:'image/jpeg',lastModified:Date.now()});
+  galleryItems[editPhotoIndex]={type:'new',file:edited};
+
+  closeImageEditor();
+  renderPhotoPreviews();
+}
+
+function openPhotoLightbox(src){
+  $('photoLightboxImg').src=src;
+  $('photoLightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePhotoLightbox(){
+  $('photoLightbox').classList.remove('open');
+  $('photoLightboxImg').src='';
+  document.body.style.overflow='';
+}
+function lightboxBackdrop(e){
+  if(e.target.id==='photoLightbox') closePhotoLightbox();
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closePhotoLightbox();
+});
+
+</script>
+
+<div class="photo-lightbox" id="photoLightbox" onclick="lightboxBackdrop(event)">
+  <button class="photo-lightbox-close" type="button" onclick="closePhotoLightbox()">×</button>
+  <img id="photoLightboxImg" alt="Aperçu photo">
+  <div class="photo-lightbox-hint">Cliquez en dehors de l’image pour fermer</div>
+</div>
+
+</body></html>

@@ -281,6 +281,33 @@ function build(){let cats=['Tous',...[...new Set(products.map(x=>x.categorie).fi
 function setCat(c,b){category=c;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
 
 function normSaleTxt(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
+
+function productSubcategory(p){
+  const explicit=(p.sousCategorie||p.sous_categorie||'').trim();
+  if(explicit) return explicit;
+
+  // Compatibilité avec les anciens produits non encore renseignés.
+  const h=normSaleTxt(`${p.categorie||''} ${p.nom||''}`);
+  if(/jean/.test(h)) return 'Jeans';
+  if(/pantalon|cargo|chino|legging/.test(h)) return 'Pantalons';
+  if(/robe/.test(h)) return 'Robes';
+  if(/jupe/.test(h)) return 'Jupes';
+  if(/chemise|blouse/.test(h)) return 'Chemises';
+  if(/pull|sweat|hoodie/.test(h)) return 'Pulls';
+  if(/veste|manteau|blouson|parka/.test(h)) return 'Vestes';
+  if(/top|t-shirt|tee|debardeur/.test(h)) return 'Tops';
+  if(/accessoire|ceinture|sac|bonnet|casquette|echarpe/.test(h)) return 'Accessoires';
+  if(/basket/.test(h)) return 'Baskets';
+  if(/sneaker/.test(h)) return 'Sneakers';
+  if(/bottine|botte/.test(h)) return 'Bottes & Bottines';
+  if(/sandale/.test(h)) return 'Sandales';
+  if(/mule/.test(h)) return 'Mules';
+  if(/escarpin/.test(h)) return 'Escarpins';
+  if(/ballerine/.test(h)) return 'Ballerines';
+  if(/chaussure/.test(h)) return 'Chaussures';
+  return '';
+}
+
 function inferredSaleType(p){
   const cat=normSaleTxt(p.categorie||'');
   const h=normSaleTxt(`${p.categorie||''} ${p.nom||''} ${p.marque||''}`);
@@ -317,33 +344,9 @@ function inferredSaleType(p){
 
   return '';
 }
-function clothingSubcategory(p){
-  const h=normSaleTxt(`${p.categorie||''} ${p.nom||''}`);
-  if(/jean/.test(h)) return 'Jeans';
-  if(/pantalon|cargo|chino|legging/.test(h)) return 'Pantalons';
-  if(/robe/.test(h)) return 'Robes';
-  if(/jupe/.test(h)) return 'Jupes';
-  if(/chemise|blouse/.test(h)) return 'Chemises';
-  if(/pull|sweat|hoodie/.test(h)) return 'Pulls';
-  if(/veste|manteau|blouson|parka/.test(h)) return 'Vestes';
-  if(/chaussure|basket|sneaker|botte|sandale/.test(h)) return 'Baskets / Chaussures';
-  if(/accessoire|ceinture|sac|bonnet|casquette|echarpe/.test(h)) return 'Accessoires';
-  if(/top|t-shirt|tee|debardeur/.test(h)) return 'Tops';
-  return '';
-}
+function clothingSubcategory(p){ return productSubcategory(p); }
 
-function shoeSubcategory(p){
-  const h=normSaleTxt(`${p.categorie||''} ${p.nom||''}`);
-  if(/basket|baskets/.test(h)) return 'Baskets';
-  if(/sneaker|sneakers/.test(h)) return 'Sneakers';
-  if(/bottine|bottines|botte|bottes/.test(h)) return 'Bottes';
-  if(/sandale|sandales/.test(h)) return 'Sandales';
-  if(/mule|mules/.test(h)) return 'Mules';
-  if(/escarpin|escarpins/.test(h)) return 'Escarpins';
-  if(/ballerine|ballerines/.test(h)) return 'Ballerines';
-  if(/chaussure|chaussures/.test(h)) return 'Chaussures';
-  return '';
-}
+function shoeSubcategory(p){ return productSubcategory(p); }
 
 function selectSaleType(type,btn){
   saleTypeFilter=saleTypeFilter===type?'':type;
@@ -407,20 +410,21 @@ function render(){
   let list;
 
   if(q){
-    // Recherche texte = recherche dans TOUT le catalogue.
-    // Les catégories principales et sous-catégories sont volontairement ignorées.
+    // RECHERCHE GLOBALE : ignore catégorie principale, sous-catégorie et autres filtres de catégorie.
     list = products.filter(p =>
       norm([
         p.nom,
         p.marque,
         p.categorie,
+        p.sousCategorie,
+        p.sous_categorie,
         p.taille,
         p.description,
         p.sku
       ].join(' ')).includes(q)
     );
   }else{
-    // Sans recherche texte, les vignettes respectent strictement la catégorie choisie.
+    // Navigation normale : respecte les catégories/sous-catégories sélectionnées.
     list = products.filter(p =>
       passesSaleFilters(p) &&
       (category === 'Tous' || p.categorie === category) &&
@@ -431,9 +435,7 @@ function render(){
   }
 
   document.getElementById('grid').innerHTML =
-    list.length
-      ? list.map(p => card(p)).join('')
-      : '<div class="empty">Aucun produit.</div>';
+    list.length ? list.map(p => card(p)).join('') : '<div class="empty">Aucun produit.</div>';
 }
 function card(p){let pc=p.prixRetail&&p.prixVente?Math.round((1-p.prixVente/p.prixRetail)*100):0,img=p.photos?.[0]||'';return `<article class="card"><div class="pic" onclick="details('${p.id}')" title="Voir le produit">${img?`<img src="${img}" alt="${p.nom||''}">`:'<div class="empty">PHOTO</div>'}<span class="badge status">${p.statut}</span><span class="badge brandbadge">${p.marque||''}</span></div><div class="info"><div class="name">${p.nom}</div><div class="meta">${p.categorie||''} · Taille ${p.taille||'—'}${p.sku?' · Réf. '+p.sku:''}</div>${p.description?`<div class="desc">${p.description}</div>`:''}<div class="prices">${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}<span class="sale">${euro(p.prixVente)}</span>${pc>0?`<span class="discount">-${pc}%</span>`:''}</div><button class="btn details" onclick="details('${p.id}')">Voir le détail</button>${p.statut==='Disponible'&&p.stock!==0?`<button class="btn add" onclick="add('${p.id}')">Ajouter au panier</button>`:''}</div></article>`}
 function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2><div class="meta">${p.categorie} · Taille ${p.taille||'—'} · ${p.statut}</div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
