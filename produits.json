@@ -1,0 +1,36 @@
+[
+  {
+    "id": "jovas-black-pink",
+    "nom": "JOVAS BLACK/PINK",
+    "marque": "IRO",
+    "categorie": "Robes",
+    "taille": "34",
+    "prixRetail": 625.0,
+    "prixVente": 95.0,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "",
+    "photos": []
+  },
+  {
+    "id": "pantalon-artura-ecru-creme",
+    "nom": "Pantalon Artura Écru Crème",
+    "marque": "IRO",
+    "categorie": "Pantalons",
+    "taille": "36",
+    "prixRetail": 345.0,
+    "prixVente": 80.0,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "",
+    "photos": [
+      "photos/30.jpg",
+      "photos/31.jpg",
+      "photos/32.jpg",
+      "photos/33.jpg",
+      "photos/34.jpg"
+    ]
+  }
+]

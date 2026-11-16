@@ -1,0 +1,55 @@
+UPSTYLE CATALOGUE V2 — INSTALLATION
+
+FICHIERS PUBLICS À METTRE DANS LE REPOSITORY GITHUB
+- index.html
+- admin.html
+- produits.json
+- photos/
+
+NOUVEAUTÉS
+- produits.json remplace produits.csv
+- champ Description
+- référence / SKU
+- stock
+- fiche détail
+- panier
+- admin de création / modification / suppression
+- upload de 1 à 5 photos
+- renommage automatique des photos
+- publication directe sur GitHub via backend sécurisé
+
+IMPORTANT — SÉCURITÉ
+Ne mettez JAMAIS de token GitHub dans admin.html.
+Le backend backend/worker.js sert précisément à cacher ce token.
+
+MISE EN PLACE DU BACKEND CLOUDFLARE WORKER
+1. Créer un Worker Cloudflare.
+2. Copier le contenu de backend/worker.js dans le Worker.
+3. Ajouter les variables :
+   GITHUB_OWNER = votre nom de compte GitHub
+   GITHUB_REPO = catalogue (ou le nom réel de votre dépôt)
+   GITHUB_BRANCH = main
+4. Ajouter les secrets :
+   GITHUB_TOKEN = token GitHub avec permission Contents: Read and write sur ce dépôt
+   ADMIN_KEY = votre mot de passe privé pour l'admin
+5. Déployer le Worker.
+6. Ouvrir admin.html.
+7. Saisir l'URL du Worker et la clé ADMIN_KEY.
+8. Cliquer "Charger le catalogue".
+9. Créer un produit et cliquer "Publier / Enregistrer".
+
+FLUX ENSUITE
+- Vous ouvrez admin.html sur téléphone ou ordinateur.
+- + Nouvel article
+- Nom, marque, catégorie, taille, prix, description, etc.
+- Vous choisissez jusqu'à 5 photos.
+- Publier.
+- Le Worker :
+  * renomme les photos
+  * les envoie dans photos/
+  * modifie produits.json
+  * GitHub Pages met ensuite le site public à jour.
+
+REMARQUE
+admin.html peut être public sans exposer le token GitHub, mais l'accès à l'API reste protégé par ADMIN_KEY.
+Pour une sécurité encore supérieure, l'étape suivante pourra être une authentification Cloudflare Access.
