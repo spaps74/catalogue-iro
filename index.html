@@ -214,8 +214,9 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 #backToTop{
   position:fixed;
   left:calc(50% + 618px);
-  top:58%;
-  transform:translateY(-50%);
+  top:auto;
+  bottom:24px;
+  transform:none;
   width:92px;
   height:180px;
   border:0;
@@ -257,15 +258,17 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 @media(max-width:1320px){
   #backToTop{
     left:auto;
-    right:8px;
-    top:62%;
+    right:12px;
+    top:auto;
+    bottom:88px;
   }
 }
 @media(max-width:650px){
   #backToTop{
     left:auto;
-    right:4px;
-    top:56%;
+    right:6px;
+    top:auto;
+    bottom:84px;
     width:86px;
     height:170px;
   }
