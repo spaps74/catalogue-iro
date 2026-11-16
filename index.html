@@ -283,11 +283,20 @@ async function loadPayPal(){
         });
 
         const data=await response.json().catch(()=>({}));
-        if(!response.ok) throw new Error(data.error||'Impossible de créer la commande.');
+        if(!response.ok){
+          const detail =
+            data?.details?.details?.[0]?.issue ||
+            data?.details?.name ||
+            data?.details?.message ||
+            data?.error ||
+            'Impossible de créer la commande.';
+          const debugId = data?.details?.debug_id ? ` — debug_id: ${data.details.debug_id}` : '';
+          throw new Error(detail + debugId);
+        }
         return data.id;
       },
 
-      onApprove: async data=>{
+      onApprove: async (data,actions)=>{
         paypalMessage('Validation du paiement…','info');
 
         const response=await fetch(
@@ -298,7 +307,19 @@ async function loadPayPal(){
         const result=await response.json().catch(()=>({}));
 
         if(!response.ok){
-          throw new Error(result.error||'La capture du paiement a échoué.');
+          const issue =
+            result?.details?.details?.[0]?.issue ||
+            result?.details?.name ||
+            result?.details?.message ||
+            result?.error ||
+            'La capture du paiement a échoué.';
+          const debugId = result?.details?.debug_id ? ` — debug_id: ${result.details.debug_id}` : '';
+
+          if(issue === 'INSTRUMENT_DECLINED' && actions?.restart){
+            return actions.restart();
+          }
+
+          throw new Error(issue + debugId);
         }
 
         paypalMessage('✅ Paiement confirmé. Merci pour votre commande !','ok');
