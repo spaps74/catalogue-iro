@@ -214,24 +214,24 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   position:fixed;
   right:18px;
   bottom:18px;
-  width:48px;
-  height:48px;
-  border:none;
+  width:52px;
+  height:52px;
+  border:0;
   border-radius:50%;
   background:#111;
   color:#fff;
-  font-size:26px;
+  font-size:30px;
   font-weight:900;
   line-height:1;
   cursor:pointer;
   display:none;
   align-items:center;
   justify-content:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.25);
-  z-index:9999;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+  z-index:2147483647;
 }
-#backToTop.show{display:flex}
-#backToTop:hover{transform:translateY(-1px)}
+#backToTop.show{display:flex!important}
+#backToTop:hover{transform:translateY(-2px)}
 @media(max-width:650px){
   #backToTop{
     right:14px;
@@ -301,6 +301,9 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   <div class="zoomcounter" id="zoomCounter"></div>
   <div class="zoomhint">Swipe ou flèches pour changer de photo · pincez pour zoomer</div>
 </div>
+
+
+<button id="backToTop" type="button" aria-label="Remonter en haut" title="Remonter en haut">↑</button>
 
 <script>
 const WORKER_URL='https://soft-tree-927f.stephane-0f5.workers.dev';
@@ -395,6 +398,34 @@ function inferredSaleType(p){
   return '';
 }
 function clothingSubcategory(p){ return productSubcategory(p); }
+
+function selectSaleType(type,btn){
+  // Sélection d'une catégorie principale.
+  // On ne touche pas au texte de recherche ici.
+  category='Tous';
+  saleTypeFilter=(saleTypeFilter===type ? '' : type);
+  clothingSubcatFilter='';
+  shoeSubcatFilter='';
+
+  document.querySelectorAll('.sale-type-btn').forEach(b=>b.classList.remove('active'));
+  if(saleTypeFilter && btn) btn.classList.add('active');
+
+  // Le bouton Tous de la barre secondaire n'est plus actif dès qu'une catégorie est choisie.
+  const allBtn=document.querySelector('#cats [data-cat="Tous"]');
+  if(allBtn) allBtn.classList.toggle('active', !saleTypeFilter);
+
+  const clothing=document.getElementById('clothingSubcats');
+  const shoes=document.getElementById('shoeSubcats');
+
+  if(clothing) clothing.classList.toggle('open', saleTypeFilter==='Vêtements');
+  if(shoes) shoes.classList.toggle('open', saleTypeFilter==='Baskets / Chaussures');
+
+  document.querySelectorAll('#clothingSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#shoeSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
+
+  render();
+}
+
 function selectClothingSubcat(sub,btn){
   clothingSubcatFilter=sub;
   document.querySelectorAll('#clothingSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
@@ -427,17 +458,18 @@ function passesSaleFilters(p){
 }
 
 function selectAllProducts(btn){
-  // Reset complet : affiche réellement tout le catalogue.
+  // Reset COMPLET : Tous = tout le catalogue, sans aucun filtre ni recherche.
   category='Tous';
   saleTypeFilter='';
   clothingSubcatFilter='';
   shoeSubcatFilter='';
 
-  // Réinitialise aussi les filtres Marque / Taille-Pointure / Disponibilité.
+  const q=document.getElementById('q');
   const brand=document.getElementById('brand');
   const size=document.getElementById('size');
   const status=document.getElementById('status');
 
+  if(q) q.value='';
   if(brand) brand.value='';
   if(size) size.value='';
   if(status) status.value='';
@@ -843,35 +875,22 @@ document.addEventListener('keydown',e=>{
 load();
 loadPayPal();
 
+
+
 const backToTopBtn=document.getElementById('backToTop');
 
 function updateBackToTop(){
   if(!backToTopBtn) return;
-  backToTopBtn.classList.toggle(
-    'show',
-    window.scrollY>350
-  );
+  backToTopBtn.classList.toggle('show', window.scrollY>300);
 }
-
-window.addEventListener(
-  'scroll',
-  updateBackToTop,
-  {passive:true}
-);
 
 if(backToTopBtn){
   backToTopBtn.addEventListener('click',()=>{
-    window.scrollTo({
-      top:0,
-      behavior:'smooth'
-    });
+    window.scrollTo({top:0,behavior:'smooth'});
   });
+  window.addEventListener('scroll',updateBackToTop,{passive:true});
+  updateBackToTop();
 }
 
-updateBackToTop();
-
 </script>
-
-<button id="backToTop" type="button" aria-label="Remonter en haut" title="Remonter en haut">↑</button>
-
 </body></html>
