@@ -269,11 +269,39 @@ function setCat(c,b){category=c;document.querySelectorAll('.chip').forEach(x=>x.
 
 function normSaleTxt(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
 function inferredSaleType(p){
+  const cat=normSaleTxt(p.categorie||'');
   const h=normSaleTxt(`${p.categorie||''} ${p.nom||''} ${p.marque||''}`);
-  if(/vetement|textile|pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|accessoire|short|legging|cargo/.test(h)) return 'Vêtements';
-  if(/informatique|ordinateur|pc|laptop|clavier|souris|ecran|monitor|ssd|disque|routeur|switch|usb|dock|webcam|gaming/.test(h)) return 'Informatique';
-  if(/sport|fitness|velo|cyclisme|running|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Sports';
-  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Pour la maison';
+
+  // 1) Baskets / Chaussures
+  if(
+    /basket|baskets|chaussure|chaussures|sneaker|sneakers|botte|bottes|bottine|bottines|sandale|sandales|mule|mules|escarpin|escarpins|ballerine|ballerines/.test(cat) ||
+    /basket|baskets|chaussure|chaussures|sneaker|sneakers|botte|bottes|bottine|bottines|sandale|sandales|mule|mules|escarpin|escarpins|ballerine|ballerines/.test(h)
+  ) return 'Baskets / Chaussures';
+
+  // 2) Vêtements
+  if(
+    /vetement|vetements|textile|mode|pantalon|pantalons|jean|jeans|robe|robes|jupe|jupes|chemise|chemises|blouse|blouses|top|tops|t-shirt|t-shirts|pull|pulls|sweat|sweats|veste|vestes|manteau|manteaux|short|shorts|legging|leggings|cargo|accessoire|accessoires/.test(cat) ||
+    /pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)
+  ) return 'Vêtements';
+
+  // 3) Informatique
+  if(
+    /informatique|electronique|high-tech|high tech|ordinateur|ordinateurs|pc|laptop|portable|accessoire informatique|peripherique|peripheriques|reseau|network|gaming/.test(cat) ||
+    /ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|disque dur|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|miboxer|gaming/.test(h)
+  ) return 'Informatique';
+
+  // 4) Sports
+  if(
+    /sport|sports|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(cat) ||
+    /sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)
+  ) return 'Sports';
+
+  // 5) Pour la maison
+  if(
+    /maison|home|cuisine|salle de bain|jardin|bricolage|outillage|outil|outils|eclairage|luminaire|decoration|deco|linge|electromenager|electromenager|mobilier/.test(cat) ||
+    /maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager|bosch/.test(h)
+  ) return 'Pour la maison';
+
   return '';
 }
 function clothingSubcategory(p){
