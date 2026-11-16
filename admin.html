@@ -254,7 +254,8 @@
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
 </div>
-<input id="api" type="hidden" value="https://soft-tree-927f.stephane-0f5.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" style="margin-top:10px" onclick="connect()">Charger le catalogue</button></div>
+<input id="api" type="hidden" value="https://soft-tree-927f.stephane-0f5.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" id="connectBtn" style="margin-top:10px" onclick="connect()">Charger le catalogue</button>
+<div id="connectionStatus" class="publish-status hidden" style="margin-top:10px"></div></div>
 <div class="box">
 <h2>Articles</h2>
 <input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
@@ -320,8 +321,77 @@ const $=id=>document.getElementById(id);
 function cfg(){return {api:$('api').value.trim().replace(/\/$/,''),key:$('key').value}}
 function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
 $('api').value='https://soft-tree-927f.stephane-0f5.workers.dev';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
-async function req(path,opt={}){let c=cfg();saveCfg();opt.headers={...(opt.headers||{}),'X-Admin-Key':c.key};let r=await fetch(c.api+path,opt);let t=await r.text();if(!r.ok)throw new Error(t||r.status);return t?JSON.parse(t):{}}
-async function connect(){try{products=await req('/products');renderList()}catch(e){alert('Connexion impossible : '+e.message)}}
+$('key').addEventListener('keydown',e=>{
+  if(e.key==='Enter') connect();
+});
+
+async function req(path,opt={}){
+  const c=cfg();
+  saveCfg();
+
+  if(!c.key){
+    throw new Error('Clé admin vide.');
+  }
+
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),15000);
+
+  try{
+    opt.headers={...(opt.headers||{}),'X-Admin-Key':c.key};
+    opt.signal=controller.signal;
+
+    const r=await fetch(c.api+path,opt);
+    const t=await r.text();
+
+    if(!r.ok){
+      if(r.status===401) throw new Error('Clé admin incorrecte (HTTP 401). Vérifie ADMIN_KEY dans Cloudflare et la clé saisie ici.');
+      if(r.status===403) throw new Error('Accès refusé par le Worker (HTTP 403).');
+      if(r.status===404) throw new Error('Route introuvable sur le Worker (HTTP 404).');
+      throw new Error(`Worker HTTP ${r.status} : ${t||'aucun détail'}`);
+    }
+
+    return t?JSON.parse(t):{};
+  }catch(e){
+    if(e.name==='AbortError'){
+      throw new Error('Le Worker ne répond pas après 15 secondes.');
+    }
+    throw e;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function setConnectionStatus(text,type='working'){
+  const el=$('connectionStatus');
+  el.className='publish-status '+type;
+  el.textContent=text;
+  el.classList.remove('hidden');
+}
+
+async function connect(){
+  const btn=$('connectBtn');
+  try{
+    btn.disabled=true;
+    btn.textContent='Connexion…';
+    setConnectionStatus('Connexion au Worker et chargement du catalogue…','working');
+
+    products=await req('/products');
+
+    if(!Array.isArray(products)){
+      throw new Error('Réponse invalide : /products ne renvoie pas une liste de produits.');
+    }
+
+    renderList();
+    setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) chargé(s).`,'ok');
+  }catch(e){
+    console.error(e);
+    setConnectionStatus('❌ '+e.message,'error');
+    alert('Connexion impossible : '+e.message);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Charger le catalogue';
+  }
+}
 function renderList(){
   const q=( $('catalogSearch')?.value || '' ).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   const list=products.filter(p=>{
@@ -335,7 +405,19 @@ function renderList(){
 }
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function clear(){['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>$(x).value='');$('statut').value='Disponible';$('stock').value=1;$('photos').value='';selectedPhotoFiles=[];galleryItems=[];renderPhotoPreviews();
+function clear(){
+  ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>$(x).value='');
+  $('statut').value='Disponible';
+  $('stock').value=1;
+  $('photos').value='';
+  selectedPhotoFiles=[];
+  galleryItems=[];
+  renderPhotoPreviews();
+}
+
+function preview(){
+  const remaining=Math.max(0,5-galleryItems.length);
+  const incoming=[...$('photos').files].slice(0,remaining);
   incoming.forEach(file=>galleryItems.push({type:'new',file}));
   $('photos').value='';
   renderPhotoPreviews();
@@ -683,7 +765,8 @@ async function applyImageEdit(){
   const blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',0.92));
   if(!blob){ alert('Impossible de générer la photo.'); return; }
 
-  const old=selectedPhotoFiles[editPhotoIndex];
+  const current=galleryItems[editPhotoIndex];
+  const old=current?.type==='new'?current.file:null;
   const base=(old?.name||`photo-${editPhotoIndex+1}`).replace(/\.[^.]+$/,'');
   const edited=new File([blob],base+'-edited.jpg',{type:'image/jpeg',lastModified:Date.now()});
   galleryItems[editPhotoIndex]={type:'new',file:edited};
