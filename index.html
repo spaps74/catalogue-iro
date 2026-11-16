@@ -200,7 +200,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 }
 
 
-.sale-types{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 10px}
+.sale-types{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 10px}
 .sale-type-btn{border:1px solid #111;background:#fff;border-radius:12px;padding:11px 8px;font-weight:900;cursor:pointer}
 .sale-type-btn.active{background:#111;color:#fff}
 .subcats{display:none;flex-wrap:wrap;gap:7px;margin:0 0 14px;padding:10px;background:#f6f6f6;border-radius:12px}
@@ -215,6 +215,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 <input class="search" id="q" placeholder="Rechercher marque, produit, taille..." oninput="render()"><div class="cats" id="cats"></div>
 <div class="sale-types">
   <button class="sale-type-btn" onclick="selectSaleType('Vêtements',this)">Vêtements</button>
+  <button class="sale-type-btn" onclick="selectSaleType('Baskets / Chaussures',this)">Baskets / Chaussures</button>
   <button class="sale-type-btn" onclick="selectSaleType('Informatique',this)">Informatique</button>
   <button class="sale-type-btn" onclick="selectSaleType('Sports',this)">Sports</button>
   <button class="sale-type-btn" onclick="selectSaleType('Pour la maison',this)">Pour la maison</button>
@@ -229,7 +230,6 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   <button class="subcat-btn" onclick="selectClothingSubcat('Chemises',this)">Chemises & Blouses</button>
   <button class="subcat-btn" onclick="selectClothingSubcat('Pulls',this)">Pulls & Sweats</button>
   <button class="subcat-btn" onclick="selectClothingSubcat('Vestes',this)">Vestes & Manteaux</button>
-  <button class="subcat-btn" onclick="selectClothingSubcat('Chaussures',this)">Chaussures</button>
   <button class="subcat-btn" onclick="selectClothingSubcat('Accessoires',this)">Accessoires</button>
 </div>
 <div class="filters"><select id="brand" onchange="render()"><option value="">Toutes marques</option></select><select id="size" onchange="render()"><option value="">Toutes tailles</option></select><select id="status" onchange="render()"><option value="">Tous statuts</option><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div></div></header>
@@ -270,7 +270,7 @@ function setCat(c,b){category=c;document.querySelectorAll('.chip').forEach(x=>x.
 function normSaleTxt(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
 function inferredSaleType(p){
   const h=normSaleTxt(`${p.categorie||''} ${p.nom||''} ${p.marque||''}`);
-  if(/vetement|textile|pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|chaussure|basket|sneaker|accessoire|short|legging|cargo/.test(h)) return 'Vêtements';
+  if(/vetement|textile|pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|accessoire|short|legging|cargo/.test(h)) return 'Vêtements';
   if(/informatique|ordinateur|pc|laptop|clavier|souris|ecran|monitor|ssd|disque|routeur|switch|usb|dock|webcam|gaming/.test(h)) return 'Informatique';
   if(/sport|fitness|velo|cyclisme|running|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Sports';
   if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Pour la maison';
@@ -285,7 +285,7 @@ function clothingSubcategory(p){
   if(/chemise|blouse/.test(h)) return 'Chemises';
   if(/pull|sweat|hoodie/.test(h)) return 'Pulls';
   if(/veste|manteau|blouson|parka/.test(h)) return 'Vestes';
-  if(/chaussure|basket|sneaker|botte|sandale/.test(h)) return 'Chaussures';
+  if(/chaussure|basket|sneaker|botte|sandale/.test(h)) return 'Baskets / Chaussures';
   if(/accessoire|ceinture|sac|bonnet|casquette|echarpe/.test(h)) return 'Accessoires';
   if(/top|t-shirt|tee|debardeur/.test(h)) return 'Tops';
   return '';
@@ -310,7 +310,14 @@ function passesSaleFilters(p){
   if(saleTypeFilter==='Vêtements' && clothingSubcatFilter && clothingSubcategory(p)!==clothingSubcatFilter) return false;
   return true;
 }
-function render(){let q=norm(document.getElementById('q').value),br=document.getElementById('brand').value,sz=document.getElementById('size').value,st=document.getElementById('status').value;let list=products.filter(p=>passesSaleFilters(p) && (category==='Tous'||p.categorie===category)&&(!br||p.marque===br)&&(!sz||p.taille===sz)&&(!st||p.statut===st)&&(!q||norm([p.nom,p.marque,p.categorie,p.taille,p.description,p.sku].join(' ')).includes(q)));document.getElementById('grid').innerHTML=list.length?list.map(p=>card(p)).join(''):'<div class="empty">Aucun produit.</div>'}
+function render(){
+  const globalSearchValue = (
+    (document.getElementById('search')?.value) ||
+    (document.getElementById('q')?.value) ||
+    ''
+  ).trim();
+  const globalSearchMode = globalSearchValue.length > 0;
+let q=norm(document.getElementById('q').value),br=document.getElementById('brand').value,sz=document.getElementById('size').value,st=document.getElementById('status').value;let list=products.filter(p=>(!globalSearchMode || passesSaleFilters(p)) && (globalSearchMode || category==='Tous'||p.categorie===category)&&(!br||p.marque===br)&&(!sz||p.taille===sz)&&(!st||p.statut===st)&&(!q||norm([p.nom,p.marque,p.categorie,p.taille,p.description,p.sku].join(' ')).includes(q)));document.getElementById('grid').innerHTML=list.length?list.map(p=>card(p)).join(''):'<div class="empty">Aucun produit.</div>'}
 function card(p){let pc=p.prixRetail&&p.prixVente?Math.round((1-p.prixVente/p.prixRetail)*100):0,img=p.photos?.[0]||'';return `<article class="card"><div class="pic" onclick="details('${p.id}')" title="Voir le produit">${img?`<img src="${img}" alt="${p.nom||''}">`:'<div class="empty">PHOTO</div>'}<span class="badge status">${p.statut}</span><span class="badge brandbadge">${p.marque||''}</span></div><div class="info"><div class="name">${p.nom}</div><div class="meta">${p.categorie||''} · Taille ${p.taille||'—'}${p.sku?' · Réf. '+p.sku:''}</div>${p.description?`<div class="desc">${p.description}</div>`:''}<div class="prices">${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}<span class="sale">${euro(p.prixVente)}</span>${pc>0?`<span class="discount">-${pc}%</span>`:''}</div><button class="btn details" onclick="details('${p.id}')">Voir le détail</button>${p.statut==='Disponible'&&p.stock!==0?`<button class="btn add" onclick="add('${p.id}')">Ajouter au panier</button>`:''}</div></article>`}
 function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2><div class="meta">${p.categorie} · Taille ${p.taille||'—'} · ${p.statut}</div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
