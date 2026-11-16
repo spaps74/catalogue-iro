@@ -208,7 +208,10 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 <div class="overlay" id="cart"><div class="panel"><button class="close" onclick="closeCart()">×</button><h2>Votre panier</h2><div id="cartRows"></div><div class="total"><span>Total</span><span id="cartTotal"></span></div>
 <div class="paypal-zone">
   <div class="paypal-title">Paiement sécurisé</div>
-  <div id="paypal-button-container"></div>
+  <div style="margin-bottom:10px;font-weight:800">Payer avec PayPal</div>
+<div id="paypal-button-container"></div>
+<div style="margin:14px 0 10px;font-weight:800">Payer par carte bancaire</div>
+<div id="card-button-container"></div>
   <div id="paypalStatus" class="paypal-status"></div>
 </div>
 <button class="order secondary" onclick="order()">Commander par email</button></div></div>
@@ -267,17 +270,11 @@ async function loadPayPal(){
 
     if(!window.paypal) throw new Error('SDK PayPal non disponible.');
 
-    await paypal.Buttons({
-      style:{
-        layout:'vertical',
-        shape:'rect',
-        label:'paypal'
-      },
-
-      createOrder:async ()=>{
+    const commonActions = {
+      createOrder: async ()=>{
         if(!cart.length) throw new Error('Le panier est vide.');
 
-        paypalMessage('Création de la commande PayPal…','info');
+        paypalMessage('Création de la commande…','info');
 
         const response=await fetch(WORKER_URL+'/paypal/create-order',{
           method:'POST',
@@ -286,11 +283,11 @@ async function loadPayPal(){
         });
 
         const data=await response.json().catch(()=>({}));
-        if(!response.ok) throw new Error(data.error||'Impossible de créer la commande PayPal.');
+        if(!response.ok) throw new Error(data.error||'Impossible de créer la commande.');
         return data.id;
       },
 
-      onApprove:async data=>{
+      onApprove: async data=>{
         paypalMessage('Validation du paiement…','info');
 
         const response=await fetch(
@@ -310,19 +307,54 @@ async function loadPayPal(){
         localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));
         updateCart();
 
-        // Recharge catalogue to reflect sold/decremented stock.
         try{ await load(); }catch(_){}
       },
 
-      onCancel:()=>{
+      onCancel: ()=>{
         paypalMessage('Paiement annulé. Aucun débit effectué.','info');
       },
 
-      onError:err=>{
+      onError: err=>{
         console.error(err);
-        paypalMessage('❌ '+(err?.message||'Erreur PayPal.'),'error');
+        paypalMessage('❌ '+(err?.message||'Erreur de paiement.'),'error');
       }
-    }).render('#paypal-button-container');
+    };
+
+    // Bouton PayPal
+    const paypalButton = paypal.Buttons({
+      fundingSource: paypal.FUNDING.PAYPAL,
+      style:{
+        layout:'vertical',
+        shape:'rect',
+        label:'paypal'
+      },
+      ...commonActions
+    });
+
+    if(paypalButton.isEligible()){
+      await paypalButton.render('#paypal-button-container');
+    }else{
+      document.getElementById('paypal-button-container').innerHTML=
+        '<div class="paypal-status show error">PayPal indisponible pour ce navigateur.</div>';
+    }
+
+    // Bouton carte bancaire
+    const cardButton = paypal.Buttons({
+      fundingSource: paypal.FUNDING.CARD,
+      style:{
+        layout:'vertical',
+        shape:'rect',
+        label:'pay'
+      },
+      ...commonActions
+    });
+
+    if(cardButton.isEligible()){
+      await cardButton.render('#card-button-container');
+    }else{
+      document.getElementById('card-button-container').innerHTML=
+        '<div class="paypal-status show info">Paiement par carte non disponible pour ce client ou ce compte PayPal.</div>';
+    }
 
     paypalReady=true;
 
