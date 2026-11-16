@@ -1,5 +1,20 @@
 [
   {
+    "id": "surprise-10kg-de-colis-perdus",
+    "nom": "10Kg de colis perdus",
+    "marque": "surprise",
+    "categorie": "Colis Perdus",
+    "sousCategorie": "",
+    "taille": "",
+    "prixRetail": 0,
+    "prixVente": 65,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 10,
+    "description": "Box surprise de 10kg de colis perdus",
+    "photos": []
+  },
+  {
     "id": "surprise-5kg-de-colis-perdus",
     "nom": "5Kg de colis perdus",
     "marque": "surprise",
