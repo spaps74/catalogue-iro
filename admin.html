@@ -181,6 +181,49 @@
 .publish-status.error{background:#f8dddd;color:#8c1919}
 .publish-status a{font-weight:900;color:inherit}
 
+
+.photo-edit-card{
+  position:relative;
+  user-select:none;
+}
+.photo-edit-card.dragging{
+  opacity:.45;
+  outline:2px dashed #111;
+}
+.photo-edit-card.drag-over{
+  outline:3px solid #ffd600;
+  transform:scale(1.02);
+}
+.photo-drag-handle{
+  position:absolute;
+  top:8px;
+  left:8px;
+  z-index:3;
+  background:rgba(17,17,17,.82);
+  color:#fff;
+  border-radius:999px;
+  padding:4px 7px;
+  font-size:11px;
+  cursor:grab;
+}
+.photo-drag-handle:active{cursor:grabbing}
+.set-main{
+  width:100%;
+  margin-top:5px;
+  padding:6px;
+  font-size:11px;
+  background:#fff3a4;
+}
+.set-main.active{
+  background:#ffd600;
+  font-weight:950;
+}
+.avif-note{
+  margin-top:6px;
+  font-size:11px;
+  color:#666;
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
@@ -199,10 +242,10 @@
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
 <div><label>Référence / SKU</label><input id="sku"></div><div class="full"><label>Description</label><textarea id="description" placeholder="Décrivez la matière, la coupe, la couleur, l'état, les détails..."></textarea></div>
 <div class="full">
-<label>Photos (jusqu'à 5)</label>
-<input id="photos" type="file" accept="image/*" multiple onchange="preview()">
+<label>Photos (jusqu'à 5) — la première sera la photo principale</label>
+<input id="photos" type="file" accept=".jpg,.jpeg,.png,.webp,.avif,image/*" multiple onchange="preview()">
 <div class="photo-edit-grid" id="previews"></div>
-<div class="muted">Après avoir choisi les photos, utilisez « Modifier » sous chaque nouvelle photo pour recadrer ou tourner l’image. Les flèches ← → changent l’ordre ; la première photo est la photo principale.</div>
+<div class="muted">Après avoir choisi les photos, utilisez « Modifier » pour recadrer ou tourner l’image. Faites glisser les photos pour changer leur ordre, ou cliquez sur « Photo principale ». Formats acceptés : JPG, PNG, WebP et AVIF.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
 </div>
 </div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="primary" onclick="publish()">Publier / Enregistrer</button><button onclick="hideEditor()">Annuler</button><button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button></div><div id="msg" class="publish-status hidden"></div></div>
 </div><div class="image-editor" id="imageEditor">
@@ -274,43 +317,108 @@ function preview(){
 }
 function renderPhotoPreviews(){
   const existing=oldPhotos.map((x,i)=>`
-    <div class="photo-edit-card">
+    <div class="photo-edit-card" draggable="true"
+         ondragstart="startPhotoDrag(event,'old',${i})"
+         ondragover="photoDragOver(event)"
+         ondragleave="photoDragLeave(event)"
+         ondrop="dropPhoto(event,'old',${i})"
+         ondragend="endPhotoDrag(event)">
+      <div class="photo-drag-handle">☰</div>
       <img src="${x}" onclick="openPhotoLightbox('${x.replace(/'/g,"\\'")}')" title="Cliquer pour agrandir">
       ${i===0 && selectedPhotoFiles.length===0 ? '<div class="photo-main-badge">Photo principale</div>' : '<div class="muted">Photo existante</div>'}
+      ${selectedPhotoFiles.length===0 ? `<button class="set-main ${i===0?'active':''}" type="button" onclick="setExistingMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>` : ''}
     </div>`).join('');
 
   const fresh=selectedPhotoFiles.map((f,i)=>{
     const u=URL.createObjectURL(f);
     return `
-      <div class="photo-edit-card">
+      <div class="photo-edit-card" draggable="true"
+           ondragstart="startPhotoDrag(event,'new',${i})"
+           ondragover="photoDragOver(event)"
+           ondragleave="photoDragLeave(event)"
+           ondrop="dropPhoto(event,'new',${i})"
+           ondragend="endPhotoDrag(event)">
+        <div class="photo-drag-handle">☰</div>
         <img src="${u}" onclick="openPhotoLightbox('${u}')" title="Cliquer pour agrandir">
         ${i===0 ? '<div class="photo-main-badge">Photo principale</div>' : ''}
+        <button class="set-main ${i===0?'active':''}" type="button" onclick="setNewMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>
         <div class="photo-edit-actions">
           <button type="button" onclick="openImageEditor(${i})">Modifier</button>
           <button type="button" onclick="removeNewPhoto(${i})">Retirer</button>
-        </div>
-        <div class="photo-order-actions">
-          <button type="button" onclick="movePhoto(${i},-1)" ${i===0?'disabled':''}>←</button>
-          <button type="button" onclick="movePhoto(${i},1)" ${i===selectedPhotoFiles.length-1?'disabled':''}>→</button>
         </div>
       </div>`;
   }).join('');
 
   $('previews').innerHTML=existing+fresh;
 }
+
 function removeNewPhoto(i){
   selectedPhotoFiles.splice(i,1);
   renderPhotoPreviews();
 }
 
-function movePhoto(i,dir){
-  const j=i+dir;
-  if(j<0 || j>=selectedPhotoFiles.length) return;
-  const tmp=selectedPhotoFiles[i];
-  selectedPhotoFiles[i]=selectedPhotoFiles[j];
-  selectedPhotoFiles[j]=tmp;
+function setNewMain(i){
+  if(i<=0 || i>=selectedPhotoFiles.length) return;
+  const [item]=selectedPhotoFiles.splice(i,1);
+  selectedPhotoFiles.unshift(item);
   renderPhotoPreviews();
 }
+
+function setExistingMain(i){
+  if(i<=0 || i>=oldPhotos.length) return;
+  const [item]=oldPhotos.splice(i,1);
+  oldPhotos.unshift(item);
+  renderPhotoPreviews();
+}
+
+let draggedPhotoType=null;
+let draggedPhotoIndex=null;
+
+function startPhotoDrag(e,type,index){
+  draggedPhotoType=type;
+  draggedPhotoIndex=index;
+  e.currentTarget.classList.add('dragging');
+  try{e.dataTransfer.effectAllowed='move'}catch(_){}
+}
+
+function photoDragOver(e){
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+  try{e.dataTransfer.dropEffect='move'}catch(_){}
+}
+
+function photoDragLeave(e){
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function endPhotoDrag(e){
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.photo-edit-card').forEach(x=>x.classList.remove('drag-over'));
+}
+
+function dropPhoto(e,targetType,targetIndex){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+
+  if(draggedPhotoType===null || draggedPhotoIndex===null) return;
+
+  // Existing photos can be reordered amongst themselves.
+  if(draggedPhotoType==='old' && targetType==='old' && selectedPhotoFiles.length===0){
+    const [item]=oldPhotos.splice(draggedPhotoIndex,1);
+    oldPhotos.splice(targetIndex,0,item);
+  }
+
+  // Newly selected photos can be reordered amongst themselves.
+  if(draggedPhotoType==='new' && targetType==='new'){
+    const [item]=selectedPhotoFiles.splice(draggedPhotoIndex,1);
+    selectedPhotoFiles.splice(targetIndex,0,item);
+  }
+
+  draggedPhotoType=null;
+  draggedPhotoIndex=null;
+  renderPhotoPreviews();
+}
+
 function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 
 function setMsg(text,type='working'){
