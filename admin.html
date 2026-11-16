@@ -224,6 +224,31 @@
   color:#666;
 }
 
+
+.photo-delete-x{
+  position:absolute;
+  top:6px;
+  right:6px;
+  z-index:5;
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:50%;
+  background:#c62828;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  line-height:28px;
+  padding:0;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
+}
+.photo-source-label{
+  font-size:10px;
+  color:#777;
+  margin-top:4px;
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
@@ -245,7 +270,7 @@
 <label>Photos (jusqu'à 5) — la première sera la photo principale</label>
 <input id="photos" type="file" accept=".jpg,.jpeg,.png,.webp,.avif,image/*" multiple onchange="preview()">
 <div class="photo-edit-grid" id="previews"></div>
-<div class="muted">Après avoir choisi les photos, utilisez « Modifier » pour recadrer ou tourner l’image. Faites glisser les photos pour changer leur ordre, ou cliquez sur « Photo principale ». Formats acceptés : JPG, PNG, WebP et AVIF.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
+<div class="muted">Toutes les photos, y compris celles des annonces existantes, peuvent être recadrées, tournées, réordonnées ou supprimées. Faites glisser pour changer l’ordre ; la première photo est la photo principale. Formats : JPG, PNG, WebP et AVIF.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
 </div>
 </div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="primary" onclick="publish()">Publier / Enregistrer</button><button onclick="hideEditor()">Annuler</button><button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button></div><div id="msg" class="publish-status hidden"></div></div>
 </div><div class="image-editor" id="imageEditor">
@@ -290,6 +315,7 @@
 <script>
 let products=[],editing=null,oldPhotos=[];
 let selectedPhotoFiles=[];
+let galleryItems=[];
 const $=id=>document.getElementById(id);
 function cfg(){return {api:$('api').value.trim().replace(/\/$/,''),key:$('key').value}}
 function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
@@ -307,119 +333,114 @@ function renderList(){
   });
   $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
 }
-function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function clear(){['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>$(x).value='');$('statut').value='Disponible';$('stock').value=1;$('photos').value='';selectedPhotoFiles=[];$('previews').innerHTML=''}
-function hideEditor(){$('editor').classList.add('hidden')}
-function preview(){
-  selectedPhotoFiles=[...$('photos').files].slice(0,5);
+function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function clear(){['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>$(x).value='');$('statut').value='Disponible';$('stock').value=1;$('photos').value='';selectedPhotoFiles=[];galleryItems=[];renderPhotoPreviews();
+  incoming.forEach(file=>galleryItems.push({type:'new',file}));
+  $('photos').value='';
   renderPhotoPreviews();
 }
-function renderPhotoPreviews(){
-  const existing=oldPhotos.map((x,i)=>`
-    <div class="photo-edit-card" draggable="true"
-         ondragstart="startPhotoDrag(event,'old',${i})"
-         ondragover="photoDragOver(event)"
-         ondragleave="photoDragLeave(event)"
-         ondrop="dropPhoto(event,'old',${i})"
-         ondragend="endPhotoDrag(event)">
-      <div class="photo-drag-handle">☰</div>
-      <img src="${x}" onclick="openPhotoLightbox('${x.replace(/'/g,"\\'")}')" title="Cliquer pour agrandir">
-      ${i===0 && selectedPhotoFiles.length===0 ? '<div class="photo-main-badge">Photo principale</div>' : '<div class="muted">Photo existante</div>'}
-      ${selectedPhotoFiles.length===0 ? `<button class="set-main ${i===0?'active':''}" type="button" onclick="setExistingMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>` : ''}
-    </div>`).join('');
 
-  const fresh=selectedPhotoFiles.map((f,i)=>{
-    const u=URL.createObjectURL(f);
+function itemPreviewUrl(item){
+  return item.type==='existing' ? item.path : URL.createObjectURL(item.file);
+}
+
+function renderPhotoPreviews(){
+  $('previews').innerHTML=galleryItems.map((item,i)=>{
+    const u=itemPreviewUrl(item);
+    const safe=u.replace(/'/g,"\\'");
     return `
       <div class="photo-edit-card" draggable="true"
-           ondragstart="startPhotoDrag(event,'new',${i})"
+           ondragstart="startPhotoDrag(event,${i})"
            ondragover="photoDragOver(event)"
            ondragleave="photoDragLeave(event)"
-           ondrop="dropPhoto(event,'new',${i})"
+           ondrop="dropPhoto(event,${i})"
            ondragend="endPhotoDrag(event)">
         <div class="photo-drag-handle">☰</div>
-        <img src="${u}" onclick="openPhotoLightbox('${u}')" title="Cliquer pour agrandir">
+        <button class="photo-delete-x" type="button" title="Supprimer cette photo" onclick="removeGalleryPhoto(${i})">×</button>
+        <img src="${u}" onclick="openPhotoLightbox('${safe}')" title="Cliquer pour agrandir">
         ${i===0 ? '<div class="photo-main-badge">Photo principale</div>' : ''}
-        <button class="set-main ${i===0?'active':''}" type="button" onclick="setNewMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>
+        <div class="photo-source-label">${item.type==='existing'?'Photo existante':'Nouvelle / modifiée'}</div>
+        <button class="set-main ${i===0?'active':''}" type="button" onclick="setGalleryMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>
         <div class="photo-edit-actions">
-          <button type="button" onclick="openImageEditor(${i})">Modifier</button>
-          <button type="button" onclick="removeNewPhoto(${i})">Retirer</button>
+          <button type="button" onclick="openGalleryImageEditor(${i})">Modifier</button>
         </div>
       </div>`;
   }).join('');
-
-  $('previews').innerHTML=existing+fresh;
 }
 
-function removeNewPhoto(i){
-  selectedPhotoFiles.splice(i,1);
+function removeGalleryPhoto(i){
+  galleryItems.splice(i,1);
   renderPhotoPreviews();
 }
 
-function setNewMain(i){
-  if(i<=0 || i>=selectedPhotoFiles.length) return;
-  const [item]=selectedPhotoFiles.splice(i,1);
-  selectedPhotoFiles.unshift(item);
+function setGalleryMain(i){
+  if(i<=0 || i>=galleryItems.length) return;
+  const [item]=galleryItems.splice(i,1);
+  galleryItems.unshift(item);
   renderPhotoPreviews();
 }
 
-function setExistingMain(i){
-  if(i<=0 || i>=oldPhotos.length) return;
-  const [item]=oldPhotos.splice(i,1);
-  oldPhotos.unshift(item);
-  renderPhotoPreviews();
-}
-
-let draggedPhotoType=null;
 let draggedPhotoIndex=null;
 
-function startPhotoDrag(e,type,index){
-  draggedPhotoType=type;
+function startPhotoDrag(e,index){
   draggedPhotoIndex=index;
   e.currentTarget.classList.add('dragging');
   try{e.dataTransfer.effectAllowed='move'}catch(_){}
 }
-
 function photoDragOver(e){
   e.preventDefault();
   e.currentTarget.classList.add('drag-over');
   try{e.dataTransfer.dropEffect='move'}catch(_){}
 }
-
-function photoDragLeave(e){
-  e.currentTarget.classList.remove('drag-over');
-}
-
+function photoDragLeave(e){ e.currentTarget.classList.remove('drag-over'); }
 function endPhotoDrag(e){
   e.currentTarget.classList.remove('dragging');
   document.querySelectorAll('.photo-edit-card').forEach(x=>x.classList.remove('drag-over'));
 }
-
-function dropPhoto(e,targetType,targetIndex){
+function dropPhoto(e,targetIndex){
   e.preventDefault();
   e.currentTarget.classList.remove('drag-over');
-
-  if(draggedPhotoType===null || draggedPhotoIndex===null) return;
-
-  // Existing photos can be reordered amongst themselves.
-  if(draggedPhotoType==='old' && targetType==='old' && selectedPhotoFiles.length===0){
-    const [item]=oldPhotos.splice(draggedPhotoIndex,1);
-    oldPhotos.splice(targetIndex,0,item);
-  }
-
-  // Newly selected photos can be reordered amongst themselves.
-  if(draggedPhotoType==='new' && targetType==='new'){
-    const [item]=selectedPhotoFiles.splice(draggedPhotoIndex,1);
-    selectedPhotoFiles.splice(targetIndex,0,item);
-  }
-
-  draggedPhotoType=null;
+  if(draggedPhotoIndex===null || draggedPhotoIndex===targetIndex) return;
+  const [item]=galleryItems.splice(draggedPhotoIndex,1);
+  galleryItems.splice(targetIndex,0,item);
   draggedPhotoIndex=null;
   renderPhotoPreviews();
 }
 
-function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+async function galleryItemToFile(item,index){
+  if(item.type==='new') return item.file;
+  const r=await fetch(item.path+'?edit='+Date.now(),{cache:'no-store'});
+  if(!r.ok) throw new Error('Impossible de charger la photo existante.');
+  const blob=await r.blob();
+  const ext=(item.path.split('.').pop()||'jpg').split('?')[0];
+  return new File([blob],`photo-existante-${index+1}.${ext}`,{type:blob.type||'image/jpeg'});
+}
+
+async function openGalleryImageEditor(index){
+  editPhotoIndex=index;
+  const item=galleryItems[index];
+  if(!item) return;
+  try{
+    const file=await galleryItemToFile(item,index);
+    const img=new Image();
+    img.onload=()=>{
+      editSourceImage=img;
+      editRotation=0; editZoom=1; editOffsetX=0; editOffsetY=0;
+      $('cropZoom').value='1';
+      $('cropRatio').value='4:5';
+      setCanvasRatio();
+      drawEditCanvas();
+      $('imageEditor').classList.add('open');
+      document.body.style.overflow='hidden';
+    };
+    img.src=URL.createObjectURL(file);
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+function slugfunction slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 
 function setMsg(text,type='working'){
   const m=$('msg');
@@ -445,9 +466,7 @@ async function waitForStoreProduct(id, attempts=15){
 
 async function publish(){
   try{
-    const fs=selectedPhotoFiles.slice(0,5);
     const fd=new FormData();
-
     const data={
       id:editing||slug($('marque').value+'-'+$('nom').value+'-'+$('taille').value),
       nom:$('nom').value.trim(),
@@ -460,15 +479,27 @@ async function publish(){
       sku:$('sku').value.trim(),
       stock:Number($('stock').value||0),
       description:$('description').value.trim(),
-      photos:oldPhotos
+      photos:[]
     };
 
     if(!data.nom||!data.marque||!data.categorie||!data.prixVente){
       throw new Error('Nom, marque, catégorie et prix de vente sont obligatoires.');
     }
 
+    const photoPlan=[];
+    let uploadIndex=0;
+    for(const item of galleryItems.slice(0,5)){
+      if(item.type==='existing'){
+        photoPlan.push({type:'existing',path:item.path});
+      }else{
+        photoPlan.push({type:'upload',index:uploadIndex});
+        fd.append('photos',item.file);
+        uploadIndex++;
+      }
+    }
+
     fd.append('product',JSON.stringify(data));
-    fs.forEach(f=>fd.append('photos',f));
+    fd.append('photoPlan',JSON.stringify(photoPlan));
 
     setMsg('Publication vers GitHub en cours…','working');
 
@@ -482,15 +513,9 @@ async function publish(){
     const t=await r.text();
     if(!r.ok) throw new Error(t);
 
-    let result={};
-    try{ result=JSON.parse(t); }catch(e){}
-
-    // Confirm immediately against the Worker/GitHub source.
     products=await req('/products');
     const saved=products.find(p=>p.id===data.id);
-    if(!saved){
-      throw new Error("Le Worker a répondu OK mais l'article n'est pas présent dans produits.json.");
-    }
+    if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
     renderList();
 
     setMsg(
@@ -498,26 +523,16 @@ async function publish(){
       'working'
     );
 
-    // Confirm the public GitHub Pages copy has caught up.
     const visible=await waitForStoreProduct(data.id,15);
-
     if(visible){
-      setMsg(
-        '✅ Article publié et visible dans la boutique. '+
-        '<a href="index.html?refresh='+Date.now()+'" target="_blank">Ouvrir la boutique</a>',
-        'ok'
-      );
+      setMsg('✅ Article publié et visible dans la boutique. <a href="index.html?refresh='+Date.now()+'" target="_blank">Ouvrir la boutique</a>','ok');
     }else{
-      setMsg(
-        '✅ Article bien enregistré sur GitHub, mais la copie publique n’est pas encore actualisée. '+
-        'GitHub Pages peut avoir un léger délai. '+
-        '<a href="index.html?refresh='+Date.now()+'" target="_blank">Vérifier la boutique</a>',
-        'warn'
-      );
+      setMsg('✅ Article enregistré sur GitHub. La boutique publique peut avoir un léger délai. <a href="index.html?refresh='+Date.now()+'" target="_blank">Vérifier la boutique</a>','warn');
     }
 
     editing=data.id;
     oldPhotos=saved.photos||[];
+    galleryItems=oldPhotos.map(path=>({type:'existing',path}));
     selectedPhotoFiles=[];
     renderPhotoPreviews();
     $('editTitle').textContent='Modifier : '+saved.nom;
@@ -671,7 +686,7 @@ async function applyImageEdit(){
   const old=selectedPhotoFiles[editPhotoIndex];
   const base=(old?.name||`photo-${editPhotoIndex+1}`).replace(/\.[^.]+$/,'');
   const edited=new File([blob],base+'-edited.jpg',{type:'image/jpeg',lastModified:Date.now()});
-  selectedPhotoFiles[editPhotoIndex]=edited;
+  galleryItems[editPhotoIndex]={type:'new',file:edited};
 
   closeImageEditor();
   renderPhotoPreviews();
