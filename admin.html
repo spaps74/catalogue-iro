@@ -271,7 +271,7 @@
 <label>Photos (jusqu'à 5) — la première sera la photo principale</label>
 <input id="photos" type="file" accept=".jpg,.jpeg,.png,.webp,.avif,image/*" multiple onchange="preview()">
 <div class="photo-edit-grid" id="previews"></div>
-<div class="muted">Toutes les photos, y compris celles des annonces existantes, peuvent être recadrées, tournées, réordonnées ou supprimées. Faites glisser pour changer l’ordre ; la première photo est la photo principale. Formats : JPG, PNG, WebP et AVIF.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
+<div class="muted">Toutes les photos, y compris celles des annonces existantes, peuvent être recadrées, tournées, réordonnées ou supprimées. Faites glisser pour changer l’ordre ; la première photo est la photo principale. Formats : JPG, PNG, WebP et AVIF. Les nouvelles photos sont automatiquement optimisées avant l’envoi pour rester nettes tout en réduisant fortement leur poids.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
 </div>
 </div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="primary" onclick="publish()">Publier / Enregistrer</button><button onclick="hideEditor()">Annuler</button><button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button></div><div id="msg" class="publish-status hidden"></div></div>
 </div><div class="image-editor" id="imageEditor">
@@ -546,6 +546,59 @@ async function waitForStoreProduct(id, attempts=15){
   return false;
 }
 
+
+async function loadImageFromFile(file){
+  return await new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
+    img.onload=()=>{URL.revokeObjectURL(url);resolve(img);};
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Impossible de lire l’image '+(file.name||'')));};
+    img.src=url;
+  });
+}
+
+async function compressImageFile(file,maxDimension=1800,quality=0.86){
+  if(!file || !file.type || !file.type.startsWith('image/')) return file;
+
+  const img=await loadImageFromFile(file);
+  const w=img.naturalWidth||img.width;
+  const h=img.naturalHeight||img.height;
+  if(!w || !h) return file;
+
+  const scale=Math.min(1,maxDimension/Math.max(w,h));
+  const tw=Math.max(1,Math.round(w*scale));
+  const th=Math.max(1,Math.round(h*scale));
+
+  if(scale===1 && file.size<=700*1024) return file;
+
+  const c=document.createElement('canvas');
+  c.width=tw;c.height=th;
+
+  const ctx=c.getContext('2d',{alpha:false});
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality='high';
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,tw,th);
+  ctx.drawImage(img,0,0,tw,th);
+
+  let blob=await new Promise(resolve=>c.toBlob(resolve,'image/webp',quality));
+  let ext='webp',mime='image/webp';
+
+  if(!blob){
+    blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',0.88));
+    ext='jpg';mime='image/jpeg';
+  }
+
+  if(!blob) return file;
+  if(blob.size>=file.size && scale===1) return file;
+
+  const base=(file.name||'photo').replace(/\.[^.]+$/,'');
+  return new File([blob],`${base}-optimisee.${ext}`,{
+    type:mime,
+    lastModified:Date.now()
+  });
+}
+
 async function publish(){
   try{
     const fd=new FormData();
@@ -574,8 +627,10 @@ async function publish(){
       if(item.type==='existing'){
         photoPlan.push({type:'existing',path:item.path});
       }else{
+        setMsg(`Optimisation de la photo ${uploadIndex+1}…`,'working');
+        const optimised=await compressImageFile(item.file,1800,0.86);
         photoPlan.push({type:'upload',index:uploadIndex});
-        fd.append('photos',item.file);
+        fd.append('photos',optimised);
         uploadIndex++;
       }
     }
@@ -637,12 +692,12 @@ let editDragging=false, editLastX=0, editLastY=0;
 let editOriginalState=null;
 
 function ratioSize(ratio,img){
-  if(ratio==='1:1') return [700,700];
-  if(ratio==='3:4') return [700,933];
-  if(ratio==='4:5') return [700,875];
+  if(ratio==='1:1') return [1400,1400];
+  if(ratio==='3:4') return [1400,1867];
+  if(ratio==='4:5') return [1400,1750];
   const r=img.naturalWidth/img.naturalHeight;
-  if(r>=1) return [900,Math.max(1,Math.round(900/r))];
-  return [Math.max(1,Math.round(900*r)),900];
+  if(r>=1) return [1800,Math.max(1,Math.round(1800/r))];
+  return [Math.max(1,Math.round(1800*r)),1800];
 }
 
 function openImageEditor(index){
@@ -762,7 +817,7 @@ if(editCanvas){
 async function applyImageEdit(){
   if(editPhotoIndex===null) return;
   const c=$('editCanvas');
-  const blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',0.92));
+  const blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',0.90));
   if(!blob){ alert('Impossible de générer la photo.'); return; }
 
   const current=galleryItems[editPhotoIndex];
