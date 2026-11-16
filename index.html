@@ -311,13 +311,42 @@ function passesSaleFilters(p){
   return true;
 }
 function render(){
-  const globalSearchValue = (
-    (document.getElementById('search')?.value) ||
-    (document.getElementById('q')?.value) ||
-    ''
-  ).trim();
-  const globalSearchMode = globalSearchValue.length > 0;
-let q=norm(document.getElementById('q').value),br=document.getElementById('brand').value,sz=document.getElementById('size').value,st=document.getElementById('status').value;let list=products.filter(p=>(!globalSearchMode || passesSaleFilters(p)) && (globalSearchMode || category==='Tous'||p.categorie===category)&&(!br||p.marque===br)&&(!sz||p.taille===sz)&&(!st||p.statut===st)&&(!q||norm([p.nom,p.marque,p.categorie,p.taille,p.description,p.sku].join(' ')).includes(q)));document.getElementById('grid').innerHTML=list.length?list.map(p=>card(p)).join(''):'<div class="empty">Aucun produit.</div>'}
+  const q = norm(document.getElementById('q').value);
+  const br = document.getElementById('brand').value;
+  const sz = document.getElementById('size').value;
+  const st = document.getElementById('status').value;
+
+  let list;
+
+  if(q){
+    // Recherche texte = recherche dans TOUT le catalogue.
+    // Les catégories principales et sous-catégories sont volontairement ignorées.
+    list = products.filter(p =>
+      norm([
+        p.nom,
+        p.marque,
+        p.categorie,
+        p.taille,
+        p.description,
+        p.sku
+      ].join(' ')).includes(q)
+    );
+  }else{
+    // Sans recherche texte, les vignettes respectent strictement la catégorie choisie.
+    list = products.filter(p =>
+      passesSaleFilters(p) &&
+      (category === 'Tous' || p.categorie === category) &&
+      (!br || p.marque === br) &&
+      (!sz || p.taille === sz) &&
+      (!st || p.statut === st)
+    );
+  }
+
+  document.getElementById('grid').innerHTML =
+    list.length
+      ? list.map(p => card(p)).join('')
+      : '<div class="empty">Aucun produit.</div>';
+}
 function card(p){let pc=p.prixRetail&&p.prixVente?Math.round((1-p.prixVente/p.prixRetail)*100):0,img=p.photos?.[0]||'';return `<article class="card"><div class="pic" onclick="details('${p.id}')" title="Voir le produit">${img?`<img src="${img}" alt="${p.nom||''}">`:'<div class="empty">PHOTO</div>'}<span class="badge status">${p.statut}</span><span class="badge brandbadge">${p.marque||''}</span></div><div class="info"><div class="name">${p.nom}</div><div class="meta">${p.categorie||''} · Taille ${p.taille||'—'}${p.sku?' · Réf. '+p.sku:''}</div>${p.description?`<div class="desc">${p.description}</div>`:''}<div class="prices">${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}<span class="sale">${euro(p.prixVente)}</span>${pc>0?`<span class="discount">-${pc}%</span>`:''}</div><button class="btn details" onclick="details('${p.id}')">Voir le détail</button>${p.statut==='Disponible'&&p.stock!==0?`<button class="btn add" onclick="add('${p.id}')">Ajouter au panier</button>`:''}</div></article>`}
 function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2><div class="meta">${p.categorie} · Taille ${p.taille||'—'} · ${p.statut}</div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
