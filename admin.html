@@ -3,7 +3,11 @@
 <title>Upstyle Admin</title><style>
 *{box-sizing:border-box}body{margin:0;background:#f5f5f3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;color:#111}.wrap{max-width:1050px;margin:auto;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.box{background:#fff;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 2px 12px #0000000c}h1{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}label{font-size:12px;font-weight:800;display:block;margin-bottom:5px}input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;font:inherit}textarea{min-height:120px}button{border:0;border-radius:10px;padding:10px 13px;font-weight:900;cursor:pointer}.primary{background:#111;color:#fff}.yellow{background:#ffd600}.danger{background:#f1dede;color:#8b0000}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px}.muted{color:#777;font-size:12px}.photos{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.photos img{width:100%;aspect-ratio:1;object-fit:contain;background:#fafafa;border-radius:8px}.status{padding:10px;border-radius:10px;background:#fff5c2;margin-top:10px;font-size:13px}.hidden{display:none}@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.photos{grid-template-columns:repeat(3,1fr)}}
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
-<div class="box"><label>Adresse API sécurisée</label><input id="api" placeholder="https://votre-worker.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" style="margin-top:10px" onclick="connect()">Charger le catalogue</button></div>
+<div class="box"><label>Adresse API sécurisée</label>
+<div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
+  https://soft-tree-927f.stephane-0f5.workers.dev
+</div>
+<input id="api" type="hidden" value="https://soft-tree-927f.stephane-0f5.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" style="margin-top:10px" onclick="connect()">Charger le catalogue</button></div>
 <div class="box"><h2>Articles</h2><div id="list" class="list">Connectez l'API pour charger les produits.</div></div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
 <div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div>
@@ -17,8 +21,8 @@
 let products=[],editing=null,oldPhotos=[];
 const $=id=>document.getElementById(id);
 function cfg(){return {api:$('api').value.trim().replace(/\/$/,''),key:$('key').value}}
-function saveCfg(){localStorage.setItem('upstyle_admin_api',$('api').value);localStorage.setItem('upstyle_admin_key',$('key').value)}
-$('api').value=localStorage.getItem('upstyle_admin_api')||'';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
+function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
+$('api').value='https://soft-tree-927f.stephane-0f5.workers.dev';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
 async function req(path,opt={}){let c=cfg();saveCfg();opt.headers={...(opt.headers||{}),'X-Admin-Key':c.key};let r=await fetch(c.api+path,opt);let t=await r.text();if(!r.ok)throw new Error(t||r.status);return t?JSON.parse(t):{}}
 async function connect(){try{products=await req('/products');renderList()}catch(e){alert('Connexion impossible : '+e.message)}}
 function renderList(){ $('list').innerHTML=products.length?products.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article.'}
