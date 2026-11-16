@@ -367,15 +367,27 @@ function renderSubcategoryMenu(type){
 
   const subs=subcategoriesForSaleType(type);
 
-  // IMPORTANT : aucune suggestion.
-  // On affiche uniquement les valeurs réellement enregistrées dans sousCategorie.
+  // Aucune suggestion : uniquement les valeurs réellement enregistrées.
   if(!subs.length) return;
 
-  target.innerHTML =
-    `<button class="subcat-btn active" onclick="selectSaleSubcat('',this)">${saleTypeAllLabel(type)}</button>` +
-    subs.map(s =>
-      `<button class="subcat-btn" onclick="selectSaleSubcat(${JSON.stringify(s)},this)">${escapeHtml(s)}</button>`
-    ).join('');
+  const allBtn=document.createElement('button');
+  allBtn.type='button';
+  allBtn.className='subcat-btn active';
+  allBtn.textContent=saleTypeAllLabel(type);
+  allBtn.addEventListener('click',()=>selectSaleSubcat('',allBtn));
+  target.appendChild(allBtn);
+
+  for(const sub of subs){
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='subcat-btn';
+    btn.textContent=sub;
+    btn.dataset.subcat=sub;
+    btn.addEventListener('click',()=>{
+      selectSaleSubcat(btn.dataset.subcat,btn);
+    });
+    target.appendChild(btn);
+  }
 
   target.classList.add('open');
 }
@@ -410,7 +422,7 @@ function passesSaleFilters(p){
 
   if(
     saleSubcatFilter &&
-    explicitSubcategory(p)!==saleSubcatFilter
+    normSaleTxt(explicitSubcategory(p))!==normSaleTxt(saleSubcatFilter)
   ) return false;
 
   return true;
