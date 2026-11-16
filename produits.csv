@@ -1,80 +1,9 @@
-﻿Nom;Taille;Prix retail;Prix vente;Statut;Photo1;Photo2;Photo3;Photo4;Photo5
-JOVAS BLACK/PINK;34;625;95;Disponible;jovas-1.webp;jovas-2.webp;jovas-3.webp;jovas-4.webp;jovas-5.webp
-Mini Robe en cuir;34;995;95;Disponible;80.webp;81.webp;82.webp;83webp;;
-Bustier en cuir;XS;624;75;Disponible;90.webp;91.webp;92.webp;93.webp;94.webp;
-Jupe IRO 100% Soie Paris Roya – Imprimé léopard;40;385;70;Disponible;41.jpg;40.jpg;42.jpg;43.jpg;44.jpg
-Robe IRO beige nude asymétrique drapée;36;595;80;Disponible;21.png;20.png;22.png;23.png;
-Pantalon IRO Paris Artura – Écru Crème;36;345;80;Disponible;30.jpg;31.jpg;32.jpg;33.jpg;34.jpg
-Top col montant IRO Paris 100% laine caramel coffee;S;245;40;Disponible;50.png;;;;
-Short IRO Paris noir texturé bouclette;40;295;60;Disponible;70.JPG;;;;
-Robe violette à volant;S;178;40;Disponible;100.JPG;;;;
-Jupe en laine rose;M;225;40;Disponible;110.JPG;;;;
-Top en laine rose;S;295;50;Disponible;120.JPG;;;;
-Jupe en Tweed;36;375;70;Disponible;130.JPG;;;;
-Sweat Crop Top;XXS;225;45;Disponible;140.JPG;;;;
-Jupe soirée;36;495;75;Disponible;160.JPG;;;;
-Robe violette;38;295;55;Disponible;150.JPG;;;;
-Top corail;XS;125;35;Disponible;170.JPG;;;;
-Jupe brillante;32;425;65;Disponible;180.JPG;;;;
-Top Décolleté;L;255;65;Disponible;190.JPG;;;;
-Top Purple vintage;XS;135;35;Disponible;200.JPG;;;;
-Robe Purple;34;535;75;Disponible;210.JPG;;;;
-Robe en cuir;36;1195;120;Disponible;230.JPG;;;;
-Robe Maje dentelle;S;289;50;Disponible;250.JPG;;;;
-Sandales IRO Paris Paddy strass;37;495;80;Disponible;10.png;11.png;12.png;13.png;14.png
-Mules IRO Paris;39;345;70;Disponible;998.png;999.png
-Mules plates IRO Paris raphia & cuir noir modèle Raffia – avec pochon;36;335;80;Disponible;60.png;61.png;62.png;;
-Escarpins Free Lance;37.5;299;85;Disponible;922.png;923.png
-Escarpins Repetto tess Ball9 AD;39;279;75;Disponible;620.png;621.jpg
-Bottines Repetto Chinchilla;38.5;319;80;Disponible;622.png;623.jpg;624.png
-Bottines Repetto Chicha;38;319;80;Disponible;525.png;526.jpg;527.jpg;528.png
-Ceinture Iro;S;289;60;Disponible;260.JPG;;;;
-Veste G-Star kaki;S;199;30;Disponible;1012.jpg;1013.jpg;1014.jpg;;
-Pantalon G-Star;25;219;30;Disponible;1015.png;1016.png;1017.png;1018.png
-Robe G-Star;XS;229;35;Disponible;1008.jpg;1009.jpg;1010.jpg;1011.jpg
-Robe G-Star;249;35;Disponible;1005.png;1006.png;1007.jpg
-Combi-Short g-Star;179;30;Disponible;1000.png;1001.png;1002.png;1003.png;1005.png
-Adidas La Trainer OG;38;129;50;Disponible;270.png
-Adidas Gazelle Indoor W vert pastel;38 2/3;129;50;Disponible;280.png
-Adidas Samba OG W blanc rouge gum Cuir;38 2/3;129;50;Disponible;290.png
-Adidas Response SR – running;39 1/3;85;40;Disponible;302.png
-Adidas Terrex Swift Solo 2 – randonnée / outdoor;39 1/3;149;70;Disponible;303.png
-Adidas Superstar W;38 1/3;129;50;Disponible;304.png
-Adidas Adizero Adios S&R – rétro running;38;149;65;Disponible;301.png
-Nike Dunk Low SE (GS);38;149;65;Disponible;300.png
-Clarks Maritsa70 Tee;39.5;129;50;Disponible;500.png;501.png
-Adidas Busenitz;38 2/3;149;60;Disponible;502.png;503.png
-Adidas Megaride;38 2/3;149;65;Disponible;504.png;
-Adidas Samba Lt;38;129;50;Disponible;505.png;
-Adidas Superstar Cuir;38;139;60;Disponible;506.png;
-Adidas Japan;38;159;65;Disponible;507.png;508.png
-Adidas Taekwondo Lace;39 1/3;125;50;Disponible;509.png;510.png
-Adidas Taekwondo W;39 1/3;125;55;Disponible;511.png
-Adidas Hypertuf W;39 1/3;155;70;Disponible;512.png
-Adidas Ultraboost W;39 1/3;155;65;Disponible;513.png
-Adidas Gazelle Indoor W;38;125;60;Disponible;514.png
-Adidas Gazelle Bold rose W;38;135;65;Disponible;515.png
-Adidas Stan Smith;38;95;45;Disponible;516.png
-Adidas Adidas Samba OG Easy Mint Charcoal Cuir;38;145;65;Disponible;517.png
-Adidas Gazelle Cuir;39 1/3;129;55;Disponible;519.png
-Nike Field Leopard SE;38;139;55;Disponible;518.png
-Ballerine Converse;38;89;40;Disponible;724.png;725.png
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Nom;Marque;Categorie;Taille;Prix retail;Prix vente;Statut;Photo1;Photo2;Photo3;Photo4;Photo5
+JOVAS BLACK/PINK;IRO;Robes;34;625;95;Disponible;;;;;
+Pantalon Artura Écru Crème;IRO;Pantalons;36;345;80;Disponible;30.jpg;31.jpg;32.jpg;33.jpg;34.jpg
+Sneakers Exemple;Adidas;Chaussures;39;120;49;Disponible;;;;;
+Veste Exemple;G-Star RAW;Vestes;M;199;79;Disponible;;;;;
+Pull Exemple;Lacoste;Pulls;M;150;59;Réservé;;;;;
+T-shirt Exemple;Levi's;T-shirts;L;39;19;Disponible;;;;;
+Sac Exemple;Rains;Accessoires;Unique;95;39;Disponible;;;;;
+Jean Exemple;G-Star RAW;Jeans;W30/L32;129;49;Disponible;;;;;
