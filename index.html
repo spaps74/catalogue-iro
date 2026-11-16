@@ -232,6 +232,19 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   <button class="subcat-btn" onclick="selectClothingSubcat('Vestes',this)">Vestes & Manteaux</button>
   <button class="subcat-btn" onclick="selectClothingSubcat('Accessoires',this)">Accessoires</button>
 </div>
+
+<div class="subcats" id="shoeSubcats">
+  <button class="subcat-btn" onclick="selectShoeSubcat('',this)">Toutes</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Baskets',this)">Baskets</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Chaussures',this)">Chaussures</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Sneakers',this)">Sneakers</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Bottes',this)">Bottes & Bottines</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Sandales',this)">Sandales</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Mules',this)">Mules</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Escarpins',this)">Escarpins</button>
+  <button class="subcat-btn" onclick="selectShoeSubcat('Ballerines',this)">Ballerines</button>
+</div>
+
 <div class="filters"><select id="brand" onchange="render()"><option value="">Toutes marques</option></select><select id="size" onchange="render()"><option value="">Toutes tailles</option></select><select id="status" onchange="render()"><option value="">Tous statuts</option><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div></div></header>
 <main><div class="grid" id="grid"></div><div class="footer" id="societe"><h3>Informations de la société</h3><b>UPSTYLE</b><br>SIRET : 100 863 596 00019<br>Forme juridique : SAS<br>51 allée du Cèdre, 74160 Vers<br><a href="tel:+33652623094">06 52 62 30 94</a><br><a href="mailto:stephane@upstyle-destock.fr">stephane@upstyle-destock.fr</a><br><br><a href="admin.html" style="opacity:.65;font-size:11px;text-decoration:none">🔒 Administration</a></div></main>
 <button class="cartfab" onclick="openCart()">Panier <span class="count" id="cartCount">0</span></button>
@@ -259,7 +272,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 
 <script>
 const WORKER_URL='https://soft-tree-927f.stephane-0f5.workers.dev';
-let products=[],category='Tous',saleTypeFilter='',clothingSubcatFilter='',cart=JSON.parse(localStorage.getItem('upstyle_cart_v2')||'[]');
+let products=[],category='Tous',saleTypeFilter='',clothingSubcatFilter='',shoeSubcatFilter='',cart=JSON.parse(localStorage.getItem('upstyle_cart_v2')||'[]');
 let paypalReady=false;
 const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n||0));
 const norm=s=>String(s||'').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'');
@@ -318,24 +331,71 @@ function clothingSubcategory(p){
   if(/top|t-shirt|tee|debardeur/.test(h)) return 'Tops';
   return '';
 }
+
+function shoeSubcategory(p){
+  const h=normSaleTxt(`${p.categorie||''} ${p.nom||''}`);
+  if(/basket|baskets/.test(h)) return 'Baskets';
+  if(/sneaker|sneakers/.test(h)) return 'Sneakers';
+  if(/bottine|bottines|botte|bottes/.test(h)) return 'Bottes';
+  if(/sandale|sandales/.test(h)) return 'Sandales';
+  if(/mule|mules/.test(h)) return 'Mules';
+  if(/escarpin|escarpins/.test(h)) return 'Escarpins';
+  if(/ballerine|ballerines/.test(h)) return 'Ballerines';
+  if(/chaussure|chaussures/.test(h)) return 'Chaussures';
+  return '';
+}
+
 function selectSaleType(type,btn){
   saleTypeFilter=saleTypeFilter===type?'':type;
   clothingSubcatFilter='';
+  shoeSubcatFilter='';
+
   document.querySelectorAll('.sale-type-btn').forEach(b=>b.classList.remove('active'));
   if(saleTypeFilter) btn.classList.add('active');
-  document.getElementById('clothingSubcats').classList.toggle('open',saleTypeFilter==='Vêtements');
-  document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));
+
+  document.getElementById('clothingSubcats').classList.toggle(
+    'open',
+    saleTypeFilter==='Vêtements'
+  );
+
+  document.getElementById('shoeSubcats').classList.toggle(
+    'open',
+    saleTypeFilter==='Baskets / Chaussures'
+  );
+
+  document.querySelectorAll('#clothingSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#shoeSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
+
   render();
 }
 function selectClothingSubcat(sub,btn){
   clothingSubcatFilter=sub;
-  document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#clothingSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function selectShoeSubcat(sub,btn){
+  shoeSubcatFilter=sub;
+  document.querySelectorAll('#shoeSubcats .subcat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   render();
 }
 function passesSaleFilters(p){
   if(saleTypeFilter && inferredSaleType(p)!==saleTypeFilter) return false;
-  if(saleTypeFilter==='Vêtements' && clothingSubcatFilter && clothingSubcategory(p)!==clothingSubcatFilter) return false;
+
+  if(
+    saleTypeFilter==='Vêtements' &&
+    clothingSubcatFilter &&
+    clothingSubcategory(p)!==clothingSubcatFilter
+  ) return false;
+
+  if(
+    saleTypeFilter==='Baskets / Chaussures' &&
+    shoeSubcatFilter &&
+    shoeSubcategory(p)!==shoeSubcatFilter
+  ) return false;
+
   return true;
 }
 function render(){
