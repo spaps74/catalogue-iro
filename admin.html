@@ -2,13 +2,71 @@
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Upstyle Admin</title><style>
 *{box-sizing:border-box}body{margin:0;background:#f5f5f3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;color:#111}.wrap{max-width:1050px;margin:auto;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.box{background:#fff;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 2px 12px #0000000c}h1{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}label{font-size:12px;font-weight:800;display:block;margin-bottom:5px}input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;font:inherit}textarea{min-height:120px}button{border:0;border-radius:10px;padding:10px 13px;font-weight:900;cursor:pointer}.primary{background:#111;color:#fff}.yellow{background:#ffd600}.danger{background:#f1dede;color:#8b0000}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px}.muted{color:#777;font-size:12px}.photos{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.photos img{width:100%;aspect-ratio:1;object-fit:contain;background:#fafafa;border-radius:8px}.status{padding:10px;border-radius:10px;background:#fff5c2;margin-top:10px;font-size:13px}.hidden{display:none}@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.photos{grid-template-columns:repeat(3,1fr)}}
+
+.photos img{
+  cursor:zoom-in;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.photos img:hover{
+  transform:scale(1.03);
+  box-shadow:0 3px 12px rgba(0,0,0,.14);
+}
+.photo-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.photo-lightbox.open{display:flex}
+.photo-lightbox img{
+  max-width:96vw;
+  max-height:92vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:10px;
+  box-shadow:0 10px 40px rgba(0,0,0,.45);
+}
+.photo-lightbox-close{
+  position:fixed;
+  right:16px;
+  top:16px;
+  width:44px;
+  height:44px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  font-size:28px;
+  line-height:44px;
+  padding:0;
+  cursor:pointer;
+}
+.photo-lightbox-hint{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:16px;
+  text-align:center;
+  color:#ddd;
+  font-size:12px;
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
 </div>
 <input id="api" type="hidden" value="https://soft-tree-927f.stephane-0f5.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" style="margin-top:10px" onclick="connect()">Charger le catalogue</button></div>
-<div class="box"><h2>Articles</h2><div id="list" class="list">Connectez l'API pour charger les produits.</div></div>
+<div class="box">
+<h2>Articles</h2>
+<input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
+<div id="list" class="list">Connectez l'API pour charger les produits.</div>
+</div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
 <div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div>
 <div><label>Catégorie *</label><input id="categorie" list="catlist"><datalist id="catlist"><option>Chaussures</option><option>Vestes</option><option>Pulls</option><option>T-shirts</option><option>Accessoires</option><option>Jeans</option><option>Pantalons</option><option>Robes</option><option>Chemises</option></datalist></div>
@@ -25,13 +83,48 @@ function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
 $('api').value='https://soft-tree-927f.stephane-0f5.workers.dev';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
 async function req(path,opt={}){let c=cfg();saveCfg();opt.headers={...(opt.headers||{}),'X-Admin-Key':c.key};let r=await fetch(c.api+path,opt);let t=await r.text();if(!r.ok)throw new Error(t||r.status);return t?JSON.parse(t):{}}
 async function connect(){try{products=await req('/products');renderList()}catch(e){alert('Connexion impossible : '+e.message)}}
-function renderList(){ $('list').innerHTML=products.length?products.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article.'}
+function renderList(){
+  const q=( $('catalogSearch')?.value || '' ).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const list=products.filter(p=>{
+    if(!q) return true;
+    const hay=[
+      p.nom,p.marque,p.categorie,p.taille,p.sku,p.statut,p.description,p.prixVente,p.prixRetail
+    ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    return hay.includes(q);
+  });
+  $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
+}
 function newProduct(){editing=null;oldPhotos=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');$('previews').innerHTML=oldPhotos.map(x=>`<div><img src="${x}"><div class="muted">existante</div></div>`).join('');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');$('previews').innerHTML=oldPhotos.map(x=>`<div><img src="${x}" onclick="openPhotoLightbox('${x.replace(/'/g,"\\'")}')" title="Cliquer pour agrandir"><div class="muted">existante</div></div>`).join('');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>$(x).value='');$('statut').value='Disponible';$('stock').value=1;$('photos').value='';$('previews').innerHTML=''}
 function hideEditor(){$('editor').classList.add('hidden')}
-function preview(){let fs=[...$('photos').files].slice(0,5);$('previews').innerHTML=fs.map(f=>`<img src="${URL.createObjectURL(f)}">`).join('')}
+function preview(){let fs=[...$('photos').files].slice(0,5);$('previews').innerHTML=fs.map(f=>{let u=URL.createObjectURL(f);return `<img src="${u}" onclick="openPhotoLightbox('${u}')" title="Cliquer pour agrandir">`}).join('')}
 function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 async function publish(){try{let fs=[...$('photos').files].slice(0,5);let fd=new FormData();let data={id:editing||slug($('marque').value+'-'+$('nom').value+'-'+$('taille').value),nom:$('nom').value.trim(),marque:$('marque').value.trim(),categorie:$('categorie').value.trim(),taille:$('taille').value.trim(),prixRetail:Number($('retail').value||0),prixVente:Number($('vente').value||0),statut:$('statut').value,sku:$('sku').value.trim(),stock:Number($('stock').value||0),description:$('description').value.trim(),photos:oldPhotos};if(!data.nom||!data.marque||!data.categorie||!data.prixVente)throw new Error('Nom, marque, catégorie et prix de vente sont obligatoires.');fd.append('product',JSON.stringify(data));fs.forEach(f=>fd.append('photos',f));let c=cfg();let r=await fetch(c.api+'/product',{method:'POST',headers:{'X-Admin-Key':c.key},body:fd});let t=await r.text();if(!r.ok)throw new Error(t);$('msg').textContent='Article publié avec succès.';$('msg').classList.remove('hidden');await connect();setTimeout(()=>hideEditor(),700)}catch(e){$('msg').textContent='Erreur : '+e.message;$('msg').classList.remove('hidden')}}
 async function deleteProduct(){if(!confirm('Supprimer définitivement cet article ?'))return;try{await req('/product/'+encodeURIComponent(editing),{method:'DELETE'});await connect();hideEditor()}catch(e){alert(e.message)}}
-</script></body></html>
+
+function openPhotoLightbox(src){
+  $('photoLightboxImg').src=src;
+  $('photoLightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePhotoLightbox(){
+  $('photoLightbox').classList.remove('open');
+  $('photoLightboxImg').src='';
+  document.body.style.overflow='';
+}
+function lightboxBackdrop(e){
+  if(e.target.id==='photoLightbox') closePhotoLightbox();
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closePhotoLightbox();
+});
+
+</script>
+<div class="photo-lightbox" id="photoLightbox" onclick="lightboxBackdrop(event)">
+  <button class="photo-lightbox-close" type="button" onclick="closePhotoLightbox()">×</button>
+  <img id="photoLightboxImg" alt="Aperçu photo">
+  <div class="photo-lightbox-hint">Cliquez en dehors de l’image pour fermer</div>
+</div>
+
+</body></html>

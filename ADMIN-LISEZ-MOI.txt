@@ -1,0 +1,31 @@
+UPSTYLE CATALOGUE V2 — ADMINISTRATION
+
+Accès :
+- Catalogue public : index.html
+- Administration : admin.html
+- Lien discret "🔒 Administration" ajouté en bas du catalogue.
+
+L'administration permet :
+- créer un article
+- modifier un article
+- supprimer un article
+- renseigner nom, marque, catégorie, taille
+- prix retail et prix de vente
+- statut et stock
+- référence / SKU
+- description
+- ajouter jusqu'à 5 photos
+- renommer automatiquement les photos lors de la publication
+- mettre à jour produits.json automatiquement
+
+IMPORTANT :
+admin.html ne contient pas le token GitHub.
+Pour publier réellement, il faut configurer le backend Cloudflare Worker fourni dans :
+backend/worker.js
+
+Dans admin.html, renseigner ensuite :
+1. l'URL de votre Worker Cloudflare
+2. votre clé ADMIN_KEY
+3. cliquer sur "Charger le catalogue"
+
+Les 60 produits importés sont déjà présents dans produits.json.
