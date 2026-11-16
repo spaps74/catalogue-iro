@@ -212,7 +212,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 <div id="paypal-button-container"></div>
 <div style="margin:14px 0 10px;font-weight:800">Payer par carte bancaire</div>
 <div id="card-button-container"></div>
-  <div id="paypalStatus" class="paypal-status"></div>
+  <div id="paypalStatus" class="paypal-status"></div><button type="button" class="order secondary" style="margin-top:8px" onclick="paypalDiagnostic()">Diagnostic PayPal</button>
 </div>
 <button class="order secondary" onclick="order()">Commander par email</button></div></div>
 <div class="detailmodal" id="detail"><div class="detailbox"><button class="close" onclick="closeDetail()">×</button><div id="detailBody"></div></div></div>
@@ -244,6 +244,22 @@ function add(id){let p=products.find(x=>x.id===id);if(!cart.some(x=>x.id===id))c
 function removeItem(id){cart=cart.filter(x=>x.id!==id);localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart()}
 function updateCart(){document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartRows').innerHTML=cart.length?cart.map(x=>`<div class="cartrow"><div><b>${x.marque||''} ${x.nom}</b><div class="meta">Taille ${x.taille} · ${euro(x.prixVente)}</div></div><button onclick="removeItem('${x.id}')">Retirer</button></div>`).join(''):'Panier vide';document.getElementById('cartTotal').textContent=euro(cart.reduce((s,x)=>s+Number(x.prixVente||0),0))}
 function openCart(){document.getElementById('cart').classList.add('open')}function closeCart(){document.getElementById('cart').classList.remove('open')}
+
+async function readApiResponse(response){
+  const raw=await response.text();
+  let data={};
+  try{data=raw?JSON.parse(raw):{}}catch(e){}
+  return {raw,data};
+}
+function extractApiError(data,raw,fallback){
+  return data?.details?.details?.[0]?.issue ||
+         data?.details?.name ||
+         data?.details?.message ||
+         data?.message ||
+         data?.error ||
+         raw ||
+         fallback;
+}
 
 function paypalMessage(text,type='info'){
   const el=document.getElementById('paypalStatus');
@@ -282,17 +298,14 @@ async function loadPayPal(){
           body:JSON.stringify({items:cart.map(x=>x.id)})
         });
 
-        const data=await response.json().catch(()=>({}));
+        const parsed=await readApiResponse(response);
+        const data=parsed.data;
         if(!response.ok){
-          const detail =
-            data?.details?.details?.[0]?.issue ||
-            data?.details?.name ||
-            data?.details?.message ||
-            data?.error ||
-            'Impossible de créer la commande.';
-          const debugId = data?.details?.debug_id ? ` — debug_id: ${data.details.debug_id}` : '';
-          throw new Error(detail + debugId);
+          const detail=extractApiError(data,parsed.raw,`Erreur HTTP ${response.status}`);
+          const debugId=data?.details?.debug_id ? ` — debug_id: ${data.details.debug_id}` : '';
+          throw new Error(detail+debugId);
         }
+        if(!data.id) throw new Error('Aucun identifiant de commande PayPal. Réponse: '+parsed.raw);
         return data.id;
       },
 
@@ -382,6 +395,18 @@ async function loadPayPal(){
   }catch(e){
     console.error(e);
     paypalMessage('PayPal indisponible : '+e.message,'error');
+  }
+}
+
+async function paypalDiagnostic(){
+  try{
+    paypalMessage('Test de connexion PayPal…','info');
+    const r=await fetch(WORKER_URL+'/paypal/diagnostic?ts='+Date.now(),{cache:'no-store'});
+    const parsed=await readApiResponse(r);
+    if(!r.ok) throw new Error(extractApiError(parsed.data,parsed.raw,`HTTP ${r.status}`));
+    paypalMessage(`✅ Worker OK — mode ${parsed.data.mode} — OAuth ${parsed.data.tokenObtained?'OK':'KO'}`,parsed.data.tokenObtained?'ok':'error');
+  }catch(e){
+    paypalMessage('❌ Diagnostic : '+e.message,'error');
   }
 }
 
