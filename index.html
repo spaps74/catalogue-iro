@@ -127,6 +127,14 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 <button class="cartfab" onclick="openCart()">Panier <span class="count" id="cartCount">0</span></button>
 <div class="overlay" id="cart"><div class="panel"><button class="close" onclick="closeCart()">×</button><h2>Votre panier</h2><div id="cartRows"></div><div class="total"><span>Total</span><span id="cartTotal"></span></div><button class="order" onclick="order()">Commander par email</button></div></div>
 <div class="detailmodal" id="detail"><div class="detailbox"><button class="close" onclick="closeDetail()">×</button><div id="detailBody"></div></div></div>
+<div class="zoomviewer" id="zoomViewer">
+  <div class="zoomstage" id="zoomStage">
+    <img id="zoomImg" alt="Photo agrandie">
+  </div>
+  <button class="zoomclose" type="button" onclick="closeZoom()">×</button>
+  <div class="zoomhint">Pincez ou double-cliquez pour zoomer · faites glisser pour déplacer</div>
+</div>
+
 <script>
 let products=[],category='Tous',cart=JSON.parse(localStorage.getItem('upstyle_cart_v2')||'[]');
 const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n||0));
@@ -260,12 +268,4 @@ document.addEventListener('keydown',e=>{
 
 load();
 </script>
-<div class="zoomviewer" id="zoomViewer">
-  <div class="zoomstage" id="zoomStage">
-    <img id="zoomImg" alt="Photo agrandie">
-  </div>
-  <button class="zoomclose" type="button" onclick="closeZoom()">×</button>
-  <div class="zoomhint">Pincez ou double-cliquez pour zoomer · faites glisser pour déplacer</div>
-</div>
-
 </body></html>
