@@ -1,5 +1,24 @@
 [
   {
+    "id": "g-star-veste-g-star-gsrr-s",
+    "nom": "Veste G-star GSRR",
+    "marque": "G-Star",
+    "categorie": "Vestes",
+    "taille": "S",
+    "prixRetail": 299,
+    "prixVente": 49,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "",
+    "photos": [
+      "photos/g-star-veste-g-star-gsrr-s-1.avif",
+      "photos/g-star-veste-g-star-gsrr-s-2.avif",
+      "photos/g-star-veste-g-star-gsrr-s-3.avif",
+      "photos/g-star-veste-g-star-gsrr-s-4.png"
+    ]
+  },
+  {
     "id": "iro-jovas-black-pink-34",
     "nom": "JOVAS BLACK/PINK",
     "marque": "IRO",
