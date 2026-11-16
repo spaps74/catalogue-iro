@@ -12,7 +12,9 @@
     "sku": "",
     "stock": 10,
     "description": "Box surprise de 5kg de colis perdus",
-    "photos": []
+    "photos": [
+      "photos/surprise-5kg-de-colis-perdus-1794867606323-1.webp"
+    ]
   },
   {
     "id": "surprise-3kg-de-colis-perdus",
