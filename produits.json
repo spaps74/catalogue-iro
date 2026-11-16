@@ -1,5 +1,22 @@
 [
   {
+    "id": "surprise-3kg-de-colis-perdus",
+    "nom": "3Kg de colis perdus",
+    "marque": "Surprise",
+    "categorie": "Colis Perdus",
+    "sousCategorie": "",
+    "taille": "",
+    "prixRetail": 0,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 10,
+    "description": "Box surprise de 3kg de colis perdus",
+    "photos": [
+      "photos/surprise-3kg-de-colis-perdus-1794867429146-1.webp"
+    ]
+  },
+  {
     "id": "wristitani-wristitani-bracelet-cuir-marron-compatible-avec-apple-watch-49mm-46mm-45mm-44mm-42mm-pour-homme-femme",
     "nom": "Wristitani  Bracelet Cuir marron Compatible avec Apple Watch 49mm 46mm 45mm 44mm 42mm pour Homme Femme",
     "marque": "Wristitani",
