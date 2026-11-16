@@ -200,7 +200,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 }
 
 
-.sale-types{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 10px}
+.sale-types{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:14px 0 10px}
 .sale-type-btn{border:1px solid #111;background:#fff;border-radius:12px;padding:11px 8px;font-weight:900;cursor:pointer}
 .sale-type-btn.active{background:#111;color:#fff}
 .subcats{display:none;flex-wrap:wrap;gap:7px;margin:0 0 14px;padding:10px;background:#f6f6f6;border-radius:12px}
@@ -226,6 +226,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   <button class="sale-type-btn" onclick="selectSaleType('Informatique',this)">Informatique</button>
   <button class="sale-type-btn" onclick="selectSaleType('Sports',this)">Sports</button>
   <button class="sale-type-btn" onclick="selectSaleType('Pour la maison',this)">Pour la maison</button>
+  <button class="sale-type-btn" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus</button>
 </div>
 <div class="subcats" id="saleSubcats"></div>
 
@@ -318,6 +319,7 @@ function inferredSaleType(p){
   if(cat==='informatique') return 'Informatique';
   if(['sport','sports'].includes(cat)) return 'Sports';
   if(['pour la maison','maison'].includes(cat)) return 'Pour la maison';
+  if(['colis perdus','colis perdu','colis'].includes(cat)) return 'Colis Perdus';
 
   // Compatibilité anciens produits / anciennes catégories.
   if(/^(basket|baskets|chaussure|chaussures|sneaker|sneakers|botte|bottes|bottine|bottines|sandale|sandales|mule|mules|escarpin|escarpins|ballerine|ballerines)$/.test(cat)){
@@ -334,6 +336,7 @@ function inferredSaleType(p){
   if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'Informatique';
   if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Sports';
   if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Pour la maison';
+  if(/colis perdu|colis perdus|lost parcel|lost parcels/.test(h)) return 'Colis Perdus';
 
   return '';
 }
@@ -353,6 +356,7 @@ function saleTypeAllLabel(type){
   if(type==='Informatique') return 'Toute l’informatique';
   if(type==='Sports') return 'Tous les sports';
   if(type==='Pour la maison') return 'Toute la maison';
+  if(type==='Colis Perdus') return 'Tous les colis perdus';
   return 'Tous';
 }
 

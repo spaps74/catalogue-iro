@@ -266,7 +266,15 @@
 </div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
 <div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div>
-<div><label>Catégorie *</label><input id="categorie" list="catlist"><datalist id="catlist"><option>Chaussures</option>
+<div><label>Catégorie *</label><select id="categorie" name="categorie" required>
+    <option value="">Sélectionner une catégorie</option>
+    <option value="Vêtements">Vêtements</option>
+    <option value="Baskets / Chaussures">Baskets / Chaussures</option>
+    <option value="Informatique">Informatique</option>
+    <option value="Sports">Sports</option>
+    <option value="Pour la maison">Pour la maison</option>
+    <option value="Colis Perdus">Colis Perdus</option>
+  </select><datalist id="catlist"><option>Chaussures</option>
 <option>Vestes</option><option>Pulls</option><option>T-shirts</option><option>Accessoires</option><option>Jeans</option><option>Pantalons</option><option>Robes</option><option>Chemises</option></datalist></div>
 <div>
 <div class="field">
