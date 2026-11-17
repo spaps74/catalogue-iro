@@ -560,6 +560,25 @@ function selectAllProducts(btn){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+
+function isFirstPageProduct(p){
+  return p?.miseEnPremierePage === true ||
+         p?.miseEnPremierePage === 1 ||
+         String(p?.miseEnPremierePage||'').toLowerCase()==='true';
+}
+
+function prioritizeFirstPageProducts(list){
+  return list
+    .map((p,index)=>({p,index}))
+    .sort((a,b)=>{
+      const af=isFirstPageProduct(a.p) ? 1 : 0;
+      const bf=isFirstPageProduct(b.p) ? 1 : 0;
+      if(af!==bf) return bf-af;
+      return a.index-b.index;
+    })
+    .map(x=>x.p);
+}
+
 function render(){
   const q = norm(document.getElementById('q').value);
   const br = document.getElementById('brand').value;
@@ -591,6 +610,8 @@ function render(){
       (!st || p.statut === st)
     );
   }
+
+  list = prioritizeFirstPageProducts(list);
 
   document.getElementById('grid').innerHTML =
     list.length

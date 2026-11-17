@@ -321,6 +321,28 @@
   .check-item button{width:100%}
 }
 
+
+.featured-field{
+  padding:10px;
+  border:1px solid #e7d257;
+  background:#fffbe0;
+  border-radius:12px;
+}
+.featured-toggle{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:6px;
+  font-weight:800;
+  cursor:pointer;
+}
+.featured-toggle input{
+  width:19px;
+  height:19px;
+  accent-color:#ffd600;
+  flex:0 0 auto;
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
@@ -356,6 +378,14 @@
   <option value="Retour Amazon comme neuf">Retour Amazon comme neuf</option>
   <option value="Retour Amazon bon état">Retour Amazon bon état</option>
 </select></div>
+<div class="featured-field">
+  <label for="miseEnPremierePage">Mise en première page</label>
+  <label class="featured-toggle">
+    <input id="miseEnPremierePage" type="checkbox">
+    <span>Afficher ce produit en priorité sur le catalogue</span>
+  </label>
+  <div class="muted">Facultatif — les produits cochés sont affichés avant les autres sur le front.</div>
+</div>
 <div><label>Catégorie *</label><select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
     <option value="Vêtements">Vêtements</option>
@@ -530,7 +560,7 @@ function renderList(){
     ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     return hay.includes(q);
   });
-  $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
+  $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.miseEnPremierePage?'⭐ Première page · ':''}${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
 }
 
 
@@ -851,11 +881,12 @@ function editNextProduct(){
 }
 
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
   if($('etatProduit')) $('etatProduit').value='';
+  if($('miseEnPremierePage')) $('miseEnPremierePage').checked=false;
   $('stock').value=1;
   $('photos').value='';
   refreshSousCategories('');
@@ -1070,6 +1101,7 @@ async function publish(){
       nom:$('nom').value.trim(),
       marque:$('marque').value.trim(),
       etatProduit:$('etatProduit').value,
+      miseEnPremierePage:!!$('miseEnPremierePage')?.checked,
       categorie:$('categorie').value.trim(),
       sousCategorie: getCurrentSousCategorie(),
 taille:$('taille').value.trim(),
