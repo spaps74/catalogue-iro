@@ -223,7 +223,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   justify-content:center;
   width:max-content;
   max-width:100%;
-  margin:6px 0 8px;
+  margin:8px 0 2px;
   padding:6px 12px;
   border-radius:999px;
   background:#ffd600;
@@ -595,7 +595,6 @@ function card(p){
     </div>
     <div class="info">
       <div class="name">${p.nom}</div>
-      ${stateBadge(p)}
       <div class="meta">${p.categorie||''} · Taille ${p.taille||'—'}${p.sku?' · Réf. '+p.sku:''}</div>
       ${p.description?`<div class="desc">${p.description}</div>`:''}
       <div class="prices">
@@ -603,6 +602,7 @@ function card(p){
         <span class="sale">${euro(p.prixVente)}</span>
         ${pc>0?`<span class="discount">-${pc}%</span>`:''}
       </div>
+      ${stateBadge(p)}
       <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
       <button class="btn add" ${canAdd?`onclick="add('${p.id}')"`:'disabled aria-disabled="true"'}>Ajouter au panier</button>
     </div>
