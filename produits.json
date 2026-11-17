@@ -1155,9 +1155,10 @@
   },
   {
     "id": "adidas-adidas-busenitz-38-2-3",
-    "nom": "Adidas Busenitz",
+    "nom": "Baskets Adidas Busenitz neuves avec étiquettes, taille 38 2/3",
     "marque": "Adidas",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
     "categorie": "Baskets / Chaussures",
     "sousCategorie": "baskets",
     "taille": "38 2/3",
@@ -1166,7 +1167,7 @@
     "statut": "Disponible",
     "sku": "",
     "stock": 1,
-    "description": "",
+    "description": "Les Adidas Busenitz sont proposées en taille 38 2/3. Article neuf avec étiquettes.",
     "photos": [
       "photos/502.png",
       "photos/503.png"
