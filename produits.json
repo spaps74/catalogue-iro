@@ -770,6 +770,7 @@
     "nom": "Veste G-Star kaki",
     "marque": "G-Star",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
     "categorie": "Vêtements",
     "sousCategorie": "vestes",
     "taille": "S",
