@@ -404,15 +404,46 @@ let lastHeaderScrollY=0;
 let headerScrollTicking=false;
 const HEADER_SCROLL_DELTA=8;
 
+function headerHideThreshold(){
+  const grid=document.getElementById('grid');
+  if(!grid) return Infinity;
+
+  const cards=[...grid.querySelectorAll('.card')];
+  if(!cards.length) return Infinity;
+
+  // On repère les différentes lignes réelles de la grille,
+  // quelle que soit la largeur d'écran (2, 3 ou 4 colonnes).
+  const rowTops=[];
+  for(const card of cards){
+    const top=Math.round(card.offsetTop);
+    if(!rowTops.some(v=>Math.abs(v-top)<=3)){
+      rowTops.push(top);
+    }
+    if(rowTops.length>=3) break;
+  }
+
+  const gridTop=window.scrollY + grid.getBoundingClientRect().top;
+
+  // Le bandeau reste visible pendant les deux premières lignes.
+  // S'il existe une 3e ligne, il peut se masquer seulement à son début.
+  if(rowTops.length>=3){
+    return gridTop + (rowTops[2]-rowTops[0]);
+  }
+
+  // Si le catalogue n'a que 1 ou 2 lignes, le bandeau reste visible.
+  return Infinity;
+}
+
 function updateAutoHideHeader(){
   const header=document.querySelector('header');
   if(!header) return;
 
   const currentY=Math.max(0,window.scrollY||0);
   const delta=currentY-lastHeaderScrollY;
+  const hideAfter=headerHideThreshold();
 
-  // Toujours visible tout en haut de la page.
-  if(currentY<=20){
+  // Toujours visible en haut et pendant les deux premières lignes de produits.
+  if(currentY<=20 || currentY<hideAfter){
     header.classList.remove('header-hidden');
     lastHeaderScrollY=currentY;
     return;
@@ -422,10 +453,8 @@ function updateAutoHideHeader(){
   if(Math.abs(delta)<HEADER_SCROLL_DELTA) return;
 
   if(delta>0){
-    // Descente : on libère l'espace pour voir davantage d'articles.
     header.classList.add('header-hidden');
   }else{
-    // Remontée : le bandeau revient immédiatement.
     header.classList.remove('header-hidden');
   }
 
@@ -459,20 +488,22 @@ function build(){
   document.getElementById('cats').innerHTML=
     '<button class="chip active" data-cat="Tous" onclick="selectAllProducts(this)">Tout le catalogue</button>';
 
-  for(const [id,key] of [['brand','marque'],['size','taille']]){
-    document.getElementById(id).innerHTML=
-      document.getElementById(id).options[0].outerHTML+
-      [...new Set(products.map(x=>x[key]).filter(Boolean))]
-        .sort()
-        .map(v=>`<option>${v}</option>`)
-        .join('');
-  }
+  const brand=document.getElementById('brand');
+  brand.innerHTML=
+    brand.options[0].outerHTML+
+    [...new Set(products.map(x=>x.marque).filter(Boolean))]
+      .sort((a,b)=>String(a).localeCompare(String(b),'fr',{sensitivity:'base'}))
+      .map(v=>`<option>${escapeHtml(v)}</option>`)
+      .join('');
+
+  refreshSizeOptionsForCurrentCategory();
 }
 function setCat(c,b){
   if(c==='Tous'){ selectAllProducts(b); return; }
   category=c;
   document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
   if(b) b.classList.add('active');
+  refreshSizeOptionsForCurrentCategory();
   render();
   scrollToArticlesStart();
 }
@@ -498,6 +529,39 @@ function normSaleTxt(s){
 function explicitSubcategory(p){
   return String(p.sousCategorie || p.sous_categorie || '').trim();
 }
+
+function refreshSizeOptionsForCurrentCategory(){
+  const size=document.getElementById('size');
+  if(!size) return;
+
+  const previous=size.value;
+
+  let source=products;
+  if(saleTypeFilter){
+    source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
+  }else if(category && category!=='Tous'){
+    source=products.filter(p=>p.categorie===category);
+  }
+
+  const values=[...new Set(
+    source
+      .map(p=>String(p.taille||'').trim())
+      .filter(Boolean)
+  )].sort((a,b)=>a.localeCompare(b,'fr',{numeric:true,sensitivity:'base'}));
+
+  size.innerHTML=
+    '<option value="">Toutes tailles</option>'+
+    values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
+
+  // On conserve la taille sélectionnée uniquement si elle existe
+  // encore dans la nouvelle catégorie.
+  if(previous && values.includes(previous)){
+    size.value=previous;
+  }else{
+    size.value='';
+  }
+}
+
 
 /*
   Catégorie principale :
@@ -633,6 +697,7 @@ function selectSaleType(type,btn){
   if(allBtn) allBtn.classList.toggle('active', !saleTypeFilter);
 
   renderSubcategoryMenu(saleTypeFilter);
+  refreshSizeOptionsForCurrentCategory();
   render();
   scrollToArticlesStart();
 }
@@ -689,6 +754,7 @@ function selectAllProducts(btn){
 
   if(btn) btn.classList.add('active');
 
+  refreshSizeOptionsForCurrentCategory();
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
