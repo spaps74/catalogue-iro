@@ -343,6 +343,43 @@
   flex:0 0 auto;
 }
 
+
+.ai-listing-box{
+  padding:12px;
+  border:1px solid #d8d8d8;
+  background:#fafafa;
+  border-radius:12px;
+}
+.ai-listing-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.ai-button{
+  background:#111;
+  color:#fff;
+  white-space:nowrap;
+}
+.ai-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.ai-status{
+  margin-top:9px;
+  padding:9px 10px;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:700;
+}
+.ai-status.working{background:#eef3ff;color:#23457d}
+.ai-status.ok{background:#e8f7ec;color:#17652d}
+.ai-status.error{background:#fde5e5;color:#8e1e1e}
+@media(max-width:700px){
+  .ai-listing-head{align-items:stretch;flex-direction:column}
+  .ai-button{width:100%}
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
@@ -418,7 +455,18 @@
 </div>
 <label>Taille</label><input id="taille"></div><div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
-<div><label>Référence / SKU</label><input id="sku"></div><div class="full"><label>Description</label><textarea id="description" placeholder="Décrivez la matière, la coupe, la couleur, l'état, les détails..."></textarea></div>
+<div><label>Référence / SKU</label><input id="sku"></div>
+<div class="full ai-listing-box">
+  <div class="ai-listing-head">
+    <div>
+      <b>Génération de l’annonce par IA</b>
+      <div class="muted">Utilise les informations déjà saisies. L’IA remplit le titre, la catégorie / sous-catégorie et la description, sans publier automatiquement.</div>
+    </div>
+    <button class="ai-button" id="aiGenerateBtn" type="button" onclick="generateAIListing()">✨ Générer avec l’IA</button>
+  </div>
+  <div id="aiStatus" class="ai-status hidden"></div>
+</div>
+<div class="full"><label>Description</label><textarea id="description" placeholder="Décrivez la matière, la coupe, la couleur, l'état, les détails..."></textarea></div>
 <div class="full">
 <label>Photos (jusqu'à 5) — la première sera la photo principale</label>
 <input id="photos" type="file" accept=".jpg,.jpeg,.png,.webp,.avif,image/*" multiple onchange="preview()">
@@ -492,7 +540,8 @@ async function req(path,opt={}){
   }
 
   const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),15000);
+  const timeoutMs=path.startsWith('/ai/') ? 45000 : 15000;
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
 
   try{
     opt.headers={...(opt.headers||{}),'X-Admin-Key':c.key};
@@ -511,7 +560,7 @@ async function req(path,opt={}){
     return t?JSON.parse(t):{};
   }catch(e){
     if(e.name==='AbortError'){
-      throw new Error('Le Worker ne répond pas après 15 secondes.');
+      throw new Error(`Le Worker ne répond pas après ${Math.round(timeoutMs/1000)} secondes.`);
     }
     throw e;
   }finally{
@@ -880,7 +929,7 @@ function editNextProduct(){
   });
 }
 
-function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
@@ -1003,6 +1052,82 @@ async function openGalleryImageEditor(index){
 }
 
 function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+
+
+function setAIStatus(text,type='working'){
+  const el=$('aiStatus');
+  if(!el) return;
+  el.className='ai-status '+type;
+  el.textContent=text;
+  el.classList.remove('hidden');
+}
+
+function currentAIProductData(){
+  return {
+    nom:$('nom')?.value.trim()||'',
+    marque:$('marque')?.value.trim()||'',
+    etatProduit:$('etatProduit')?.value||'',
+    categorie:$('categorie')?.value.trim()||'',
+    sousCategorie:getCurrentSousCategorie(),
+    taille:$('taille')?.value.trim()||'',
+    sku:$('sku')?.value.trim()||'',
+    description:$('description')?.value.trim()||''
+  };
+}
+
+async function generateAIListing(){
+  const btn=$('aiGenerateBtn');
+  if(!btn) return;
+
+  const data=currentAIProductData();
+
+  if(!data.nom && !data.marque && !data.sku){
+    setAIStatus('Renseigne au moins le nom, la marque ou le SKU avant de lancer la génération.','error');
+    return;
+  }
+
+  try{
+    btn.disabled=true;
+    btn.textContent='✨ Génération…';
+    setAIStatus('L’IA prépare une proposition d’annonce…','working');
+
+    const result=await req('/ai/generate-listing',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(data)
+    });
+
+    if(result.titre){
+      $('nom').value=result.titre;
+    }
+
+    if(result.categorie){
+      const cat=$('categorie');
+      const exists=[...cat.options].some(o=>o.value===result.categorie);
+      if(exists){
+        cat.value=result.categorie;
+      }
+    }
+
+    if(result.sousCategorie){
+      refreshSousCategories(result.sousCategorie);
+    }else{
+      refreshSousCategories(getCurrentSousCategorie());
+    }
+
+    if(result.description){
+      $('description').value=result.description;
+    }
+
+    setAIStatus('✓ Proposition générée. Relis les champs puis publie normalement si le résultat te convient.','ok');
+  }catch(e){
+    console.error(e);
+    setAIStatus('Erreur IA : '+e.message,'error');
+  }finally{
+    btn.disabled=false;
+    btn.textContent='✨ Générer avec l’IA';
+  }
+}
 
 function setMsg(text,type='working'){
   const m=$('msg');
