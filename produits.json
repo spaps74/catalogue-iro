@@ -726,6 +726,7 @@
     "id": "iro-ceinture-iro-s",
     "nom": "Ceinture Iro",
     "marque": "IRO",
+    "etatProduit": "Neuf avec étiquettes",
     "categorie": "Vêtements",
     "sousCategorie": "accessoires",
     "taille": "S",
