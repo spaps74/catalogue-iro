@@ -261,11 +261,15 @@
 <div id="connectionStatus" class="publish-status hidden" style="margin-top:10px"></div></div>
 <div class="box">
 <h2>Articles</h2>
-<input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
+<input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, état, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
 <div id="list" class="list">Connectez l'API pour charger les produits.</div>
 </div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
-<div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div>
+<div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div><div><label>État *</label><select id="etatProduit" required>
+<option value="">Sélectionner l’état</option>
+<option value="Neuf">Neuf</option>
+<option value="Seconde main">Seconde main</option>
+</select></div>
 <div><label>Catégorie *</label><select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
     <option value="Vêtements">Vêtements</option>
@@ -536,10 +540,11 @@ function bindSousCategorieControls(){
 }
 
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
+  if($('etatProduit')) $('etatProduit').value='';
   $('stock').value=1;
   $('photos').value='';
   refreshSousCategories('');
@@ -753,6 +758,7 @@ async function publish(){
       id:editing||slug($('marque').value+'-'+$('nom').value+'-'+$('taille').value),
       nom:$('nom').value.trim(),
       marque:$('marque').value.trim(),
+      etatProduit:$('etatProduit').value,
       categorie:$('categorie').value.trim(),
       sousCategorie: getCurrentSousCategorie(),
 taille:$('taille').value.trim(),
@@ -765,8 +771,8 @@ taille:$('taille').value.trim(),
       photos:[]
     };
 
-    if(!data.nom||!data.marque||!data.categorie||!data.prixVente){
-      throw new Error('Nom, marque, catégorie et prix de vente sont obligatoires.');
+    if(!data.nom||!data.marque||!data.etatProduit||!data.categorie||!data.prixVente){
+      throw new Error('Nom, marque, état, catégorie et prix de vente sont obligatoires.');
     }
 
     const photoPlan=[];
