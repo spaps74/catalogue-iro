@@ -424,13 +424,14 @@ function headerHideThreshold(){
 
   const gridTop=window.scrollY + grid.getBoundingClientRect().top;
 
-  // Le bandeau reste visible pendant les deux premières lignes.
-  // S'il existe une 3e ligne, il peut se masquer seulement à son début.
-  if(rowTops.length>=3){
-    return gridTop + (rowTops[2]-rowTops[0]);
+  // Le bandeau reste visible jusqu'à l'arrivée de la 2e ligne.
+  // Cela correspond visuellement à environ deux lignes de produits affichées
+  // avant que le bandeau puisse commencer à se masquer.
+  if(rowTops.length>=2){
+    return gridTop + (rowTops[1]-rowTops[0]);
   }
 
-  // Si le catalogue n'a que 1 ou 2 lignes, le bandeau reste visible.
+  // S'il n'y a qu'une seule ligne, le bandeau reste visible.
   return Infinity;
 }
 
