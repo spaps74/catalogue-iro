@@ -252,6 +252,12 @@
 
 #sousCategorieSelect,#sousCategorieNew{width:100%}
 .souscat-help{font-size:12px;color:#666;margin-top:4px}
+
+#nextProductBtn:disabled{
+  opacity:.48;
+  cursor:not-allowed;
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
@@ -315,7 +321,12 @@
 <div class="photo-edit-grid" id="previews"></div>
 <div class="muted">Toutes les photos, y compris celles des annonces existantes, peuvent être recadrées, tournées, réordonnées ou supprimées. Faites glisser pour changer l’ordre ; la première photo est la photo principale. Formats : JPG, PNG, WebP et AVIF.</div><div class="avif-note">AVIF est affiché directement si le navigateur le prend en charge. Une photo AVIF modifiée avec crop/rotation est enregistrée en JPEG optimisé.</div>
 </div>
-</div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="primary" onclick="publish()">Publier / Enregistrer</button><button onclick="hideEditor()">Annuler</button><button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button></div><div id="msg" class="publish-status hidden"></div></div>
+</div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+  <button class="primary" onclick="publish()">Publier / Enregistrer</button>
+  <button onclick="hideEditor()">Annuler</button>
+  <button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button>
+  <button class="yellow hidden" id="nextProductBtn" type="button" onclick="editNextProduct()">Produit suivant →</button>
+</div><div id="msg" class="publish-status hidden"></div></div>
 </div><div class="image-editor" id="imageEditor">
   <div class="image-editor-box">
     <div class="image-editor-head">
@@ -545,8 +556,54 @@ function bindSousCategorieControls(){
   }
 }
 
-function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+
+function updateNextProductButton(){
+  const btn=$('nextProductBtn');
+  if(!btn) return;
+
+  // Le bouton n'est utile qu'en mode modification.
+  if(!editing){
+    btn.classList.add('hidden');
+    btn.disabled=false;
+    btn.textContent='Produit suivant →';
+    return;
+  }
+
+  const index=products.findIndex(p=>p.id===editing);
+  btn.classList.remove('hidden');
+
+  if(index<0 || index>=products.length-1){
+    btn.disabled=true;
+    btn.textContent='Dernier produit';
+    return;
+  }
+
+  btn.disabled=false;
+  btn.textContent='Produit suivant →';
+}
+
+function editNextProduct(){
+  if(!editing) return;
+
+  const index=products.findIndex(p=>p.id===editing);
+  if(index<0 || index>=products.length-1) return;
+
+  const next=products[index+1];
+  if(!next) return;
+
+  edit(next.id);
+
+  // En édition successive, on garde le formulaire positionné en haut.
+  requestAnimationFrame(()=>{
+    const editor=$('editor');
+    if(editor){
+      editor.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+}
+
+function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateNextProductButton();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateNextProductButton();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
