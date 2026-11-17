@@ -812,6 +812,8 @@
     "id": "g-star-robe-g-star-xs",
     "nom": "Robe G-Star",
     "marque": "G-Star",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
     "categorie": "Vêtements",
     "sousCategorie": "robes",
     "taille": "XS",
