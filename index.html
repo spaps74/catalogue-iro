@@ -562,18 +562,9 @@ function render(){
 }
 
 function stateBadge(p){
-  const raw=String(p.etatProduit||p.etat||'').trim();
-  if(!raw) return '';
-
-  const key=raw.toLowerCase();
-
-  let label=raw;
-  if(key==='neuf') label='Neuf';
-  else if(key==='seconde main' || key==='seconde-main' || key==='occasion') label='Seconde main';
-  else if(key==='retour client' || key==='customer return' || key==='customer returns') label='Retour client';
-  else if(key==='retour amazon' || key==='amazon return' || key==='amazon returns') label='Retour Amazon';
-
-  return `<span class="product-state-badge">${escapeHtml(label)}</span>`;
+  const value=String(p.etatProduit||p.etat||'').trim();
+  if(!value) return '';
+  return `<span class="product-state-badge">${escapeHtml(value)}</span>`;
 }
 
 
