@@ -224,16 +224,43 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
   width:max-content;
   max-width:100%;
   margin:6px 0 8px;
-  padding:5px 11px;
+  padding:6px 12px;
   border-radius:999px;
   background:#ffd600;
   color:#111;
-  border:1px solid rgba(0,0,0,.12);
-  font-size:12px;
+  border:2px solid #111;
+  font-size:11px;
   font-weight:950;
   line-height:1;
-  letter-spacing:.01em;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  box-shadow:0 2px 0 #111;
 }
+
+
+.status.status-sold{background:#22c55e;color:#fff}
+.status.status-reserved{background:#ffd600;color:#111}
+.status.status-available{background:#fff;color:#111}
+.btn.add:disabled{
+  background:#e5e7eb;
+  color:#8a8a8a;
+  cursor:not-allowed;
+  opacity:1;
+}
+.btn.add:disabled:hover{transform:none;filter:none}
+.detail-status{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 10px;
+  margin-left:6px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  line-height:1;
+}
+.detail-status.status-sold{background:#22c55e;color:#fff}
+.detail-status.status-reserved{background:#ffd600;color:#111}
+.detail-status.status-available{background:#f3f4f6;color:#111}
 
 </style></head><body>
 <div class="top">Pour commander, <a href="#societe">contactez-moi</a> ou ajoutez vos articles au panier.<br>Paiement sécurisé par PayPal disponible directement dans le panier, ou commande par e-mail.<br><span class="ship">🚚 FRAIS DE PORT OFFERTS</span></div>
@@ -535,14 +562,64 @@ function render(){
 }
 
 function stateBadge(p){
-  const state=String(p.etatProduit||p.etat||'').trim();
-  return state ? `<span class="product-state-badge">${escapeHtml(state)}</span>` : '';
+  const raw=String(p.etatProduit||p.etat||'').trim();
+  if(!raw) return '';
+
+  const key=raw.toLowerCase();
+
+  let label=raw;
+  if(key==='neuf') label='Neuf';
+  else if(key==='seconde main' || key==='seconde-main' || key==='occasion') label='Seconde main';
+  else if(key==='retour client' || key==='customer return' || key==='customer returns') label='Retour client';
+  else if(key==='retour amazon' || key==='amazon return' || key==='amazon returns') label='Retour Amazon';
+
+  return `<span class="product-state-badge">${escapeHtml(label)}</span>`;
 }
 
-function card(p){let pc=p.prixRetail&&p.prixVente?Math.round((1-p.prixVente/p.prixRetail)*100):0,img=p.photos?.[0]||'';return `<article class="card"><div class="pic" onclick="details('${p.id}')" title="Voir le produit">${img?`<img src="${img}" alt="${p.nom||''}">`:'<div class="empty">PHOTO</div>'}<span class="badge status">${p.statut}</span><span class="badge brandbadge">${p.marque||''}</span></div><div class="info"><div class="name">${p.nom}</div>${stateBadge(p)}<div class="meta">${p.categorie||''} · Taille ${p.taille||'—'}${p.sku?' · Réf. '+p.sku:''}</div>${p.description?`<div class="desc">${p.description}</div>`:''}<div class="prices">${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}<span class="sale">${euro(p.prixVente)}</span>${pc>0?`<span class="discount">-${pc}%</span>`:''}</div><button class="btn details" onclick="details('${p.id}')">Voir le détail</button>${p.statut==='Disponible'&&p.stock!==0?`<button class="btn add" onclick="add('${p.id}')">Ajouter au panier</button>`:''}</div></article>`}
-function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2>${stateBadge(p)}<div class="meta">${p.categorie} · Taille ${p.taille||'—'} · ${p.statut}</div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
+
+function normalizedStatus(p){
+  return String(p?.statut||'').trim().toLowerCase();
+}
+function statusClass(p){
+  const s=normalizedStatus(p);
+  if(s==='vendu') return 'status-sold';
+  if(s==='réservé' || s==='reserve' || s==='reservé') return 'status-reserved';
+  return 'status-available';
+}
+function canAddToCart(p){
+  const s=normalizedStatus(p);
+  return s==='disponible' && Number(p.stock||0)!==0;
+}
+
+function card(p){
+  let pc=p.prixRetail&&p.prixVente?Math.round((1-p.prixVente/p.prixRetail)*100):0,
+      img=p.photos?.[0]||'',
+      canAdd=canAddToCart(p);
+
+  return `<article class="card">
+    <div class="pic" onclick="details('${p.id}')" title="Voir le produit">
+      ${img?`<img src="${img}" alt="${p.nom||''}">`:'<div class="empty">PHOTO</div>'}
+      <span class="badge status ${statusClass(p)}">${p.statut}</span>
+      <span class="badge brandbadge">${p.marque||''}</span>
+    </div>
+    <div class="info">
+      <div class="name">${p.nom}</div>
+      ${stateBadge(p)}
+      <div class="meta">${p.categorie||''} · Taille ${p.taille||'—'}${p.sku?' · Réf. '+p.sku:''}</div>
+      ${p.description?`<div class="desc">${p.description}</div>`:''}
+      <div class="prices">
+        ${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}
+        <span class="sale">${euro(p.prixVente)}</span>
+        ${pc>0?`<span class="discount">-${pc}%</span>`:''}
+      </div>
+      <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
+      <button class="btn add" ${canAdd?`onclick="add('${p.id}')"`:'disabled aria-disabled="true"'}>Ajouter au panier</button>
+    </div>
+  </article>`;
+}
+function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2>${stateBadge(p)}<div class="meta">${p.categorie} · Taille ${p.taille||'—'} <span class="detail-status ${statusClass(p)}">${p.statut}</span></div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
-function add(id){let p=products.find(x=>x.id===id);if(!cart.some(x=>x.id===id))cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart();openCart()}
+function add(id){let p=products.find(x=>x.id===id);if(!p||!canAddToCart(p))return;if(!cart.some(x=>x.id===id))cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart();openCart()}
 function removeItem(id){cart=cart.filter(x=>x.id!==id);localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart()}
 function updateCart(){document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartRows').innerHTML=cart.length?cart.map(x=>`<div class="cartrow"><div><b>${x.marque||''} ${x.nom}</b><div class="meta">Taille ${x.taille} · ${euro(x.prixVente)}</div></div><button onclick="removeItem('${x.id}')">Retirer</button></div>`).join(''):'Panier vide';document.getElementById('cartTotal').textContent=euro(cart.reduce((s,x)=>s+Number(x.prixVente||0),0))}
 function openCart(){document.getElementById('cart').classList.add('open')}function closeCart(){document.getElementById('cart').classList.remove('open')}

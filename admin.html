@@ -265,10 +265,12 @@
 <div id="list" class="list">Connectez l'API pour charger les produits.</div>
 </div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
-<div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div><div><label>État *</label><select id="etatProduit" required>
-<option value="">Sélectionner l’état</option>
-<option value="Neuf">Neuf</option>
-<option value="Seconde main">Seconde main</option>
+<div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div><div><label for="etatProduit">État du produit *</label><select id="etatProduit" name="etatProduit" required>
+  <option value="">Sélectionner l’état du produit</option>
+  <option value="Neuf">Neuf</option>
+  <option value="Seconde main">Seconde main</option>
+  <option value="Retour client">Retour client</option>
+  <option value="Retour Amazon">Retour Amazon</option>
 </select></div>
 <div><label>Catégorie *</label><select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
