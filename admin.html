@@ -250,7 +250,7 @@
 }
 
 
-#sousCategorie{width:100%}
+#sousCategorieSelect,#sousCategorieNew{width:100%}
 .souscat-help{font-size:12px;color:#666;margin-top:4px}
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
 <div class="box"><label>Adresse API sécurisée</label>
@@ -278,15 +278,23 @@
 <option>Vestes</option><option>Pulls</option><option>T-shirts</option><option>Accessoires</option><option>Jeans</option><option>Pantalons</option><option>Robes</option><option>Chemises</option></datalist></div>
 <div>
 <div class="field">
-  <label for="sousCategorie">Sous-catégorie</label>
+  <label for="sousCategorieSelect">Sous-catégorie</label>
+  <select id="sousCategorieSelect">
+    <option value="">Aucune / sélectionner une sous-catégorie</option>
+    <option value="__new__">+ Ajouter une nouvelle sous-catégorie</option>
+  </select>
+
   <input
-    id="sousCategorie"
-    name="sousCategorie"
+    id="sousCategorieNew"
     type="text"
-    placeholder="Ex. Robes, Pantalons, Baskets, Sneakers, Jardin, Réseau..."
+    placeholder="Nom de la nouvelle sous-catégorie"
     autocomplete="off"
+    style="display:none;margin-top:8px"
   >
-  <div class="souscat-help">Utilisée pour les filtres du catalogue public.</div>
+
+  <div class="souscat-help">
+    Les sous-catégories déjà utilisées dans cette catégorie sont proposées automatiquement.
+  </div>
 </div>
 <label>Taille</label><input id="taille"></div><div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
@@ -427,13 +435,114 @@ function renderList(){
   });
   $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
 }
+
+function escapeHtmlValue(s){
+  return String(s??'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function normalizeSubcat(s){
+  return String(s||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase()
+    .trim();
+}
+
+function getCurrentSousCategorie(){
+  const sel=$('sousCategorieSelect');
+  const input=$('sousCategorieNew');
+  if(!sel) return '';
+
+  if(sel.value==='__new__'){
+    return (input?.value||'').trim();
+  }
+  return (sel.value||'').trim();
+}
+
+function refreshSousCategories(selectedValue=''){
+  const cat=$('categorie');
+  const sel=$('sousCategorieSelect');
+  const input=$('sousCategorieNew');
+  if(!cat || !sel || !input) return;
+
+  const selectedCategory=(cat.value||'').trim();
+  const byKey=new Map();
+
+  for(const p of products){
+    if((p.categorie||'').trim()!==selectedCategory) continue;
+
+    const sub=(p.sousCategorie||p.sous_categorie||'').trim();
+    if(!sub) continue;
+
+    const key=normalizeSubcat(sub);
+    if(!byKey.has(key)) byKey.set(key,sub);
+  }
+
+  const existing=[...byKey.values()]
+    .sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
+
+  sel.innerHTML=
+    '<option value="">Aucune / sélectionner une sous-catégorie</option>'+
+    existing.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('')+
+    '<option value="__new__">+ Ajouter une nouvelle sous-catégorie</option>';
+
+  const wanted=(selectedValue||'').trim();
+
+  if(!wanted){
+    sel.value='';
+    input.value='';
+    input.style.display='none';
+    return;
+  }
+
+  const found=existing.find(v=>normalizeSubcat(v)===normalizeSubcat(wanted));
+
+  if(found){
+    sel.value=found;
+    input.value='';
+    input.style.display='none';
+  }else{
+    sel.value='__new__';
+    input.value=wanted;
+    input.style.display='block';
+  }
+}
+
+function bindSousCategorieControls(){
+  const cat=$('categorie');
+  const sel=$('sousCategorieSelect');
+  const input=$('sousCategorieNew');
+
+  if(cat){
+    cat.addEventListener('change',()=>refreshSousCategories(''));
+  }
+
+  if(sel){
+    sel.addEventListener('change',()=>{
+      if(sel.value==='__new__'){
+        input.style.display='block';
+        input.focus();
+      }else{
+        input.style.display='none';
+        input.value='';
+      }
+    });
+  }
+}
+
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('sousCategorie')) $('sousCategorie').value=p.sousCategorie||p.sous_categorie||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
-  ['nom','marque','categorie','sousCategorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
   $('stock').value=1;
   $('photos').value='';
+  refreshSousCategories('');
   selectedPhotoFiles=[];
   galleryItems=[];
   renderPhotoPreviews();
@@ -645,7 +754,7 @@ async function publish(){
       nom:$('nom').value.trim(),
       marque:$('marque').value.trim(),
       categorie:$('categorie').value.trim(),
-      sousCategorie: (document.getElementById('sousCategorie')?.value || '').trim(),
+      sousCategorie: getCurrentSousCategorie(),
 taille:$('taille').value.trim(),
       prixRetail:Number($('retail').value||0),
       prixVente:Number($('vente').value||0),
@@ -895,6 +1004,10 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closePhotoLightbox();
 });
 
+
+
+bindSousCategorieControls();
+refreshSousCategories('');
 </script>
 
 <div class="photo-lightbox" id="photoLightbox" onclick="lightboxBackdrop(event)">

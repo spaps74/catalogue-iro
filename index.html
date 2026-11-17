@@ -342,12 +342,23 @@ function inferredSaleType(p){
 }
 
 function subcategoriesForSaleType(type){
-  return [...new Set(
-    products
-      .filter(p => inferredSaleType(p)===type)
-      .map(p => explicitSubcategory(p))
-      .filter(Boolean)
-  )].sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
+  const byKey=new Map();
+
+  products
+    .filter(p => inferredSaleType(p)===type)
+    .map(p => explicitSubcategory(p))
+    .filter(Boolean)
+    .forEach(value=>{
+      const clean=String(value).trim();
+      const key=normSaleTxt(clean);
+
+      if(!byKey.has(key)){
+        byKey.set(key,clean);
+      }
+    });
+
+  return [...byKey.values()]
+    .sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
 }
 
 function saleTypeAllLabel(type){
