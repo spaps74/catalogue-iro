@@ -766,18 +766,19 @@
   },
   {
     "id": "iro-mules-iro-paris-39",
-    "nom": "Mules IRO Paris",
+    "nom": "Mules IRO Paris taille 37 – Neuves avec étiquettes",
     "marque": "IRO",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
     "categorie": "Baskets / Chaussures",
     "sousCategorie": "mules",
-    "taille": "39",
+    "taille": "37",
     "prixRetail": 345,
     "prixVente": 70,
     "statut": "Disponible",
     "sku": "",
     "stock": 1,
-    "description": "",
+    "description": "Ces mules IRO Paris sont proposées en taille 37. Elles sont neuves avec étiquettes et à retrouver chez Upstyle Destock.",
     "photos": [
       "photos/998.png",
       "photos/999.png"
