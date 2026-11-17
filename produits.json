@@ -971,6 +971,8 @@
     "id": "adidas-adidas-superstar-w-38-1-3",
     "nom": "Adidas Superstar W",
     "marque": "Adidas",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
     "categorie": "Baskets / Chaussures",
     "sousCategorie": "baskets",
     "taille": "38 1/3",
