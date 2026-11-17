@@ -326,6 +326,7 @@ function setCat(c,b){
   document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
   if(b) b.classList.add('active');
   render();
+  scrollToArticlesStart();
 }
 
 
@@ -453,6 +454,23 @@ function renderSubcategoryMenu(type){
   target.classList.add('open');
 }
 
+
+function scrollToArticlesStart(){
+  requestAnimationFrame(()=>{
+    const grid=document.getElementById('grid');
+    const header=document.querySelector('header');
+    if(!grid) return;
+
+    const headerHeight=header ? header.getBoundingClientRect().height : 0;
+    const targetTop=window.scrollY + grid.getBoundingClientRect().top - headerHeight - 10;
+
+    window.scrollTo({
+      top:Math.max(0,targetTop),
+      behavior:'smooth'
+    });
+  });
+}
+
 function selectSaleType(type,btn){
   category='Tous';
   saleTypeFilter=(saleTypeFilter===type ? '' : type);
@@ -466,6 +484,7 @@ function selectSaleType(type,btn){
 
   renderSubcategoryMenu(saleTypeFilter);
   render();
+  scrollToArticlesStart();
 }
 
 function selectSaleSubcat(sub,btn){
@@ -476,6 +495,7 @@ function selectSaleSubcat(sub,btn){
 
   if(btn) btn.classList.add('active');
   render();
+  scrollToArticlesStart();
 }
 
 function passesSaleFilters(p){
