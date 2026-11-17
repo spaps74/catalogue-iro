@@ -878,6 +878,7 @@
     "nom": "Adidas La Trainer OG",
     "marque": "Adidas",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
     "categorie": "Baskets / Chaussures",
     "sousCategorie": "baskets",
     "taille": "38",
