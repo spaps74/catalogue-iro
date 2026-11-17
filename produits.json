@@ -834,6 +834,8 @@
     "id": "g-star-robe-g-star",
     "nom": "Robe G-Star",
     "marque": "G-Star",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
     "categorie": "Vêtements",
     "sousCategorie": "robes",
     "taille": "",
