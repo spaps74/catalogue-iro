@@ -791,6 +791,7 @@
     "nom": "Pantalon G-Star",
     "marque": "G-Star",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
     "categorie": "Vêtements",
     "sousCategorie": "pantalons",
     "taille": "25",
