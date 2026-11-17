@@ -390,7 +390,7 @@ const norm=s=>String(s||'').toLowerCase().normalize("NFD").replace(/[\u0300-\u03
 async function load(){products=await (await fetch('produits.json?ts='+Date.now())).json();build();render();updateCart()}
 function build(){
   document.getElementById('cats').innerHTML=
-    '<button class="chip active" data-cat="Tous" onclick="selectAllProducts(this)">Tous</button>';
+    '<button class="chip active" data-cat="Tous" onclick="selectAllProducts(this)">Tout le catalogue</button>';
 
   for(const [id,key] of [['brand','marque'],['size','taille']]){
     document.getElementById(id).innerHTML=
