@@ -1,5 +1,27 @@
 [
   {
+    "id": "champion-sweat-zipe-hampion-rose-fuchsia",
+    "nom": "Sweat. zipé HAMPION Rose Fuchsia",
+    "marque": "Champion",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Vêtements",
+    "sousCategorie": "sweats",
+    "taille": "",
+    "prixRetail": 65,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "💗 Superbe veste zippée CHAMPION, coloris rose fuchsia éclatant, au style sportswear tendance !\n\nCaractéristiques :\n\n🏷️ Marque : CHAMPION\n\n📏 Taille : XS (Extra Small)\n\n🎨 Couleur : Rose fuchsia\n\n💕 Coupe sportswear moderne\n\n🔒 Fermeture zippée intégrale\n\n👌 Deux poches avant\n\n🖤 Col montant avec intérieur noir\n\n✨ Fermeture éclair avec tirette dorée\n\n⭐ Logo CHAMPION sur la poitrine\n\n🧥 Poignets et taille côtelés\n\nIdéale pour un look décontracté, sportif ou streetwear. À porter avec un jean, un legging ou un jogging !",
+    "photos": [
+      "photos/champion-sweat-zipe-hampion-rose-fuchsia-1794899761973-1.webp",
+      "photos/champion-sweat-zipe-hampion-rose-fuchsia-1794899763786-2.webp",
+      "photos/champion-sweat-zipe-hampion-rose-fuchsia-1794899765820-3.jpg",
+      "photos/champion-sweat-zipe-hampion-rose-fuchsia-1794899767560-4.webp"
+    ]
+  },
+  {
     "id": "calvin-klein-doudoune-sans-manches-calvin-klein-golf-portland-hybrid-vert-sauge",
     "nom": "Doudoune sans manches Calvin Klein Golf PORTLAND HYBRID – Vert sauge",
     "marque": "Calvin Klein",
