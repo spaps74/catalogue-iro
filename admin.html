@@ -253,12 +253,75 @@
 #sousCategorieSelect,#sousCategorieNew{width:100%}
 .souscat-help{font-size:12px;color:#666;margin-top:4px}
 
+#prevProductBtn:disabled,
 #nextProductBtn:disabled{
   opacity:.48;
   cursor:not-allowed;
 }
 
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div>
+
+.check-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.check-summary{
+  padding:11px 12px;
+  border-radius:12px;
+  background:#fff7c2;
+  border:1px solid #ead36a;
+  margin-bottom:10px;
+  font-size:13px;
+  font-weight:800;
+}
+.check-list{
+  display:grid;
+  gap:8px;
+}
+.check-item{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:center;
+  padding:11px;
+  border:1px solid #e5e5e5;
+  border-radius:12px;
+  background:#fff;
+}
+.check-item-title{
+  font-weight:900;
+}
+.check-reasons{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:6px;
+}
+.check-reason{
+  display:inline-flex;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#ffd600;
+  color:#111;
+  font-size:11px;
+  font-weight:900;
+  border:1px solid #111;
+}
+.check-ok{
+  padding:14px;
+  border-radius:12px;
+  background:#e8f7ec;
+  color:#17652d;
+  font-weight:900;
+}
+@media(max-width:700px){
+  .check-item{grid-template-columns:1fr}
+  .check-item button{width:100%}
+}
+
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
@@ -269,6 +332,17 @@
 <h2>Articles</h2>
 <input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, état, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
 <div id="list" class="list">Connectez l'API pour charger les produits.</div>
+</div>
+<div class="box hidden" id="productCheckBox">
+  <div class="check-head">
+    <div>
+      <h2 style="margin:0">Check produits</h2>
+      <div class="muted">Contrôle Catégorie / Sous-catégorie pour Vêtements et Baskets / Chaussures.</div>
+    </div>
+    <button type="button" onclick="hideProductCheck()">Fermer</button>
+  </div>
+  <div id="productCheckSummary" class="check-summary"></div>
+  <div id="productCheckList" class="check-list"></div>
 </div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
 <div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div><div><label for="etatProduit">État du produit *</label><select id="etatProduit" name="etatProduit" required>
@@ -325,6 +399,7 @@
   <button class="primary" onclick="publish()">Publier / Enregistrer</button>
   <button onclick="hideEditor()">Annuler</button>
   <button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button>
+  <button class="yellow hidden" id="prevProductBtn" type="button" onclick="editPreviousProduct()">← Produit précédent</button>
   <button class="yellow hidden" id="nextProductBtn" type="button" onclick="editNextProduct()">Produit suivant →</button>
 </div><div id="msg" class="publish-status hidden"></div></div>
 </div><div class="image-editor" id="imageEditor">
@@ -435,6 +510,7 @@ async function connect(){
     }
 
     renderList();
+    updateCheckProductsButton();
     setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) chargé(s).`,'ok');
   }catch(e){
     console.error(e);
@@ -456,6 +532,146 @@ function renderList(){
   });
   $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
 }
+
+
+function normalizeCheckValue(s){
+  return String(s||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase()
+    .trim();
+}
+
+function inferCheckMainCategory(p){
+  const cat=normalizeCheckValue(p.categorie);
+  const sub=normalizeCheckValue(p.sousCategorie||p.sous_categorie);
+
+  if(cat==='vetements' || cat==='vetement') return 'Vêtements';
+  if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)){
+    return 'Baskets / Chaussures';
+  }
+
+  const shoeLegacy=new Set([
+    'basket','baskets','chaussure','chaussures','sneaker','sneakers',
+    'botte','bottes','bottine','bottines','sandale','sandales','mule','mules',
+    'escarpin','escarpins','ballerine','ballerines'
+  ]);
+
+  const clothingLegacy=new Set([
+    'accessoire','accessoires','combi-short','combi short','pantalon','pantalons',
+    'jean','jeans','robe','robes','jupe','jupes','chemise','chemises',
+    'blouse','blouses','top','tops','t-shirt','t-shirts','tee-shirt','tee-shirts',
+    'pull','pulls','sweat','sweats','veste','vestes','manteau','manteaux',
+    'short','shorts','legging','leggings','cargo'
+  ]);
+
+  if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Baskets / Chaussures';
+  if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Vêtements';
+
+  return '';
+}
+
+function productCheckIssues(p){
+  const target=inferCheckMainCategory(p);
+  if(!target) return null;
+
+  const category=String(p.categorie||'').trim();
+  const subcategory=String(p.sousCategorie||p.sous_categorie||'').trim();
+  const issues=[];
+
+  if(category!==target){
+    issues.push({
+      type:'category',
+      label: category ? `Catégorie à corriger : ${category} → ${target}` : `Catégorie manquante → ${target}`
+    });
+  }
+
+  if(!subcategory){
+    issues.push({
+      type:'subcategory',
+      label:'Sous-catégorie manquante'
+    });
+  }
+
+  if(!issues.length) return null;
+
+  return {product:p,target,issues};
+}
+
+function getIncompleteCheckedProducts(){
+  return products
+    .map(productCheckIssues)
+    .filter(Boolean);
+}
+
+function updateCheckProductsButton(){
+  const btn=$('checkProductsBtn');
+  if(!btn) return;
+
+  if(!Array.isArray(products) || !products.length){
+    btn.textContent='✓ Check produits';
+    return;
+  }
+
+  const count=getIncompleteCheckedProducts().length;
+  btn.textContent=count ? `✓ Check produits (${count})` : '✓ Check produits';
+}
+
+function showProductCheck(){
+  if(!Array.isArray(products) || !products.length){
+    alert('Chargez d’abord le catalogue.');
+    return;
+  }
+
+  const rows=getIncompleteCheckedProducts();
+  const box=$('productCheckBox');
+  const summary=$('productCheckSummary');
+  const list=$('productCheckList');
+
+  const clothingCount=rows.filter(x=>x.target==='Vêtements').length;
+  const shoesCount=rows.filter(x=>x.target==='Baskets / Chaussures').length;
+  const missingCategoryCount=rows.filter(x=>x.issues.some(i=>i.type==='category')).length;
+  const missingSubCount=rows.filter(x=>x.issues.some(i=>i.type==='subcategory')).length;
+
+  summary.innerHTML=
+    `<b>${rows.length} annonce(s) à vérifier</b> · `+
+    `${clothingCount} Vêtements · ${shoesCount} Baskets / Chaussures · `+
+    `${missingCategoryCount} catégorie(s) à corriger · ${missingSubCount} sous-catégorie(s) manquante(s)`;
+
+  if(!rows.length){
+    list.innerHTML='<div class="check-ok">✓ Toutes les annonces Vêtements et Baskets / Chaussures ont une catégorie principale et une sous-catégorie.</div>';
+  }else{
+    list.innerHTML=rows.map(({product:p,target,issues})=>`
+      <div class="check-item">
+        <div>
+          <div class="check-item-title">${escapeHtmlValue(p.marque||'')} — ${escapeHtmlValue(p.nom||'Sans nom')}</div>
+          <div class="muted">
+            Catégorie actuelle : ${escapeHtmlValue(p.categorie||'—')} ·
+            Sous-catégorie : ${escapeHtmlValue(p.sousCategorie||p.sous_categorie||'—')} ·
+            Cible : ${escapeHtmlValue(target)}
+          </div>
+          <div class="check-reasons">
+            ${issues.map(i=>`<span class="check-reason">${escapeHtmlValue(i.label)}</span>`).join('')}
+          </div>
+        </div>
+        <button class="primary" type="button" onclick="editFromProductCheck('${String(p.id).replace(/'/g,"\\'")}')">Éditer</button>
+      </div>
+    `).join('');
+  }
+
+  box.classList.remove('hidden');
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+  updateCheckProductsButton();
+}
+
+function hideProductCheck(){
+  $('productCheckBox')?.classList.add('hidden');
+}
+
+function editFromProductCheck(id){
+  edit(id);
+}
+
 
 function escapeHtmlValue(s){
   return String(s??'')
@@ -557,29 +773,61 @@ function bindSousCategorieControls(){
 }
 
 
-function updateNextProductButton(){
-  const btn=$('nextProductBtn');
-  if(!btn) return;
+function updateProductNavigationButtons(){
+  const prevBtn=$('prevProductBtn');
+  const nextBtn=$('nextProductBtn');
+  if(!prevBtn || !nextBtn) return;
 
-  // Le bouton n'est utile qu'en mode modification.
   if(!editing){
-    btn.classList.add('hidden');
-    btn.disabled=false;
-    btn.textContent='Produit suivant →';
+    prevBtn.classList.add('hidden');
+    nextBtn.classList.add('hidden');
+    prevBtn.disabled=false;
+    nextBtn.disabled=false;
+    prevBtn.textContent='← Produit précédent';
+    nextBtn.textContent='Produit suivant →';
     return;
   }
 
   const index=products.findIndex(p=>p.id===editing);
-  btn.classList.remove('hidden');
 
-  if(index<0 || index>=products.length-1){
-    btn.disabled=true;
-    btn.textContent='Dernier produit';
-    return;
+  prevBtn.classList.remove('hidden');
+  nextBtn.classList.remove('hidden');
+
+  if(index<=0){
+    prevBtn.disabled=true;
+    prevBtn.textContent='Premier produit';
+  }else{
+    prevBtn.disabled=false;
+    prevBtn.textContent='← Produit précédent';
   }
 
-  btn.disabled=false;
-  btn.textContent='Produit suivant →';
+  if(index<0 || index>=products.length-1){
+    nextBtn.disabled=true;
+    nextBtn.textContent='Dernier produit';
+  }else{
+    nextBtn.disabled=false;
+    nextBtn.textContent='Produit suivant →';
+  }
+}
+
+
+function editPreviousProduct(){
+  if(!editing) return;
+
+  const index=products.findIndex(p=>p.id===editing);
+  if(index<=0) return;
+
+  const previous=products[index-1];
+  if(!previous) return;
+
+  edit(previous.id);
+
+  requestAnimationFrame(()=>{
+    const editor=$('editor');
+    if(editor){
+      editor.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
 }
 
 function editNextProduct(){
@@ -602,8 +850,8 @@ function editNextProduct(){
   });
 }
 
-function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateNextProductButton();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateNextProductButton();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
