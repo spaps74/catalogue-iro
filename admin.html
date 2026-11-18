@@ -427,7 +427,7 @@
     <option value="">Sélectionner une catégorie</option>
     <option value="Vêtements">Vêtements</option>
     <option value="Baskets / Chaussures">Baskets / Chaussures</option>
-    <option value="Informatique">Informatique</option>
+    <option value="Informatique / Tech">Informatique / Tech</option>
     <option value="Sports">Sports</option>
     <option value="Pour la maison">Pour la maison</option>
     <option value="Colis Perdus">Colis Perdus</option>
@@ -798,7 +798,11 @@ function refreshSousCategories(selectedValue=''){
   const byKey=new Map();
 
   for(const p of products){
-    if((p.categorie||'').trim()!==selectedCategory) continue;
+    const productCategory=(p.categorie||'').trim()==='Informatique'
+      ? 'Informatique / Tech'
+      : (p.categorie||'').trim();
+
+    if(productCategory!==selectedCategory) continue;
 
     const sub=(p.sousCategorie||p.sous_categorie||'').trim();
     if(!sub) continue;
@@ -938,7 +942,7 @@ function editNextProduct(){
 }
 
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&p.categorie==='Informatique')$('categorie').value='Informatique / Tech';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';

@@ -386,14 +386,14 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 <div class="sale-types">
   <button class="sale-type-btn" onclick="selectSaleType('Vêtements',this)">Vêtements</button>
   <button class="sale-type-btn" onclick="selectSaleType('Baskets / Chaussures',this)">Baskets / Chaussures</button>
-  <button class="sale-type-btn" onclick="selectSaleType('Informatique',this)">Informatique</button>
+  <button class="sale-type-btn" onclick="selectSaleType('Informatique / Tech',this)">Informatique / Tech</button>
   <button class="sale-type-btn" onclick="selectSaleType('Sports',this)">Sports</button>
   <button class="sale-type-btn" onclick="selectSaleType('Pour la maison',this)">Pour la maison</button>
   <button class="sale-type-btn" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus</button>
 </div>
 <div class="subcats" id="saleSubcats"></div>
 
-<div class="filters"><select id="brand" onchange="render()"><option value="">Toutes marques</option></select><select id="size" onchange="render()"><option value="">Toutes tailles</option></select><select id="genre" onchange="render()"><option value="">Tous genres</option><option value="Hommes">Hommes</option><option value="Femmes">Femmes</option><option value="Enfants">Enfants</option><option value="Mixte">Mixte</option></select><select id="status" onchange="render()"><option value="">Tous statuts</option><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div></div></header>
+<div class="filters"><select id="brand" onchange="render()"><option value="">Toutes marques</option></select><select id="size" onchange="render()"><option value="">Toutes tailles</option></select><span id="genreFilterWrap" style="display:none"><select id="genre" onchange="render()"><option value="">Tous genres</option><option value="Hommes">Hommes</option><option value="Femmes">Femmes</option><option value="Enfants">Enfants</option><option value="Mixte">Mixte</option></select></span><select id="status" onchange="render()"><option value="">Tous statuts</option><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div></div></header>
 <main><div class="grid" id="grid"></div><div class="footer" id="societe"><h3>Informations de la société</h3><b>UPSTYLE</b><br>SIRET : 100 863 596 00019<br>Forme juridique : SAS<br>51 allée du Cèdre, 74160 Vers<br><a href="tel:+33652623094">06 52 62 30 94</a><br><a href="mailto:stephane@upstyle-destock.fr">stephane@upstyle-destock.fr</a><br><br><a href="admin.html" style="opacity:.65;font-size:11px;text-decoration:none">🔒 Administration</a></div></main>
 <button class="cartfab" onclick="openCart()">Panier <span class="count" id="cartCount">0</span></button>
 <div class="overlay" id="cart"><div class="panel"><button class="close" onclick="closeCart()">×</button><h2>Votre panier</h2><div id="cartRows"></div><div class="total"><span>Total</span><span id="cartTotal"></span></div>
@@ -538,6 +538,7 @@ function build(){
       .join('');
 
   refreshSizeOptionsForCurrentCategory();
+  updateGenreFilterVisibility();
 }
 function setCat(c,b){
   if(c==='Tous'){ selectAllProducts(b); return; }
@@ -616,7 +617,7 @@ function inferredSaleType(p){
   // Valeurs principales actuelles saisies dans l'admin.
   if(['vetement','vetements'].includes(cat)) return 'Vêtements';
   if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Baskets / Chaussures';
-  if(cat==='informatique') return 'Informatique';
+  if(['informatique','informatique / tech','informatique/tech'].includes(cat)) return 'Informatique / Tech';
   if(['sport','sports'].includes(cat)) return 'Sports';
   if(['pour la maison','maison'].includes(cat)) return 'Pour la maison';
   if(['colis perdus','colis perdu','colis'].includes(cat)) return 'Colis Perdus';
@@ -633,7 +634,7 @@ function inferredSaleType(p){
   // Dernier filet de compatibilité pour les produits historiques.
   if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Baskets / Chaussures';
   if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Vêtements';
-  if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'Informatique';
+  if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'Informatique / Tech';
   if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Sports';
   if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Pour la maison';
   if(/colis perdu|colis perdus|lost parcel|lost parcels/.test(h)) return 'Colis Perdus';
@@ -726,6 +727,24 @@ function scrollToArticlesStart(){
   });
 }
 
+
+function updateGenreFilterVisibility(){
+  const wrap=document.getElementById('genreFilterWrap');
+  const genre=document.getElementById('genre');
+  if(!wrap || !genre) return;
+
+  const show =
+    saleTypeFilter==='Vêtements' ||
+    saleTypeFilter==='Baskets / Chaussures';
+
+  wrap.style.display=show ? 'inline-flex' : 'none';
+
+  // Un genre sélectionné ne doit jamais continuer à filtrer une autre catégorie.
+  if(!show){
+    genre.value='';
+  }
+}
+
 function selectSaleType(type,btn){
   category='Tous';
   saleTypeFilter=(saleTypeFilter===type ? '' : type);
@@ -739,6 +758,7 @@ function selectSaleType(type,btn){
 
   renderSubcategoryMenu(saleTypeFilter);
   refreshSizeOptionsForCurrentCategory();
+  updateGenreFilterVisibility();
   render();
   scrollToArticlesStart();
 }
@@ -798,6 +818,7 @@ function selectAllProducts(btn){
   if(btn) btn.classList.add('active');
 
   refreshSizeOptionsForCurrentCategory();
+  updateGenreFilterVisibility();
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
