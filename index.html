@@ -1357,21 +1357,21 @@ body{
   }
 }
 
-
-#catalogue.category-results-active{
+body.category-focus .trust-strip,
+body.category-focus .univers-section,
+body.category-focus .deals-section{
+  display:none !important;
+}
+body.category-focus #catalogue{
   margin-top:10px;
   padding-top:18px;
-  scroll-margin-top:8px;
 }
-#catalogue.category-results-active .section-head{
-  margin-bottom:10px;
-}
-#catalogue.category-results-active #catalogTitle{
+body.category-focus #catalogTitle{
   font-size:28px;
   font-weight:950;
 }
 @media(max-width:650px){
-  #catalogue.category-results-active #catalogTitle{font-size:22px}
+  body.category-focus #catalogTitle{font-size:22px}
 }
 </style></head><body>
 <header class="store-header">
@@ -1432,7 +1432,35 @@ body{
       <div class="hero-sale-badge"><small>JUSQU'À</small><strong id="heroMaxDiscount">-</strong><small>SUR UNE<br>SÉLECTION</small></div>
     </div>
   </section>
-  <div id="categoryResultsAnchor"></div>
+
+  <section class="trust-strip">
+    <div><b class="trust-icon">🚚</b><span><strong>Livraison rapide</strong><small>et suivie</small></span></div>
+    <div><b class="trust-icon">⬡</b><span><strong>Déstock & fins de série</strong><small>à prix avantageux</small></span></div>
+    <div><b class="trust-icon">🛡</b><span><strong>Paiement sécurisé</strong><small>et fiable</small></span></div>
+    <div><b class="trust-icon">🎧</b><span><strong>Service client réactif</strong><small>à votre écoute</small></span></div>
+  </section>
+
+  <section class="univers-section">
+    <div class="section-head">
+      <h2>Nos univers</h2>
+      <button type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">Voir tous les rayons →</button>
+    </div>
+    <div class="univers-grid">
+      <button onclick="selectSaleType('Mode',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
+      <button onclick="selectSaleType('Maison & Déco',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">🛋</span><b>Maison & Déco</b><em>→</em></button>
+      <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
+      <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
+      <button onclick="selectSaleType('Chaussures',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
+    </div>
+  </section>
+
+  <section class="deals-section" id="deals">
+    <div class="section-head deals-head">
+      <h2>Les deals du moment</h2>
+      <span class="destock-pill" id="destockMaxDiscount">🏷 Deals &gt; 75%</span>
+    </div>
+    <div class="grid deals-grid" id="dealsGrid"></div>
+  </section>
 
   <section class="catalog-section" id="catalogue">
     <div class="section-head">
@@ -1464,37 +1492,6 @@ body{
     <div class="grid" id="grid"></div>
   </section>
 
-
-
-
-  <section class="trust-strip">
-    <div><b class="trust-icon">🚚</b><span><strong>Livraison rapide</strong><small>et suivie</small></span></div>
-    <div><b class="trust-icon">⬡</b><span><strong>Déstock & fins de série</strong><small>à prix avantageux</small></span></div>
-    <div><b class="trust-icon">🛡</b><span><strong>Paiement sécurisé</strong><small>et fiable</small></span></div>
-    <div><b class="trust-icon">🎧</b><span><strong>Service client réactif</strong><small>à votre écoute</small></span></div>
-  </section>
-
-  <section class="univers-section">
-    <div class="section-head">
-      <h2>Nos univers</h2>
-      <button type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">Voir tous les rayons →</button>
-    </div>
-    <div class="univers-grid">
-      <button onclick="selectSaleType('Mode',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
-      <button onclick="selectSaleType('Maison & Déco',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">🛋</span><b>Maison & Déco</b><em>→</em></button>
-      <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
-      <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
-      <button onclick="selectSaleType('Chaussures',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
-    </div>
-  </section>
-
-  <section class="deals-section" id="deals">
-    <div class="section-head deals-head">
-      <h2>Les deals du moment</h2>
-      <span class="destock-pill" id="destockMaxDiscount">🏷 Deals &gt; 75%</span>
-    </div>
-    <div class="grid deals-grid" id="dealsGrid"></div>
-  </section>
   <section class="arrival-banner">
     <span>📣</span>
     <strong>Nouveaux arrivages chaque semaine !</strong>
@@ -1794,7 +1791,9 @@ function clothingSubcategoriesForGenre(genre){
   const byKey=new Map();
 
   products
-    .filter(p => inferredSaleType(p)==='Mode')
+    .filter(p => genre==='Enfants'
+      ? ['Mode','Chaussures'].includes(inferredSaleType(p))
+      : inferredSaleType(p)==='Mode')
     .filter(p => genderMatchesProduct(p,genre))
     .map(p => explicitSubcategory(p))
     .filter(Boolean)
@@ -1816,7 +1815,11 @@ function refreshSizeOptionsForCurrentCategory(){
 
   let source=products;
   if(saleTypeFilter){
-    source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
+    if(saleTypeFilter==='Mode' && saleGenreFilter==='Enfants'){
+      source=products.filter(p=>['Mode','Chaussures'].includes(inferredSaleType(p)));
+    }else{
+      source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
+    }
     if(saleTypeFilter==='Mode' && saleGenreFilter){
       source=source.filter(p=>genderMatchesProduct(p,saleGenreFilter));
     }
@@ -2000,7 +2003,6 @@ function renderSubcategoryMenu(type){
 
   if(!type) return;
 
-  // Sous-catégories uniquement là où elles sont utiles.
   if(type==='Mode'){
     renderClothingGenreMenu();
     return;
@@ -2033,10 +2035,10 @@ function renderSubcategoryMenu(type){
 
 function scrollToArticlesStart(){
   requestAnimationFrame(()=>{
-    const grid=document.getElementById('grid');
-    if(!grid) return;
+    const catalogue=document.getElementById('catalogue');
+    if(!catalogue) return;
 
-    const targetTop=window.scrollY + grid.getBoundingClientRect().top - 12;
+    const targetTop=window.scrollY + catalogue.getBoundingClientRect().top - 8;
 
     window.scrollTo({
       top:Math.max(0,targetTop),
@@ -2063,49 +2065,20 @@ function updateGenreFilterVisibility(){
   }
 }
 
-
-
-
-function scrollToCategoryResults(){
-  const anchor=document.getElementById('categoryResultsAnchor');
-  if(anchor){
-    const y=anchor.getBoundingClientRect().top + window.scrollY - 8;
-    window.scrollTo({top:y,behavior:'smooth'});
-    return;
-  }
-  const catalogue=document.getElementById('catalogue')||document.getElementById('grid');
-  if(catalogue){
-    const y=catalogue.getBoundingClientRect().top + window.scrollY - 8;
-    window.scrollTo({top:y,behavior:'smooth'});
-  }
-}
-
-
-function showSelectedCategoryResults(type){
-  const catalogue=document.getElementById('catalogue');
-  const title=document.getElementById('catalogTitle');
-
-  if(catalogue) catalogue.classList.add('category-results-active');
-  if(title) title.textContent=type || 'Tout le catalogue';
-
-  requestAnimationFrame(()=>{
-    if(!catalogue) return;
-    const y=window.scrollY + catalogue.getBoundingClientRect().top - 8;
-    window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
-  });
-}
-
 function selectSaleType(type,btn){
   category='Tous';
   saleTypeFilter=type;
   saleSubcatFilter='';
   saleGenreFilter='';
 
-  // Nettoyage des filtres provenant d'une autre catégorie.
+  // Nettoyer les filtres issus de la catégorie précédente.
+  const q=document.getElementById('q');
   const brand=document.getElementById('brand');
   const size=document.getElementById('size');
   const genre=document.getElementById('genre');
   const status=document.getElementById('status');
+
+  if(q) q.value='';
   if(brand) brand.value='';
   if(size) size.value='';
   if(genre) genre.value='';
@@ -2120,8 +2093,11 @@ function selectSaleType(type,btn){
   renderSubcategoryMenu(type);
   refreshSizeOptionsForCurrentCategory();
   updateGenreFilterVisibility();
+
+  document.body.classList.add('category-focus');
+
   render();
-  showSelectedCategoryResults(type);
+  scrollToArticlesStart();
 }
 
 function selectSaleSubcat(sub,btn){
@@ -2136,7 +2112,16 @@ function selectSaleSubcat(sub,btn){
 }
 
 function passesSaleFilters(p){
-  if(saleTypeFilter && inferredSaleType(p)!==saleTypeFilter) return false;
+  const inferredType=inferredSaleType(p);
+
+  if(
+    saleTypeFilter==='Mode' &&
+    saleGenreFilter==='Enfants'
+  ){
+    if(!['Mode','Chaussures'].includes(inferredType)) return false;
+  }else if(saleTypeFilter && inferredType!==saleTypeFilter){
+    return false;
+  }
 
   if(
     saleTypeFilter==='Mode' &&
@@ -2187,9 +2172,8 @@ function selectAllProducts(btn){
 
   refreshSizeOptionsForCurrentCategory();
   updateGenreFilterVisibility();
+  document.body.classList.remove('category-focus');
   render();
-  const title=document.getElementById('catalogTitle');
-  if(title) title.textContent='Tout le catalogue';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -2388,7 +2372,13 @@ function render(){
 
   const title=document.getElementById('catalogTitle');
   if(title){
-    title.textContent = saleTypeFilter || (q ? `Résultats : ${document.getElementById('q').value}` : 'Tout le catalogue');
+    if(q){
+      title.textContent=`Résultats : ${document.getElementById('q').value}`;
+    }else if(saleTypeFilter){
+      title.textContent=saleTypeFilter;
+    }else{
+      title.textContent='Tout le catalogue';
+    }
   }
 
   document.getElementById('grid').innerHTML =
@@ -2900,5 +2890,26 @@ loadPayPal();
 
 
 
+
+function updateScrollTopButton(){
+  const btn=document.getElementById('scrollTopBtn');
+  if(!btn) return;
+
+  // Afficher après environ 2 à 3 lignes de produits / ~900 px de scroll.
+  const threshold=Math.max(700, window.innerHeight*0.9);
+  btn.classList.toggle('show', window.scrollY > threshold);
+}
+
+window.addEventListener('scroll', updateScrollTopButton, {passive:true});
+window.addEventListener('resize', updateScrollTopButton);
+
+document.addEventListener('click', e=>{
+  const btn=e.target.closest && e.target.closest('#scrollTopBtn');
+  if(!btn) return;
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+document.addEventListener('DOMContentLoaded', updateScrollTopButton);
+updateScrollTopButton();
 </script>
 </body></html>
