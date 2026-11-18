@@ -1,5 +1,29 @@
 [
   {
+    "id": "nautica-veste-nautica-homme-m",
+    "nom": "Veste Nautica Homme",
+    "marque": "Nautica",
+    "etatProduit": "Seconde main",
+    "miseEnPremierePage": false,
+    "categorie": "Vêtements",
+    "sousCategorie": "vestes",
+    "genre": "Hommes",
+    "taille": "M",
+    "prixRetail": 29,
+    "prixVente": 120,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "🌟 Belle veste Nautica pour homme, élégante, confortable et idéale pour la mi-saison !\n\n🧥 Caractéristiques :\n\nMarque : Nautica\n\nTaille : M\n\nCouleur : Bleu marine foncé\n\nÉtat : Très bon état\n\nMatière extérieure déperlante (Water Resistant)\n\nCoupe-vent (Wind Resistant)\n\nTissu stretch pour une meilleure liberté de mouvement\n\nDoublure intérieure chaude et douce\n\nFermeture zippée intégrale\n\n2 poches avant zippées\n\nCol montant et poignets élastiqués\n\nFinitions soignées avec logo Nautica discret au dos du col\n\n✨ Une veste polyvalente, parfaite pour un look casual, urbain ou sportif. Facile à associer avec un jean ou un chino.",
+    "photos": [
+      "photos/nautica-veste-nautica-homme-m-1795000861014-1.webp",
+      "photos/nautica-veste-nautica-homme-m-1795000862643-2.webp",
+      "photos/nautica-veste-nautica-homme-m-1795000864122-3.webp",
+      "photos/nautica-veste-nautica-homme-m-1795000865735-4.jpg",
+      "photos/nautica-veste-nautica-homme-m-1795000867230-5.jpg"
+    ]
+  },
+  {
     "id": "nautica-veste-nautica-homme",
     "nom": "Veste Nautica Homme",
     "marque": "Nautica",
