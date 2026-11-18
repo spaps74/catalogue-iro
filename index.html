@@ -1582,7 +1582,13 @@ const WORKER_URL='https://soft-tree-927f.stephane-0f5.workers.dev';
 let products=[],category='Tous',saleTypeFilter='',saleSubcatFilter='',saleGenreFilter='',cart=JSON.parse(localStorage.getItem('upstyle_cart_v2')||'[]');
 let paypalReady=false;
 const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n||0));
-const norm=s=>String(s||'').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'');
+const norm=s=>String(s||'')
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,'')
+  .replace(/[^a-z0-9]+/g,' ')
+  .trim()
+  .replace(/\s+/g,' ');
 async function load(){products=await (await fetch('produits.json?ts='+Date.now())).json();build();updateMaxDiscountBadges();render();updateCart();updateScrollUI()}
 function build(){
   document.getElementById('cats').innerHTML=
@@ -1677,7 +1683,7 @@ function clothingSubcategoriesForGenre(genre){
   const byKey=new Map();
 
   products
-    .filter(p => inferredSaleType(p)==='Vêtements')
+    .filter(p => inferredSaleType(p)==='Mode')
     .filter(p => genderMatchesProduct(p,genre))
     .map(p => explicitSubcategory(p))
     .filter(Boolean)
@@ -1788,15 +1794,12 @@ function subcategoriesForSaleType(type){
 }
 
 function saleTypeAllLabel(type){
-  if(type==='Mode') return 'Tous les vêtements';
   if(type==='Mode') return 'Toute la mode';
   if(type==='Maison & Déco') return 'Toute la maison & déco';
   if(type==='Colis Perdus') return 'Tous les colis perdus';
   if(type==='Chaussures') return 'Toutes les chaussures';
   if(type==='High-Tech') return 'Tout le high-tech';
   if(type==='Loisirs') return 'Tous les loisirs';
-  if(type==='Pour la maison') return 'Toute la maison';
-  if(type==='Colis Perdus') return 'Tous les colis perdus';
   return 'Tous';
 }
 
@@ -2115,20 +2118,44 @@ function render(){
   let list;
 
   if(q){
-    // Recherche GLOBALE dans tout le catalogue.
-    list = products.filter(p =>
-      norm([
-        p.nom,
-        p.marque,
-        p.categorie,
-        p.sousCategorie,
-        p.sous_categorie,
-        p.taille,
-        p.genre,
-        p.description,
-        p.sku
-      ].join(' ')).includes(q)
-    );
+    // Si la saisie correspond exactement à une catégorie, on privilégie
+    // cette catégorie afin d'éviter les faux positifs dans descriptions/noms.
+    const categoryAliases = {
+      'mode': 'Mode',
+      'vetements': 'Mode',
+      'vetement': 'Mode',
+      'chaussures': 'Chaussures',
+      'baskets chaussures': 'Chaussures',
+      'high tech': 'High-Tech',
+      'informatique': 'High-Tech',
+      'loisirs': 'Loisirs',
+      'sports': 'Loisirs',
+      'sport': 'Loisirs',
+      'maison deco': 'Maison & Déco',
+      'maison et deco': 'Maison & Déco',
+      'pour la maison': 'Maison & Déco',
+      'colis perdus': 'Colis Perdus'
+    };
+    const exactCategory = categoryAliases[q];
+
+    if(exactCategory){
+      list = products.filter(p => norm(p.categorie) === norm(exactCategory));
+    }else{
+      // Recherche GLOBALE dans tout le catalogue.
+      list = products.filter(p =>
+        norm([
+          p.nom,
+          p.marque,
+          p.categorie,
+          p.sousCategorie,
+          p.sous_categorie,
+          p.taille,
+          p.genre,
+          p.description,
+          p.sku
+        ].join(' ')).includes(q)
+      );
+    }
   }else{
     list = products.filter(p =>
       passesSaleFilters(p) &&
