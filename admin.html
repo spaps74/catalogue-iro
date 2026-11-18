@@ -380,6 +380,51 @@
   .ai-button{width:100%}
 }
 
+
+.brand-autocomplete{
+  position:relative;
+}
+.brand-autocomplete-list{
+  position:absolute;
+  z-index:80;
+  top:calc(100% + 5px);
+  left:0;
+  right:0;
+  max-height:260px;
+  overflow:auto;
+  background:#fff;
+  border:1px solid #d7d7d7;
+  border-radius:10px;
+  box-shadow:0 10px 28px rgba(0,0,0,.14);
+  display:none;
+}
+.brand-autocomplete-list.open{
+  display:block;
+}
+.brand-autocomplete-item{
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:14px;
+  border-bottom:1px solid #f0f0f0;
+}
+.brand-autocomplete-item:last-child{
+  border-bottom:0;
+}
+.brand-autocomplete-item:hover,
+.brand-autocomplete-item.active{
+  background:#fff7bf;
+}
+.brand-autocomplete-empty{
+  padding:10px 12px;
+  color:#777;
+  font-size:12px;
+}
+.brand-autocomplete-help{
+  margin-top:5px;
+  color:#777;
+  font-size:11px;
+}
+
 </style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
@@ -404,7 +449,23 @@
   <div id="productCheckList" class="check-list"></div>
 </div>
 <div class="box hidden" id="editor"><h2 id="editTitle">Nouvel article</h2><div class="grid">
-<div><label>Nom du produit *</label><input id="nom"></div><div><label>Marque *</label><input id="marque"></div><div><label for="etatProduit">État du produit *</label><select id="etatProduit" name="etatProduit" required>
+<div><label>Nom du produit *</label><input id="nom"></div>
+<div>
+  <label>Marque *</label>
+  <div class="brand-autocomplete" id="brandAutocomplete">
+    <input
+      id="marque"
+      type="text"
+      autocomplete="off"
+      placeholder="Commencez à taper une marque…"
+      onfocus="showBrandSuggestions()"
+      oninput="showBrandSuggestions()"
+      onkeydown="brandAutocompleteKeydown(event)"
+    >
+    <div class="brand-autocomplete-list" id="brandSuggestions"></div>
+  </div>
+  <div class="brand-autocomplete-help">Marques existantes proposées automatiquement · saisie libre pour ajouter une nouvelle marque.</div>
+</div><div><label for="etatProduit">État du produit *</label><select id="etatProduit" name="etatProduit" required>
   <option value="">Sélectionner l’état du produit</option>
   <option value="Neuf">Neuf</option>
   <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
@@ -532,6 +593,150 @@ let products=[],editing=null,oldPhotos=[];
 let selectedPhotoFiles=[];
 let galleryItems=[];
 const $=id=>document.getElementById(id);
+
+let brandSuggestionIndex=-1;
+
+function normalizeBrandText(value){
+  return String(value||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase()
+    .trim();
+}
+
+function existingBrands(){
+  const map=new Map();
+
+  for(const p of products){
+    const brand=String(p?.marque||'').trim();
+    if(!brand) continue;
+
+    const key=normalizeBrandText(brand);
+    if(!map.has(key)) map.set(key,brand);
+  }
+
+  return [...map.values()].sort((a,b)=>
+    a.localeCompare(b,'fr',{sensitivity:'base',numeric:true})
+  );
+}
+
+function matchingBrands(query){
+  const brands=existingBrands();
+  const q=normalizeBrandText(query);
+
+  if(!q) return brands.slice(0,50);
+
+  const starts=[];
+  const contains=[];
+
+  for(const brand of brands){
+    const n=normalizeBrandText(brand);
+
+    if(n.startsWith(q)){
+      starts.push(brand);
+    }else if(n.includes(q)){
+      contains.push(brand);
+    }
+  }
+
+  return [...starts,...contains].slice(0,50);
+}
+
+function closeBrandSuggestions(){
+  const list=$('brandSuggestions');
+  if(!list) return;
+  list.classList.remove('open');
+  brandSuggestionIndex=-1;
+}
+
+function selectBrandSuggestion(value){
+  const input=$('marque');
+  if(!input) return;
+
+  input.value=value;
+  closeBrandSuggestions();
+  input.focus();
+}
+
+function renderBrandSuggestions(){
+  const input=$('marque');
+  const list=$('brandSuggestions');
+  if(!input || !list) return;
+
+  const matches=matchingBrands(input.value);
+  brandSuggestionIndex=-1;
+
+  if(!matches.length){
+    const typed=String(input.value||'').trim();
+
+    list.innerHTML=
+      `<div class="brand-autocomplete-empty">${
+        typed
+          ? `Aucune marque existante correspondante. « ${escapeHtml(typed)} » sera enregistrée comme nouvelle marque.`
+          : 'Aucune marque existante dans le catalogue.'
+      }</div>`;
+
+    list.classList.add('open');
+    return;
+  }
+
+  list.innerHTML=matches.map((brand,index)=>`
+    <div
+      class="brand-autocomplete-item"
+      data-brand-index="${index}"
+      onmousedown="event.preventDefault();selectBrandSuggestion(${JSON.stringify(brand).replace(/</g,'\\u003c')})"
+    >${escapeHtml(brand)}</div>
+  `).join('');
+
+  list.classList.add('open');
+}
+
+function showBrandSuggestions(){
+  renderBrandSuggestions();
+}
+
+function brandAutocompleteKeydown(event){
+  const list=$('brandSuggestions');
+  if(!list) return;
+
+  const items=[...list.querySelectorAll('.brand-autocomplete-item')];
+
+  if(event.key==='Escape'){
+    closeBrandSuggestions();
+    return;
+  }
+
+  if(!items.length) return;
+
+  if(event.key==='ArrowDown'){
+    event.preventDefault();
+    brandSuggestionIndex=Math.min(brandSuggestionIndex+1,items.length-1);
+  }else if(event.key==='ArrowUp'){
+    event.preventDefault();
+    brandSuggestionIndex=Math.max(brandSuggestionIndex-1,0);
+  }else if(event.key==='Enter' && brandSuggestionIndex>=0){
+    event.preventDefault();
+    const brand=items[brandSuggestionIndex]?.textContent?.trim();
+    if(brand) selectBrandSuggestion(brand);
+    return;
+  }else{
+    return;
+  }
+
+  items.forEach((item,index)=>
+    item.classList.toggle('active',index===brandSuggestionIndex)
+  );
+
+  items[brandSuggestionIndex]?.scrollIntoView({block:'nearest'});
+}
+
+document.addEventListener('pointerdown',event=>{
+  const wrap=$('brandAutocomplete');
+  if(wrap && !wrap.contains(event.target)){
+    closeBrandSuggestions();
+  }
+});
+
 function cfg(){return {api:$('api').value.trim().replace(/\/$/,''),key:$('key').value}}
 function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
 $('api').value='https://soft-tree-927f.stephane-0f5.workers.dev';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
@@ -597,6 +802,7 @@ async function connect(){
     }
 
     renderList();
+    closeBrandSuggestions();
     updateCheckProductsButton();
     setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) chargé(s).`,'ok');
   }catch(e){
@@ -941,7 +1147,7 @@ function editNextProduct(){
   });
 }
 
-function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];closeBrandSuggestions();clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&p.categorie==='Informatique')$('categorie').value='Informatique / Tech';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
@@ -1359,6 +1565,7 @@ async function publish(){
     if(!r.ok) throw new Error(t);
 
     products=await req('/products');
+    closeBrandSuggestions();
     const saved=products.find(p=>p.id===data.id);
     if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
     renderList();
