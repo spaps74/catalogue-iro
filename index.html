@@ -1357,8 +1357,10 @@ body{
   }
 }
 
-body.category-focus .trust-strip,
-body.category-focus .univers-section,
+/* En mode catégorie :
+   - on garde visibles la bande de réassurance et "Nos univers"
+     pour qu'ils réapparaissent naturellement quand on remonte ;
+   - on masque seulement les deals pour éviter de mélanger les résultats. */
 body.category-focus .deals-section{
   display:none !important;
 }
