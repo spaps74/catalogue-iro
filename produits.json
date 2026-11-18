@@ -1,5 +1,27 @@
 [
   {
+    "id": "miboxer-miboxer-fut036w-controleur-wifi-pour-bande-led-monochrome",
+    "nom": "Miboxer FUT036W : contrôleur WiFi pour bande LED monochrome",
+    "marque": "Miboxer",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Informatique",
+    "sousCategorie": "Contrôleurs LED",
+    "taille": "",
+    "prixRetail": 24,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Le contrôleur Miboxer FUT036W permet de piloter une bande LED monochrome et d'en régler l'intensité lumineuse. Il prend en charge la commande vocale avec Alexa et Google, ainsi que le contrôle à distance via l'application TUYA et le Bluetooth 4.2. État : retour Amazon comme neuf.",
+    "photos": [
+      "photos/miboxer-miboxer-fut036w-controleur-wifi-pour-bande-led-monochrome-1794978047894-1.avif",
+      "photos/miboxer-miboxer-fut036w-controleur-wifi-pour-bande-led-monochrome-1794978049641-2.avif",
+      "photos/miboxer-miboxer-fut036w-controleur-wifi-pour-bande-led-monochrome-1794978051303-3.avif",
+      "photos/miboxer-miboxer-fut036w-controleur-wifi-pour-bande-led-monochrome-1794978052864-4.avif"
+    ]
+  },
+  {
     "id": "btf-lighting-btf-lighting-tuya-zigbee-c05z-controleur-pour-bande-led-rgbcct",
     "nom": "BTF-LIGHTING Tuya Zigbee C05Z – Contrôleur pour bande LED RGBCCT",
     "marque": "BTF-LIGHTING",
