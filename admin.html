@@ -457,7 +457,7 @@
   <div class="check-head">
     <div>
       <h2 style="margin:0">Check produits</h2>
-      <div class="muted">Contrôle Catégorie / Sous-catégorie pour Vêtements et Baskets / Chaussures.</div>
+      <div class="muted">Contrôle Catégorie / Sous-catégorie pour Vêtements et Chaussures.</div>
     </div>
     <button type="button" onclick="hideProductCheck()">Fermer</button>
   </div>
@@ -495,9 +495,9 @@
 <div><label>Catégorie *</label><select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
     <option value="Vêtements">Vêtements</option>
-    <option value="Baskets / Chaussures">Baskets / Chaussures</option>
-    <option value="Informatique / Tech">Informatique / Tech</option>
-    <option value="Sports">Sports</option>
+    <option value="Chaussures">Chaussures</option>
+    <option value="High-Tech">High-Tech</option>
+    <option value="Loisirs">Loisirs</option>
     <option value="Pour la maison">Pour la maison</option>
     <option value="Colis Perdus">Colis Perdus</option>
   </select><datalist id="catlist"><option>Chaussures</option>
@@ -860,7 +860,7 @@ function inferCheckMainCategory(p){
 
   if(cat==='vetements' || cat==='vetement') return 'Vêtements';
   if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)){
-    return 'Baskets / Chaussures';
+    return 'Chaussures';
   }
 
   const shoeLegacy=new Set([
@@ -877,7 +877,7 @@ function inferCheckMainCategory(p){
     'short','shorts','legging','leggings','cargo'
   ]);
 
-  if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Baskets / Chaussures';
+  if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Chaussures';
   if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Vêtements';
 
   return '';
@@ -941,17 +941,17 @@ function showProductCheck(){
   const list=$('productCheckList');
 
   const clothingCount=rows.filter(x=>x.target==='Vêtements').length;
-  const shoesCount=rows.filter(x=>x.target==='Baskets / Chaussures').length;
+  const shoesCount=rows.filter(x=>x.target==='Chaussures').length;
   const missingCategoryCount=rows.filter(x=>x.issues.some(i=>i.type==='category')).length;
   const missingSubCount=rows.filter(x=>x.issues.some(i=>i.type==='subcategory')).length;
 
   summary.innerHTML=
     `<b>${rows.length} annonce(s) à vérifier</b> · `+
-    `${clothingCount} Vêtements · ${shoesCount} Baskets / Chaussures · `+
+    `${clothingCount} Vêtements · ${shoesCount} Chaussures · `+
     `${missingCategoryCount} catégorie(s) à corriger · ${missingSubCount} sous-catégorie(s) manquante(s)`;
 
   if(!rows.length){
-    list.innerHTML='<div class="check-ok">✓ Toutes les annonces Vêtements et Baskets / Chaussures ont une catégorie principale et une sous-catégorie.</div>';
+    list.innerHTML='<div class="check-ok">✓ Toutes les annonces Vêtements et Chaussures ont une catégorie principale et une sous-catégorie.</div>';
   }else{
     list.innerHTML=rows.map(({product:p,target,issues})=>`
       <div class="check-item">
@@ -1024,7 +1024,7 @@ function refreshSousCategories(selectedValue=''){
 
   for(const p of products){
     const productCategory=(p.categorie||'').trim()==='Informatique'
-      ? 'Informatique / Tech'
+      ? 'High-Tech'
       : (p.categorie||'').trim();
 
     if(productCategory!==selectedCategory) continue;
@@ -1167,7 +1167,7 @@ function editNextProduct(){
 }
 
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];closeBrandSuggestions();clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&p.categorie==='Informatique')$('categorie').value='Informatique / Tech';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&['Informatique','Informatique / Tech'].includes(p.categorie))$('categorie').value='High-Tech';if($('categorie')&&['Sport','Sports'].includes(p.categorie))$('categorie').value='Loisirs';if($('categorie')&&['Basket','Baskets','Baskets / Chaussures'].includes(p.categorie))$('categorie').value='Chaussures';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';

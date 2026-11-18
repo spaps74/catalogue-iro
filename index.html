@@ -1262,9 +1262,9 @@ body{
       <div class="sale-types">
         <button class="sale-type-btn" onclick="selectSaleType('Vêtements',this)">Mode⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Pour la maison',this)">Maison & Déco⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Informatique / Tech',this)">High-Tech⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Sports',this)">Loisirs⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Baskets / Chaussures',this)">Chaussures</button>
+        <button class="sale-type-btn" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures</button>
         <button class="deal-nav-btn" type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">🏷 Bons plans</button>
       </div>
       <div class="subcats" id="saleSubcats"></div>
@@ -1302,9 +1302,9 @@ body{
     <div class="univers-grid">
       <button onclick="selectSaleType('Vêtements',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
       <button onclick="selectSaleType('Pour la maison',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">🛋</span><b>Maison & Déco</b><em>→</em></button>
-      <button onclick="selectSaleType('Informatique / Tech',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
-      <button onclick="selectSaleType('Sports',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
-      <button onclick="selectSaleType('Baskets / Chaussures',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
+      <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
+      <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
+      <button onclick="selectSaleType('Chaussures',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
     </div>
   </section>
 
@@ -1695,15 +1695,15 @@ function inferredSaleType(p){
 
   // Valeurs principales actuelles saisies dans l'admin.
   if(['vetement','vetements'].includes(cat)) return 'Vêtements';
-  if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Baskets / Chaussures';
-  if(['informatique','informatique / tech','informatique/tech'].includes(cat)) return 'Informatique / Tech';
-  if(['sport','sports'].includes(cat)) return 'Sports';
+  if(['chaussures','chaussure','baskets','basket','baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Chaussures';
+  if(['high-tech','high tech','hightech','informatique','informatique / tech','informatique/tech'].includes(cat)) return 'High-Tech';
+  if(['loisir','loisirs','sport','sports'].includes(cat)) return 'Loisirs';
   if(['pour la maison','maison'].includes(cat)) return 'Pour la maison';
   if(['colis perdus','colis perdu','colis'].includes(cat)) return 'Colis Perdus';
 
   // Compatibilité anciens produits / anciennes catégories.
   if(/^(basket|baskets|chaussure|chaussures|sneaker|sneakers|botte|bottes|bottine|bottines|sandale|sandales|mule|mules|escarpin|escarpins|ballerine|ballerines)$/.test(cat)){
-    return 'Baskets / Chaussures';
+    return 'Chaussures';
   }
 
   if(/^(accessoire|accessoires|combi-short|combi short|pantalon|pantalons|jean|jeans|robe|robes|jupe|jupes|chemise|chemises|blouse|blouses|top|tops|t-shirt|t-shirts|pull|pulls|sweat|sweats|veste|vestes|manteau|manteaux|short|shorts|legging|leggings|cargo)$/.test(cat)){
@@ -1711,10 +1711,10 @@ function inferredSaleType(p){
   }
 
   // Dernier filet de compatibilité pour les produits historiques.
-  if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Baskets / Chaussures';
+  if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Chaussures';
   if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Vêtements';
-  if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'Informatique / Tech';
-  if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Sports';
+  if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'High-Tech';
+  if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Loisirs';
   if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Pour la maison';
   if(/colis perdu|colis perdus|lost parcel|lost parcels/.test(h)) return 'Colis Perdus';
 
@@ -1743,9 +1743,9 @@ function subcategoriesForSaleType(type){
 
 function saleTypeAllLabel(type){
   if(type==='Vêtements') return 'Tous les vêtements';
-  if(type==='Baskets / Chaussures') return 'Toutes les chaussures';
-  if(type==='Informatique / Tech') return 'Toute l’informatique / tech';
-  if(type==='Sports') return 'Tous les sports';
+  if(type==='Chaussures') return 'Toutes les chaussures';
+  if(type==='High-Tech') return 'Tout le high-tech';
+  if(type==='Loisirs') return 'Tous les loisirs';
   if(type==='Pour la maison') return 'Toute la maison';
   if(type==='Colis Perdus') return 'Tous les colis perdus';
   return 'Tous';
@@ -1890,7 +1890,7 @@ function updateGenreFilterVisibility(){
 
   const show =
     saleTypeFilter==='Vêtements' ||
-    saleTypeFilter==='Baskets / Chaussures';
+    saleTypeFilter==='Chaussures';
 
   wrap.style.display=show ? 'inline-flex' : 'none';
 
