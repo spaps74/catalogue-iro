@@ -1266,6 +1266,96 @@ body{
   text-transform:uppercase;
   box-shadow:0 0 0 1px rgba(0,0,0,.08);
 }
+
+.header-search{position:relative;z-index:120}
+.search-results-panel{
+  display:none;
+  position:absolute;
+  top:calc(100% + 8px);
+  left:0;
+  right:0;
+  background:#fff;
+  color:#111;
+  border:1px solid #e8e3d8;
+  border-radius:16px;
+  box-shadow:0 18px 45px rgba(0,0,0,.22);
+  max-height:min(68vh,560px);
+  overflow:auto;
+  padding:8px;
+  z-index:9999;
+}
+.search-results-panel.open{display:block}
+.search-result-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:7px 8px 9px;
+  font-size:12px;
+  font-weight:900;
+  border-bottom:1px solid #eee8dc;
+  margin-bottom:4px;
+}
+.search-result-item{
+  width:100%;
+  display:grid;
+  grid-template-columns:58px minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  border:0;
+  background:#fff;
+  color:#111;
+  text-align:left;
+  padding:8px;
+  border-radius:12px;
+  cursor:pointer;
+}
+.search-result-item:hover{background:#f7f4ed}
+.search-result-thumb{
+  width:58px;
+  height:58px;
+  border-radius:10px;
+  object-fit:contain;
+  background:#fff;
+  border:1px solid #eee;
+}
+.search-result-info{min-width:0}
+.search-result-name{
+  font-size:12px;
+  font-weight:900;
+  line-height:1.25;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.search-result-meta{
+  margin-top:3px;
+  font-size:10px;
+  color:#777;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.search-result-price{
+  font-size:13px;
+  font-weight:950;
+  white-space:nowrap;
+}
+.search-result-empty{
+  padding:14px 10px;
+  text-align:center;
+  color:#777;
+  font-size:12px;
+}
+@media(max-width:650px){
+  .search-results-panel{
+    position:fixed;
+    top:74px;
+    left:10px;
+    right:10px;
+    max-height:65vh;
+  }
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -1276,7 +1366,8 @@ body{
 
       <div class="header-search">
         <span class="search-icon">⌕</span>
-        <input class="search" id="q" placeholder="Rechercher un produit, une marque..." oninput="render()">
+        <input class="search" id="q" placeholder="Rechercher un produit, une marque..." oninput="render()" autocomplete="off">
+        <div class="search-results-panel" id="searchResultsPanel"></div>
       </div>
 
       <div class="header-actions">
@@ -2108,6 +2199,59 @@ function renderDeals(){
     : '<div class="empty">Aucun produit à plus de 75% de remise.</div>';
 }
 
+
+function renderSearchResults(list,q){
+  const panel=document.getElementById('searchResultsPanel');
+  if(!panel) return;
+
+  if(!q){
+    panel.classList.remove('open');
+    panel.innerHTML='';
+    return;
+  }
+
+  const shown=(list||[]).slice(0,12);
+  const label=(list||[]).length===1?'1 produit':`${(list||[]).length} produits`;
+
+  panel.innerHTML=`
+    <div class="search-result-head">
+      <span>${label} trouvé${(list||[]).length>1?'s':''}</span>
+      <span>${escapeHtml(document.getElementById('q').value)}</span>
+    </div>
+    ${shown.length ? shown.map(p=>{
+      const img=(p.photos&&p.photos[0])||'';
+      return `
+        <button type="button" class="search-result-item" onclick="openSearchProduct('${p.id}')">
+          ${img?`<img class="search-result-thumb" src="${img}" alt="">`:`<div class="search-result-thumb"></div>`}
+          <span class="search-result-info">
+            <span class="search-result-name">${escapeHtml(p.nom||'')}</span>
+            <span class="search-result-meta">${escapeHtml(p.marque||'')} · ${escapeHtml(p.categorie||'')}</span>
+          </span>
+          <span class="search-result-price">${euro(p.prixVente)}</span>
+        </button>`;
+    }).join('') : '<div class="search-result-empty">Aucun produit trouvé.</div>'}
+  `;
+  panel.classList.add('open');
+}
+
+function openSearchProduct(id){
+  const panel=document.getElementById('searchResultsPanel');
+  if(panel) panel.classList.remove('open');
+  details(id);
+}
+
+document.addEventListener('click',e=>{
+  const box=document.querySelector('.header-search');
+  const panel=document.getElementById('searchResultsPanel');
+  if(panel && box && !box.contains(e.target)) panel.classList.remove('open');
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const panel=document.getElementById('searchResultsPanel');
+    if(panel) panel.classList.remove('open');
+  }
+});
+
 function render(){
   const q = norm(document.getElementById('q').value);
   const br = document.getElementById('brand').value;
@@ -2171,6 +2315,8 @@ function render(){
   }
 
   list = prioritizeFirstPageProducts(list);
+
+  renderSearchResults(list,q);
 
   const count=document.getElementById('catalogCount');
   if(count) count.textContent=`${list.length} produit${list.length>1?'s':''}`;
