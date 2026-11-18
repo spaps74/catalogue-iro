@@ -1373,6 +1373,13 @@ body.category-focus #catalogTitle{
 @media(max-width:650px){
   body.category-focus #catalogTitle{font-size:22px}
 }
+
+#catalogue{
+  scroll-margin-top:36px;
+}
+#catalogue .section-head{
+  margin-top:6px;
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -2100,6 +2107,24 @@ function selectSaleType(type,btn){
   scrollToArticlesStart();
 }
 
+
+function scrollToSubcategoryResults(){
+  requestAnimationFrame(()=>{
+    const catalogue=document.getElementById('catalogue');
+    if(!catalogue) return;
+
+    // Positionnement plus propre : on laisse un vrai espace au-dessus du titre
+    // pour éviter que les cartes paraissent tronquées/collées au haut de l'écran.
+    const topGap = Math.max(24, Math.min(48, window.innerHeight * 0.04));
+    const y = window.scrollY + catalogue.getBoundingClientRect().top - topGap;
+
+    window.scrollTo({
+      top: Math.max(0,y),
+      behavior: 'smooth'
+    });
+  });
+}
+
 function selectSaleSubcat(sub,btn){
   saleSubcatFilter=sub;
 
@@ -2108,7 +2133,7 @@ function selectSaleSubcat(sub,btn){
 
   if(btn) btn.classList.add('active');
   render();
-  scrollToArticlesStart();
+  scrollToSubcategoryResults();
 }
 
 function passesSaleFilters(p){
