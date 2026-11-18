@@ -1229,6 +1229,43 @@ body{
 .account-orders-list{display:flex;flex-direction:column;gap:10px}.account-order{border:1px solid #ebe5da;border-radius:12px;padding:12px;background:#fff}
 .account-order-head{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:8px}.account-order-items{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#444}
 @media(max-width:650px){.account-box{padding:18px 14px}.account-two{grid-template-columns:1fr}.account-title{font-size:21px}}
+
+.catalog-section{padding-top:24px}
+.catalog-count{
+  display:inline-flex;
+  align-items:center;
+  background:#111;
+  color:#fff;
+  border-radius:999px;
+  padding:6px 11px;
+  font-size:11px;
+  font-weight:900;
+}
+.deals-grid{margin-bottom:10px}
+
+.lost-parcels-nav{
+  display:inline-flex!important;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap;
+}
+.new-tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:30px;
+  height:17px;
+  padding:0 6px;
+  border-radius:999px;
+  background:#ffd400;
+  color:#111;
+  font-size:9px;
+  font-weight:950;
+  line-height:1;
+  letter-spacing:.35px;
+  text-transform:uppercase;
+  box-shadow:0 0 0 1px rgba(0,0,0,.08);
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -1260,11 +1297,12 @@ body{
     <div class="nav-inner">
       <div class="cats nav-all" id="cats"></div>
       <div class="sale-types">
-        <button class="sale-type-btn" onclick="selectSaleType('Vêtements',this)">Mode⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Pour la maison',this)">Maison & Déco⌄</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Mode',this)">Mode⌄</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Maison & Déco',this)">Maison & Déco⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures</button>
+        <button class="sale-type-btn lost-parcels-nav" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
         <button class="deal-nav-btn" type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">🏷 Bons plans</button>
       </div>
       <div class="subcats" id="saleSubcats"></div>
@@ -1300,8 +1338,8 @@ body{
       <button type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">Voir tous les rayons →</button>
     </div>
     <div class="univers-grid">
-      <button onclick="selectSaleType('Vêtements',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
-      <button onclick="selectSaleType('Pour la maison',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">🛋</span><b>Maison & Déco</b><em>→</em></button>
+      <button onclick="selectSaleType('Mode',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
+      <button onclick="selectSaleType('Maison & Déco',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">🛋</span><b>Maison & Déco</b><em>→</em></button>
       <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
       <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
       <button onclick="selectSaleType('Chaussures',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
@@ -1312,6 +1350,14 @@ body{
     <div class="section-head deals-head">
       <h2>Les deals du moment</h2>
       <span class="destock-pill" id="destockMaxDiscount">🏷 Deals &gt; 75%</span>
+    </div>
+    <div class="grid deals-grid" id="dealsGrid"></div>
+  </section>
+
+  <section class="catalog-section" id="catalogue">
+    <div class="section-head">
+      <h2>Tout le catalogue</h2>
+      <span id="catalogCount" class="catalog-count"></span>
     </div>
 
     <div class="filters filter-panel">
@@ -1654,7 +1700,7 @@ function refreshSizeOptionsForCurrentCategory(){
   let source=products;
   if(saleTypeFilter){
     source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
-    if(saleTypeFilter==='Vêtements' && saleGenreFilter){
+    if(saleTypeFilter==='Mode' && saleGenreFilter){
       source=source.filter(p=>genderMatchesProduct(p,saleGenreFilter));
     }
     if(saleSubcatFilter){
@@ -1694,11 +1740,11 @@ function inferredSaleType(p){
   const h=normSaleTxt(`${p.categorie||''} ${p.nom||''} ${p.marque||''}`);
 
   // Valeurs principales actuelles saisies dans l'admin.
-  if(['vetement','vetements'].includes(cat)) return 'Vêtements';
+  if(['mode','vetement','vetements'].includes(cat)) return 'Mode';
   if(['chaussures','chaussure','baskets','basket','baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Chaussures';
   if(['high-tech','high tech','hightech','informatique','informatique / tech','informatique/tech'].includes(cat)) return 'High-Tech';
   if(['loisir','loisirs','sport','sports'].includes(cat)) return 'Loisirs';
-  if(['pour la maison','maison'].includes(cat)) return 'Pour la maison';
+  if(['maison & deco','maison et deco','maison deco','pour la maison','maison'].includes(cat)) return 'Maison & Déco';
   if(['colis perdus','colis perdu','colis'].includes(cat)) return 'Colis Perdus';
 
   // Compatibilité anciens produits / anciennes catégories.
@@ -1707,15 +1753,15 @@ function inferredSaleType(p){
   }
 
   if(/^(accessoire|accessoires|combi-short|combi short|pantalon|pantalons|jean|jeans|robe|robes|jupe|jupes|chemise|chemises|blouse|blouses|top|tops|t-shirt|t-shirts|pull|pulls|sweat|sweats|veste|vestes|manteau|manteaux|short|shorts|legging|leggings|cargo)$/.test(cat)){
-    return 'Vêtements';
+    return 'Mode';
   }
 
   // Dernier filet de compatibilité pour les produits historiques.
   if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Chaussures';
-  if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Vêtements';
+  if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Mode';
   if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'High-Tech';
   if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Loisirs';
-  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Pour la maison';
+  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Maison & Déco';
   if(/colis perdu|colis perdus|lost parcel|lost parcels/.test(h)) return 'Colis Perdus';
 
   return '';
@@ -1742,7 +1788,10 @@ function subcategoriesForSaleType(type){
 }
 
 function saleTypeAllLabel(type){
-  if(type==='Vêtements') return 'Tous les vêtements';
+  if(type==='Mode') return 'Tous les vêtements';
+  if(type==='Mode') return 'Toute la mode';
+  if(type==='Maison & Déco') return 'Toute la maison & déco';
+  if(type==='Colis Perdus') return 'Tous les colis perdus';
   if(type==='Chaussures') return 'Toutes les chaussures';
   if(type==='High-Tech') return 'Tout le high-tech';
   if(type==='Loisirs') return 'Tous les loisirs';
@@ -1837,7 +1886,7 @@ function renderSubcategoryMenu(type){
 
   if(!type) return;
 
-  if(type==='Vêtements'){
+  if(type==='Mode'){
     renderClothingGenreMenu();
     return;
   }
@@ -1889,7 +1938,7 @@ function updateGenreFilterVisibility(){
   if(!wrap || !genre) return;
 
   const show =
-    saleTypeFilter==='Vêtements' ||
+    saleTypeFilter==='Mode' ||
     saleTypeFilter==='Chaussures';
 
   wrap.style.display=show ? 'inline-flex' : 'none';
@@ -1934,7 +1983,7 @@ function passesSaleFilters(p){
   if(saleTypeFilter && inferredSaleType(p)!==saleTypeFilter) return false;
 
   if(
-    saleTypeFilter==='Vêtements' &&
+    saleTypeFilter==='Mode' &&
     saleGenreFilter &&
     !genderMatchesProduct(p,saleGenreFilter)
   ) return false;
@@ -2042,6 +2091,21 @@ function updateDealsMomentBadge(list){
   el.textContent=max>75 ? `🏷 Deals > 75% · jusqu'à -${max}%` : '🏷 Deals > 75%';
 }
 
+function renderDeals(){
+  const list=products
+    .filter(isDealOfTheMoment)
+    .sort((a,b)=>discountPercent(b)-discountPercent(a));
+
+  updateDealsMomentBadge(list);
+
+  const target=document.getElementById('dealsGrid');
+  if(!target) return;
+
+  target.innerHTML=list.length
+    ? list.map(p=>card(p)).join('')
+    : '<div class="empty">Aucun produit à plus de 75% de remise.</div>';
+}
+
 function render(){
   const q = norm(document.getElementById('q').value);
   const br = document.getElementById('brand').value;
@@ -2052,7 +2116,7 @@ function render(){
   let list;
 
   if(q){
-    // Recherche GLOBALE : elle ignore catégories et sous-catégories.
+    // Recherche GLOBALE dans tout le catalogue.
     list = products.filter(p =>
       norm([
         p.nom,
@@ -2066,10 +2130,8 @@ function render(){
         p.sku
       ].join(' ')).includes(q)
     );
-    list = prioritizeFirstPageProducts(list);
   }else{
     list = products.filter(p =>
-      isDealOfTheMoment(p) &&
       passesSaleFilters(p) &&
       (category === 'Tous' || p.categorie === category) &&
       (!br || p.marque === br) &&
@@ -2080,15 +2142,19 @@ function render(){
       ) &&
       (!st || p.statut === st)
     );
-    list = sortDealsOfTheMoment(list);
   }
 
-  updateDealsMomentBadge(list);
+  list = prioritizeFirstPageProducts(list);
+
+  const count=document.getElementById('catalogCount');
+  if(count) count.textContent=`${list.length} produit${list.length>1?'s':''}`;
 
   document.getElementById('grid').innerHTML =
     list.length
       ? list.map(p => card(p)).join('')
-      : `<div class="empty">Aucun produit à plus de 75% de remise pour ce filtre.</div>`;
+      : '<div class="empty">Aucun produit dans cette catégorie.</div>';
+
+  renderDeals();
 }
 
 function stateBadge(p){
