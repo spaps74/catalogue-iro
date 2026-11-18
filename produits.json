@@ -1,5 +1,29 @@
 [
   {
+    "id": "replay-blouson-replay-kaki-taille-s-s",
+    "nom": "Blouson Replay kaki – Taille S",
+    "marque": "Replay",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
+    "categorie": "Vêtements",
+    "sousCategorie": "vestes",
+    "genre": "Hommes",
+    "taille": "S",
+    "prixRetail": 159,
+    "prixVente": 69,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "🔥 Superbe blouson REPLAY original, coloris kaki, au style moderne et urbain.\n\n✨ Article NEUF, jamais porté, avec son étiquette d'origine !\n\nCaractéristiques :\n\n🏷️ Marque : REPLAY\n\n📏 Taille : S\n\n🎨 Couleur : Kaki / Vert olive\n\n✅ État : Neuf avec étiquette\n\n🧥 Capuche avec cordons de réglage\n\n❄️ Doublure intérieure matelassée pour plus de confort et de chaleur\n\n🔒 Fermeture zippée sur toute la longueur\n\n👌 Deux poches extérieures zippées\n\n🖤 Poignets et bas de veste avec finitions élastiques\n\n⭐ Écusson REPLAY sur la manche\n\nUn blouson tendance et confortable, idéal pour l'automne et l'hiver. Parfait avec un jean, un chino ou une tenue décontractée.",
+    "photos": [
+      "photos/replay-blouson-replay-kaki-taille-s-s-1795001544633-1.webp",
+      "photos/replay-blouson-replay-kaki-taille-s-s-1795001549045-2.webp",
+      "photos/replay-blouson-replay-kaki-taille-s-s-1795001550753-3.webp",
+      "photos/replay-blouson-replay-kaki-taille-s-s-1795001556042-4.jpg",
+      "photos/replay-blouson-replay-kaki-taille-s-s-1795001557595-5.webp"
+    ]
+  },
+  {
     "id": "nautica-veste-nautica-homme-m",
     "nom": "Nike Air Huarache Runner – Noir / Gris anthracite",
     "marque": "Nike",
