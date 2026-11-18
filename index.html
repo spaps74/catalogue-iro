@@ -1438,6 +1438,26 @@ body.category-focus #catalogTitle{
   color:#fff !important;
   border-color:#dc2626 !important;
 }
+
+.brand-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:5px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#111 !important;
+  color:#fff !important;
+  border:1px solid #111 !important;
+  font-size:inherit;
+  font-weight:inherit;
+  line-height:1;
+}
+.status-brand-stack{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -2515,7 +2535,7 @@ function card(p){
         ${pc>0?`<span class="discount">-${pc}%</span>`:''}
       </div>
       <div class="card-actions">
-        ${stateBadge(p)}
+        <span class="status-brand-stack">${stateBadge(p)}${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}</span>
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
         <button class="btn add" ${canAdd?`onclick="add('${p.id}')"`:'disabled aria-disabled="true"'}>Ajouter au panier</button>
       </div>
