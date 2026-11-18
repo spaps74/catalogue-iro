@@ -1357,6 +1357,22 @@ body{
   }
 }
 
+
+#catalogue.category-results-active{
+  margin-top:10px;
+  padding-top:18px;
+  scroll-margin-top:8px;
+}
+#catalogue.category-results-active .section-head{
+  margin-bottom:10px;
+}
+#catalogue.category-results-active #catalogTitle{
+  font-size:28px;
+  font-weight:950;
+}
+@media(max-width:650px){
+  #catalogue.category-results-active #catalogTitle{font-size:22px}
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -1418,6 +1434,38 @@ body{
   </section>
   <div id="categoryResultsAnchor"></div>
 
+  <section class="catalog-section" id="catalogue">
+    <div class="section-head">
+      <h2 id="catalogTitle">Tout le catalogue</h2>
+      <span id="catalogCount" class="catalog-count"></span>
+    </div>
+
+    <div class="filters filter-panel">
+      <select id="brand" onchange="render()"><option value="">Toutes marques</option></select>
+      <select id="size" onchange="render()"><option value="">Toutes tailles</option></select>
+      <span id="genreFilterWrap" style="display:none">
+        <select id="genre" onchange="render()">
+          <option value="">Tous genres</option>
+          <option value="Hommes">Hommes</option>
+          <option value="Femmes">Femmes</option>
+          <option value="Enfants">Enfants</option>
+          <option value="Mixte">Mixte</option>
+        </select>
+      </span>
+      <select id="status" onchange="render()">
+        <option value="">Tous statuts</option>
+        <option>Disponible</option>
+        <option>Réservé</option>
+        <option>Vendu</option>
+      </select>
+      <button class="reset-filters" type="button" onclick="resetFilters()">↺ Réinitialiser</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </section>
+
+
+
 
   <section class="trust-strip">
     <div><b class="trust-icon">🚚</b><span><strong>Livraison rapide</strong><small>et suivie</small></span></div>
@@ -1447,37 +1495,6 @@ body{
     </div>
     <div class="grid deals-grid" id="dealsGrid"></div>
   </section>
-
-  <section class="catalog-section" id="catalogue">
-    <div class="section-head">
-      <h2>Tout le catalogue</h2>
-      <span id="catalogCount" class="catalog-count"></span>
-    </div>
-
-    <div class="filters filter-panel">
-      <select id="brand" onchange="render()"><option value="">Toutes marques</option></select>
-      <select id="size" onchange="render()"><option value="">Toutes tailles</option></select>
-      <span id="genreFilterWrap" style="display:none">
-        <select id="genre" onchange="render()">
-          <option value="">Tous genres</option>
-          <option value="Hommes">Hommes</option>
-          <option value="Femmes">Femmes</option>
-          <option value="Enfants">Enfants</option>
-          <option value="Mixte">Mixte</option>
-        </select>
-      </span>
-      <select id="status" onchange="render()">
-        <option value="">Tous statuts</option>
-        <option>Disponible</option>
-        <option>Réservé</option>
-        <option>Vendu</option>
-      </select>
-      <button class="reset-filters" type="button" onclick="resetFilters()">↺ Réinitialiser</button>
-    </div>
-
-    <div class="grid" id="grid"></div>
-  </section>
-
   <section class="arrival-banner">
     <span>📣</span>
     <strong>Nouveaux arrivages chaque semaine !</strong>
@@ -1983,19 +2000,21 @@ function renderSubcategoryMenu(type){
 
   if(!type) return;
 
+  // Sous-catégories uniquement là où elles sont utiles.
   if(type==='Mode'){
     renderClothingGenreMenu();
     return;
   }
 
-  const subs=subcategoriesForSaleType(type);
+  if(type!=='Chaussures') return;
 
+  const subs=subcategoriesForSaleType(type);
   if(!subs.length) return;
 
   const allBtn=document.createElement('button');
   allBtn.type='button';
   allBtn.className='subcat-btn active';
-  allBtn.textContent=saleTypeAllLabel(type);
+  allBtn.textContent='Toutes les chaussures';
   allBtn.addEventListener('click',()=>selectSaleSubcat('',allBtn));
   target.appendChild(allBtn);
 
@@ -2005,9 +2024,7 @@ function renderSubcategoryMenu(type){
     btn.className='subcat-btn';
     btn.textContent=sub;
     btn.dataset.subcat=sub;
-    btn.addEventListener('click',()=>{
-      selectSaleSubcat(btn.dataset.subcat,btn);
-    });
+    btn.addEventListener('click',()=>selectSaleSubcat(btn.dataset.subcat,btn));
     target.appendChild(btn);
   }
 
@@ -2063,23 +2080,48 @@ function scrollToCategoryResults(){
   }
 }
 
+
+function showSelectedCategoryResults(type){
+  const catalogue=document.getElementById('catalogue');
+  const title=document.getElementById('catalogTitle');
+
+  if(catalogue) catalogue.classList.add('category-results-active');
+  if(title) title.textContent=type || 'Tout le catalogue';
+
+  requestAnimationFrame(()=>{
+    if(!catalogue) return;
+    const y=window.scrollY + catalogue.getBoundingClientRect().top - 8;
+    window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+  });
+}
+
 function selectSaleType(type,btn){
   category='Tous';
-  saleTypeFilter=(saleTypeFilter===type ? '' : type);
+  saleTypeFilter=type;
   saleSubcatFilter='';
   saleGenreFilter='';
 
+  // Nettoyage des filtres provenant d'une autre catégorie.
+  const brand=document.getElementById('brand');
+  const size=document.getElementById('size');
+  const genre=document.getElementById('genre');
+  const status=document.getElementById('status');
+  if(brand) brand.value='';
+  if(size) size.value='';
+  if(genre) genre.value='';
+  if(status) status.value='';
+
   document.querySelectorAll('.sale-type-btn').forEach(b=>b.classList.remove('active'));
-  if(saleTypeFilter && btn) btn.classList.add('active');
+  if(btn) btn.classList.add('active');
 
   const allBtn=document.querySelector('#cats [data-cat="Tous"]');
-  if(allBtn) allBtn.classList.toggle('active', !saleTypeFilter);
+  if(allBtn) allBtn.classList.remove('active');
 
-  renderSubcategoryMenu(saleTypeFilter);
+  renderSubcategoryMenu(type);
   refreshSizeOptionsForCurrentCategory();
   updateGenreFilterVisibility();
   render();
-  scrollToCategoryResults();
+  showSelectedCategoryResults(type);
 }
 
 function selectSaleSubcat(sub,btn){
@@ -2146,6 +2188,8 @@ function selectAllProducts(btn){
   refreshSizeOptionsForCurrentCategory();
   updateGenreFilterVisibility();
   render();
+  const title=document.getElementById('catalogTitle');
+  if(title) title.textContent='Tout le catalogue';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -2341,6 +2385,11 @@ function render(){
 
   const count=document.getElementById('catalogCount');
   if(count) count.textContent=`${list.length} produit${list.length>1?'s':''}`;
+
+  const title=document.getElementById('catalogTitle');
+  if(title){
+    title.textContent = saleTypeFilter || (q ? `Résultats : ${document.getElementById('q').value}` : 'Tout le catalogue');
+  }
 
   document.getElementById('grid').innerHTML =
     list.length
