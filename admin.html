@@ -453,14 +453,22 @@
     Les sous-catégories déjà utilisées dans cette catégorie sont proposées automatiquement.
   </div>
 </div>
-<label>Taille</label><input id="taille"></div><div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
+<label>Taille</label><input id="taille"></div>
+<div><label>Genre</label><select id="genre">
+  <option value="">Non renseigné</option>
+  <option value="Hommes">Hommes</option>
+  <option value="Femmes">Femmes</option>
+  <option value="Enfants">Enfants</option>
+  <option value="Mixte">Mixte</option>
+</select></div>
+<div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
 <div><label>Référence / SKU</label><input id="sku"></div>
 <div class="full ai-listing-box">
   <div class="ai-listing-head">
     <div>
       <b>Génération de l’annonce par IA</b>
-      <div class="muted">Utilise les informations déjà saisies. L’IA remplit le titre, la catégorie / sous-catégorie et la description, sans publier automatiquement.</div>
+      <div class="muted">Utilise les informations déjà saisies et analyse aussi les 2 premières photos dans l’ordre du catalogue. L’IA remplit le titre, la catégorie / sous-catégorie et la description, sans publier automatiquement.</div>
     </div>
     <button class="ai-button" id="aiGenerateBtn" type="button" onclick="generateAIListing()">✨ Générer avec l’IA</button>
   </div>
@@ -609,7 +617,7 @@ function renderList(){
     ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     return hay.includes(q);
   });
-  $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.miseEnPremierePage?'⭐ Première page · ':''}${p.categorie||''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
+  $('list').innerHTML=list.length?list.map(p=>`<div class="item"><div><b>${p.marque||''} — ${p.nom}</b><div class="muted">${p.miseEnPremierePage?'⭐ Première page · ':''}${p.categorie||''}${p.genre?' · '+p.genre:''} · Taille ${p.taille||'—'} · ${Number(p.prixVente||0).toFixed(2)} € · ${p.statut}${p.sku?' · SKU '+p.sku:''}</div></div><button onclick="edit('${p.id}')">Modifier</button></div>`).join(''):'Aucun article correspondant.';
 }
 
 
@@ -930,9 +938,9 @@ function editNextProduct(){
 }
 
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
-  ['nom','marque','categorie','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
   if($('etatProduit')) $('etatProduit').value='';
   if($('miseEnPremierePage')) $('miseEnPremierePage').checked=false;
@@ -1069,10 +1077,56 @@ function currentAIProductData(){
     etatProduit:$('etatProduit')?.value||'',
     categorie:$('categorie')?.value.trim()||'',
     sousCategorie:getCurrentSousCategorie(),
+    genre:$('genre')?.value||'',
     taille:$('taille')?.value.trim()||'',
     sku:$('sku')?.value.trim()||'',
     description:$('description')?.value.trim()||''
   };
+}
+
+
+async function prepareAIImageFile(item,index){
+  const sourceFile=await galleryItemToFile(item,index);
+  const img=await loadImageFromFile(sourceFile);
+
+  const w=img.naturalWidth||img.width;
+  const h=img.naturalHeight||img.height;
+  if(!w || !h) throw new Error('Dimensions de la photo IA impossibles à lire.');
+
+  const maxDimension=1400;
+  const scale=Math.min(1,maxDimension/Math.max(w,h));
+  const tw=Math.max(1,Math.round(w*scale));
+  const th=Math.max(1,Math.round(h*scale));
+
+  const canvas=document.createElement('canvas');
+  canvas.width=tw;
+  canvas.height=th;
+
+  const ctx=canvas.getContext('2d',{alpha:false});
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality='high';
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,tw,th);
+  ctx.drawImage(img,0,0,tw,th);
+
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.84));
+  if(!blob) throw new Error('Impossible de préparer la photo '+(index+1)+' pour l’IA.');
+
+  return new File([blob],`upstyle-ia-photo-${index+1}.jpg`,{
+    type:'image/jpeg',
+    lastModified:Date.now()
+  });
+}
+
+async function firstTwoAIPhotos(){
+  const items=galleryItems.slice(0,2);
+  const files=[];
+
+  for(let i=0;i<items.length;i++){
+    files.push(await prepareAIImageFile(items[i],i));
+  }
+
+  return files;
 }
 
 async function generateAIListing(){
@@ -1088,13 +1142,27 @@ async function generateAIListing(){
 
   try{
     btn.disabled=true;
-    btn.textContent='✨ Génération…';
-    setAIStatus('L’IA prépare une proposition d’annonce…','working');
+    btn.textContent='✨ Analyse IA…';
+
+    const imageCount=Math.min(2,galleryItems.length);
+    setAIStatus(
+      imageCount
+        ? `Préparation et analyse de ${imageCount} photo${imageCount>1?'s':''} + informations produit…`
+        : 'Aucune photo disponible : génération à partir des informations produit uniquement…',
+      'working'
+    );
+
+    const fd=new FormData();
+    fd.append('product',JSON.stringify(data));
+
+    const aiPhotos=await firstTwoAIPhotos();
+    for(const file of aiPhotos){
+      fd.append('aiPhotos',file,file.name);
+    }
 
     const result=await req('/ai/generate-listing',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(data)
+      body:fd
     });
 
     if(result.titre){
@@ -1119,7 +1187,11 @@ async function generateAIListing(){
       $('description').value=result.description;
     }
 
-    setAIStatus('✓ Proposition générée. Relis les champs puis publie normalement si le résultat te convient.','ok');
+    const used=Number(result.photosAnalysees||0);
+    setAIStatus(
+      `✓ Proposition générée${used ? ` avec analyse de ${used} photo${used>1?'s':''}` : ' sans photo'}. Relis les champs puis publie normalement si le résultat te convient.`,
+      'ok'
+    );
   }catch(e){
     console.error(e);
     setAIStatus('Erreur IA : '+e.message,'error');
@@ -1229,7 +1301,8 @@ async function publish(){
       miseEnPremierePage:!!$('miseEnPremierePage')?.checked,
       categorie:$('categorie').value.trim(),
       sousCategorie: getCurrentSousCategorie(),
-taille:$('taille').value.trim(),
+      genre:$('genre')?.value||'',
+      taille:$('taille').value.trim(),
       prixRetail:Number($('retail').value||0),
       prixVente:Number($('vente').value||0),
       statut:$('statut').value,
