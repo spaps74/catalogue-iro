@@ -1258,18 +1258,20 @@
   },
   {
     "id": "adidas-adidas-response-sr-running-39-1-3",
-    "nom": "Adidas Response SR – running",
+    "nom": "Adidas Response SR – baskets running mixtes bleues – 39 1/3",
     "marque": "Adidas",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
     "categorie": "Baskets / Chaussures",
-    "sousCategorie": "baskets",
+    "sousCategorie": "Chaussures de running",
+    "genre": "Mixte",
     "taille": "39 1/3",
     "prixRetail": 85,
     "prixVente": 40,
     "statut": "Disponible",
     "sku": "",
     "stock": 1,
-    "description": "",
+    "description": "Baskets de running Adidas Response SR mixtes, en pointure 39 1/3. Leur coloris bleu est rehaussé de trois bandes blanches et de touches vert clair sur les côtés. Le modèle présente une fermeture à lacets et une semelle blanche avec un empiècement noir au talon.",
     "photos": [
       "photos/302.png"
     ]
