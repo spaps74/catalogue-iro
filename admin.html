@@ -684,12 +684,24 @@ function renderBrandSuggestions(){
     <div
       class="brand-autocomplete-item"
       data-brand-index="${index}"
-      onmousedown="event.preventDefault();selectBrandSuggestion(${JSON.stringify(brand).replace(/</g,'\\u003c')})"
+      data-brand="${escapeHtml(brand)}"
     >${escapeHtml(brand)}</div>
   `).join('');
 
   list.classList.add('open');
 }
+
+document.addEventListener('mousedown',event=>{
+  const item=event.target.closest?.('.brand-autocomplete-item');
+  if(!item) return;
+
+  event.preventDefault();
+
+  const brand=item.getAttribute('data-brand')||item.textContent||'';
+  if(brand){
+    selectBrandSuggestion(brand.trim());
+  }
+});
 
 function showBrandSuggestions(){
   renderBrandSuggestions();
@@ -716,7 +728,8 @@ function brandAutocompleteKeydown(event){
     brandSuggestionIndex=Math.max(brandSuggestionIndex-1,0);
   }else if(event.key==='Enter' && brandSuggestionIndex>=0){
     event.preventDefault();
-    const brand=items[brandSuggestionIndex]?.textContent?.trim();
+    const item=items[brandSuggestionIndex];
+    const brand=(item?.getAttribute('data-brand')||item?.textContent||'').trim();
     if(brand) selectBrandSuggestion(brand);
     return;
   }else{
