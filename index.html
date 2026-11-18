@@ -872,7 +872,10 @@ function render(){
       (category === 'Tous' || p.categorie === category) &&
       (!br || p.marque === br) &&
       (!sz || p.taille === sz) &&
-      (!ge || p.genre === ge) &&
+      (!ge ||
+        p.genre === ge ||
+        ((ge === 'Hommes' || ge === 'Femmes') && p.genre === 'Mixte')
+      ) &&
       (!st || p.statut === st)
     );
   }
