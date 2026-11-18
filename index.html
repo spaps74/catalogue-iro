@@ -1380,6 +1380,38 @@ body.category-focus #catalogTitle{
 #catalogue .section-head{
   margin-top:6px;
 }
+
+/* Sous-catégories rattachées visuellement à la catégorie active */
+#catalogue .catalogue-subcats{
+  position:static !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  z-index:auto !important;
+  width:100%;
+  margin:0 0 14px;
+  padding:10px;
+  background:#fff;
+  border:1px solid #e8e3d8;
+  border-radius:14px;
+  box-shadow:none;
+}
+#catalogue .catalogue-subcats.open{
+  display:flex;
+}
+#catalogue .catalogue-subcats:not(.open){
+  display:none;
+}
+#catalogue .catalogue-subcats .clothing-nav{
+  width:100%;
+}
+@media(max-width:650px){
+  #catalogue .catalogue-subcats{
+    margin-bottom:10px;
+    padding:8px;
+    border-radius:12px;
+  }
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -1420,7 +1452,6 @@ body.category-focus #catalogTitle{
         <button class="sale-type-btn lost-parcels-nav" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
         <button class="deal-nav-btn" type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">🏷 Bons plans</button>
       </div>
-      <div class="subcats" id="saleSubcats"></div>
     </div>
   </div>
 </header>
@@ -1474,6 +1505,8 @@ body.category-focus #catalogTitle{
       <h2 id="catalogTitle">Tout le catalogue</h2>
       <span id="catalogCount" class="catalog-count"></span>
     </div>
+
+    <div class="subcats catalogue-subcats" id="saleSubcats"></div>
 
     <div class="filters filter-panel">
       <select id="brand" onchange="render()"><option value="">Toutes marques</option></select>
