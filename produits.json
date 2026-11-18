@@ -546,22 +546,24 @@
   },
   {
     "id": "iro-robe-iro-beige-nude-asymetrique-drapee-36",
-    "nom": "Robe IRO beige nude asymétrique drapée",
+    "nom": "Robe IRO beige nude drapée asymétrique à manches longues - Taille 36",
     "marque": "IRO",
     "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
     "categorie": "Vêtements",
     "sousCategorie": "robes",
+    "genre": "Femmes",
     "taille": "36",
     "prixRetail": 595,
     "prixVente": 80,
     "statut": "Disponible",
     "sku": "",
     "stock": 1,
-    "description": "",
+    "description": "Robe IRO pour femme, coloris beige nude, en taille 36. Le drapé asymétrique se rassemble sur le côté de la taille et se prolonge par un pan superposé. Les manches longues à poignets et l’encolure arrondie avec ouverture sur le devant complètent son design. État : neuf avec étiquettes.",
     "photos": [
       "photos/21.png",
-      "photos/20.png",
       "photos/22.png",
+      "photos/20.png",
       "photos/23.png"
     ]
   },
