@@ -506,9 +506,17 @@
   <div class="orders-toolbar">
     <input id="subscribersSearch" type="search" placeholder="Rechercher une adresse email..." oninput="renderSubscribers()">
     <button type="button" onclick="loadSubscribers()">↻ Actualiser</button>
+    <button type="button" onclick="previewNewsletter()">👁 Aperçu email</button>
+    <button type="button" onclick="sendNewsletterNow()">✉ Envoyer maintenant</button>
     <button type="button" onclick="copySubscriberEmails()">Copier les emails</button>
     <button type="button" onclick="exportSubscribersCsv()">Exporter CSV</button>
   </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 12px">
+    <input id="newsletterTestEmail" type="email" placeholder="Email de test" style="max-width:320px">
+    <button type="button" onclick="sendNewsletterTest()">Envoyer un test</button>
+  </div>
+  <div class="muted" style="margin-bottom:10px">La campagne reprend uniquement les produits ajoutés pendant les 7 derniers jours et encore disponibles.</div>
+  <div id="newsletterSendStatus" class="publish-status hidden" style="margin-bottom:10px"></div>
   <div class="orders-summary" id="subscribersSummary"></div>
   <div id="subscribersList">Cliquez sur « Alertes arrivages » pour charger les abonnés.</div>
 </div>
@@ -886,7 +894,7 @@ async function loadSubscribers(){
     newsletterSubscribers=Array.isArray(data.subscribers)?data.subscribers:[];
     renderSubscribers();
   }catch(e){
-    if(list) list.innerHTML=`<div class="publish-status error">Erreur abonnés : ${escapeHtml(String(e.message||e))}</div>`;
+    if(list) list.innerHTML=`<div class="publish-status error">Erreur abonnés : ${escapeHtmlValue(String(e.message||e))}</div>`;
   }
 }
 
@@ -936,9 +944,9 @@ function renderSubscribers(){
         <tbody>
           ${rows.map(s=>`
             <tr>
-              <td><b>${escapeHtml(s.email||'')}</b></td>
-              <td>${escapeHtml(dateFmt(s.createdAt))}</td>
-              <td>${escapeHtml(s.source||'front')}</td>
+              <td><b>${escapeHtmlValue(s.email||'')}</b></td>
+              <td>${escapeHtmlValue(dateFmt(s.createdAt))}</td>
+              <td>${escapeHtmlValue(s.source||'front')}</td>
               <td><span class="order-status">Actif</span></td>
             </tr>
           `).join('')}
@@ -947,6 +955,156 @@ function renderSubscribers(){
     </div>
   `;
 }
+
+
+function setNewsletterStatus(message,type='success'){
+  const box=$('newsletterSendStatus');
+  if(!box) return;
+  box.className=`publish-status ${type}`;
+  box.textContent=message;
+  box.classList.remove('hidden');
+}
+
+async function previewNewsletter(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+
+  if(!api || !key){
+    setNewsletterStatus('Connectez d’abord l’API avec votre clé admin.','error');
+    return;
+  }
+
+  setNewsletterStatus('Préparation de l’aperçu…','success');
+
+  try{
+    const r=await fetch(`${api}/admin/newsletter/preview`,{
+      headers:{'X-Admin-Key':key}
+    });
+
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+
+    if(!data.productCount){
+      setNewsletterStatus('Aucun nouveau produit disponible sur les 7 derniers jours.','error');
+      return;
+    }
+
+    const blob=new Blob([data.html],{type:'text/html;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    window.open(url,'_blank','noopener');
+
+    setNewsletterStatus(
+      `Aperçu prêt : ${data.productCount} produit(s), ${data.subscriberCount} abonné(s) actif(s).`,
+      'success'
+    );
+
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+
+  }catch(e){
+    setNewsletterStatus(`Erreur aperçu : ${String(e.message||e)}`,'error');
+  }
+}
+
+async function sendNewsletterTest(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  const testEmail=String($('newsletterTestEmail')?.value||'').trim();
+
+  if(!api || !key){
+    setNewsletterStatus('Connectez d’abord l’API avec votre clé admin.','error');
+    return;
+  }
+
+  if(!testEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(testEmail)){
+    setNewsletterStatus('Saisissez une adresse e-mail de test valide.','error');
+    return;
+  }
+
+  setNewsletterStatus(`Envoi du test vers ${testEmail}…`,'success');
+
+  try{
+    const r=await fetch(`${api}/admin/newsletter/send`,{
+      method:'POST',
+      headers:{
+        'X-Admin-Key':key,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({testEmail})
+    });
+
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+
+    if(data.skipped){
+      setNewsletterStatus(
+        data.reason==='no_products'
+          ? 'Aucun nouveau produit disponible sur les 7 derniers jours.'
+          : 'Aucun destinataire disponible.',
+        'error'
+      );
+      return;
+    }
+
+    setNewsletterStatus(
+      `Email test envoyé. ${data.productCount} produit(s) inclus.`,
+      'success'
+    );
+
+  }catch(e){
+    setNewsletterStatus(`Erreur envoi test : ${String(e.message||e)}`,'error');
+  }
+}
+
+async function sendNewsletterNow(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+
+  if(!api || !key){
+    setNewsletterStatus('Connectez d’abord l’API avec votre clé admin.','error');
+    return;
+  }
+
+  if(!confirm(
+    'Envoyer maintenant la newsletter des nouveautés des 7 derniers jours à tous les abonnés actifs ?'
+  )){
+    return;
+  }
+
+  setNewsletterStatus('Envoi de la campagne en cours…','success');
+
+  try{
+    const r=await fetch(`${api}/admin/newsletter/send`,{
+      method:'POST',
+      headers:{
+        'X-Admin-Key':key,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({force:true})
+    });
+
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+
+    if(data.skipped){
+      const reasons={
+        no_products:'Aucun nouveau produit disponible sur les 7 derniers jours.',
+        no_subscribers:'Aucun abonné actif.',
+        already_sent:'Cette campagne a déjà été envoyée.'
+      };
+      setNewsletterStatus(reasons[data.reason] || 'Envoi ignoré.','error');
+      return;
+    }
+
+    setNewsletterStatus(
+      `Campagne envoyée : ${data.productCount} produit(s) à ${data.subscriberCount} abonné(s).`,
+      'success'
+    );
+
+  }catch(e){
+    setNewsletterStatus(`Erreur campagne : ${String(e.message||e)}`,'error');
+  }
+}
+
 
 async function copySubscriberEmails(){
   const emails=filteredSubscribers().map(s=>s.email).filter(Boolean);
