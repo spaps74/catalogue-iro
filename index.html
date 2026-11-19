@@ -1460,6 +1460,22 @@ body.category-focus #catalogTitle{
   flex-direction:column;
   align-items:flex-start;
 }
+
+/* La marque remplace le statut dans les cartes produit */
+.brand-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:0 !important;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#111 !important;
+  color:#fff !important;
+  border:1px solid #111 !important;
+  font-size:inherit;
+  font-weight:inherit;
+  line-height:1;
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -2537,7 +2553,7 @@ function card(p){
         ${pc>0?`<span class="discount">-${pc}%</span>`:''}
       </div>
       <div class="card-actions">
-        <span class="status-brand-stack">${stateBadge(p)}${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}</span>
+        ${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
         <button class="btn add" ${canAdd?`onclick="add('${p.id}')"`:'disabled aria-disabled="true"'}>Ajouter au panier</button>
       </div>
