@@ -2387,15 +2387,21 @@ function renderSubcategoryMenu(type){
 }
 
 function scrollToArticlesStart(){
+  // Lors du premier passage en mode catégorie, category-focus masque les deals
+  // et modifie la hauteur de la page. On attend deux frames afin de calculer
+  // la position seulement une fois la mise en page stabilisée.
   requestAnimationFrame(()=>{
-    const catalogue=document.getElementById('catalogue');
-    if(!catalogue) return;
+    requestAnimationFrame(()=>{
+      const catalogue=document.getElementById('catalogue');
+      if(!catalogue) return;
 
-    const targetTop=window.scrollY + catalogue.getBoundingClientRect().top - 8;
+      const topGap=Math.max(20,Math.min(42,window.innerHeight*0.035));
+      const targetTop=window.scrollY + catalogue.getBoundingClientRect().top - topGap;
 
-    window.scrollTo({
-      top:Math.max(0,targetTop),
-      behavior:'smooth'
+      window.scrollTo({
+        top:Math.max(0,targetTop),
+        behavior:'smooth'
+      });
     });
   });
 }
