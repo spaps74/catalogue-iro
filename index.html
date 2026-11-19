@@ -1476,6 +1476,86 @@ body.category-focus #catalogTitle{
   font-weight:inherit;
   line-height:1;
 }
+
+.footer-pickup{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.18);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+  color:#fff;
+}
+
+.arrival-subscribe{
+  display:grid;
+  grid-template-columns:auto minmax(220px,1fr) minmax(320px,520px);
+  gap:12px 16px;
+  align-items:center;
+}
+.arrival-subscribe-copy{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.arrival-subscribe-form{
+  display:grid;
+  grid-template-columns:minmax(180px,1fr) auto;
+  gap:8px;
+  align-items:center;
+}
+.arrival-subscribe-form input{
+  width:100%;
+  min-width:0;
+  height:40px;
+  border:1px solid rgba(0,0,0,.14);
+  border-radius:10px;
+  padding:0 12px;
+  font:inherit;
+  background:#fff;
+  color:#111;
+  outline:none;
+}
+.arrival-subscribe-form input:focus{
+  border-color:#111;
+  box-shadow:0 0 0 2px rgba(0,0,0,.08);
+}
+.arrival-subscribe-form button{
+  margin:0 !important;
+  white-space:nowrap;
+}
+.arrival-subscribe-status{
+  grid-column:2 / -1;
+  min-height:16px;
+  font-size:11px;
+  font-weight:850;
+}
+.arrival-subscribe-status.ok{color:#11662d}
+.arrival-subscribe-status.error{color:#b91c1c}
+.arrival-subscribe-legal{
+  grid-column:2 / -1;
+  font-size:9px;
+  line-height:1.35;
+  opacity:.72;
+}
+@media(max-width:800px){
+  .arrival-subscribe{
+    grid-template-columns:auto 1fr;
+  }
+  .arrival-subscribe-form,
+  .arrival-subscribe-status,
+  .arrival-subscribe-legal{
+    grid-column:1 / -1;
+  }
+}
+@media(max-width:520px){
+  .arrival-subscribe-form{
+    grid-template-columns:1fr;
+  }
+  .arrival-subscribe-form button{
+    width:100%;
+  }
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -1536,7 +1616,7 @@ body.category-focus #catalogTitle{
   </section>
 
   <section class="trust-strip">
-    <div><b class="trust-icon">🚚</b><span><strong>Livraison rapide</strong><small>et suivie</small></span></div>
+    <div><b class="trust-icon">🚚</b><span><strong>Livraison gratuite</strong><small>et suivie</small></span></div>
     <div><b class="trust-icon">⬡</b><span><strong>Déstock & fins de série</strong><small>à prix avantageux</small></span></div>
     <div><b class="trust-icon">🛡</b><span><strong>Paiement sécurisé</strong><small>et fiable</small></span></div>
     <div><b class="trust-icon">🎧</b><span><strong>Service client réactif</strong><small>à votre écoute</small></span></div>
@@ -1596,11 +1676,18 @@ body.category-focus #catalogTitle{
     <div class="grid" id="grid"></div>
   </section>
 
-  <section class="arrival-banner">
+  <section class="arrival-banner arrival-subscribe">
     <span>📣</span>
-    <strong>Nouveaux arrivages chaque semaine !</strong>
-    <small>Des stocks limités, des prix imbattables.</small>
-    <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Je découvre →</button>
+    <div class="arrival-subscribe-copy">
+      <strong>Je m’abonne aux alertes nouveaux arrivages</strong>
+      <small>Recevez par email les nouveaux produits ajoutés chaque semaine.</small>
+    </div>
+    <form class="arrival-subscribe-form" onsubmit="subscribeArrivalAlert(event)">
+      <input id="arrivalEmail" type="email" inputmode="email" autocomplete="email" placeholder="Votre adresse email" required>
+      <button type="submit" id="arrivalSubscribeBtn">Je m’abonne</button>
+    </form>
+    <div class="arrival-subscribe-status" id="arrivalSubscribeStatus" aria-live="polite"></div>
+    <div class="arrival-subscribe-legal">En vous inscrivant, vous acceptez de recevoir les alertes nouveaux arrivages UPSTYLE.</div>
   </section>
 
   <div class="footer" id="societe">
@@ -1611,6 +1698,7 @@ body.category-focus #catalogTitle{
     51 allée du Cèdre, 74160 Vers<br>
     <a href="tel:+33652623094">06 52 62 30 94</a><br>
     <a href="mailto:stephane@upstyle-destock.fr">stephane@upstyle-destock.fr</a><br><br>
+    <div class="footer-pickup">📦 Récupération colis possible dans le secteur Saint-Julien – Cruseilles</div><br>
     <a href="admin.html" style="opacity:.65;font-size:11px;text-decoration:none">🔒 Administration</a>
   </div>
 </main>
@@ -1623,7 +1711,7 @@ body.category-focus #catalogTitle{
 <div id="paypal-button-container"></div>
 <div style="margin:14px 0 10px;font-weight:800">Payer par carte bancaire</div>
 <div id="card-button-container"></div>
-  <div id="paypalStatus" class="paypal-status"></div><button type="button" class="order secondary" style="margin-top:8px" onclick="paypalDiagnostic()">Diagnostic PayPal</button>
+  <div id="paypalStatus" class="paypal-status"></div>
 </div>
 <button class="order secondary" onclick="order()">Commander par email</button></div></div>
 <div class="detailmodal" id="detail"><div class="detailbox"><button class="close" onclick="closeDetail()">×</button><div id="detailBody"></div></div></div>
@@ -3005,6 +3093,60 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='ArrowRight') nextZoomPhoto();
   else if(e.key==='ArrowLeft') prevZoomPhoto();
 });
+
+async function subscribeArrivalAlert(event){
+  event.preventDefault();
+
+  const input=document.getElementById('arrivalEmail');
+  const btn=document.getElementById('arrivalSubscribeBtn');
+  const status=document.getElementById('arrivalSubscribeStatus');
+
+  const email=String(input?.value||'').trim();
+  if(!email) return;
+
+  if(btn){
+    btn.disabled=true;
+    btn.textContent='Inscription…';
+  }
+  if(status){
+    status.className='arrival-subscribe-status';
+    status.textContent='';
+  }
+
+  try{
+    const r=await fetch(WORKER_URL+'/newsletter/subscribe',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email})
+    });
+
+    const data=await r.json().catch(()=>({}));
+
+    if(!r.ok){
+      throw new Error(data.error || `HTTP ${r.status}`);
+    }
+
+    if(status){
+      status.className='arrival-subscribe-status ok';
+      status.textContent=data.alreadySubscribed
+        ? '✓ Vous êtes déjà inscrit(e) aux alertes.'
+        : '✓ Merci ! Vous recevrez les prochains nouveaux arrivages.';
+    }
+
+    if(input) input.value='';
+  }catch(e){
+    if(status){
+      status.className='arrival-subscribe-status error';
+      status.textContent='Impossible de vous inscrire : '+String(e.message||e);
+    }
+  }finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent='Je m’abonne';
+    }
+  }
+}
+
 load();
 loadPayPal();
 

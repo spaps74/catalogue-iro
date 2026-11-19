@@ -454,7 +454,7 @@
 .order-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;word-break:break-all}
 .order-items{margin:0;padding-left:16px}
 .order-items li{margin:2px 0}
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
@@ -475,6 +475,24 @@
   </div>
   <div class="orders-summary" id="ordersSummary"></div>
   <div id="ordersList">Cliquez sur « Mes commandes » pour charger l'historique.</div>
+</div>
+
+<div class="box hidden" id="subscribersBox">
+  <div class="check-head">
+    <div>
+      <h2 style="margin:0">Alertes nouveaux arrivages</h2>
+      <div class="muted">Adresses inscrites depuis le bandeau du catalogue.</div>
+    </div>
+    <button type="button" onclick="hideSubscribers()">Fermer</button>
+  </div>
+  <div class="orders-toolbar">
+    <input id="subscribersSearch" type="search" placeholder="Rechercher une adresse email..." oninput="renderSubscribers()">
+    <button type="button" onclick="loadSubscribers()">↻ Actualiser</button>
+    <button type="button" onclick="copySubscriberEmails()">Copier les emails</button>
+    <button type="button" onclick="exportSubscribersCsv()">Exporter CSV</button>
+  </div>
+  <div class="orders-summary" id="subscribersSummary"></div>
+  <div id="subscribersList">Cliquez sur « Alertes arrivages » pour charger les abonnés.</div>
 </div>
 
 <div class="box">
@@ -632,6 +650,147 @@ let galleryItems=[];
 const $=id=>document.getElementById(id);
 
 let adminOrders=[];
+
+let newsletterSubscribers=[];
+
+function showSubscribers(){
+  const box=$('subscribersBox');
+  if(box) box.classList.remove('hidden');
+  loadSubscribers();
+}
+
+function hideSubscribers(){
+  const box=$('subscribersBox');
+  if(box) box.classList.add('hidden');
+}
+
+async function loadSubscribers(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  const list=$('subscribersList');
+
+  if(!api || !key){
+    if(list) list.innerHTML='<div class="publish-status error">Connectez d’abord l’API avec votre clé admin.</div>';
+    return;
+  }
+
+  if(list) list.innerHTML='<div class="muted">Chargement des abonnés…</div>';
+
+  try{
+    const r=await fetch(`${api}/admin/subscribers`,{
+      headers:{'X-Admin-Key':key}
+    });
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+
+    newsletterSubscribers=Array.isArray(data.subscribers)?data.subscribers:[];
+    renderSubscribers();
+  }catch(e){
+    if(list) list.innerHTML=`<div class="publish-status error">Erreur abonnés : ${escapeHtml(String(e.message||e))}</div>`;
+  }
+}
+
+function filteredSubscribers(){
+  const q=normalizeBrandText($('subscribersSearch')?.value||'');
+  return newsletterSubscribers.filter(s=>{
+    if(!s.active) return false;
+    if(!q) return true;
+    return normalizeBrandText(`${s.email||''} ${s.source||''}`).includes(q);
+  });
+}
+
+function renderSubscribers(){
+  const list=$('subscribersList');
+  const summary=$('subscribersSummary');
+  if(!list) return;
+
+  const rows=filteredSubscribers();
+
+  if(summary){
+    summary.innerHTML=`
+      <div class="orders-kpi">${rows.length} abonné${rows.length>1?'s':''} actif${rows.length>1?'s':''}</div>
+    `;
+  }
+
+  if(!rows.length){
+    list.innerHTML='<div class="muted" style="padding:12px">Aucun abonné trouvé.</div>';
+    return;
+  }
+
+  const dateFmt=v=>{
+    const d=new Date(v);
+    return Number.isNaN(d.getTime()) ? String(v||'') : d.toLocaleString('fr-FR');
+  };
+
+  list.innerHTML=`
+    <div class="orders-table-wrap">
+      <table class="orders-table" style="min-width:650px">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Date d’inscription</th>
+            <th>Source</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(s=>`
+            <tr>
+              <td><b>${escapeHtml(s.email||'')}</b></td>
+              <td>${escapeHtml(dateFmt(s.createdAt))}</td>
+              <td>${escapeHtml(s.source||'front')}</td>
+              <td><span class="order-status">Actif</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+async function copySubscriberEmails(){
+  const emails=filteredSubscribers().map(s=>s.email).filter(Boolean);
+  if(!emails.length){
+    alert('Aucun email à copier.');
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(emails.join('; '));
+    alert(`${emails.length} email(s) copiés.`);
+  }catch{
+    prompt('Copiez les emails :',emails.join('; '));
+  }
+}
+
+function exportSubscribersCsv(){
+  const rows=filteredSubscribers();
+  if(!rows.length){
+    alert('Aucun abonné à exporter.');
+    return;
+  }
+
+  const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const csv=[
+    ['Email','Date inscription','Source','Actif'].map(esc).join(';'),
+    ...rows.map(s=>[
+      s.email,
+      s.createdAt,
+      s.source||'front',
+      s.active?'Oui':'Non'
+    ].map(esc).join(';'))
+  ].join('\r\n');
+
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`upstyle-abonnes-arrivages-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 
 function showOrders(){
   const box=$('ordersBox');
