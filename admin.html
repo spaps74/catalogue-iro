@@ -667,6 +667,19 @@ let selectedPhotoFiles=[];
 let galleryItems=[];
 const $=id=>document.getElementById(id);
 
+function hideEditor(){
+  const ids=['editor','editorBox','editorModal','productEditor','editPanel'];
+  for(const id of ids){
+    const el=document.getElementById(id);
+    if(el){
+      el.classList.add('hidden');
+      el.classList.remove('open');
+      el.style.display='none';
+    }
+  }
+  document.body.classList.remove('modal-open');
+}
+
 let adminOrders=[];
 
 let newsletterSubscribers=[];
