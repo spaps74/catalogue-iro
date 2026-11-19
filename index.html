@@ -1999,8 +1999,19 @@ function showFavorites(){
   updateFavoritesHeader();
   render();
 
-  const grid=document.getElementById('grid');
-  if(grid) grid.scrollIntoView({behavior:'smooth',block:'start'});
+  const catalogue=document.getElementById('catalogue');
+  if(catalogue){
+    requestAnimationFrame(()=>{
+      const header=document.querySelector('header');
+      const headerHeight=header ? header.getBoundingClientRect().height : 0;
+      const extraGap=18;
+      const y=window.scrollY + catalogue.getBoundingClientRect().top - headerHeight - extraGap;
+      window.scrollTo({
+        top:Math.max(0,y),
+        behavior:'smooth'
+      });
+    });
+  }
 }
 
 async function load(){
