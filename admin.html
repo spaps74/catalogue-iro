@@ -725,7 +725,7 @@ async function loadUsers(){
 
   }catch(e){
     if(list){
-      list.innerHTML=`<div class="publish-status error">Erreur utilisateurs : ${escapeHtml(String(e.message||e))}</div>`;
+      list.innerHTML=`<div class="publish-status error">Erreur utilisateurs : ${escapeHtmlValue(String(e.message||e))}</div>`;
     }
   }
 }
@@ -791,17 +791,17 @@ function renderUsers(){
         <tbody>
           ${rows.map(u=>`
             <tr>
-              <td>${escapeHtml(dateFmt(u.createdAt))}</td>
-              <td><b>${escapeHtml(`${u.firstName||''} ${u.lastName||''}`.trim() || '—')}</b></td>
-              <td>${escapeHtml(u.email||'')}</td>
-              <td>${escapeHtml(u.phone||'—')}</td>
+              <td>${escapeHtmlValue(dateFmt(u.createdAt))}</td>
+              <td><b>${escapeHtmlValue(`${u.firstName||''} ${u.lastName||''}`.trim() || '—')}</b></td>
+              <td>${escapeHtmlValue(u.email||'')}</td>
+              <td>${escapeHtmlValue(u.phone||'—')}</td>
               <td>
-                ${escapeHtml(u.address1||'—')}
-                ${u.address2?`<br><span class="muted">${escapeHtml(u.address2)}</span>`:''}
+                ${escapeHtmlValue(u.address1||'—')}
+                ${u.address2?`<br><span class="muted">${escapeHtmlValue(u.address2)}</span>`:''}
               </td>
-              <td>${escapeHtml(u.postalCode||'—')}</td>
-              <td>${escapeHtml(u.city||'—')}</td>
-              <td>${escapeHtml(u.country||'—')}</td>
+              <td>${escapeHtmlValue(u.postalCode||'—')}</td>
+              <td>${escapeHtmlValue(u.city||'—')}</td>
+              <td>${escapeHtmlValue(u.country||'—')}</td>
             </tr>
           `).join('')}
         </tbody>
