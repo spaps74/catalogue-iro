@@ -981,7 +981,7 @@ async function previewNewsletter(){
       headers:{'X-Admin-Key':key}
     });
 
-    const data=await r.json().catch(()=>({}));
+    const data=await readApiResponse(r);
     if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
 
     if(!data.productCount){
@@ -1003,6 +1003,30 @@ async function previewNewsletter(){
   }catch(e){
     setNewsletterStatus(`Erreur aperçu : ${String(e.message||e)}`,'error');
   }
+}
+
+async function readApiResponse(r){
+  const raw=await r.text();
+  if(!raw) return {};
+  try{
+    return JSON.parse(raw);
+  }catch{
+    return {error:raw};
+  }
+}
+
+async function newsletterDiagnostic(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  if(!api || !key) return null;
+
+  const r=await fetch(`${api}/admin/newsletter/status`,{
+    headers:{'X-Admin-Key':key}
+  });
+
+  const data=await readApiResponse(r);
+  if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+  return data;
 }
 
 async function sendNewsletterTest(){
@@ -1032,7 +1056,7 @@ async function sendNewsletterTest(){
       body:JSON.stringify({testEmail})
     });
 
-    const data=await r.json().catch(()=>({}));
+    const data=await readApiResponse(r);
     if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
 
     if(data.skipped){
@@ -1082,7 +1106,7 @@ async function sendNewsletterNow(){
       body:JSON.stringify({force:true})
     });
 
-    const data=await r.json().catch(()=>({}));
+    const data=await readApiResponse(r);
     if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
 
     if(data.skipped){
@@ -1101,7 +1125,20 @@ async function sendNewsletterNow(){
     );
 
   }catch(e){
-    setNewsletterStatus(`Erreur campagne : ${String(e.message||e)}`,'error');
+    let msg=String(e.message||e);
+    try{
+      const d=await newsletterDiagnostic();
+      if(d){
+        const missing=[];
+        if(!d.db) missing.push('binding D1 db');
+        if(!d.resendApiKey) missing.push('RESEND_API_KEY');
+        if(!d.newsletterFrom) missing.push('NEWSLETTER_FROM');
+        if(!d.newsletterSecret) missing.push('NEWSLETTER_SECRET');
+        if(!d.workerPublicUrl) missing.push('WORKER_PUBLIC_URL');
+        if(missing.length) msg+=` | Configuration manquante : ${missing.join(', ')}`;
+      }
+    }catch{}
+    setNewsletterStatus(`Erreur campagne : ${msg}`,'error');
   }
 }
 
