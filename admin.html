@@ -441,13 +441,42 @@
 .brand-suggestion:hover,.brand-suggestion.active{background:#fff4a8}
 .brand-suggestion-empty{padding:10px 12px;font-size:12px;color:#777}
 .brand-picker-help{margin-top:5px;font-size:11px;color:#777}
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
+
+.orders-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.orders-toolbar input{max-width:420px}
+.orders-summary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.orders-kpi{background:#111;color:#fff;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800}
+.orders-table-wrap{overflow:auto;border:1px solid #e5e5e5;border-radius:12px}
+.orders-table{width:100%;border-collapse:collapse;min-width:900px}
+.orders-table th,.orders-table td{padding:10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top;font-size:12px}
+.orders-table th{background:#f7f7f5;position:sticky;top:0;z-index:1}
+.order-status{display:inline-flex;padding:4px 7px;border-radius:999px;background:#16803a;color:#fff;font-weight:900;font-size:10px}
+.order-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;word-break:break-all}
+.order-items{margin:0;padding-left:16px}
+.order-items li{margin:2px 0}
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
 </div>
 <input id="api" type="hidden" value="https://soft-tree-927f.stephane-0f5.workers.dev"><label style="margin-top:9px">Clé admin</label><input id="key" type="password" placeholder="Votre mot de passe admin"><div class="status">Ces deux valeurs sont enregistrées uniquement dans ce navigateur. La clé GitHub n'est jamais stockée dans cette page.</div><button class="primary" id="connectBtn" style="margin-top:10px" onclick="connect()">Charger le catalogue</button>
 <div id="connectionStatus" class="publish-status hidden" style="margin-top:10px"></div></div>
+<div class="box hidden" id="ordersBox">
+  <div class="check-head">
+    <div>
+      <h2 style="margin:0">Mes commandes</h2>
+      <div class="muted">Historique des paiements PayPal capturés avec succès, comptes et invités.</div>
+    </div>
+    <button type="button" onclick="hideOrders()">Fermer</button>
+  </div>
+  <div class="orders-toolbar">
+    <input id="ordersSearch" type="search" placeholder="Rechercher client, email, ID PayPal, produit..." oninput="renderOrders()">
+    <button type="button" onclick="loadOrders()">↻ Actualiser</button>
+  </div>
+  <div class="orders-summary" id="ordersSummary"></div>
+  <div id="ordersList">Cliquez sur « Mes commandes » pour charger l'historique.</div>
+</div>
+
 <div class="box">
 <h2>Articles</h2>
 <input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, état, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
@@ -457,7 +486,7 @@
   <div class="check-head">
     <div>
       <h2 style="margin:0">Check produits</h2>
-      <div class="muted">Contrôle Catégorie / Sous-catégorie pour Vêtements et Chaussures.</div>
+      <div class="muted">Contrôle Catégorie / Sous-catégorie pour Mode et Chaussures.</div>
     </div>
     <button type="button" onclick="hideProductCheck()">Fermer</button>
   </div>
@@ -494,11 +523,11 @@
 </div>
 <div><label>Catégorie *</label><select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
-    <option value="Vêtements">Vêtements</option>
+    <option value="Mode">Mode</option>
     <option value="Chaussures">Chaussures</option>
     <option value="High-Tech">High-Tech</option>
     <option value="Loisirs">Loisirs</option>
-    <option value="Pour la maison">Pour la maison</option>
+    <option value="Maison &amp; Déco">Maison &amp; Déco</option>
     <option value="Colis Perdus">Colis Perdus</option>
   </select><datalist id="catlist"><option>Chaussures</option>
 <option>Vestes</option><option>Pulls</option><option>T-shirts</option><option>Accessoires</option><option>Jeans</option><option>Pantalons</option><option>Robes</option><option>Chemises</option></datalist></div>
@@ -601,6 +630,120 @@ let products=[],editing=null,oldPhotos=[];
 let selectedPhotoFiles=[];
 let galleryItems=[];
 const $=id=>document.getElementById(id);
+
+let adminOrders=[];
+
+function showOrders(){
+  const box=$('ordersBox');
+  if(box) box.classList.remove('hidden');
+  loadOrders();
+}
+
+function hideOrders(){
+  const box=$('ordersBox');
+  if(box) box.classList.add('hidden');
+}
+
+async function loadOrders(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  const list=$('ordersList');
+
+  if(!api || !key){
+    if(list) list.innerHTML='<div class="publish-status error">Connectez d’abord l’API avec votre clé admin.</div>';
+    return;
+  }
+
+  if(list) list.innerHTML='<div class="muted">Chargement des commandes…</div>';
+
+  try{
+    const r=await fetch(`${api}/admin/orders`,{
+      headers:{'X-Admin-Key':key}
+    });
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+
+    adminOrders=Array.isArray(data.orders)?data.orders:[];
+    renderOrders();
+  }catch(e){
+    if(list) list.innerHTML=`<div class="publish-status error">Erreur commandes : ${escapeHtml(String(e.message||e))}</div>`;
+  }
+}
+
+function renderOrders(){
+  const list=$('ordersList');
+  const summary=$('ordersSummary');
+  if(!list) return;
+
+  const q=normalizeBrandText($('ordersSearch')?.value||'');
+  const rows=adminOrders.filter(o=>{
+    if(!q) return true;
+    const items=(o.items||[]).map(i=>`${i.nom||i.name||''} ${i.marque||''} ${i.sku||''}`).join(' ');
+    return normalizeBrandText([
+      o.paypalOrderId,o.buyerName,o.buyerEmail,o.status,items
+    ].join(' ')).includes(q);
+  });
+
+  const total=rows.reduce((s,o)=>s+Number(o.total||0),0);
+  if(summary){
+    summary.innerHTML=`
+      <div class="orders-kpi">${rows.length} commande${rows.length>1?'s':''}</div>
+      <div class="orders-kpi">${total.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})}</div>
+    `;
+  }
+
+  if(!rows.length){
+    list.innerHTML='<div class="muted" style="padding:12px">Aucune commande trouvée.</div>';
+    return;
+  }
+
+  const dateFmt=v=>{
+    const d=new Date(v);
+    return Number.isNaN(d.getTime()) ? String(v||'') : d.toLocaleString('fr-FR');
+  };
+  const money=(n,c='EUR')=>Number(n||0).toLocaleString('fr-FR',{style:'currency',currency:c||'EUR'});
+
+  list.innerHTML=`
+    <div class="orders-table-wrap">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Articles</th>
+            <th>Montant</th>
+            <th>Statut</th>
+            <th>ID PayPal</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(o=>`
+            <tr>
+              <td>${escapeHtml(dateFmt(o.createdAt))}</td>
+              <td>
+                <b>${escapeHtml(o.buyerName||'Invité')}</b><br>
+                <span class="muted">${escapeHtml(o.buyerEmail||'')}</span>
+              </td>
+              <td>
+                <ul class="order-items">
+                  ${(o.items||[]).map(i=>`
+                    <li>${escapeHtml(i.nom||i.name||'Article')}
+                    ${i.marque?` — ${escapeHtml(i.marque)}`:''}
+                    ${i.taille?` (${escapeHtml(i.taille)})`:''}</li>
+                  `).join('') || '<li>—</li>'}
+                </ul>
+              </td>
+              <td><b>${escapeHtml(money(o.total,o.currency))}</b></td>
+              <td><span class="order-status">${escapeHtml(o.status||'')}</span></td>
+              <td class="order-id">${escapeHtml(o.paypalOrderId||'')}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
 
 
 
@@ -858,7 +1001,7 @@ function inferCheckMainCategory(p){
   const cat=normalizeCheckValue(p.categorie);
   const sub=normalizeCheckValue(p.sousCategorie||p.sous_categorie);
 
-  if(cat==='vetements' || cat==='vetement') return 'Vêtements';
+  if(cat==='vetements' || cat==='vetement' || cat==='mode') return 'Mode';
   if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)){
     return 'Chaussures';
   }
@@ -878,7 +1021,7 @@ function inferCheckMainCategory(p){
   ]);
 
   if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Chaussures';
-  if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Vêtements';
+  if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Mode';
 
   return '';
 }
@@ -940,18 +1083,18 @@ function showProductCheck(){
   const summary=$('productCheckSummary');
   const list=$('productCheckList');
 
-  const clothingCount=rows.filter(x=>x.target==='Vêtements').length;
+  const clothingCount=rows.filter(x=>x.target==='Mode').length;
   const shoesCount=rows.filter(x=>x.target==='Chaussures').length;
   const missingCategoryCount=rows.filter(x=>x.issues.some(i=>i.type==='category')).length;
   const missingSubCount=rows.filter(x=>x.issues.some(i=>i.type==='subcategory')).length;
 
   summary.innerHTML=
     `<b>${rows.length} annonce(s) à vérifier</b> · `+
-    `${clothingCount} Vêtements · ${shoesCount} Chaussures · `+
+    `${clothingCount} Mode · ${shoesCount} Chaussures · `+
     `${missingCategoryCount} catégorie(s) à corriger · ${missingSubCount} sous-catégorie(s) manquante(s)`;
 
   if(!rows.length){
-    list.innerHTML='<div class="check-ok">✓ Toutes les annonces Vêtements et Chaussures ont une catégorie principale et une sous-catégorie.</div>';
+    list.innerHTML='<div class="check-ok">✓ Toutes les annonces Mode et Chaussures ont une catégorie principale et une sous-catégorie.</div>';
   }else{
     list.innerHTML=rows.map(({product:p,target,issues})=>`
       <div class="check-item">
@@ -1167,7 +1310,7 @@ function editNextProduct(){
 }
 
 function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];closeBrandSuggestions();clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&['Informatique','Informatique / Tech'].includes(p.categorie))$('categorie').value='High-Tech';if($('categorie')&&['Sport','Sports'].includes(p.categorie))$('categorie').value='Loisirs';if($('categorie')&&['Basket','Baskets','Baskets / Chaussures'].includes(p.categorie))$('categorie').value='Chaussures';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&['Vêtements','Vetements','Mode'].includes(p.categorie))$('categorie').value='Mode';if($('categorie')&&['Informatique','Informatique / Tech'].includes(p.categorie))$('categorie').value='High-Tech';if($('categorie')&&['Pour la maison','Maison & Déco'].includes(p.categorie))$('categorie').value='Maison & Déco';if($('categorie')&&['Sport','Sports'].includes(p.categorie))$('categorie').value='Loisirs';if($('categorie')&&['Basket','Baskets','Baskets / Chaussures'].includes(p.categorie))$('categorie').value='Chaussures';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
   $('statut').value='Disponible';
