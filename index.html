@@ -67,6 +67,19 @@ header.header-hidden{
   cursor:pointer;
   flex:0 0 auto;
 }
+.favorite-cart-btn{
+  display:none;
+  border:0;
+  background:#ffd400;
+  color:#111;
+  border-radius:999px;
+  padding:9px 14px;
+  font-weight:950;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.favorite-cart-btn.show{display:inline-flex;align-items:center;gap:6px}
+.favorite-cart-btn:disabled{opacity:.45;cursor:not-allowed}
 .reset-filters:hover{background:#2b2b2b}
 
 main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px #0000000d;display:flex;flex-direction:column}.pic{
@@ -1660,7 +1673,10 @@ body.category-focus #catalogTitle{
   <section class="catalog-section" id="catalogue">
     <div class="section-head">
       <h2 id="catalogTitle">Tout le catalogue</h2>
-      <span id="catalogCount" class="catalog-count"></span>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+        <button type="button" id="favoriteCartBtn" class="favorite-cart-btn" onclick="addFavoritesToCart()">🛒 Ajouter les favoris au panier</button>
+        <span id="catalogCount" class="catalog-count"></span>
+      </div>
     </div>
 
     <div class="subcats catalogue-subcats" id="saleSubcats"></div>
@@ -1931,14 +1947,25 @@ function toggleFavorite(id,event){
   }
   saveFavorites();
   render();
+  updateFavoritesHeader();
 }
 function updateFavoritesHeader(){
   const count=document.getElementById('favoritesCount');
   const icon=document.getElementById('favoritesHeaderIcon');
   const btn=document.getElementById('favoritesHeaderBtn');
+  const cartBtn=document.getElementById('favoriteCartBtn');
   if(count) count.textContent=String(favorites.length);
   if(icon) icon.textContent=favoriteOnly?'♥':'♡';
   if(btn) btn.classList.toggle('favorites-active',favoriteOnly);
+
+  if(cartBtn){
+    const availableFavorites=products.filter(p=>isFavorite(p.id)&&canAddToCart(p));
+    cartBtn.classList.toggle('show',favoriteOnly);
+    cartBtn.disabled=!availableFavorites.length;
+    cartBtn.textContent=availableFavorites.length
+      ? `🛒 Ajouter les favoris au panier (${availableFavorites.length})`
+      : '🛒 Aucun favori disponible';
+  }
 }
 function showFavorites(){
   favoriteOnly=!favoriteOnly;
@@ -2784,6 +2811,37 @@ function card(p){
 }
 function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2>${stateBadge(p)}<div class="meta">${p.categorie} · Taille ${p.taille||'—'} <span class="detail-status ${statusClass(p)}">${p.statut}</span></div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
+function addFavoritesToCart(){
+  const favProducts=products.filter(p=>isFavorite(p.id)&&canAddToCart(p));
+  if(!favProducts.length) return;
+
+  let added=0;
+  for(const p of favProducts){
+    if(cart.some(x=>x.id===p.id)) continue;
+    cart.push({
+      id:p.id,
+      nom:p.nom,
+      marque:p.marque,
+      taille:p.taille,
+      prixVente:p.prixVente
+    });
+    added++;
+  }
+
+  localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));
+  updateCart();
+  updateFavoritesHeader();
+  openCart();
+
+  if(!added){
+    const status=document.getElementById('paypalStatus');
+    if(status){
+      status.className='paypal-status show info';
+      status.textContent='Tous vos favoris disponibles sont déjà dans le panier.';
+    }
+  }
+}
+
 function add(id){let p=products.find(x=>x.id===id);if(!p||!canAddToCart(p))return;if(!cart.some(x=>x.id===id))cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart();openCart()}
 function removeItem(id){cart=cart.filter(x=>x.id!==id);localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart()}
 function updateCart(){document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartRows').innerHTML=cart.length?cart.map(x=>`<div class="cartrow"><div><b>${x.marque||''} ${x.nom}</b><div class="meta">Taille ${x.taille} · ${euro(x.prixVente)}</div></div><button onclick="removeItem('${x.id}')">Retirer</button></div>`).join(''):'Panier vide';document.getElementById('cartTotal').textContent=euro(cart.reduce((s,x)=>s+Number(x.prixVente||0),0))}
