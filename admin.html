@@ -454,7 +454,7 @@
 .order-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;word-break:break-all}
 .order-items{margin:0;padding-left:16px}
 .order-items li{margin:2px 0}
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
@@ -475,6 +475,24 @@
   </div>
   <div class="orders-summary" id="ordersSummary"></div>
   <div id="ordersList">Cliquez sur « Mes commandes » pour charger l'historique.</div>
+</div>
+
+
+<div class="box hidden" id="usersBox">
+  <div class="check-head">
+    <div>
+      <h2 style="margin:0">Utilisateurs</h2>
+      <div class="muted">Comptes clients créés sur le site.</div>
+    </div>
+    <button type="button" onclick="hideUsers()">Fermer</button>
+  </div>
+  <div class="orders-toolbar">
+    <input id="usersSearch" type="search" placeholder="Rechercher nom, email, ville..." oninput="renderUsers()">
+    <button type="button" onclick="loadUsers()">↻ Actualiser</button>
+    <button type="button" onclick="exportUsersCsv()">Exporter CSV</button>
+  </div>
+  <div class="orders-summary" id="usersSummary"></div>
+  <div id="usersList">Cliquez sur « Utilisateurs » pour charger les comptes.</div>
 </div>
 
 <div class="box hidden" id="subscribersBox">
@@ -652,6 +670,175 @@ const $=id=>document.getElementById(id);
 let adminOrders=[];
 
 let newsletterSubscribers=[];
+
+let adminUsers=[];
+
+function showUsers(){
+  const box=$('usersBox');
+  if(box) box.classList.remove('hidden');
+  loadUsers();
+}
+
+function hideUsers(){
+  const box=$('usersBox');
+  if(box) box.classList.add('hidden');
+}
+
+async function loadUsers(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  const list=$('usersList');
+
+  if(!api || !key){
+    if(list) list.innerHTML='<div class="publish-status error">Connectez d’abord l’API avec votre clé admin.</div>';
+    return;
+  }
+
+  if(list) list.innerHTML='<div class="muted">Chargement des utilisateurs…</div>';
+
+  try{
+    const r=await fetch(`${api}/admin/users`,{
+      headers:{'X-Admin-Key':key}
+    });
+
+    const data=await r.json().catch(()=>({}));
+
+    if(!r.ok){
+      throw new Error(data.error || `HTTP ${r.status}`);
+    }
+
+    adminUsers=Array.isArray(data.users)?data.users:[];
+    renderUsers();
+
+  }catch(e){
+    if(list){
+      list.innerHTML=`<div class="publish-status error">Erreur utilisateurs : ${escapeHtml(String(e.message||e))}</div>`;
+    }
+  }
+}
+
+function filteredUsers(){
+  const q=normalizeBrandText($('usersSearch')?.value||'');
+
+  return adminUsers.filter(u=>{
+    if(!q) return true;
+
+    return normalizeBrandText([
+      u.firstName,
+      u.lastName,
+      u.email,
+      u.phone,
+      u.address1,
+      u.address2,
+      u.postalCode,
+      u.city,
+      u.country
+    ].join(' ')).includes(q);
+  });
+}
+
+function renderUsers(){
+  const list=$('usersList');
+  const summary=$('usersSummary');
+  if(!list) return;
+
+  const rows=filteredUsers();
+
+  if(summary){
+    summary.innerHTML=`
+      <div class="orders-kpi">${rows.length} utilisateur${rows.length>1?'s':''}</div>
+    `;
+  }
+
+  if(!rows.length){
+    list.innerHTML='<div class="muted" style="padding:12px">Aucun utilisateur trouvé.</div>';
+    return;
+  }
+
+  const dateFmt=v=>{
+    const d=new Date(v);
+    return Number.isNaN(d.getTime()) ? String(v||'') : d.toLocaleString('fr-FR');
+  };
+
+  list.innerHTML=`
+    <div class="orders-table-wrap">
+      <table class="orders-table" style="min-width:1150px">
+        <thead>
+          <tr>
+            <th>Créé le</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Adresse</th>
+            <th>CP</th>
+            <th>Ville</th>
+            <th>Pays</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(u=>`
+            <tr>
+              <td>${escapeHtml(dateFmt(u.createdAt))}</td>
+              <td><b>${escapeHtml(`${u.firstName||''} ${u.lastName||''}`.trim() || '—')}</b></td>
+              <td>${escapeHtml(u.email||'')}</td>
+              <td>${escapeHtml(u.phone||'—')}</td>
+              <td>
+                ${escapeHtml(u.address1||'—')}
+                ${u.address2?`<br><span class="muted">${escapeHtml(u.address2)}</span>`:''}
+              </td>
+              <td>${escapeHtml(u.postalCode||'—')}</td>
+              <td>${escapeHtml(u.city||'—')}</td>
+              <td>${escapeHtml(u.country||'—')}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function exportUsersCsv(){
+  const rows=filteredUsers();
+
+  if(!rows.length){
+    alert('Aucun utilisateur à exporter.');
+    return;
+  }
+
+  const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+
+  const csv=[
+    ['Date création','Prénom','Nom','Email','Téléphone','Adresse 1','Adresse 2','Code postal','Ville','Pays']
+      .map(esc).join(';'),
+    ...rows.map(u=>[
+      u.createdAt,
+      u.firstName,
+      u.lastName,
+      u.email,
+      u.phone,
+      u.address1,
+      u.address2,
+      u.postalCode,
+      u.city,
+      u.country
+    ].map(esc).join(';'))
+  ].join('\r\n');
+
+  const blob=new Blob(
+    ['\uFEFF'+csv],
+    {type:'text/csv;charset=utf-8'}
+  );
+
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`upstyle-utilisateurs-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 
 function showSubscribers(){
   const box=$('subscribersBox');
