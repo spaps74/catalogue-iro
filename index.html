@@ -119,6 +119,7 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 .detail-cart-btn{background:#ffd400;color:#111}
 .detail-cart-btn:disabled{opacity:.4;cursor:not-allowed}
 .detail-question-btn{background:#f2f2f2;color:#111}
+.detail-whatsapp-btn{background:#25D366;color:#fff;font-size:20px}
 .question-modal{position:fixed;inset:0;z-index:12000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}
 .question-modal.open{display:flex}
 .question-box{width:min(560px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:0 18px 60px #0005}
@@ -2901,6 +2902,13 @@ function details(id){
           aria-label="Poser une question sur ce produit"
           title="Poser une question"
         >✉</button>
+        <button
+          type="button"
+          class="detail-action detail-whatsapp-btn"
+          onclick="shareProductWhatsApp('${p.id}')"
+          aria-label="Partager sur WhatsApp"
+          title="Partager sur WhatsApp"
+        >☏</button>
       </div>
     </div>
     ${stateBadge(p)}
@@ -2934,6 +2942,21 @@ function toggleDetailFavorite(id,event){
 function addFromDetail(id){
   closeDetail();
   add(id);
+}
+
+function shareProductWhatsApp(id){
+  const p=products.find(x=>String(x.id)===String(id));
+  if(!p) return;
+
+  const productUrl=location.origin+'/produit.html?id='+encodeURIComponent(String(p.id||''));
+  const productName=(p.marque?p.marque+' — ':'')+(p.nom||'Produit');
+  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+productUrl;
+
+  window.open(
+    'https://wa.me/?text='+encodeURIComponent(message),
+    '_blank',
+    'noopener'
+  );
 }
 
 function openProductQuestion(id){
