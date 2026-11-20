@@ -1,5 +1,30 @@
 [
   {
+    "id": "thousand-thousand-casque-de-velo-pour-adulte-collection-heritage",
+    "nom": "Thousand Casque de vélo pour Adulte - Collection Heritage",
+    "marque": "Thousand",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 134,
+    "prixVente": 55,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Casque de vélo Thousand de la collection Heritage, un casque minimaliste et élégant certifié pour la sécurité en vélo, skateboard et patinage.\n- Type de produit : Casque\n- Marque : Thousand\n- Modèle : Heritage\n- Univers : Mixte\n- Taille : L\n- Couleur : Noir avec bande blanche\n- Pratique : Vélo, Skateboard, Patinage\n- Design : Minimaliste inspiré des casques moto vintage\n- Accessoires inclus : Sangle de maintien en cuir marron",
+    "photos": [
+      "photos/thousand-1795162980335-1.jpg",
+      "photos/thousand-1795162981788-2.jpg",
+      "photos/thousand-1795162983420-3.jpg",
+      "photos/thousand-1795162984998-4.jpg"
+    ],
+    "createdAt": "2026-11-20T08:23:06.463Z",
+    "updatedAt": "2026-11-20T08:23:06.463Z"
+  },
+  {
     "id": "kingbike-casque-vtt-visiere-amovible-in-mould-casque-de-securite-mtb-m",
     "nom": "Casque VTT visière amovible In‑Mould Casque de sécurité MTB",
     "marque": "KingBike",
