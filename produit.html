@@ -65,7 +65,8 @@ function shareProductWhatsApp(){
   if(!currentProduct)return;
 
   const productName=(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit');
-  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+location.href;
+  const shareUrl=WORKER_URL+'/share/product/'+encodeURIComponent(String(currentProduct.id||''));
+  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+shareUrl;
 
   window.open(
     'https://wa.me/?text='+encodeURIComponent(message),
