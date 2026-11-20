@@ -2950,7 +2950,7 @@ function shareProductWhatsApp(id){
 
   const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(p.id||''));
   const productName=(p.marque?p.marque+' — ':'')+(p.nom||'Produit');
-  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+shareUrl;
+  const message=productName+'\n'+shareUrl;
 
   window.open(
     'https://wa.me/?text='+encodeURIComponent(message),
