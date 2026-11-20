@@ -525,9 +525,7 @@
 <h2>Articles</h2>
 <input id="catalogSearch" type="search" placeholder="Rechercher nom, marque, état, catégorie, taille, SKU, statut..." oninput="renderList()" style="margin-bottom:10px">
 <div id="list" class="list">Connectez l'API pour charger les produits.</div>
-<div class="new-product-bottom">
-  <button type="button" onclick="newProduct()">➕ Publier un nouvel article</button>
-</div>
+
 </div>
 <div class="box hidden" id="productCheckBox">
   <div class="check-head">
@@ -628,6 +626,7 @@
 </div>
 </div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
   <button class="primary" onclick="publish()">Publier / Enregistrer</button>
+  <button class="yellow" type="button" onclick="newProduct()">➕ Publier un nouvel article</button>
   <button onclick="hideEditor()">Annuler</button>
   <button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button>
   <button class="yellow hidden" id="prevProductBtn" type="button" onclick="editPreviousProduct()">← Produit précédent</button>
