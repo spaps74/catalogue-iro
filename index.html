@@ -118,6 +118,20 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 .detail-action.favorite-btn.active{background:#111;color:#ffd400}
 .detail-cart-btn{background:#ffd400;color:#111}
 .detail-cart-btn:disabled{opacity:.4;cursor:not-allowed}
+.detail-question-btn{background:#f2f2f2;color:#111}
+.question-modal{position:fixed;inset:0;z-index:12000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}
+.question-modal.open{display:flex}
+.question-box{width:min(560px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:0 18px 60px #0005}
+.question-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.question-head h3{margin:0;font-size:22px}
+.question-close{width:38px;height:38px;border:0;border-radius:50%;font-size:22px;cursor:pointer}
+.question-product{padding:10px 12px;background:#f7f7f5;border-radius:10px;font-weight:850;font-size:13px;margin-bottom:12px}
+.question-form{display:grid;gap:10px}
+.question-form label{font-size:12px;font-weight:850}
+.question-form input,.question-form textarea{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:10px 11px;font:inherit}
+.question-form textarea{min-height:130px;resize:vertical}
+.question-submit{border:0;border-radius:11px;padding:12px 15px;background:#111;color:#fff;font-weight:900;cursor:pointer}
+.question-note{font-size:11px;color:#777;line-height:1.4}
 @media(max-width:600px){.detail-head{margin-right:34px;gap:8px}.detail-head h2{font-size:21px}.detail-action{width:38px;height:38px;font-size:21px}}
 @media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
 
@@ -1753,6 +1767,24 @@ body.category-focus #catalogTitle{
 <button class="order secondary" onclick="order()">Commander par email</button></div></div>
 <div class="detailmodal" id="detail"><div class="detailbox"><button class="close" onclick="closeDetail()">×</button><div id="detailBody"></div></div></div>
 
+<div class="question-modal" id="productQuestionModal" aria-hidden="true">
+  <div class="question-box">
+    <div class="question-head">
+      <h3>Poser une question</h3>
+      <button type="button" class="question-close" onclick="closeProductQuestion()">×</button>
+    </div>
+    <div class="question-product" id="questionProductLabel"></div>
+    <form class="question-form" onsubmit="sendProductQuestion(event)">
+      <input type="hidden" id="questionProductId">
+      <label>Votre nom<input id="questionName" type="text" autocomplete="name" required></label>
+      <label>Votre email<input id="questionEmail" type="email" autocomplete="email" required></label>
+      <label>Votre question<textarea id="questionText" required placeholder="Votre question sur ce produit…"></textarea></label>
+      <button class="question-submit" type="submit">✉ Envoyer la question</button>
+      <div class="question-note">Votre logiciel de messagerie s’ouvrira avec le message déjà préparé.</div>
+    </form>
+  </div>
+</div>
+
 <div class="account-overlay" id="accountModal" aria-hidden="true">
   <div class="account-box">
     <button class="account-close" type="button" onclick="closeAccount()">×</button>
@@ -2861,6 +2893,13 @@ function details(id){
           aria-label="Ajouter au panier"
           title="${canAdd?'Ajouter au panier':'Produit indisponible'}"
         >🛒</button>
+        <button
+          type="button"
+          class="detail-action detail-question-btn"
+          onclick="openProductQuestion('${p.id}')"
+          aria-label="Poser une question sur ce produit"
+          title="Poser une question"
+        >✉</button>
       </div>
     </div>
     ${stateBadge(p)}
@@ -2894,6 +2933,43 @@ function toggleDetailFavorite(id,event){
 function addFromDetail(id){
   closeDetail();
   add(id);
+}
+
+function openProductQuestion(id){
+  const p=products.find(x=>String(x.id)===String(id));
+  if(!p) return;
+  document.getElementById('questionProductId').value=String(p.id||'');
+  document.getElementById('questionProductLabel').textContent=(p.marque?p.marque+' — ':'')+(p.nom||'Produit');
+  if(accountUser){
+    const name=[accountUser.firstName,accountUser.lastName].filter(Boolean).join(' ').trim();
+    if(name) document.getElementById('questionName').value=name;
+    if(accountUser.email) document.getElementById('questionEmail').value=accountUser.email;
+  }
+  document.getElementById('questionText').value='';
+  const modal=document.getElementById('productQuestionModal');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+}
+function closeProductQuestion(){
+  const modal=document.getElementById('productQuestionModal');
+  if(!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+}
+function sendProductQuestion(event){
+  event.preventDefault();
+  const id=document.getElementById('questionProductId').value;
+  const p=products.find(x=>String(x.id)===String(id));
+  if(!p) return;
+  const name=document.getElementById('questionName').value.trim();
+  const email=document.getElementById('questionEmail').value.trim();
+  const question=document.getElementById('questionText').value.trim();
+  if(!name||!email||!question) return;
+  const productUrl=location.origin+'/produit.html?id='+encodeURIComponent(String(p.id||''));
+  const subject='Question produit Upstyle — '+(p.nom||p.id||'Produit');
+  const body=['Bonjour,','','Je souhaite poser une question sur le produit suivant :',(p.marque?p.marque+' — ':'')+(p.nom||'Produit'),'Référence : '+(p.sku||p.id||'—'),'Lien : '+productUrl,'','Question :',question,'','Nom : '+name,'Email : '+email].join('\n');
+  closeProductQuestion();
+  window.location.href='mailto:stephane@upstyle-destock.fr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
 }
 
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
