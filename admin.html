@@ -459,7 +459,22 @@
 .question-product-thumb-empty{width:58px;height:58px;display:flex;align-items:center;justify-content:center;background:#f3f3f3;border:1px solid #eee;border-radius:9px;color:#999;font-size:9px;font-weight:900;flex:0 0 58px}
 .question-text{white-space:pre-wrap;line-height:1.45;min-width:260px}
 .question-email-link{color:#111;font-weight:800}
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="questionsBtn" type="button" onclick="showProductQuestions()">✉ Questions produits</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
+
+.analytics-kpis{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:10px;margin:12px 0 16px}
+.analytics-kpi{background:#111;color:#fff;border-radius:14px;padding:14px}
+.analytics-kpi b{display:block;font-size:24px;line-height:1;margin-bottom:6px}
+.analytics-kpi span{font-size:11px;color:#ccc;font-weight:800}
+.analytics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}
+.analytics-panel{border:1px solid #e8e3d8;border-radius:14px;padding:12px;background:#fff}
+.analytics-panel h3{margin:0 0 10px}
+.analytics-list{display:flex;flex-direction:column;gap:7px}
+.analytics-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eee}
+.analytics-row:last-child{border-bottom:0}
+.analytics-row small{color:#777}
+.analytics-bar{height:6px;background:#f0eee8;border-radius:999px;overflow:hidden;margin-top:5px}
+.analytics-bar>i{display:block;height:100%;background:#ffd400}
+@media(max-width:850px){.analytics-kpis{grid-template-columns:repeat(2,1fr)}.analytics-grid{grid-template-columns:1fr}}
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="analyticsBtn" type="button" onclick="showAnalytics()">📊 Visites</button><button class="yellow" id="questionsBtn" type="button" onclick="showProductQuestions()">✉ Questions produits</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
@@ -482,6 +497,20 @@
   <div id="ordersList">Cliquez sur « Mes commandes » pour charger l'historique.</div>
 </div>
 
+
+<div class="box hidden" id="analyticsBox">
+  <div class="check-head">
+    <div>
+      <h2 style="margin:0">Suivi des visites</h2>
+      <div class="muted">Statistiques de fréquentation et géolocalisation approximative Cloudflare, sans stockage de l'adresse IP brute.</div>
+    </div>
+    <button type="button" onclick="hideAnalytics()">Fermer</button>
+  </div>
+  <div class="orders-toolbar">
+    <button type="button" onclick="loadAnalytics()">↻ Actualiser</button>
+  </div>
+  <div id="analyticsContent"><div class="muted">Cliquez sur « Visites » pour charger les statistiques.</div></div>
+</div>
 
 <div class="box hidden" id="questionsBox">
   <div class="check-head">
@@ -716,6 +745,149 @@ let adminOrders=[];
 let newsletterSubscribers=[];
 
 let adminProductQuestions=[];
+
+let adminAnalytics=null;
+
+function showAnalytics(){
+  const box=$('analyticsBox');
+  if(box) box.classList.remove('hidden');
+  loadAnalytics();
+}
+
+function hideAnalytics(){
+  $('analyticsBox')?.classList.add('hidden');
+}
+
+async function loadAnalytics(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  const target=$('analyticsContent');
+
+  if(!api || !key){
+    if(target) target.innerHTML='<div class="publish-status error">Connectez d’abord l’API avec votre clé admin.</div>';
+    return;
+  }
+
+  if(target) target.innerHTML='<div class="muted">Chargement des statistiques…</div>';
+
+  try{
+    const r=await fetch(`${api}/admin/analytics`,{
+      headers:{'X-Admin-Key':key}
+    });
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+    adminAnalytics=data;
+    renderAnalytics();
+  }catch(e){
+    if(target) target.innerHTML=`<div class="publish-status error">Erreur statistiques : ${escapeHtmlValue(String(e.message||e))}</div>`;
+  }
+}
+
+function analyticsCountryName(code){
+  try{
+    if(!code) return 'Inconnu';
+    return new Intl.DisplayNames(['fr'],{type:'region'}).of(String(code).toUpperCase()) || code;
+  }catch{
+    return code || 'Inconnu';
+  }
+}
+
+function renderAnalytics(){
+  const target=$('analyticsContent');
+  if(!target || !adminAnalytics) return;
+
+  const a=adminAnalytics;
+  const fmt=n=>Number(n||0).toLocaleString('fr-FR');
+  const dateFmt=v=>{
+    const d=new Date(v);
+    return Number.isNaN(d.getTime())?String(v||''):d.toLocaleString('fr-FR');
+  };
+
+  const kpi=(label,obj)=>`
+    <div class="analytics-kpi">
+      <b>${fmt(obj?.visits)}</b>
+      <span>${escapeHtmlValue(label)} · ${fmt(obj?.uniqueVisitors)} visiteur${Number(obj?.uniqueVisitors||0)>1?'s':''} unique${Number(obj?.uniqueVisitors||0)>1?'s':''}</span>
+    </div>`;
+
+  const topVisits=Math.max(1,...(a.cities||[]).map(x=>Number(x.visits||0)));
+  const cityRows=(a.cities||[]).slice(0,20).map(x=>{
+    const pct=Math.max(2,Math.round(Number(x.visits||0)/topVisits*100));
+    const place=[x.city,x.region,analyticsCountryName(x.country)].filter(Boolean).join(' · ');
+    const mapLink=(x.latitude!=null && x.longitude!=null)
+      ? `https://www.openstreetmap.org/?mlat=${encodeURIComponent(x.latitude)}&mlon=${encodeURIComponent(x.longitude)}#map=10/${encodeURIComponent(x.latitude)}/${encodeURIComponent(x.longitude)}`
+      : '';
+    return `<div class="analytics-row">
+      <div>
+        <b>${escapeHtmlValue(place||'Localisation inconnue')}</b>
+        <div class="analytics-bar"><i style="width:${pct}%"></i></div>
+        ${mapLink?`<small><a href="${mapLink}" target="_blank" rel="noopener">Voir sur la carte</a></small>`:''}
+      </div>
+      <div><b>${fmt(x.visits)}</b><br><small>${fmt(x.unique_visitors)} uniques</small></div>
+    </div>`;
+  }).join('');
+
+  const countryRows=(a.countries||[]).slice(0,15).map(x=>`
+    <div class="analytics-row">
+      <div><b>${escapeHtmlValue(analyticsCountryName(x.country))}</b></div>
+      <div><b>${fmt(x.visits)}</b><br><small>${fmt(x.unique_visitors)} uniques</small></div>
+    </div>`
+  ).join('');
+
+  const pageRows=(a.pages||[]).slice(0,20).map(x=>`
+    <div class="analytics-row">
+      <div><b>${escapeHtmlValue(x.page_title||x.path||'/')}</b><br><small>${escapeHtmlValue(x.path||'')}</small></div>
+      <div><b>${fmt(x.visits)}</b><br><small>${fmt(x.unique_visitors)} uniques</small></div>
+    </div>`
+  ).join('');
+
+  const recentRows=(a.recent||[]).slice(0,50).map(x=>`
+    <tr>
+      <td>${escapeHtmlValue(dateFmt(x.createdAt))}</td>
+      <td>${escapeHtmlValue([x.city,x.region,analyticsCountryName(x.country)].filter(Boolean).join(' · ')||'—')}</td>
+      <td>${escapeHtmlValue(x.device||'—')}</td>
+      <td>${escapeHtmlValue(x.pageTitle||x.path||'—')}<br><span class="muted">${escapeHtmlValue(x.path||'')}</span></td>
+    </tr>`
+  ).join('');
+
+  target.innerHTML=`
+    <div class="analytics-kpis">
+      ${kpi('Aujourd’hui',a.today)}
+      ${kpi('7 derniers jours',a.last7Days)}
+      ${kpi('30 derniers jours',a.last30Days)}
+      ${kpi('Depuis le début',a.totals)}
+    </div>
+
+    <div class="analytics-grid">
+      <div class="analytics-panel">
+        <h3>📍 Villes principales</h3>
+        <div class="analytics-list">${cityRows||'<div class="muted">Pas encore de données.</div>'}</div>
+      </div>
+      <div class="analytics-panel">
+        <h3>🌍 Pays</h3>
+        <div class="analytics-list">${countryRows||'<div class="muted">Pas encore de données.</div>'}</div>
+      </div>
+      <div class="analytics-panel">
+        <h3>📄 Pages les plus visitées</h3>
+        <div class="analytics-list">${pageRows||'<div class="muted">Pas encore de données.</div>'}</div>
+      </div>
+      <div class="analytics-panel">
+        <h3>ℹ️ Fonctionnement</h3>
+        <div class="muted" style="line-height:1.6">
+          La localisation est estimée par Cloudflare à partir de la connexion du visiteur. Elle peut être approximative, notamment avec un VPN ou un réseau mobile. L'adresse IP brute n'est pas enregistrée.
+        </div>
+      </div>
+    </div>
+
+    <div class="analytics-panel" style="margin-top:14px">
+      <h3>Dernières visites</h3>
+      <div class="orders-table-wrap">
+        <table class="orders-table">
+          <thead><tr><th>Date</th><th>Localisation</th><th>Appareil</th><th>Page</th></tr></thead>
+          <tbody>${recentRows||'<tr><td colspan="4">Pas encore de visites enregistrées.</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
 
 let adminUsers=[];
 
