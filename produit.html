@@ -86,7 +86,9 @@ let currentProduct=null;
 function shareProductWhatsApp(){
   if(!currentProduct)return;
 
-  const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(currentProduct.id||''))+'/';
+  const previewPhoto=Array.isArray(currentProduct.photos)&&currentProduct.photos.length?String(currentProduct.photos[0]||''):'';
+  const previewVersion=(previewPhoto.split('/').pop()||'v2').replace(/[^a-zA-Z0-9._-]/g,'');
+  const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(currentProduct.id||''))+'/?v='+encodeURIComponent(previewVersion||'v2');
   const message='J’ai trouvé ça qui pourrait t’intéresser '+String.fromCodePoint(0x1F440)+'\n'+shareUrl;
 
   window.open(
