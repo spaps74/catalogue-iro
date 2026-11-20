@@ -1,5 +1,29 @@
 [
   {
+    "id": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire",
+    "nom": "SKINWALKER Gigoteuse pour adulte avec couverture polaire",
+    "marque": "SKINWALKER",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "MAtelas camping",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 65,
+    "prixVente": 35,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Gigoteuse SKINWALKER pour adulte, un sac de couchage polyvalent 4 saisons avec couverture polaire amovible, parfait pour le camping, la randonnée et les festivals.\n- Type de produit : Gigoteuse/Sac de couchage pour adulte\n- Marque : SKINWALKER\n- Activité/Sport : Camping et randonnée\n- Utilisation : 4 saisons (été et hiver)\n- Caractéristiques : Couverture polaire amovible\n- Matière : Polaire (couverture), tissu technique (sac)\n- Couleur : Jaune fluo, noir, gris\n- Fonctionnalités : Pliable, compact, polyvalent\n- Accessoires inclus : Sac de transport compact\n- Particularité : Marque autrichienne, design innovant avec fleece amovible",
+    "photos": [
+      "photos/skinwalker-1795142934602-1.avif",
+      "photos/skinwalker-1795142936143-2.avif",
+      "photos/skinwalker-1795142937842-3.webp"
+    ],
+    "createdAt": "2026-11-20T02:48:59.353Z",
+    "updatedAt": "2026-11-20T02:48:59.353Z"
+  },
+  {
     "id": "easymx-easysmx-manette-telephone-manette-smartphone-usb-c",
     "nom": "EasySMX Manette Téléphone, Manette Smartphone USB-C",
     "marque": "EasyMX",
