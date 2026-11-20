@@ -2404,22 +2404,28 @@ function renderSubcategoryMenu(type){
     return;
   }
 
-  if(type!=='Chaussures') return;
+  // Affichage des sous-catégories sous le titre pour les univers
+  // qui en bénéficient le plus dans le catalogue.
+  if(!['Chaussures','High-Tech','Loisirs'].includes(type)) return;
 
   const subs=subcategoriesForSaleType(type);
   if(!subs.length) return;
 
   const allBtn=document.createElement('button');
   allBtn.type='button';
-  allBtn.className='subcat-btn active';
-  allBtn.textContent='Toutes les chaussures';
+  allBtn.className='subcat-btn'+(!saleSubcatFilter?' active':'');
+  allBtn.textContent=saleTypeAllLabel(type);
   allBtn.addEventListener('click',()=>selectSaleSubcat('',allBtn));
   target.appendChild(allBtn);
 
   for(const sub of subs){
     const btn=document.createElement('button');
     btn.type='button';
-    btn.className='subcat-btn';
+    btn.className='subcat-btn'+(
+      normSaleTxt(saleSubcatFilter)===normSaleTxt(sub)
+        ? ' active'
+        : ''
+    );
     btn.textContent=sub;
     btn.dataset.subcat=sub;
     btn.addEventListener('click',()=>selectSaleSubcat(btn.dataset.subcat,btn));
