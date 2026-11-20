@@ -2948,9 +2948,9 @@ function shareProductWhatsApp(id){
   const p=products.find(x=>String(x.id)===String(id));
   if(!p) return;
 
-  const productUrl=location.origin+'/produit.html?id='+encodeURIComponent(String(p.id||''));
+  const shareUrl=WORKER_URL+'/share/product/'+encodeURIComponent(String(p.id||''));
   const productName=(p.marque?p.marque+' — ':'')+(p.nom||'Produit');
-  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+productUrl;
+  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+shareUrl;
 
   window.open(
     'https://wa.me/?text='+encodeURIComponent(message),
