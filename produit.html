@@ -22,12 +22,26 @@ h1{font-size:30px;line-height:1.15;margin:8px 0 12px}.meta{font-size:13px;color:
 .stock{font-size:13px;font-weight:800;margin-bottom:18px}.stock.ok{color:#18703a}.stock.no{color:#a11}.actions{display:flex;gap:10px;flex-wrap:wrap}
 button,.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:900;cursor:pointer;text-decoration:none;font-size:14px}
 .primary{background:#111;color:#fff}.secondary{background:#ffd400;color:#111}.note{font-size:12px;color:#777;margin-top:14px}
+.quick-actions{display:flex;gap:8px;margin:0 0 14px}.quick-icon{width:42px;height:42px;border:0;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:23px;cursor:pointer;box-shadow:0 3px 12px #0002}.quick-fav{background:#fff;color:#111}.quick-fav.active{background:#111;color:#ffd400}.quick-cart{background:#ffd400;color:#111}.quick-question{background:#f2f2f2;color:#111}
+.question-modal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}.question-modal.open{display:flex}.question-box{width:min(560px,100%);background:#fff;border-radius:18px;padding:20px}.question-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.question-head h3{margin:0}.question-close{width:38px;height:38px;border:0;border-radius:50%;font-size:22px}.question-product{margin:14px 0 12px;padding:10px 12px;background:#f7f7f5;border-radius:10px;font-weight:850;font-size:13px}.question-form{display:grid;gap:10px}.question-form label{font-size:12px;font-weight:850}.question-form input,.question-form textarea{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:10px;font:inherit}.question-form textarea{min-height:130px;resize:vertical}.question-form button{background:#111;color:#fff}
 @media(max-width:760px){.card{grid-template-columns:1fr}.info{padding:22px}h1{font-size:25px}.hero-img{aspect-ratio:4/3}}
 </style>
 </head>
 <body>
 <header><div class="header-inner"><a class="brand" href="/">UPSTYLE<span>-DESTOCK</span></a><a class="back" href="/">Voir le catalogue</a></div></header>
 <main><div id="app" class="status">Chargement du produit…</div></main>
+<div class="question-modal" id="productQuestionModal" aria-hidden="true">
+  <div class="question-box">
+    <div class="question-head"><h3>Poser une question</h3><button type="button" class="question-close" onclick="closeProductQuestion()">×</button></div>
+    <div class="question-product" id="questionProductLabel"></div>
+    <form class="question-form" onsubmit="sendProductQuestion(event)">
+      <label>Votre nom<input id="questionName" type="text" autocomplete="name" required></label>
+      <label>Votre email<input id="questionEmail" type="email" autocomplete="email" required></label>
+      <label>Votre question<textarea id="questionText" required placeholder="Votre question sur ce produit…"></textarea></label>
+      <button type="submit">✉ Envoyer la question</button>
+    </form>
+  </div>
+</div>
 <script>
 const WORKER_URL='https://soft-tree-927f.stephane-0f5.workers.dev';
 const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n||0));
@@ -35,6 +49,42 @@ const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replac
 function discount(p){const retail=Number(p.prixRetail||0),sale=Number(p.prixVente||0);return retail>sale&&retail>0?Math.round((1-sale/retail)*100):0}
 function setMainPhoto(src,index){const img=document.getElementById('mainPhoto');if(img)img.src=src;document.querySelectorAll('.thumbs img').forEach((x,i)=>x.classList.toggle('active',i===index))}
 function addToCart(p){const key='upstyle_cart_v2';let cart=[];try{cart=JSON.parse(localStorage.getItem(key)||'[]')}catch{}if(!Array.isArray(cart))cart=[];if(!cart.some(x=>x.id===p.id)){cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem(key,JSON.stringify(cart))}window.location.href='/'}
+function loadFavs(){try{const v=JSON.parse(localStorage.getItem('upstyle_favorites_v1')||'[]');return Array.isArray(v)?v.map(String):[]}catch{return []}}
+function isFav(id){return loadFavs().includes(String(id))}
+function toggleFav(p){
+  let favs=loadFavs(),id=String(p.id);
+  favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];
+  localStorage.setItem('upstyle_favorites_v1',JSON.stringify(favs));
+  const b=document.getElementById('favBtn');
+  if(b){const active=favs.includes(id);b.classList.toggle('active',active);b.textContent=active?'♥':'♡';}
+}
+let currentProduct=null;
+function openProductQuestion(){
+  if(!currentProduct)return;
+  document.getElementById('questionProductLabel').textContent=(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit');
+  document.getElementById('questionText').value='';
+  const m=document.getElementById('productQuestionModal');
+  m.classList.add('open');
+  m.setAttribute('aria-hidden','false');
+}
+function closeProductQuestion(){
+  const m=document.getElementById('productQuestionModal');
+  if(!m)return;
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden','true');
+}
+function sendProductQuestion(e){
+  e.preventDefault();
+  if(!currentProduct)return;
+  const name=document.getElementById('questionName').value.trim();
+  const email=document.getElementById('questionEmail').value.trim();
+  const q=document.getElementById('questionText').value.trim();
+  if(!name||!email||!q)return;
+  const subject='Question produit Upstyle — '+(currentProduct.nom||currentProduct.id||'Produit');
+  const body=['Bonjour,','','Je souhaite poser une question sur le produit suivant :',(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit'),'Référence : '+(currentProduct.sku||currentProduct.id||'—'),'Lien : '+location.href,'','Question :',q,'','Nom : '+name,'Email : '+email].join('\n');
+  closeProductQuestion();
+  window.location.href='mailto:stephane@upstyle-destock.fr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+}
 async function loadProduct(){
   const id=new URLSearchParams(location.search).get('id')||'',app=document.getElementById('app');
   if(!id){app.textContent='Produit non spécifié.';return}
@@ -53,6 +103,11 @@ async function loadProduct(){
         <div class="info">
           <div class="brandline">${esc(p.marque||'UPSTYLE')}</div>
           <h1>${esc(p.nom||'Produit')}</h1>
+          <div class="quick-actions">
+            <button type="button" id="favBtn" class="quick-icon quick-fav ${isFav(p.id)?'active':''}" title="${isFav(p.id)?'Retirer des favoris':'Ajouter aux favoris'}">${isFav(p.id)?'♥':'♡'}</button>
+            <button type="button" id="quickCartBtn" class="quick-icon quick-cart" ${available?'':'disabled'} title="${available?'Ajouter au panier':'Produit indisponible'}">🛒</button>
+            <button type="button" id="questionBtn" class="quick-icon quick-question" title="Poser une question">✉</button>
+          </div>
           <div class="meta">${esc(p.categorie||'')}${p.sousCategorie?` · ${esc(p.sousCategorie)}`:''}${p.taille?` · Taille ${esc(p.taille)}`:''}${p.sku?` · Réf. ${esc(p.sku)}`:''}</div>
           <div class="desc">${esc(p.description||'Aucune description renseignée.')}</div>
           <div class="pricebox"><span class="sale">${euro(p.prixVente)}</span>${Number(p.prixRetail||0)>Number(p.prixVente||0)?`<span class="retail">${euro(p.prixRetail)}</span>`:''}${pc>0?`<span class="discount">-${pc}%</span>`:''}</div>
@@ -62,7 +117,11 @@ async function loadProduct(){
         </div>
       </section>`;
     document.querySelectorAll('.thumbs img').forEach((img,i)=>img.addEventListener('click',()=>setMainPhoto(photos[i],i)));
+    currentProduct=p;
     const add=document.getElementById('addBtn');if(add&&available)add.addEventListener('click',()=>addToCart(p));
+    const quickCart=document.getElementById('quickCartBtn');if(quickCart&&available)quickCart.addEventListener('click',()=>addToCart(p));
+    const favBtn=document.getElementById('favBtn');if(favBtn)favBtn.addEventListener('click',()=>toggleFav(p));
+    const questionBtn=document.getElementById('questionBtn');if(questionBtn)questionBtn.addEventListener('click',openProductQuestion);
   }catch(e){app.className='status';app.textContent='Impossible de charger ce produit : '+String(e.message||e)}
 }
 loadProduct();
