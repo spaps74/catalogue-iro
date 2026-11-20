@@ -535,7 +535,7 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": true,
     "categorie": "Loisirs",
-    "sousCategorie": "",
+    "sousCategorie": "Casques",
     "genre": "Mixte",
     "taille": "XXS-S",
     "prixRetail": 129,
@@ -550,7 +550,9 @@
       "photos/uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s-1794937014114-3.webp",
       "photos/uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s-1794937015735-4.webp",
       "photos/uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s-1794937017196-5.jpeg"
-    ]
+    ],
+    "createdAt": "2026-11-17T17:36:50.699Z",
+    "updatedAt": "2026-11-20T06:56:03.727Z"
   },
   {
     "id": "champion-sweat-zipe-hampion-rose-fuchsia",
