@@ -454,7 +454,12 @@
 .order-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;word-break:break-all}
 .order-items{margin:0;padding-left:16px}
 .order-items li{margin:2px 0}
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
+.question-product-cell{display:flex;align-items:center;gap:10px;min-width:280px}
+.question-product-thumb{width:58px;height:58px;object-fit:contain;background:#fafafa;border:1px solid #eee;border-radius:9px;flex:0 0 58px}
+.question-product-thumb-empty{width:58px;height:58px;display:flex;align-items:center;justify-content:center;background:#f3f3f3;border:1px solid #eee;border-radius:9px;color:#999;font-size:9px;font-weight:900;flex:0 0 58px}
+.question-text{white-space:pre-wrap;line-height:1.45;min-width:260px}
+.question-email-link{color:#111;font-weight:800}
+</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="questionsBtn" type="button" onclick="showProductQuestions()">✉ Questions produits</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
@@ -477,6 +482,22 @@
   <div id="ordersList">Cliquez sur « Mes commandes » pour charger l'historique.</div>
 </div>
 
+
+<div class="box hidden" id="questionsBox">
+  <div class="check-head">
+    <div>
+      <h2 style="margin:0">Questions produits</h2>
+      <div class="muted">Questions posées depuis les fiches produits.</div>
+    </div>
+    <button type="button" onclick="hideProductQuestions()">Fermer</button>
+  </div>
+  <div class="orders-toolbar">
+    <input id="questionsSearch" type="search" placeholder="Rechercher produit, client, email, référence..." oninput="renderProductQuestions()">
+    <button type="button" onclick="loadProductQuestions()">↻ Actualiser</button>
+  </div>
+  <div class="orders-summary" id="questionsSummary"></div>
+  <div id="questionsList">Cliquez sur « Questions produits » pour charger les questions.</div>
+</div>
 
 <div class="box hidden" id="usersBox">
   <div class="check-head">
@@ -694,7 +715,142 @@ let adminOrders=[];
 
 let newsletterSubscribers=[];
 
+let adminProductQuestions=[];
+
 let adminUsers=[];
+
+function showProductQuestions(){
+  const box=$('questionsBox');
+  if(box) box.classList.remove('hidden');
+  loadProductQuestions();
+}
+
+function hideProductQuestions(){
+  const box=$('questionsBox');
+  if(box) box.classList.add('hidden');
+}
+
+async function loadProductQuestions(){
+  const api=String($('api')?.value||'').replace(/\/+$/,'');
+  const key=String($('key')?.value||'');
+  const list=$('questionsList');
+
+  if(!api || !key){
+    if(list) list.innerHTML='<div class="publish-status error">Connectez d’abord l’API avec votre clé admin.</div>';
+    return;
+  }
+
+  if(list) list.innerHTML='<div class="muted">Chargement des questions…</div>';
+
+  try{
+    const r=await fetch(`${api}/admin/product-questions`,{
+      headers:{'X-Admin-Key':key}
+    });
+
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+
+    adminProductQuestions=Array.isArray(data.questions)?data.questions:[];
+    renderProductQuestions();
+
+  }catch(e){
+    if(list){
+      list.innerHTML=`<div class="publish-status error">Erreur questions : ${escapeHtmlValue(String(e.message||e))}</div>`;
+    }
+  }
+}
+
+function filteredProductQuestions(){
+  const q=normalizeBrandText($('questionsSearch')?.value||'');
+
+  return adminProductQuestions.filter(item=>{
+    if(!q) return true;
+    return normalizeBrandText([
+      item.productName,
+      item.productBrand,
+      item.productSku,
+      item.customerName,
+      item.customerEmail,
+      item.question
+    ].join(' ')).includes(q);
+  });
+}
+
+function renderProductQuestions(){
+  const list=$('questionsList');
+  const summary=$('questionsSummary');
+  if(!list) return;
+
+  const rows=filteredProductQuestions();
+
+  if(summary){
+    summary.innerHTML=`
+      <div class="orders-kpi">${rows.length} question${rows.length>1?'s':''}</div>
+    `;
+  }
+
+  if(!rows.length){
+    list.innerHTML='<div class="muted" style="padding:12px">Aucune question trouvée.</div>';
+    return;
+  }
+
+  const dateFmt=v=>{
+    const d=new Date(v);
+    return Number.isNaN(d.getTime()) ? String(v||'') : d.toLocaleString('fr-FR');
+  };
+
+  list.innerHTML=`
+    <div class="orders-table-wrap">
+      <table class="orders-table" style="min-width:1150px">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Produit concerné</th>
+            <th>Client</th>
+            <th>Question</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(item=>{
+            const photo=String(item.productPhoto||'');
+            const thumb=photo
+              ? `<img class="question-product-thumb" src="${escapeHtmlValue(photo)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="question-product-thumb-empty" style="display:none">PHOTO</div>`
+              : '<div class="question-product-thumb-empty">PHOTO</div>';
+
+            const productLabel=`${item.productBrand?item.productBrand+' — ':''}${item.productName||'Produit'}`;
+            const productUrl=`https://www.upstyle-destock.fr/produit.html?id=${encodeURIComponent(item.productId||'')}`;
+
+            return `
+              <tr>
+                <td>${escapeHtmlValue(dateFmt(item.createdAt))}</td>
+                <td>
+                  <div class="question-product-cell">
+                    ${thumb}
+                    <div>
+                      <a href="${productUrl}" target="_blank" rel="noopener" style="color:#111;font-weight:900;text-decoration:none">
+                        ${escapeHtmlValue(productLabel)}
+                      </a>
+                      <div class="muted">
+                        ${item.productSku?'SKU '+escapeHtmlValue(item.productSku):'Réf. '+escapeHtmlValue(item.productId||'—')}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <b>${escapeHtmlValue(item.customerName||'—')}</b><br>
+                  <a class="question-email-link" href="mailto:${escapeHtmlValue(item.customerEmail||'')}">
+                    ${escapeHtmlValue(item.customerEmail||'—')}
+                  </a>
+                </td>
+                <td><div class="question-text">${escapeHtmlValue(item.question||'')}</div></td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
 
 function showUsers(){
   const box=$('usersBox');
