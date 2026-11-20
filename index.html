@@ -1779,8 +1779,9 @@ body.category-focus #catalogTitle{
       <label>Votre nom<input id="questionName" type="text" autocomplete="name" required></label>
       <label>Votre email<input id="questionEmail" type="email" autocomplete="email" required></label>
       <label>Votre question<textarea id="questionText" required placeholder="Votre question sur ce produit…"></textarea></label>
-      <button class="question-submit" type="submit">✉ Envoyer la question</button>
-      <div class="question-note">Votre logiciel de messagerie s’ouvrira avec le message déjà préparé.</div>
+      <input id="questionWebsite" type="text" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+      <button class="question-submit" id="questionSubmitBtn" type="submit">✉ Envoyer la question</button>
+      <div class="question-note" id="questionStatus">La question sera envoyée directement à Upstyle.</div>
     </form>
   </div>
 </div>
@@ -2956,20 +2957,48 @@ function closeProductQuestion(){
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden','true');
 }
-function sendProductQuestion(event){
+async function sendProductQuestion(event){
   event.preventDefault();
   const id=document.getElementById('questionProductId').value;
   const p=products.find(x=>String(x.id)===String(id));
   if(!p) return;
+
   const name=document.getElementById('questionName').value.trim();
   const email=document.getElementById('questionEmail').value.trim();
   const question=document.getElementById('questionText').value.trim();
+  const website=document.getElementById('questionWebsite')?.value.trim()||'';
+  const btn=document.getElementById('questionSubmitBtn');
+  const status=document.getElementById('questionStatus');
+
   if(!name||!email||!question) return;
-  const productUrl=location.origin+'/produit.html?id='+encodeURIComponent(String(p.id||''));
-  const subject='Question produit Upstyle — '+(p.nom||p.id||'Produit');
-  const body=['Bonjour,','','Je souhaite poser une question sur le produit suivant :',(p.marque?p.marque+' — ':'')+(p.nom||'Produit'),'Référence : '+(p.sku||p.id||'—'),'Lien : '+productUrl,'','Question :',question,'','Nom : '+name,'Email : '+email].join('\n');
-  closeProductQuestion();
-  window.location.href='mailto:stephane@upstyle-destock.fr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Envoi…';}
+    if(status){status.textContent='Envoi de votre question…';status.style.color='#666';}
+
+    const r=await fetch(WORKER_URL+'/product-question',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        productId:String(p.id||''),
+        name,
+        email,
+        question,
+        website
+      })
+    });
+
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error||('Erreur HTTP '+r.status));
+
+    if(status){status.textContent=data.message||'Votre question a bien été envoyée.';status.style.color='#18703a';}
+    document.getElementById('questionText').value='';
+    setTimeout(closeProductQuestion,1400);
+  }catch(e){
+    if(status){status.textContent='Erreur : '+String(e.message||e);status.style.color='#a11';}
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='✉ Envoyer la question';}
+  }
 }
 
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
