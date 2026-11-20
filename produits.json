@@ -110,7 +110,7 @@
     "genre": "",
     "taille": "",
     "prixRetail": 20,
-    "prixVente": 10,
+    "prixVente": 12,
     "statut": "Disponible",
     "sku": "",
     "stock": 1,
@@ -121,7 +121,9 @@
       "photos/tesla-concentrateur-usb-noir-4-ports-pour-boite-a-gants-tesla-model-3-model-y-et-cybertruck-1795082024945-3.avif",
       "photos/tesla-concentrateur-usb-noir-4-ports-pour-boite-a-gants-tesla-model-3-model-y-et-cybertruck-1795082026612-4.avif",
       "photos/tesla-concentrateur-usb-noir-4-ports-pour-boite-a-gants-tesla-model-3-model-y-et-cybertruck-1795082028227-5.avif"
-    ]
+    ],
+    "createdAt": "2026-11-19T09:53:41.820Z",
+    "updatedAt": "2026-11-20T03:13:01.966Z"
   },
   {
     "id": "replay-blouson-replay-kaki-taille-s-s",
