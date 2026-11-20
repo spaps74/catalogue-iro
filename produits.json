@@ -384,8 +384,9 @@
     "marque": "Montek",
     "etatProduit": "Retour Amazon comme neuf",
     "miseEnPremierePage": false,
-    "categorie": "Loisirs",
-    "sousCategorie": "Supports pour vélo",
+    "categorie": "Maison & Déco",
+    "sousCategorie": "Rangements",
+    "genre": "",
     "taille": "",
     "prixRetail": 68,
     "prixVente": 39,
@@ -399,7 +400,9 @@
       "photos/montek-montek-support-mural-pivotant-et-pliable-pour-velo-jusqu-a-35-kg-1794974777743-3.avif",
       "photos/montek-montek-support-mural-pivotant-et-pliable-pour-velo-jusqu-a-35-kg-1794974779436-4.avif",
       "photos/montek-montek-support-mural-pivotant-et-pliable-pour-velo-jusqu-a-35-kg-1794974781101-5.avif"
-    ]
+    ],
+    "createdAt": "2026-11-18T04:06:14.425Z",
+    "updatedAt": "2026-11-20T02:54:24.154Z"
   },
   {
     "id": "shelovely-combinaison-kigurumi-unisexe-shelovely-a-capuche-taille-unique-unique",
