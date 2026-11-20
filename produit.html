@@ -46,6 +46,28 @@ button,.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:900;cursor
 </div>
 <script>
 const WORKER_URL='https://soft-tree-927f.stephane-0f5.workers.dev';
+function upstyleVisitorId(){
+  let id=localStorage.getItem('upstyle_visitor_id_v1');
+  if(!id){
+    id=(crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)));
+    localStorage.setItem('upstyle_visitor_id_v1',id);
+  }
+  return id;
+}
+function trackVisit(){
+  fetch(WORKER_URL+'/track-visit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      visitorId:upstyleVisitorId(),
+      path:location.pathname+location.search,
+      pageTitle:document.title||'Produit Upstyle',
+      referrer:document.referrer||''
+    }),
+    keepalive:true
+  }).catch(()=>{});
+}
+trackVisit();
 const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n||0));
 const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;");
 function discount(p){const retail=Number(p.prixRetail||0),sale=Number(p.prixVente||0);return retail>sale&&retail>0?Math.round((1-sale/retail)*100):0}
