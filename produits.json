@@ -1,5 +1,31 @@
 [
   {
+    "id": "easymx-easysmx-manette-telephone-manette-smartphone-usb-c",
+    "nom": "EasySMX Manette Téléphone, Manette Smartphone USB-C",
+    "marque": "EasyMX",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 70,
+    "prixVente": 35,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "EasySMX Manette Téléphone, Manette Smartphone USB-C sans Bluetooth, Manette Mobile Téléphone & Tablette 4,7-8,5\", Manette de Jeu Android & iPhone 15/16/17, Hall, Turbo – M20 Noir",
+    "photos": [
+      "photos/easymx-1795142658095-1.avif",
+      "photos/easymx-1795142659691-2.jpg",
+      "photos/easymx-1795142661328-3.jpg",
+      "photos/easymx-1795142663010-4.jpg",
+      "photos/easymx-1795142664821-5.jpg"
+    ],
+    "createdAt": "2026-11-20T02:44:26.393Z",
+    "updatedAt": "2026-11-20T02:44:26.393Z"
+  },
+  {
     "id": "tesla-concentrateur-usb-noir-4-ports-pour-boite-a-gants-tesla-model-3-model-y-et-cybertruck",
     "nom": "Concentrateur USB noir 4 ports pour boîte à gants Tesla Model 3, Model Y et Cybertruck",
     "marque": "Tesla",
