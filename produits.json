@@ -836,12 +836,14 @@
     "nom": "UGREEN Revodok Pro 207 Hub USB C 7 en 1 Docking Station Double HDMI 4K60Hz, PD 100W Charge,",
     "marque": "Ugreen",
     "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
     "categorie": "High-Tech",
     "sousCategorie": "",
+    "genre": "",
     "taille": "",
     "prixRetail": 39.99,
     "prixVente": 23,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
     "stock": 1,
     "description": "hub docking UGREEN Revodok Pro 207, idéal pour étendre vos connexions sur PC portable ou ordinateur de bureau.\n- Type d’accessoire : Hub / Station d’accueil\n- Marque : UGREEN\n- Modèle : Revodok Pro 207\n- Connectivité : USB-C (PD 100W)\n- Ports : Double HDMI 4K60Hz, 3 ports USB-A, 1 port USB-C, 1 port Ethernet RJ45\n- Fonctionnalités : Extension double écran, charge rapide PD 100W",
@@ -851,7 +853,9 @@
       "photos/ugreen-ugreen-revodok-pro-207-hub-usb-c-7-en-1-docking-station-double-hdmi-4k60hz-pd-100w-charge-1794849839237-3.avif",
       "photos/ugreen-ugreen-revodok-pro-207-hub-usb-c-7-en-1-docking-station-double-hdmi-4k60hz-pd-100w-charge-1794849841956-4.avif",
       "photos/ugreen-ugreen-revodok-pro-207-hub-usb-c-7-en-1-docking-station-double-hdmi-4k60hz-pd-100w-charge-1794849844203-5.avif"
-    ]
+    ],
+    "createdAt": "2026-11-16T17:23:50.390Z",
+    "updatedAt": "2026-11-20T09:12:16.045Z"
   },
   {
     "id": "g-star-veste-en-jean-a-capuche-g-star-raw-gsrr-denim-brut-s-s",
