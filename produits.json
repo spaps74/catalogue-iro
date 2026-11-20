@@ -757,8 +757,10 @@
     "nom": "Findway Casque de vélo, casque de vélo pour homme et femme, casque de vélo pour la circulation urbaine et les navetteurs, offre une protection lors du vélo de route,",
     "marque": "Findway",
     "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "",
+    "sousCategorie": "Casques",
+    "genre": "",
     "taille": "M",
     "prixRetail": 42,
     "prixVente": 25,
@@ -772,7 +774,9 @@
       "photos/findway-findway-casque-de-velo-casque-de-velo-pour-homme-et-femme-casque-de-velo-pour-la-circulation-urbaine-et-les-navetteurs-offre-une-protection-lors-du-velo-de-route-m-1794860578611-3.jpg",
       "photos/findway-findway-casque-de-velo-casque-de-velo-pour-homme-et-femme-casque-de-velo-pour-la-circulation-urbaine-et-les-navetteurs-offre-une-protection-lors-du-velo-de-route-m-1794860580353-4.jpg",
       "photos/findway-findway-casque-de-velo-casque-de-velo-pour-homme-et-femme-casque-de-velo-pour-la-circulation-urbaine-et-les-navetteurs-offre-une-protection-lors-du-velo-de-route-m-1794860582016-5.jpg"
-    ]
+    ],
+    "createdAt": "2026-11-16T20:22:55.354Z",
+    "updatedAt": "2026-11-20T06:59:18.589Z"
   },
   {
     "id": "ugreen-ugreen-revodok-pro-207-hub-usb-c-7-en-1-docking-station-double-hdmi-4k60hz-pd-100w-charge",
