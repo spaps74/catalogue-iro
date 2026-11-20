@@ -64,9 +64,8 @@ let currentProduct=null;
 function shareProductWhatsApp(){
   if(!currentProduct)return;
 
-  const productName=(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit');
   const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(currentProduct.id||''));
-  const message=productName+'\n'+shareUrl;
+  const message='J’ai trouvé ça qui pourrait t’intéresser 👀\n'+shareUrl;
 
   window.open(
     'https://wa.me/?text='+encodeURIComponent(message),
