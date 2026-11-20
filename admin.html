@@ -723,6 +723,7 @@
 </div>
 <script>
 let products=[],editing=null,oldPhotos=[];
+let referenceDataLoaded=false;
 let selectedPhotoFiles=[];
 let galleryItems=[];
 const $=id=>document.getElementById(id);
@@ -1839,6 +1840,7 @@ async function connect(){
 
     products=loadedProducts;
     brands=uniqueSortedBrands(loadedBrands);
+    referenceDataLoaded=true;
 
     if(!Array.isArray(products)){
       throw new Error('Réponse invalide : /products ne renvoie pas une liste de produits.');
@@ -2218,7 +2220,75 @@ function editNextProduct(){
   });
 }
 
-function newProduct(){editing=null;oldPhotos=[];selectedPhotoFiles=[];galleryItems=[];closeBrandSuggestions();clear();if($('aiStatus'))$('aiStatus').classList.add('hidden');$('editTitle').textContent='Nouvel article';$('deleteBtn').classList.add('hidden');updateProductNavigationButtons();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+async function ensureReferenceDataForNewProduct(){
+  if(referenceDataLoaded) return true;
+
+  const key=($('key')?.value||'').trim();
+  if(!key){
+    alert('Saisissez d’abord la clé admin pour charger les marques et les sous-catégories.');
+    $('key')?.focus();
+    return false;
+  }
+
+  const btn=document.querySelector('button[onclick="newProduct()"]');
+  const oldText=btn?.textContent||'';
+  try{
+    if(btn){
+      btn.disabled=true;
+      btn.textContent='Chargement…';
+    }
+
+    const [loadedProducts,loadedBrands]=await Promise.all([
+      req('/products'),
+      req('/brands')
+    ]);
+
+    if(!Array.isArray(loadedProducts)){
+      throw new Error('Réponse invalide : /products ne renvoie pas une liste de produits.');
+    }
+    if(!Array.isArray(loadedBrands)){
+      throw new Error('Réponse invalide : /brands ne renvoie pas une liste de marques.');
+    }
+
+    products=loadedProducts;
+    brands=uniqueSortedBrands(loadedBrands);
+    referenceDataLoaded=true;
+    renderList();
+    updateCheckProductsButton();
+    return true;
+  }catch(e){
+    console.error(e);
+    alert('Impossible de charger les marques et les sous-catégories : '+e.message);
+    return false;
+  }finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent=oldText||'+ Nouvel article';
+    }
+  }
+}
+
+async function newProduct(){
+  const ready=await ensureReferenceDataForNewProduct();
+  if(!ready) return;
+
+  editing=null;
+  oldPhotos=[];
+  selectedPhotoFiles=[];
+  galleryItems=[];
+  closeBrandSuggestions();
+  clear();
+
+  if($('aiStatus')) $('aiStatus').classList.add('hidden');
+  $('editTitle').textContent='Nouvel article';
+  $('deleteBtn').classList.add('hidden');
+  updateProductNavigationButtons();
+  $('editor').classList.remove('hidden');
+
+  // Les référentiels sont maintenant disponibles dès le premier article.
+  refreshSousCategories('');
+  $('editor').scrollIntoView({behavior:'smooth'});
+}
 function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&['Vêtements','Vetements','Mode'].includes(p.categorie))$('categorie').value='Mode';if($('categorie')&&['Informatique','Informatique / Tech'].includes(p.categorie))$('categorie').value='High-Tech';if($('categorie')&&['Pour la maison','Maison & Déco'].includes(p.categorie))$('categorie').value='Maison & Déco';if($('categorie')&&['Sport','Sports'].includes(p.categorie))$('categorie').value='Loisirs';if($('categorie')&&['Basket','Baskets','Baskets / Chaussures'].includes(p.categorie))$('categorie').value='Chaussures';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
 function clear(){
   ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
