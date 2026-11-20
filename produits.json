@@ -1,5 +1,29 @@
 [
   {
+    "id": "ugreen-ugreen-revodok-pro-210-hub-usb-c-10-en-1-docking-station",
+    "nom": "UGREEN Revodok Pro 210 Hub USB C 10 en 1 Docking Station",
+    "marque": "Ugreen",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Hubs USB",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 49,
+    "prixVente": 39,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Hub docking UGREEN Revodok Pro 210, idéal pour étendre les fonctionnalités de votre ordinateur portable.\n- Type d’accessoire : Hub / Docking station\n- Marque : UGREEN\n- Modèle : Revodok Pro 210\n- Connectivité principale : USB-C\n- Nombre de ports : 10 en 1\n- Affichage : Double sortie HDMI (jusqu'à 4K60Hz), unique sortie 8K30Hz\n- Charge : PD 100W\n- Ports réseau : Ethernet Gigabit RJ45\n- Stockage : Lecteur SD et lecteur TF\n- USB : Ports USB-A et USB-C\n- Autres : Port audio jack",
+    "photos": [
+      "photos/ugreen-1795144207424-1.jpg",
+      "photos/ugreen-1795144209000-2.jpg",
+      "photos/ugreen-1795144210684-3.jpg"
+    ],
+    "createdAt": "2026-11-20T03:10:12.117Z",
+    "updatedAt": "2026-11-20T03:10:12.117Z"
+  },
+  {
     "id": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-m",
     "nom": "Casque Simaas trottinette & vélo réglable",
     "marque": "Simaas",
