@@ -38,7 +38,9 @@ button,.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:900;cursor
       <label>Votre nom<input id="questionName" type="text" autocomplete="name" required></label>
       <label>Votre email<input id="questionEmail" type="email" autocomplete="email" required></label>
       <label>Votre question<textarea id="questionText" required placeholder="Votre question sur ce produit…"></textarea></label>
-      <button type="submit">✉ Envoyer la question</button>
+      <input id="questionWebsite" type="text" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+      <button id="questionSubmitBtn" type="submit">✉ Envoyer la question</button>
+      <div id="questionStatus" style="font-size:12px;color:#777">La question sera envoyée directement à Upstyle.</div>
     </form>
   </div>
 </div>
@@ -73,17 +75,46 @@ function closeProductQuestion(){
   m.classList.remove('open');
   m.setAttribute('aria-hidden','true');
 }
-function sendProductQuestion(e){
+async function sendProductQuestion(e){
   e.preventDefault();
   if(!currentProduct)return;
+
   const name=document.getElementById('questionName').value.trim();
   const email=document.getElementById('questionEmail').value.trim();
-  const q=document.getElementById('questionText').value.trim();
-  if(!name||!email||!q)return;
-  const subject='Question produit Upstyle — '+(currentProduct.nom||currentProduct.id||'Produit');
-  const body=['Bonjour,','','Je souhaite poser une question sur le produit suivant :',(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit'),'Référence : '+(currentProduct.sku||currentProduct.id||'—'),'Lien : '+location.href,'','Question :',q,'','Nom : '+name,'Email : '+email].join('\n');
-  closeProductQuestion();
-  window.location.href='mailto:stephane@upstyle-destock.fr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  const question=document.getElementById('questionText').value.trim();
+  const website=document.getElementById('questionWebsite')?.value.trim()||'';
+  const btn=document.getElementById('questionSubmitBtn');
+  const status=document.getElementById('questionStatus');
+
+  if(!name||!email||!question)return;
+
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Envoi…';}
+    if(status){status.textContent='Envoi de votre question…';status.style.color='#666';}
+
+    const r=await fetch(WORKER_URL+'/product-question',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        productId:String(currentProduct.id||''),
+        name,
+        email,
+        question,
+        website
+      })
+    });
+
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error||('Erreur HTTP '+r.status));
+
+    if(status){status.textContent=data.message||'Votre question a bien été envoyée.';status.style.color='#18703a';}
+    document.getElementById('questionText').value='';
+    setTimeout(closeProductQuestion,1400);
+  }catch(err){
+    if(status){status.textContent='Erreur : '+String(err.message||err);status.style.color='#a11';}
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='✉ Envoyer la question';}
+  }
 }
 async function loadProduct(){
   const id=new URLSearchParams(location.search).get('id')||'',app=document.getElementById('app');
