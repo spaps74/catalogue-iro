@@ -1950,6 +1950,28 @@ window.addEventListener('load',()=>{
 
 
 const WORKER_URL='https://soft-tree-927f.stephane-0f5.workers.dev';
+function upstyleVisitorId(){
+  let id=localStorage.getItem('upstyle_visitor_id_v1');
+  if(!id){
+    id=(crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)));
+    localStorage.setItem('upstyle_visitor_id_v1',id);
+  }
+  return id;
+}
+function trackVisit(){
+  fetch(WORKER_URL+'/track-visit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      visitorId:upstyleVisitorId(),
+      path:location.pathname+location.search,
+      pageTitle:document.title||'Upstyle Destock',
+      referrer:document.referrer||''
+    }),
+    keepalive:true
+  }).catch(()=>{});
+}
+trackVisit();
 let products=[],category='Tous',saleTypeFilter='',saleSubcatFilter='',saleGenreFilter='',cart=JSON.parse(localStorage.getItem('upstyle_cart_v2')||'[]');
 let favoriteOnly=false;
 let favorites=loadFavorites();
