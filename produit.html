@@ -22,7 +22,7 @@ h1{font-size:30px;line-height:1.15;margin:8px 0 12px}.meta{font-size:13px;color:
 .stock{font-size:13px;font-weight:800;margin-bottom:18px}.stock.ok{color:#18703a}.stock.no{color:#a11}.actions{display:flex;gap:10px;flex-wrap:wrap}
 button,.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:900;cursor:pointer;text-decoration:none;font-size:14px}
 .primary{background:#111;color:#fff}.secondary{background:#ffd400;color:#111}.note{font-size:12px;color:#777;margin-top:14px}
-.quick-actions{display:flex;gap:8px;margin:0 0 14px}.quick-icon{width:42px;height:42px;border:0;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:23px;cursor:pointer;box-shadow:0 3px 12px #0002}.quick-fav{background:#fff;color:#111}.quick-fav.active{background:#111;color:#ffd400}.quick-cart{background:#ffd400;color:#111}.quick-question{background:#f2f2f2;color:#111}
+.quick-actions{display:flex;gap:8px;margin:0 0 14px}.quick-icon{width:42px;height:42px;border:0;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:23px;cursor:pointer;box-shadow:0 3px 12px #0002}.quick-fav{background:#fff;color:#111}.quick-fav.active{background:#111;color:#ffd400}.quick-cart{background:#ffd400;color:#111}.quick-question{background:#f2f2f2;color:#111}.quick-whatsapp{background:#25D366;color:#fff}
 .question-modal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}.question-modal.open{display:flex}.question-box{width:min(560px,100%);background:#fff;border-radius:18px;padding:20px}.question-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.question-head h3{margin:0}.question-close{width:38px;height:38px;border:0;border-radius:50%;font-size:22px}.question-product{margin:14px 0 12px;padding:10px 12px;background:#f7f7f5;border-radius:10px;font-weight:850;font-size:13px}.question-form{display:grid;gap:10px}.question-form label{font-size:12px;font-weight:850}.question-form input,.question-form textarea{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:10px;font:inherit}.question-form textarea{min-height:130px;resize:vertical}.question-form button{background:#111;color:#fff}
 @media(max-width:760px){.card{grid-template-columns:1fr}.info{padding:22px}h1{font-size:25px}.hero-img{aspect-ratio:4/3}}
 </style>
@@ -61,6 +61,19 @@ function toggleFav(p){
   if(b){const active=favs.includes(id);b.classList.toggle('active',active);b.textContent=active?'♥':'♡';}
 }
 let currentProduct=null;
+function shareProductWhatsApp(){
+  if(!currentProduct)return;
+
+  const productName=(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit');
+  const message='Ça pourrait t’intéresser 👀\n\n'+productName+'\n'+location.href;
+
+  window.open(
+    'https://wa.me/?text='+encodeURIComponent(message),
+    '_blank',
+    'noopener'
+  );
+}
+
 function openProductQuestion(){
   if(!currentProduct)return;
   document.getElementById('questionProductLabel').textContent=(currentProduct.marque?currentProduct.marque+' — ':'')+(currentProduct.nom||'Produit');
@@ -138,6 +151,7 @@ async function loadProduct(){
             <button type="button" id="favBtn" class="quick-icon quick-fav ${isFav(p.id)?'active':''}" title="${isFav(p.id)?'Retirer des favoris':'Ajouter aux favoris'}">${isFav(p.id)?'♥':'♡'}</button>
             <button type="button" id="quickCartBtn" class="quick-icon quick-cart" ${available?'':'disabled'} title="${available?'Ajouter au panier':'Produit indisponible'}">🛒</button>
             <button type="button" id="questionBtn" class="quick-icon quick-question" title="Poser une question">✉</button>
+            <button type="button" id="whatsappBtn" class="quick-icon quick-whatsapp" title="Partager sur WhatsApp">☏</button>
           </div>
           <div class="meta">${esc(p.categorie||'')}${p.sousCategorie?` · ${esc(p.sousCategorie)}`:''}${p.taille?` · Taille ${esc(p.taille)}`:''}${p.sku?` · Réf. ${esc(p.sku)}`:''}</div>
           <div class="desc">${esc(p.description||'Aucune description renseignée.')}</div>
@@ -153,6 +167,7 @@ async function loadProduct(){
     const quickCart=document.getElementById('quickCartBtn');if(quickCart&&available)quickCart.addEventListener('click',()=>addToCart(p));
     const favBtn=document.getElementById('favBtn');if(favBtn)favBtn.addEventListener('click',()=>toggleFav(p));
     const questionBtn=document.getElementById('questionBtn');if(questionBtn)questionBtn.addEventListener('click',openProductQuestion);
+    const whatsappBtn=document.getElementById('whatsappBtn');if(whatsappBtn)whatsappBtn.addEventListener('click',shareProductWhatsApp);
   }catch(e){app.className='status';app.textContent='Impossible de charger ce produit : '+String(e.message||e)}
 }
 loadProduct();
