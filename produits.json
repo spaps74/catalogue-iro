@@ -1,5 +1,28 @@
 [
   {
+    "id": "kingbike-casque-vtt-visiere-amovible-in-mould-casque-de-securite-mtb-m",
+    "nom": "Casque VTT visière amovible In‑Mould Casque de sécurité MTB",
+    "marque": "KingBike",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques",
+    "genre": "",
+    "taille": "M",
+    "prixRetail": 49,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Casque VTT de la marque Decathlon / Btwin avec visière amovible, idéal pour une pratique en tout-terrain sécurisée et confortable.\n- Type de produit : Casque VTT\n- Marque : KingBike\n- Pratique : VTT\n- Taille : M (55-58 cm)\n- Univers : Mixte\n- Couleur : Bleu avec détails dorés\n- Technologie : In-Mould\n- Caractéristiques : Visière amovible, aérations multiples",
+    "photos": [
+      "photos/kingbike-1795156621760-1.jpg",
+      "photos/kingbike-1795156623271-2.jpg"
+    ],
+    "createdAt": "2026-11-20T06:37:04.967Z",
+    "updatedAt": "2026-11-20T06:37:04.967Z"
+  },
+  {
     "id": "sigtuna-antivol-velo-avec-1-2m-cable-16-mm-robuste",
     "nom": "Antivol Velo avec 1,2m Câble, 16 mm Robuste",
     "marque": "SIGTUNA",
