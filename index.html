@@ -110,6 +110,15 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 .cartfab{position:fixed;right:14px;bottom:14px;z-index:50;background:#111;color:white;border:0;border-radius:999px;padding:12px 16px;font-weight:900;box-shadow:0 7px 22px #0004}.count{display:inline-block;background:var(--yellow);color:#111;min-width:22px;border-radius:999px;margin-left:6px;padding:2px 6px}
 .overlay{position:fixed;inset:0;background:#0008;z-index:80;display:none;align-items:flex-end}.overlay.open{display:flex}.panel{width:100%;max-height:88vh;overflow:auto;background:white;border-radius:20px 20px 0 0;padding:16px}.close{float:right;border:0;border-radius:50%;width:38px;height:38px;font-size:22px}.cartrow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid #eee}.total{font-size:18px;font-weight:950;display:flex;justify-content:space-between;margin:15px 0}.order{width:100%;padding:13px;border:0;border-radius:12px;background:#111;color:white;font-weight:950}
 .detailmodal{position:fixed;inset:0;background:#0009;z-index:90;display:none;padding:20px;overflow:auto}.detailmodal.open{display:block}.detailbox{max-width:680px;margin:5vh auto;background:white;border-radius:18px;padding:18px}.detailphotos{display:flex;gap:8px;overflow:auto}.detailphotos img{width:210px;height:280px;object-fit:contain;background:#fafafa;border-radius:10px}
+.detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:0 42px 10px 0}
+.detail-head h2{margin:0;flex:1}
+.detail-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.detail-action{width:42px;height:42px;border:0;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:23px;line-height:1;box-shadow:0 3px 12px #0002}
+.detail-action.favorite-btn{position:static;right:auto;bottom:auto;background:#fff;color:#111}
+.detail-action.favorite-btn.active{background:#111;color:#ffd400}
+.detail-cart-btn{background:#ffd400;color:#111}
+.detail-cart-btn:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:600px){.detail-head{margin-right:34px;gap:8px}.detail-head h2{font-size:21px}.detail-action{width:38px;height:38px;font-size:21px}}
 @media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
 
 .card{
@@ -2827,7 +2836,66 @@ function card(p){
     </div>
   </article>`;
 }
-function details(id){let p=products.find(x=>x.id===id);document.getElementById('detailBody').innerHTML=`<h2>${p.marque? p.marque+' — ':''}${p.nom}</h2>${stateBadge(p)}<div class="meta">${p.categorie} · Taille ${p.taille||'—'} <span class="detail-status ${statusClass(p)}">${p.statut}</span></div><div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div><p class="detail-description">${p.description||'Aucune description renseignée.'}</p><div class="sale">${euro(p.prixVente)}</div>`;document.getElementById('detail').classList.add('open')}
+function details(id){
+  const p=products.find(x=>x.id===id);
+  if(!p) return;
+
+  const canAdd=canAddToCart(p);
+  const fav=isFavorite(p.id);
+
+  document.getElementById('detailBody').innerHTML=`
+    <div class="detail-head">
+      <h2>${p.marque? escapeHtml(p.marque)+' — ':''}${escapeHtml(p.nom||'')}</h2>
+      <div class="detail-actions">
+        <button
+          type="button"
+          class="detail-action favorite-btn ${fav?'active':''}"
+          onclick="toggleDetailFavorite('${p.id}',event)"
+          aria-label="${fav?'Retirer des favoris':'Ajouter aux favoris'}"
+          title="${fav?'Retirer des favoris':'Ajouter aux favoris'}"
+        >${fav?'♥':'♡'}</button>
+        <button
+          type="button"
+          class="detail-action detail-cart-btn"
+          ${canAdd?`onclick="addFromDetail('${p.id}')"`:'disabled aria-disabled="true"'}
+          aria-label="Ajouter au panier"
+          title="${canAdd?'Ajouter au panier':'Produit indisponible'}"
+        >🛒</button>
+      </div>
+    </div>
+    ${stateBadge(p)}
+    <div class="meta">${escapeHtml(p.categorie||'')} · Taille ${escapeHtml(p.taille||'—')} <span class="detail-status ${statusClass(p)}">${escapeHtml(p.statut||'')}</span></div>
+    <div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div>
+    <p class="detail-description">${escapeHtml(p.description||'Aucune description renseignée.')}</p>
+    <div class="sale">${euro(p.prixVente)}</div>
+  `;
+
+  document.getElementById('detail').classList.add('open');
+}
+function toggleDetailFavorite(id,event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  const key=String(id);
+  if(isFavorite(key)){
+    favorites=favorites.filter(x=>x!==key);
+  }else{
+    favorites.push(key);
+  }
+
+  saveFavorites();
+  render();
+  updateFavoritesHeader();
+  details(id);
+}
+
+function addFromDetail(id){
+  closeDetail();
+  add(id);
+}
+
 function closeDetail(){document.getElementById('detail').classList.remove('open')}
 function addFavoritesToCart(){
   const favProducts=products.filter(p=>isFavorite(p.id)&&canAddToCart(p));
