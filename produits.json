@@ -735,8 +735,10 @@
     "nom": "KingCamp Matelas Camping Gonflable Mousse Mémoire 10cm, Confort, Robuste Matelas Air, Silencieux, R-Value 4,9, Toute Saison",
     "marque": "KingCamp",
     "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "",
+    "sousCategorie": "Matelas de camping",
+    "genre": "",
     "taille": "",
     "prixRetail": 152,
     "prixVente": 75,
@@ -750,7 +752,9 @@
       "photos/kingcamp-kingcamp-matelas-camping-gonflable-mousse-memoire-10cm-confort-robuste-matelas-air-silencieux-r-value-4-9-toute-saison-1794861546774-3.avif",
       "photos/kingcamp-kingcamp-matelas-camping-gonflable-mousse-memoire-10cm-confort-robuste-matelas-air-silencieux-r-value-4-9-toute-saison-1794861549307-4.avif",
       "photos/kingcamp-kingcamp-matelas-camping-gonflable-mousse-memoire-10cm-confort-robuste-matelas-air-silencieux-r-value-4-9-toute-saison-1794861552011-5.avif"
-    ]
+    ],
+    "createdAt": "2026-11-16T20:39:00.765Z",
+    "updatedAt": "2026-11-20T06:59:38.517Z"
   },
   {
     "id": "findway-findway-casque-de-velo-casque-de-velo-pour-homme-et-femme-casque-de-velo-pour-la-circulation-urbaine-et-les-navetteurs-offre-une-protection-lors-du-velo-de-route-m",
