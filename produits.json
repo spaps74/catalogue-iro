@@ -1,5 +1,31 @@
 [
   {
+    "id": "qezer-sac-de-couchage-extra-large-qezer-en-duvet-xxl-230-x-100-cm-3-4-saisons-leger-et-chaud",
+    "nom": "Sac de Couchage Extra Large QEZER en Duvet XXL 230 x 100 cm, 3-4 Saisons, léger et Chaud",
+    "marque": "Qezer",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Matelas de camping",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 155,
+    "prixVente": 70,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Sac de couchage extra large QEZER en duvet, parfait pour le camping et la randonnée en toutes saisons.\n- Type de produit : Sac de couchage\n- Marque : QEZER\n- Pour : Adulte\n- Dimensions : 230 x 100 cm\n- Capacité thermique : 3-4 saisons\n- Matière : Duvet\n- Caractéristiques : Léger et chaud, extra large\n- Activité/Sport : Camping et randonnée\n- Couleur : Vert\n- Accessoires inclus : Sac de compression",
+    "photos": [
+      "photos/qezer-1795166166702-1.jpg",
+      "photos/qezer-1795166168536-2.jpg",
+      "photos/qezer-1795166170176-3.jpg",
+      "photos/qezer-1795166172208-4.jpg",
+      "photos/qezer-1795166173851-5.jpg"
+    ],
+    "createdAt": "2026-11-20T09:16:15.575Z",
+    "updatedAt": "2026-11-20T09:16:15.575Z"
+  },
+  {
     "id": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire-amovible-4-saisons",
     "nom": "SKINWALKER Gigoteuse pour adulte avec couverture polaire amovible 4 saisons",
     "marque": "SKINWALKER",
