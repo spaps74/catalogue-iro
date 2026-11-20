@@ -1,5 +1,30 @@
 [
   {
+    "id": "sigtuna-antivol-velo-avec-1-2m-cable-16-mm-robuste",
+    "nom": "Antivol Velo avec 1,2m Câble, 16 mm Robuste",
+    "marque": "SIGTUNA",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 35,
+    "prixVente": 16,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Antivol de vélo robuste avec câble de 1,2m, idéal pour sécuriser votre vélo de route, vélo pliant ou moto.\n- Type de produit : Antivol de vélo\n- Marque : Sictuna\n- Univers : Mixte\n- Type de système : U-lock avec câble\n- Longueur du câble : 1,2m\n- Diamètre du câble : 16mm\n- Nombre de clés : 3 clés de haute sécurité\n- Couleur : Jaune et noir\n- Accessoires inclus : Support de fixation\n- Compatibilité : Vélo de route, vélo pliant, moto, e-bike et e-scooter",
+    "photos": [
+      "photos/sigtuna-1795144798467-1.jpg",
+      "photos/sigtuna-1795144800292-2.jpg",
+      "photos/sigtuna-1795144802463-3.jpg",
+      "photos/sigtuna-1795144804367-4.jpg"
+    ],
+    "createdAt": "2026-11-20T03:20:06.462Z",
+    "updatedAt": "2026-11-20T03:20:06.462Z"
+  },
+  {
     "id": "ugreen-ugreen-revodok-pro-210-hub-usb-c-10-en-1-docking-station",
     "nom": "UGREEN Revodok Pro 210 Hub USB C 10 en 1 Docking Station",
     "marque": "Ugreen",
