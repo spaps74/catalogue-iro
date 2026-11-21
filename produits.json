@@ -1342,7 +1342,7 @@
     "taille": "34",
     "prixRetail": 995,
     "prixVente": 95,
-    "statut": "Réservé",
+    "statut": "Vendu",
     "sku": "",
     "stock": 1,
     "description": "",
@@ -1351,7 +1351,9 @@
       "photos/81.webp",
       "photos/82.webp",
       "photos/83webp"
-    ]
+    ],
+    "createdAt": "2026-11-21T13:07:30.859Z",
+    "updatedAt": "2026-11-21T13:07:30.859Z"
   },
   {
     "id": "iro-bustier-en-cuir-xs",
