@@ -1,5 +1,30 @@
 [
   {
+    "id": "hunter-sac-hunter-intrepid-tote-frame-moon-bean",
+    "nom": "Sac Hunter Intrepid Tote Frame Moon Bean",
+    "marque": "Hunter",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "accessoires",
+    "genre": "Mixte",
+    "taille": "",
+    "prixRetail": 89,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Très beau sac Hunter matelassé, coloris Moon Bean, un blanc crème lumineux et élégant.\n\n• Modèle : Intrepid Tote Frame\n• Référence : UBX3705KBM\n• Taille unique\n• Deux anses rembourrées confortables\n• Bandoulière réglable et amovible\n• Fermeture zippée\n• Intérieur noir avec poche zippée\n• Logos Hunter à l’intérieur et sur l’avant\n• Matière légère et matelassée\n• Neuf avec ses étiquettes et son emballage d’origine\n\nUn sac original, moderne et pratique, idéal au quotidien, pour le sport, les voyages ou comme sac à main.",
+    "photos": [
+      "photos/hunter-1795251529436-1.jpg",
+      "photos/hunter-1795251530932-2.jpg",
+      "photos/hunter-1795251532321-3.jpg",
+      "photos/hunter-1795251533697-4.jpg"
+    ],
+    "createdAt": "2026-11-21T08:58:55.135Z",
+    "updatedAt": "2026-11-21T08:58:55.135Z"
+  },
+  {
     "id": "adidas-superbe-paire-d-adidas-adizero-adios-og-modele-adidas-originals-au-look-running-retro-coloris-blanc-avec-details-rouge-et-noir-silhouette-legere-et-sportive-tige-en-mesh-respirant-finitions-vintage-et-design-inspire-des-modeles-de-running-adidas-tres-belle-paire-ideale-pour-un-style-casual-sneakers-modele-adidas-adizero-adios-og-reference-jh9972-pointure-36-2-3-eu-uk-4-us-4-5-couleur-blanc-rouge-noir-36-2-3",
     "nom": "Adidas Stan Smith blanches et bleu marine",
     "marque": "Adidas",
