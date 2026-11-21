@@ -1,5 +1,31 @@
 [
   {
+    "id": "adidas-adidas-gazelle-bold-w-platforme-36",
+    "nom": "Adidas Gazelle Bold W Platforme",
+    "marque": "Adidas",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures",
+    "sousCategorie": "baskets",
+    "genre": "Femmes",
+    "taille": "36",
+    "prixRetail": 119,
+    "prixVente": 55,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Adidas Gazelle Bold W originales, neuves avec boîte et étiquette.\n\nVersion plateforme très tendance du modèle iconique Gazelle.\n\n👉 Semelle épaisse (style chunky)\n👉 Look rétro modernisé\n👉 Coloris noir et jaune très stylé\n\nParfait pour un style streetwear ou casual.\n\n📋 Détails\nMarque : Adidas\nModèle : Gazelle Bold W\nRéférence : IE0422\nTaille : 36",
+    "photos": [
+      "photos/adidas-1795266652368-1.jpg",
+      "photos/adidas-1795266653993-2.jpg",
+      "photos/adidas-1795266655904-3.jpg",
+      "photos/adidas-1795266657391-4.jpg",
+      "photos/adidas-1795266658823-5.jpg"
+    ],
+    "createdAt": "2026-11-21T13:11:00.676Z",
+    "updatedAt": "2026-11-21T13:11:00.676Z"
+  },
+  {
     "id": "autres-bocal-alimentaire-isotherme-2-3l-conteneur-repas-isotherme-acier-inoxydable-304-3-couches-conteneur-alimentaire-isotherme",
     "nom": "Bocal Alimentaire Isotherme, 2.3L Conteneur Repas Isotherme Acier Inoxydable 304 3 Couches Conteneur Alimentaire Isotherme",
     "marque": "Autres",
