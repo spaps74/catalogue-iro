@@ -8,7 +8,7 @@
     "categorie": "Chaussures",
     "sousCategorie": "mules",
     "genre": "Mixte",
-    "taille": "",
+    "taille": "39",
     "prixRetail": 69,
     "prixVente": 25,
     "statut": "Disponible",
@@ -22,7 +22,7 @@
       "photos/hunter-1795265568125-4.jpg"
     ],
     "createdAt": "2026-11-21T12:51:00.802Z",
-    "updatedAt": "2026-11-21T12:52:49.728Z"
+    "updatedAt": "2026-11-21T12:53:05.851Z"
   },
   {
     "id": "sandro-short-sandro-paris-xs",
