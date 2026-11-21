@@ -2976,9 +2976,7 @@ function shareProductWhatsApp(id){
   const p=products.find(x=>String(x.id)===String(id));
   if(!p) return;
 
-  const previewPhoto=Array.isArray(p.photos)&&p.photos.length?String(p.photos[0]||''):'';
-  const previewVersion=(previewPhoto.split('/').pop()||'v2').replace(/[^a-zA-Z0-9._-]/g,'');
-  const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(p.id||''))+'/?v='+encodeURIComponent(previewVersion||'v2');
+  const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(p.id||''))+'/?v='+Date.now();
   const message='J’ai trouvé ça qui pourrait t’intéresser '+String.fromCodePoint(0x1F440)+'\n'+shareUrl;
 
   window.open(
