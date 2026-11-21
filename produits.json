@@ -1,5 +1,31 @@
 [
   {
+    "id": "sandro-short-sandro-paris-xs",
+    "nom": "Short Sandro Paris",
+    "marque": "Sandro",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "shorts",
+    "genre": "Femmes",
+    "taille": "XS",
+    "prixRetail": 139,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Très joli short en maille douce couleur rose poudré / vieux rose, avec taille élastiquée côtelée et petite plaque logo Sandro dorée sur le devant. Coupe courte confortable, matière chaude et agréable, idéal pour un look chic, cocooning ou casual.\n\nTaille indiquée : 34\nCouleur : rose poudré / vieux rose\nÉtat : neuf avec étiquette\nMarque : Sandro Paris\n\nTrès belle pièce Sandro, élégante et facile à porter.",
+    "photos": [
+      "photos/sandro-1795265340195-1.jpg",
+      "photos/sandro-1795265341953-2.jpg",
+      "photos/sandro-1795265343723-3.jpg",
+      "photos/sandro-1795265345140-4.jpg",
+      "photos/sandro-1795265346859-5.jpg"
+    ],
+    "createdAt": "2026-11-21T12:49:08.598Z",
+    "updatedAt": "2026-11-21T12:49:08.598Z"
+  },
+  {
     "id": "maje-manteau-maje-camel-coupe-longue-double-boutonnage-36",
     "nom": "Manteau MAJE – Camel  – Coupe Longue Double Boutonnage",
     "marque": "Maje",
