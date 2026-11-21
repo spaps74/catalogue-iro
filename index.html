@@ -1642,7 +1642,7 @@ body.category-focus #catalogTitle{
         <button class="sale-type-btn" onclick="selectSaleType('Maison & Déco',this)">Maison & Déco⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures⌄</button>
         <button class="sale-type-btn lost-parcels-nav" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
         <button class="deal-nav-btn" type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">🏷 Livraison Gratuite</button>
       </div>
@@ -2426,9 +2426,9 @@ function renderSubcategoryMenu(type){
     return;
   }
 
-  // Affichage des sous-catégories sous le titre pour les univers
-  // qui en bénéficient le plus dans le catalogue.
-  if(!['Chaussures','High-Tech','Loisirs'].includes(type)) return;
+  // Affichage dynamique des sous-catégories sous le titre.
+  // Les valeurs proviennent directement des produits publiés (sousCategorie).
+  if(!['Maison & Déco','Chaussures','High-Tech','Loisirs'].includes(type)) return;
 
   const subs=subcategoriesForSaleType(type);
   if(!subs.length) return;
