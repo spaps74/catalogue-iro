@@ -1,5 +1,30 @@
 [
   {
+    "id": "petsafe-chatiere-electronique-petsafe-petporte-smart-flap-blanche-neuf",
+    "nom": "Chatière électronique PetSafe Petporte Smart Flap blanche – Neuf",
+    "marque": "Petsafe",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison & Déco",
+    "sousCategorie": "Chatières",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 169,
+    "prixVente": 99,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Chatière électronique PetSafe Petporte Smart Flap pour chat, à reconnaissance de puce électronique. Son système permet de contrôler l'accès de votre chat à la maison. Elle présente un cadre blanc, un rabat transparent et des commandes sur le dessus. Un adaptateur est inclus, selon les indications de l'emballage. Article neuf, présenté avec sa boîte d'origine.",
+    "photos": [
+      "photos/petsafe-1795246838111-1.jpg",
+      "photos/petsafe-1795246839646-2.jpg",
+      "photos/petsafe-1795246841204-3.jpg",
+      "photos/petsafe-1795246842683-4.jpg"
+    ],
+    "createdAt": "2026-11-21T07:40:44.152Z",
+    "updatedAt": "2026-11-21T07:40:44.152Z"
+  },
+  {
     "id": "petsafe-petsafe-chatiere-microchip-rfid-multi-utilisateur-jusqu-a-40-animaux-verrouillage-4-voies-blanc",
     "nom": "PetSafe Chatière microchip RFID multi-utilisateur jusqu'à 40 animaux verrouillage 4 voies – blanc",
     "marque": "Petsafe",
