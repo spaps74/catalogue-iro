@@ -1,5 +1,31 @@
 [
   {
+    "id": "rebook-reebok-x-mountain-research-dmx-trail-shadow-beige-moutarde-38-5",
+    "nom": "Reebok x Mountain Research DMX Trail Shadow beige moutarde",
+    "marque": "Rebook",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures",
+    "sousCategorie": "baskets",
+    "genre": "Mixte",
+    "taille": "38.5",
+    "prixRetail": 138,
+    "prixVente": 75,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Belle paire de Reebok x Mountain Research dans un coloris moutarde / camel / blanc original et très tendance.\nModèle au look outdoor / streetwear avec semelle épaisse et détails signature comme l’inscription “Holiday in the Mountain” au talon.\n\nDétails :\n\nMarque : Reebok\nCollaboration : Mountain Research\nRéférence visible : 1Y3501\nTaille : 38,5 EU\nÉtat : neuves\nColoris : moutarde / camel / blanc\n\nParfaites pour un look streetwear, casual ou outdoor inspiré.",
+    "photos": [
+      "photos/rebook-1795266905878-1.jpg",
+      "photos/rebook-1795266907471-2.jpg",
+      "photos/rebook-1795266908936-3.jpg",
+      "photos/rebook-1795266910501-4.jpg",
+      "photos/rebook-1795266911893-5.jpg"
+    ],
+    "createdAt": "2026-11-21T13:15:13.544Z",
+    "updatedAt": "2026-11-21T13:15:13.544Z"
+  },
+  {
     "id": "rebook-reebok-x-mountain-research-dmx-trail-shadow-beige-moutarde",
     "nom": "Reebok x Mountain Research DMX Trail Shadow beige moutarde",
     "marque": "Rebook",
