@@ -1,5 +1,31 @@
 [
   {
+    "id": "g-star-g-star-short-cargo-roxic-sahara-38-40",
+    "nom": "G-Star Short Cargo Roxic sahara",
+    "marque": "G-Star",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "shorts",
+    "genre": "Hommes",
+    "taille": "38-40",
+    "prixRetail": 79,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "short cargo G-Star modèle Roxic Sahara, une pièce pratique et stylée qui apportera du caractère à vos tenues estivales.\n- Type de produit : Short cargo\n- Univers : Homme\n- Marque : G-Star\n- Modèle : Roxic Sahar\n- Taille : 28 taille petit 40 EU\n- Couleur : Beige",
+    "photos": [
+      "photos/g-star-1795265873517-1.jpg",
+      "photos/g-star-1795265874924-2.jpg",
+      "photos/g-star-1795265876422-3.jpg",
+      "photos/g-star-1795265878265-4.jpg",
+      "photos/g-star-1795265879586-5.jpg"
+    ],
+    "createdAt": "2026-11-21T12:58:01.185Z",
+    "updatedAt": "2026-11-21T12:58:01.185Z"
+  },
+  {
     "id": "hunter-hunter-unisex-vegan-synthetic-sandal-noires-37",
     "nom": "Hunter Unisex Vegan Synthetic Sandal – Noires",
     "marque": "Hunter",
