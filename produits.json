@@ -1,5 +1,28 @@
 [
   {
+    "id": "vanessa-bruno-foulard-vanessa-bruno-100-coton-vert-d-eau-a-motifs-rouges",
+    "nom": "Foulard Vanessa Bruno 100 % coton vert d’eau à motifs rouges",
+    "marque": "Vanessa Bruno",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "Foulards",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 129,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Foulard Vanessa Bruno en 100 % coton, neuf avec étiquettes. Son fond vert d’eau est orné de motifs végétaux rouges et écrus. Une bordure à petits motifs encadre le dessin central. Son format carré permet de le porter autour du cou ou noué à un sac.",
+    "photos": [
+      "photos/vanessa-bruno-1795248240382-1.jpg",
+      "photos/vanessa-bruno-1795248241869-2.jpg"
+    ],
+    "createdAt": "2026-11-21T08:04:03.629Z",
+    "updatedAt": "2026-11-21T08:04:03.629Z"
+  },
+  {
     "id": "petsafe-chatiere-electronique-petsafe-petporte-smart-flap-blanche-neuf",
     "nom": "Chatière électronique PetSafe Petporte Smart Flap blanche – Neuf",
     "marque": "Petsafe",
