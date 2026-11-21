@@ -1,5 +1,31 @@
 [
   {
+    "id": "zadig-voltaire-robe-satinee-leopard-zadig-voltaire-s",
+    "nom": "Robe satinée léopard Zadig & Voltaire",
+    "marque": "Zadig & Voltaire",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "robes",
+    "genre": "",
+    "taille": "S",
+    "prixRetail": 495,
+    "prixVente": 59,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Superbe robe Zadig & Voltaire 🐆✨\n\n✔ Taille S\n✔ Modèle satin léopard\n✔ Coupe fluide élégante\n✔ Ceinture à nouer à la taille\n✔ Manches longues\n✔ Neuve avec étiquettes\n✔ Prix boutique 495€\n\nTrès belle pièce premium, chic et tendance, parfaite pour soirée, look mode ou tenue habillée.",
+    "photos": [
+      "photos/zadig-voltaire-1795248361042-1.jpg",
+      "photos/zadig-voltaire-1795248362802-2.jpg",
+      "photos/zadig-voltaire-1795248364402-3.jpg",
+      "photos/zadig-voltaire-1795248365969-4.jpg",
+      "photos/zadig-voltaire-1795248367617-5.jpg"
+    ],
+    "createdAt": "2026-11-21T08:06:09.286Z",
+    "updatedAt": "2026-11-21T08:06:09.286Z"
+  },
+  {
     "id": "vanessa-bruno-foulard-vanessa-bruno-100-coton-vert-d-eau-a-motifs-rouges",
     "nom": "Foulard Vanessa Bruno 100 % coton vert d’eau à motifs rouges",
     "marque": "Vanessa Bruno",
