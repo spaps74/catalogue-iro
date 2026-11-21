@@ -1,5 +1,31 @@
 [
   {
+    "id": "hunter-mules-hunter-vegan-synthetic-slider-36",
+    "nom": "Mules Hunter Vegan Synthetic Slider",
+    "marque": "Hunter",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures",
+    "sousCategorie": "mules",
+    "genre": "Mixte",
+    "taille": "36",
+    "prixRetail": 69,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Superbes mules Hunter unisexes, modèle Vegan Synthetic Slider.\n\n🖤 Semelle noire avec large bride coloris Gravel / beige clair\n📏 Pointure : 36 EU – UK 3 – US 4\n🔖 Référence : HFRU0005251\n✨ Neuves, jamais portées\n📦 Vendues avec leur boîte Hunter d’origine\n\nModèle moderne avec semelle épaisse crantée, confortable et facile à enfiler. Parfait pour l’été, les vacances, la plage ou un look décontracté au quotidien.",
+    "photos": [
+      "photos/hunter-1795265452938-1.jpg",
+      "photos/hunter-1795265454582-2.jpg",
+      "photos/hunter-1795265456172-3.jpg",
+      "photos/hunter-1795265457505-4.jpg",
+      "photos/hunter-1795265459325-5.jpg"
+    ],
+    "createdAt": "2026-11-21T12:51:00.802Z",
+    "updatedAt": "2026-11-21T12:51:00.802Z"
+  },
+  {
     "id": "sandro-short-sandro-paris-xs",
     "nom": "Short Sandro Paris",
     "marque": "Sandro",
