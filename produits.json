@@ -1,5 +1,31 @@
 [
   {
+    "id": "adidas-adidas-ultraboost-rouge-fluo-37-1-3",
+    "nom": "Adidas UltraBOOST rouge fluo",
+    "marque": "Adidas",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures",
+    "sousCategorie": "running",
+    "genre": "Mixte",
+    "taille": "37 1/3",
+    "prixRetail": 129,
+    "prixVente": 39,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Superbe paire de Adidas UltraBOOST neuve avec étiquette, coloris rouge fluo / noir très stylé et visible.\nModèle confortable avec semelle Boost et semelle extérieure Continental.\n\nDétails :\n\nMarque : Adidas\nModèle : UltraBOOST\nRéférence : FU6648\nTaille : 37 1/3 FR\nColoris : rouge fluo / noir / semelle continental\nParfaites pour le sport, le running ou un look streetwear tendance.",
+    "photos": [
+      "photos/adidas-1795250848805-1.jpg",
+      "photos/adidas-1795250850283-2.jpg",
+      "photos/adidas-1795250851799-3.jpg",
+      "photos/adidas-1795250853184-4.jpg",
+      "photos/adidas-1795250854627-5.jpg"
+    ],
+    "createdAt": "2026-11-21T08:47:36.273Z",
+    "updatedAt": "2026-11-21T08:47:36.273Z"
+  },
+  {
     "id": "zadig-voltaire-robe-satinee-leopard-zadig-voltaire-s",
     "nom": "Robe satinée léopard Zadig & Voltaire",
     "marque": "Zadig & Voltaire",
