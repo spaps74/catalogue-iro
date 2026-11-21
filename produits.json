@@ -1,29 +1,28 @@
 [
   {
     "id": "adidas-adidas-ultraboost-rouge-fluo-37-1-3",
-    "nom": "Adidas UltraBOOST rouge fluo",
+    "nom": "Adidas Adizero Adios OG JH9972",
     "marque": "Adidas",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Chaussures",
-    "sousCategorie": "running",
+    "sousCategorie": "baskets",
     "genre": "Mixte",
-    "taille": "37 1/3",
+    "taille": "36 2/3",
     "prixRetail": 129,
-    "prixVente": 39,
+    "prixVente": 45,
     "statut": "Disponible",
     "sku": "",
     "stock": 1,
-    "description": "Superbe paire de Adidas UltraBOOST neuve avec étiquette, coloris rouge fluo / noir très stylé et visible.\nModèle confortable avec semelle Boost et semelle extérieure Continental.\n\nDétails :\n\nMarque : Adidas\nModèle : UltraBOOST\nRéférence : FU6648\nTaille : 37 1/3 FR\nColoris : rouge fluo / noir / semelle continental\nParfaites pour le sport, le running ou un look streetwear tendance.",
+    "description": "Superbe paire d’adidas Adizero Adios OG, modèle adidas Originals au look running rétro, coloris blanc avec détails rouge et noir.\n\nSilhouette légère et sportive, tige en mesh respirant, finitions vintage et design inspiré des modèles de running adidas. Très belle paire, idéale pour un style casual/sneakers.\n\nModèle : adidas Adizero Adios OG\nRéférence : JH9972\nPointure : 36 2/3 EU / UK 4 / US 4.5\nCouleur : blanc, rouge, noir",
     "photos": [
-      "photos/adidas-1795250848805-1.jpg",
-      "photos/adidas-1795250850283-2.jpg",
-      "photos/adidas-1795250851799-3.jpg",
-      "photos/adidas-1795250853184-4.jpg",
-      "photos/adidas-1795250854627-5.jpg"
+      "photos/adidas-1795250992536-1.jpg",
+      "photos/adidas-1795250994014-2.jpg",
+      "photos/adidas-1795250995552-3.jpg",
+      "photos/adidas-1795250996845-4.jpg"
     ],
     "createdAt": "2026-11-21T08:47:36.273Z",
-    "updatedAt": "2026-11-21T08:47:36.273Z"
+    "updatedAt": "2026-11-21T08:49:58.268Z"
   },
   {
     "id": "zadig-voltaire-robe-satinee-leopard-zadig-voltaire-s",
