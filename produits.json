@@ -1,5 +1,30 @@
 [
   {
+    "id": "adidas-adidas-adizero-adios-og-w-40-2-3",
+    "nom": "Adidas Adizero Adios OG W",
+    "marque": "Adidas",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures",
+    "sousCategorie": "baskets",
+    "genre": "Femmes",
+    "taille": "40 2/3",
+    "prixRetail": 129,
+    "prixVente": 60,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Superbe paire Adidas Adizero Adios OG W, neuves avec boîte et étiquettes.\n\nModèle inspiré du running rétro, avec une silhouette fine et élégante, très tendance actuellement.\n\n🔹 Détails :\n\nMarque : Adidas\nModèle : Adizero Adios OG W\nRéférence : JQ1786\nCouleur : Beige / Noir\nÉtat : Neuves, jamais portées\nTaille : 40 2/3\n\n✨ Look rétro running très recherché\n✨ Confort et légèreté",
+    "photos": [
+      "photos/adidas-1795251679608-1.jpg",
+      "photos/adidas-1795251681107-2.jpg",
+      "photos/adidas-1795251682664-3.jpg",
+      "photos/adidas-1795251683982-4.jpg"
+    ],
+    "createdAt": "2026-11-21T09:01:25.445Z",
+    "updatedAt": "2026-11-21T09:01:25.445Z"
+  },
+  {
     "id": "hunter-sac-hunter-intrepid-tote-frame-moon-bean",
     "nom": "Sac Hunter Intrepid Tote Frame Moon Bean",
     "marque": "Hunter",
