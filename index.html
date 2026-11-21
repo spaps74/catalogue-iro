@@ -1644,7 +1644,7 @@ body.category-focus #catalogTitle{
         <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures⌄</button>
         <button class="sale-type-btn lost-parcels-nav" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
-        <button class="deal-nav-btn" type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">🏷 Livraison Gratuite</button>
+        <button class="deal-nav-btn" type="button" onclick="showBestDeals()">🔥 Bons plans</button>
       </div>
     </div>
   </div>
@@ -1655,7 +1655,7 @@ body.category-focus #catalogTitle{
       <div class="hero-brand">Upstyle-<span>Destock</span></div>
       <h1>Les grandes marques<br>à prix destock !</h1>
       <p>Mode, maison, high-tech et bonnes affaires.<br>Profitez de nos arrivages et fins de série à prix mini.</p>
-      <button type="button" class="hero-cta" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">
+      <button type="button" class="hero-cta" onclick="showBestDeals()">
         Découvrir les bons plans <span>→</span>
       </button>
     </div>
@@ -2699,6 +2699,52 @@ function renderDeals(){
   target.innerHTML=list.length
     ? list.map(p=>card(p)).join('')
     : '<div class="empty">Aucun produit à plus de 75% de remise.</div>';
+}
+
+function showBestDeals(){
+  // Les bons plans doivent toujours afficher la zone dédiée,
+  // même si l'utilisateur venait d'une catégorie qui masque les deals.
+  favoriteOnly=false;
+  category='Tous';
+  saleTypeFilter='';
+  saleSubcatFilter='';
+  saleGenreFilter='';
+
+  const q=document.getElementById('q');
+  const brand=document.getElementById('brand');
+  const size=document.getElementById('size');
+  const genre=document.getElementById('genre');
+  const status=document.getElementById('status');
+
+  if(q) q.value='';
+  if(brand) brand.value='';
+  if(size) size.value='';
+  if(genre) genre.value='';
+  if(status) status.value='';
+
+  document.querySelectorAll('.sale-type-btn').forEach(b=>b.classList.remove('active'));
+
+  const subcats=document.getElementById('saleSubcats');
+  if(subcats){
+    subcats.classList.remove('open');
+    subcats.innerHTML='';
+  }
+
+  document.body.classList.remove('category-focus');
+  updateFavoritesHeader();
+  refreshSizeOptionsForCurrentCategory();
+  updateGenreFilterVisibility();
+  render();
+
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      const deals=document.getElementById('deals');
+      if(!deals) return;
+      const topGap=Math.max(20,Math.min(42,window.innerHeight*0.035));
+      const y=window.scrollY + deals.getBoundingClientRect().top - topGap;
+      window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+    });
+  });
 }
 
 
