@@ -676,7 +676,7 @@
 </div>
 </div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
   <button class="primary" onclick="publish()">Publier / Enregistrer</button>
-  <button class="yellow" type="button" onclick="newProduct()">➕ Publier un nouvel article</button>
+  <button class="yellow" type="button" id="publishAndNewBtn" onclick="publishAndNew()">➕ Publier et créer une nouvelle annonce</button>
   <button onclick="hideEditor()">Annuler</button>
   <button class="danger hidden" id="deleteBtn" onclick="deleteProduct()">Supprimer</button>
   <button class="yellow hidden" id="prevProductBtn" type="button" onclick="editPreviousProduct()">← Produit précédent</button>
@@ -2665,7 +2665,8 @@ async function compressImageFile(file,maxDimension=1800,quality=0.88){
   });
 }
 
-async function publish(){
+async function publish(options={}){
+  const startNewAfterSave=!!options.startNewAfterSave;
   try{
     const fd=new FormData();
     const data={
@@ -2740,6 +2741,18 @@ async function publish(){
     if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
     renderList();
 
+    // À ce stade, l'article a été relu depuis l'API et sa présence dans
+    // produits.json est confirmée. On peut donc repartir sans risque.
+    if(startNewAfterSave){
+      const savedName=saved.nom||data.nom;
+      await newProduct();
+      setMsg(
+        '✅ <b>'+escapeHtmlValue(savedName)+'</b> est bien enregistré. Nouvelle annonce prête à être saisie.',
+        'ok'
+      );
+      return true;
+    }
+
     setMsg(
       'Article enregistré dans <b>produits.json</b>. GitHub Pages met maintenant la boutique à jour…',
       'working'
@@ -2759,9 +2772,30 @@ async function publish(){
     renderPhotoPreviews();
     $('editTitle').textContent='Modifier : '+saved.nom;
     $('deleteBtn').classList.remove('hidden');
+    return true;
 
   }catch(e){
     setMsg('Erreur : '+e.message,'error');
+    return false;
+  }
+}
+
+async function publishAndNew(){
+  const btn=$('publishAndNewBtn');
+  if(btn?.disabled) return;
+
+  const oldText=btn?.textContent||'';
+  try{
+    if(btn){
+      btn.disabled=true;
+      btn.textContent='Enregistrement…';
+    }
+    await publish({startNewAfterSave:true});
+  }finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent=oldText||'➕ Publier et créer une nouvelle annonce';
+    }
   }
 }
 async function deleteProduct(){if(!confirm('Supprimer définitivement cet article ?'))return;try{await req('/product/'+encodeURIComponent(editing),{method:'DELETE'});await connect();hideEditor()}catch(e){alert(e.message)}}
