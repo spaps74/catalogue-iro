@@ -1,5 +1,30 @@
 [
   {
+    "id": "maje-manteau-maje-camel-coupe-longue-double-boutonnage-36",
+    "nom": "Manteau MAJE – Camel  – Coupe Longue Double Boutonnage",
+    "marque": "Maje",
+    "etatProduit": "Seconde main",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "Manteau",
+    "genre": "Femmes",
+    "taille": "36",
+    "prixRetail": 495,
+    "prixVente": 75,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Manteau MAJE\n\n✨ Élégance parisienne • Laine chaude • Valeur sûre de l’hiver\n\nMagnifique manteau MAJE, couleur camel, intemporel et ultra élégant.\nCoupe longue structurée avec double boutonnage : un modèle iconique de la marque.\n\n✅ Caractéristiques\n\nMarque : Maje\n\nTaille : 36 (S)\n\nCouleur : Camel\n\nCoupe longue et féminine\n\nDouble rangée de boutons\n\nGrand col tailleur\n\nPoches larges\n\nDoublure satinée noire\n\nMatière chaude façon laine bouillie (composition courante chez Maje)\n\nLogo MAJE brodé intérieur\n\nÉtat : Très bon état — propre, aucune tache, pas de boulochage visible. Petite marque à l’arrière mais rien de bien méchant (comme un petit trou de cigarette mais peu visible) d'ou un prix très bas pour un manteau Maje\n\n🎯 Pourquoi il est top\n\nLa couleur camel est un incontournable de la garde-robe\n\nCoupe structurée qui affine la silhouette\n\nIdéal pour automne / hiver / début printemps\n\nSe porte avec bottines, baskets ou talons",
+    "photos": [
+      "photos/maje-1795252324809-1.jpg",
+      "photos/maje-1795252326693-2.jpg",
+      "photos/maje-1795252328533-3.jpg",
+      "photos/maje-1795252330046-4.jpg"
+    ],
+    "createdAt": "2026-11-21T09:12:11.697Z",
+    "updatedAt": "2026-11-21T09:12:11.697Z"
+  },
+  {
     "id": "adidas-adidas-adizero-adios-og-w-40-2-3",
     "nom": "Adidas Adizero Adios OG W",
     "marque": "Adidas",
