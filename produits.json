@@ -1,5 +1,31 @@
 [
   {
+    "id": "neutriherbs-neutriherbs-serum-capillaire-a-la-biotine-et-aux-peptides-30-ml",
+    "nom": "Neutriherbs Sérum capillaire à la biotine et aux peptides – 30 ml",
+    "marque": "Neutriherbs",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Cosmétiques",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 21,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 5,
+    "description": "Sérum capillaire Neutriherbs à la biotine, aux peptides et aux extraits de plantes. Destiné à tous les types de cheveux, il est présenté comme un soin pour une chevelure d’apparence plus dense. Sa formule comprend notamment de la caféine et des extraits de gingembre et de ginseng. Format de 30 ml (1 fl oz), en flacon avec pipette et boîte de présentation.",
+    "photos": [
+      "photos/neutriherbs-1795337501249-1.jpg",
+      "photos/neutriherbs-1795337502612-2.jpg",
+      "photos/neutriherbs-1795337504398-3.jpg",
+      "photos/neutriherbs-1795337506263-4.jpg",
+      "photos/neutriherbs-1795337507930-5.jpg"
+    ],
+    "createdAt": "2026-11-22T08:51:49.819Z",
+    "updatedAt": "2026-11-22T08:51:49.819Z"
+  },
+  {
     "id": "neutriherbs-neutriherbs-serum-visage-retinol-pour-pores-grain-de-peau-irregulier-30ml",
     "nom": "Neutriherbs Sérum Visage Rétinol Pour Pores & Grain De Peau Irrégulier 30ml",
     "marque": "Neutriherbs",
