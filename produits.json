@@ -1,5 +1,31 @@
 [
   {
+    "id": "geeklux-alimentation-led-dimmable-12v-200w-220-230v-ac-vers-12v-dc-sans-bruit-sans-scintillement-compacte-ip20-200w",
+    "nom": "Alimentation LED dimmable 12V 200W 220-230V AC vers 12V DC sans bruit sans scintillement compacte IP20 - 200W",
+    "marque": "GeekLux",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 39,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "transformateur LED 200W, alimentation réglable de type driver sans bruit et sans clignotement, idéal pour alimenter vos systèmes d'éclairage LED.\n- Type de produit : Transformateur / Driver LED\n- Puissance : 200 W\n- Tension d'entrée : 220 V AC\n- Tension de sortie : 24 V DC\n- Alimentation : Réglable (voltage ajustable)\n- Caractéristiques : Sans bruit, sans clignotement, compact et mince\n- Protection : IP20\n- Compatibilité : Convient aux lampes LED\nÉtat 100% neuf.",
+    "photos": [
+      "photos/geeklux-1795335990062-1.jpg",
+      "photos/geeklux-1795335991752-2.jpg",
+      "photos/geeklux-1795335993689-3.jpg",
+      "photos/geeklux-1795335995360-4.jpg",
+      "photos/geeklux-1795335996948-5.jpg"
+    ],
+    "createdAt": "2026-11-22T08:26:38.552Z",
+    "updatedAt": "2026-11-22T08:26:38.552Z"
+  },
+  {
     "id": "zolmer-zolmer-vaporisateur-a-huile-2-flacons-rechargeables-en-verre-et-acier-sans-bpa-pour-friteuse-a-air-cuisson-et-barbecue",
     "nom": "Zolmer vaporisateur a huile 2 flacons rechargeables en verre et acier, sans BPA, pour friteuse à air, cuisson et barbecue",
     "marque": "Zolmer",
