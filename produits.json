@@ -1,5 +1,29 @@
 [
   {
+    "id": "zealsea-serum-acide-hyaluronique-2-avec-vitamine-b-hydratant-anti-age-30ml",
+    "nom": "Sérum acide hyaluronique 2% avec Vitamine B Hydratant anti-âge – 30ml",
+    "marque": "ZealSea",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison & Déco",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 19,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "",
+    "photos": [
+      "photos/zealsea-1795336524183-1.jpg",
+      "photos/zealsea-1795336525701-2.jpg",
+      "photos/zealsea-1795336527460-3.jpg"
+    ],
+    "createdAt": "2026-11-22T08:35:29.060Z",
+    "updatedAt": "2026-11-22T08:35:29.060Z"
+  },
+  {
     "id": "geeklux-alimentation-led-dimmable-12v-200w-220-230v-ac-vers-12v-dc-sans-bruit-sans-scintillement-compacte-ip20-200w",
     "nom": "Alimentation LED dimmable 12V 200W 220-230V AC vers 12V DC sans bruit sans scintillement compacte IP20 - 200W",
     "marque": "GeekLux",
