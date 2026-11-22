@@ -1,5 +1,31 @@
 [
   {
+    "id": "autres-tablier-de-cuisine-noir-ajustable-et-impermeable-a-message-2-poches",
+    "nom": "Tablier de cuisine noir ajustable et imperméable à message, 2 poches",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Cosmétiques",
+    "sousCategorie": "Tabliers de cuisine",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 25,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 5,
+    "description": "Ce tablier de cuisine noir de marque Autres est neuf avec étiquettes. Ajustable au cou et imperméable, il dispose de deux poches à l’avant pour garder les petits accessoires à portée de main. Il porte l’inscription « Je m’en fiche, je le fais comme ça maintenant » en blanc, accompagnée de motifs d’ustensiles jaunes.",
+    "photos": [
+      "photos/autres-1795337651453-1.jpg",
+      "photos/autres-1795337652876-2.jpg",
+      "photos/autres-1795337654653-3.jpg",
+      "photos/autres-1795337656210-4.jpg",
+      "photos/autres-1795337657855-5.jpg"
+    ],
+    "createdAt": "2026-11-22T08:54:19.387Z",
+    "updatedAt": "2026-11-22T08:54:19.387Z"
+  },
+  {
     "id": "neutriherbs-neutriherbs-serum-capillaire-a-la-biotine-et-aux-peptides-30-ml",
     "nom": "Neutriherbs Sérum capillaire à la biotine et aux peptides – 30 ml",
     "marque": "Neutriherbs",
