@@ -60,7 +60,7 @@
     "taille": "",
     "prixRetail": 155,
     "prixVente": 75,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
     "stock": 1,
     "description": "Ces bottines mixtes Hunter City Explorer Short associent une tige noire à une semelle vert émeraude contrastante. Leur silhouette présente un bout arrondi et une semelle épaisse à crampons marqués. Une languette arrière complète leur design sobre et massif. Article neuf avec étiquettes.",
@@ -72,7 +72,7 @@
       "photos/hunter-1795345082138-5.jpg"
     ],
     "createdAt": "2026-11-22T10:58:03.620Z",
-    "updatedAt": "2026-11-22T10:58:03.620Z"
+    "updatedAt": "2026-11-22T20:40:37.574Z"
   },
   {
     "id": "anglicolor-creme-cc-anglicolor-mushroom-head-air-cushion-anti-cernes-couvrant-longue-tenue-base-de-maquillage-cc-pour-un-teint-uniforme-01",
