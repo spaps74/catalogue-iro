@@ -1,5 +1,29 @@
 [
   {
+    "id": "m-sense-bougie-parfumee-en-cire-de-soja-en-verre-470-g-110-h-de-combustion-sparkling-fruit-drops",
+    "nom": "Bougie parfumée en cire de soja en verre 470 g 110 h de combustion – Sparkling Fruit Drops",
+    "marque": "M&Sense",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison & Déco",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 55,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "",
+    "photos": [
+      "photos/m-sense-1795337023417-1.jpg",
+      "photos/m-sense-1795337024831-2.jpg",
+      "photos/m-sense-1795337026703-3.jpg"
+    ],
+    "createdAt": "2026-11-22T08:43:48.410Z",
+    "updatedAt": "2026-11-22T08:43:48.410Z"
+  },
+  {
     "id": "neutriherbs-serum-anti-rides-a-la-mucine-d-escargot-neutriherbs-50-ml-serum-a-la-niacinamide-pour-le-visage-attenue-les-taches-brunes-soin-anti-age-tout-en-un-a-la-mucine-d-escargot-pour-femmes-et-hommes-serum-visage-apaisant-et-reparateur-panthenol",
     "nom": "Sérum anti-rides à la mucine d'escargot Neutriherbs, 50 ml - Sérum à la niacinamide pour le visage, atténue les taches brunes, soin anti-âge tout-en-un à la mucine d'escargot pour femmes et hommes, sérum visage apaisant et réparateur - Panthénol",
     "marque": "Neutriherbs",
