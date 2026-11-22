@@ -6,7 +6,7 @@
     "etatProduit": "Seconde main",
     "miseEnPremierePage": false,
     "categorie": "Mode",
-    "sousCategorie": "",
+    "sousCategorie": "accessoires",
     "genre": "Hommes",
     "taille": "",
     "prixRetail": 140,
@@ -16,12 +16,12 @@
     "stock": 1,
     "description": "Apportez une touche d'élégance à votre tenue avec cette superbe cravate Alexander Sachs, au motif raffiné de petits pois gris sur fond beige.\n\n✨ Caractéristiques :\n\nMarque : Alexander Sachs\n\nCouleur : beige / champagne à pois gris\n\nComposition : 60 % soie, 40 % coton\n\nStyle : classique, chic et intemporel\n\nÉtat : parfait état\n\nIdéale pour un mariage, une cérémonie, une tenue professionnelle ou simplement pour compléter un costume élégant.",
     "photos": [
-      "photos/alexander-sachs-1795373180521-1.jpg",
-      "photos/alexander-sachs-1795373182326-2.jpg",
-      "photos/alexander-sachs-1795373184095-3.jpg"
+      "photos/alexander-sachs-1795373188163-1.jpg",
+      "photos/alexander-sachs-1795373189890-2.jpg",
+      "photos/alexander-sachs-1795373191902-3.jpg"
     ],
     "createdAt": "2026-11-22T18:46:25.744Z",
-    "updatedAt": "2026-11-22T18:46:25.744Z"
+    "updatedAt": "2026-11-22T18:46:33.703Z"
   },
   {
     "id": "hunter-bottines-mixtes-hunter-city-explorer-short-noires-et-vert-emeraude",
