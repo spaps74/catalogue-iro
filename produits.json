@@ -1,5 +1,31 @@
 [
   {
+    "id": "neutriherbs-neutriherbs-serum-visage-retinol-pour-pores-grain-de-peau-irregulier-30ml",
+    "nom": "Neutriherbs Sérum Visage Rétinol Pour Pores & Grain De Peau Irrégulier 30ml",
+    "marque": "Neutriherbs",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Cosmétiques",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 23.95,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Avec Acide Hyaluronique & Vitamine E. Hydrate Et Lisse, Aide À Affiner Le Grain De Peau Et Réduire L'Aspect Des Pores.",
+    "photos": [
+      "photos/neutriherbs-1795337364693-1.jpg",
+      "photos/neutriherbs-1795337366165-2.jpg",
+      "photos/neutriherbs-1795337367509-3.jpg",
+      "photos/neutriherbs-1795337368973-4.jpg",
+      "photos/neutriherbs-1795337370809-5.jpg"
+    ],
+    "createdAt": "2026-11-22T08:49:32.600Z",
+    "updatedAt": "2026-11-22T08:49:32.600Z"
+  },
+  {
     "id": "m-sense-bougie-parfumee-en-cire-de-soja-en-verre-470-g-110-h-de-combustion-sparkling-fruit-drops",
     "nom": "Bougie parfumée en cire de soja en verre 470 g 110 h de combustion – Sparkling Fruit Drops",
     "marque": "M&Sense",
