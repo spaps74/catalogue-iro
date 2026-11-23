@@ -3031,8 +3031,9 @@ function renderSelectedLookupResult(){
       </div>`:'<div class="muted" style="margin-top:8px">Aucune photo fournie par la base produit.</div>'}
     <div class="product-lookup-selected-actions">
       <button class="yellow" type="button" onclick="searchOriginalPriceAndPhotos()">🔎 Rechercher prix d'origine + 10 photos</button>
-      <button class="primary" type="button" onclick="importLookupProduct(true)">✨ Importer + générer l’annonce</button>
-      <button type="button" onclick="importLookupProduct(false)">Importer sans IA</button>
+      <button class="primary" type="button" onclick="importSelectedLookupPhotos()">📥 Importer les photos sélectionnées</button>
+      <button type="button" onclick="importLookupProduct(false)">Importer les infos produit</button>
+      <button type="button" onclick="generateAIListing()">✨ Générer l’annonce avec l’IA</button>
     </div>
   `;
 }
@@ -3078,7 +3079,7 @@ async function searchOriginalPriceAndPhotos(){
       $('retail').value=Number(updated.retailPrice).toFixed(2).replace(/\.00$/,'');
     }
 
-    // L'utilisateur choisit lui-même parmi les 10 photos proposées.
+    // Affichage seulement : aucune photo n'est ajoutée ni présélectionnée.
     productLookupSelectedImages=new Set();
     renderSelectedLookupResult();
 
@@ -3099,44 +3100,63 @@ async function searchOriginalPriceAndPhotos(){
   }
 }
 
-async function importLookupProduct(withAI){
-  let r=productLookupResults[productLookupSelectedIndex];
+async function importSelectedLookupPhotos(){
+  const r=productLookupResults[productLookupSelectedIndex];
   if(!r) return;
 
-  try{
-    setProductLookupStatus('Recherche du prix public et des photos du produit…','working');
+  const indexes=[...productLookupSelectedImages].sort((a,b)=>a-b).slice(0,5);
+  if(!indexes.length){
+    setProductLookupStatus('Sélectionne d’abord au moins une photo à importer.','error');
+    return;
+  }
 
-    try{
-      const enriched=await req('/admin/product-enrich',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          product:r,
-          query:r.gtin||r.ean||r.upc||$('productLookupCode')?.value||r.title||''
-        })
+  const imported=[];
+  try{
+    for(let pos=0;pos<indexes.length;pos++){
+      const url=(r.images||[])[indexes[pos]];
+      if(!url) continue;
+
+      setProductLookupStatus('Import de la photo sélectionnée '+(pos+1)+'/'+indexes.length+'…','working');
+
+      const api=String($('api')?.value||'').replace(/\/+$/,'');
+      const key=String($('key')?.value||'');
+      const response=await fetch(api+'/admin/product-image?url='+encodeURIComponent(url),{
+        headers:{'X-Admin-Key':key}
       });
-      if(enriched?.product){
-        r=enriched.product;
-        productLookupResults[productLookupSelectedIndex]=r;
-        productLookupSelectedImages=new Set(
-          (r.images||[]).slice(0,Math.min(5,(r.images||[]).length)).map((_,i)=>i)
-        );
-        renderSelectedLookupResult();
+
+      if(!response.ok){
+        const txt=await response.text();
+        throw new Error(txt||('HTTP '+response.status));
       }
-      if(enriched?.diagnostics?.webResearchError){
-        console.warn('Enrichissement web :',enriched.diagnostics.webResearchError);
-      }
-    }catch(enrichErr){
-      console.warn('Enrichissement produit impossible',enrichErr);
-      setProductLookupStatus('Enrichissement incomplet : '+enrichErr.message+' — import des informations déjà trouvées…','working');
+
+      const blob=await response.blob();
+      const ext=(blob.type.split('/')[1]||'jpg').replace('jpeg','jpg').replace('svg+xml','svg');
+      const file=new File([blob],'web-'+Date.now()+'-'+(pos+1)+'.'+ext,{type:blob.type||'image/jpeg'});
+      await loadImageFromFile(file);
+      imported.push({type:'new',file});
+    }
+
+    if(imported.length){
+      galleryItems=[...galleryItems,...imported].slice(0,5);
+      renderPhotoPreviews();
     }
 
     setProductLookupStatus(
-      'Import du produit'+
-      (r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):'')+
-      (r.images?.length?' · '+r.images.length+' photo'+(r.images.length>1?'s':'')+' trouvée'+(r.images.length>1?'s':''):'')+'…',
-      'working'
+      imported.length+' photo'+(imported.length>1?'s':'')+' sélectionnée'+(imported.length>1?'s':'')+' importée'+(imported.length>1?'s':'')+' dans l’annonce.',
+      imported.length?'ok':'error'
     );
+  }catch(e){
+    console.error(e);
+    setProductLookupStatus('Erreur import photos : '+e.message,'error');
+  }
+}
+
+async function importLookupProduct(withAI){
+  const r=productLookupResults[productLookupSelectedIndex];
+  if(!r) return;
+
+  try{
+    setProductLookupStatus('Import des informations produit…','working');
 
     if(r.title) $('nom').value=r.title;
     if(r.brand){
@@ -3146,65 +3166,28 @@ async function importLookupProduct(withAI){
     if(r.sku){
       $('sku').value=r.sku;
     }
+
     const importedGtin=extractGtin(r.gtin||r.ean||r.upc||'');
     if(importedGtin && $('gtin')){
       $('gtin').value=importedGtin;
     }
+
     if(r.description && !$('description').value.trim()){
       $('description').value=r.description;
     }
+
     if(r.retailPrice){
       $('retail').value=Number(r.retailPrice).toFixed(2).replace(/\.00$/,'');
     }
 
-    const indexes=[...productLookupSelectedImages].sort((a,b)=>a-b).slice(0,5);
-    const imported=[];
-    for(let pos=0;pos<indexes.length;pos++){
-      const url=(r.images||[])[indexes[pos]];
-      if(!url) continue;
-      setProductLookupStatus('Import photo '+(pos+1)+'/'+indexes.length+'…','working');
-      try{
-        const api=String($('api')?.value||'').replace(/\/+$/,'');
-        const key=String($('key')?.value||'');
-        const response=await fetch(api+'/admin/product-image?url='+encodeURIComponent(url),{
-          headers:{'X-Admin-Key':key}
-        });
-        if(!response.ok){
-          const txt=await response.text();
-          throw new Error(txt||('HTTP '+response.status));
-        }
-        const blob=await response.blob();
-        const ext=(blob.type.split('/')[1]||'jpg').replace('jpeg','jpg').replace('svg+xml','svg');
-        const file=new File([blob],'ean-'+Date.now()+'-'+(pos+1)+'.'+ext,{type:blob.type||'image/jpeg'});
-        await loadImageFromFile(file);
-        imported.push({type:'new',file});
-      }catch(err){
-        console.warn('Photo distante ignorée',url,err);
-      }
-    }
-
-    if(imported.length){
-      galleryItems=[...imported,...galleryItems].slice(0,5);
-      renderPhotoPreviews();
-    }
-
     setProductLookupStatus(
-      'Informations importées'+
+      'Informations produit importées'+
       (r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):'')+
-      (imported.length?' · '+imported.length+' photo'+(imported.length>1?'s':'')+' ajoutée'+(imported.length>1?'s':''):'')+'.',
-      imported.length>=5 && r.retailPrice ? 'ok' : 'working'
+      '. Aucune photo n’a été ajoutée automatiquement.',
+      'ok'
     );
 
     if(withAI){
-      if(imported.length===0){
-        setProductLookupStatus(
-          'Produit importé'+
-          (r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):'')+
-          ', mais aucune photo n’a pu être téléchargée. L’IA n’est pas lancée pour éviter une génération sans photo.',
-          'error'
-        );
-        return;
-      }
       await generateAIListing();
     }
   }catch(e){
