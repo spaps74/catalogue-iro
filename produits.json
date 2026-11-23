@@ -1,5 +1,28 @@
 [
   {
+    "id": "ovender-ovender-deguisement-kigurumi-adulte-bleu-a-capuche-animal-taille-l-xl-l-xl",
+    "nom": "Ovender – Déguisement kigurumi adulte bleu à capuche animal, taille L/XL",
+    "marque": "Ovender",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "Déguisements",
+    "genre": "",
+    "taille": "L/XL",
+    "prixRetail": 45,
+    "prixVente": 20,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 2,
+    "description": "Cette combinaison kigurumi Ovender pour adulte est proposée en taille L/XL. Son coloris bleu contraste avec un grand empiècement ventral vert très clair. La capuche représente un visage d’animal avec des yeux, un museau et des moustaches dessinées. Sa coupe ample et ses manches longues complètent ce modèle à porter en déguisement, pour le cosplay ou comme pyjama.",
+    "photos": [
+      "photos/ovender-1795426594127-1.jpg",
+      "photos/ovender-1795426595754-2.jpg"
+    ],
+    "createdAt": "2026-11-23T09:36:37.262Z",
+    "updatedAt": "2026-11-23T09:36:37.262Z"
+  },
+  {
     "id": "gardepro-gardepro-e8p-camera-de-chasse-wifi-64-mp-video-1296p-et-batterie-8-000-mah",
     "nom": "GardePro E8P – Caméra de chasse WiFi 64 MP, vidéo 1296P et batterie 8 000 mAh",
     "marque": "GardePro",
