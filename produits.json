@@ -787,10 +787,11 @@
     "sousCategorie": "mules",
     "genre": "Mixte",
     "taille": "37",
-    "prixRetail": 69,
-    "prixVente": 25,
+    "prixRetail": 90,
+    "prixVente": 29,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Sandales Hunter originales neuves, jamais portées, livrées avec leur boîte et leur documentation d'origine.\n\nCe modèle combine le style iconique Hunter avec une semelle épaisse crantée et deux brides ajustables par scratch pour un excellent maintien et un confort optimal.\n\nDétails\nMarque : Hunter\nModèle : Unisex Vegan Synthetic Sandal\nRéférence : HFRU0004251\nColoris : Black\nTaille : EU 37 / UK 4 / US 5\nModèle mixte (Unisex)\nMatière synthétique vegan\nDeux brides réglables par scratch\nSemelle épaisse crantée antidérapante\nLogo Hunter en relief\nBoîte d'origine incluse\n\n✅ État : Neuves, jamais portées.",
     "photos": [
@@ -800,7 +801,7 @@
       "photos/hunter-1795265762323-4.jpg"
     ],
     "createdAt": "2026-11-21T12:56:03.763Z",
-    "updatedAt": "2026-11-21T12:56:03.763Z"
+    "updatedAt": "2026-11-23T18:57:41.735Z"
   },
   {
     "id": "hunter-mules-hunter-vegan-synthetic-slider-36",
