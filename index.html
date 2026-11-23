@@ -1672,7 +1672,7 @@ body.category-focus #catalogTitle{
       <div class="sale-types">
         <button class="sale-type-btn" onclick="selectSaleType('Mode',this)">Mode⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Maison, Déco, Cosmétiques',this)">Maison, Déco, Cosmétiques⌄</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Maison, Cosmétiques, Animaux',this)">Maison, Cosmétiques, Animaux⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
         <button class="sale-type-btn lost-parcels-nav" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
@@ -1712,7 +1712,7 @@ body.category-focus #catalogTitle{
     <div class="univers-grid">
       <button onclick="selectSaleType('Mode',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
       <button onclick="selectSaleType('Chaussures',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
-      <button onclick="selectSaleType('Maison, Déco, Cosmétiques',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🛋</span><b>Maison, Déco, Cosmétiques</b><em>→</em></button>
+      <button onclick="selectSaleType('Maison, Cosmétiques, Animaux',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🛋</span><b>Maison, Cosmétiques, Animaux</b><em>→</em></button>
       <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
       <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
     </div>
@@ -2314,7 +2314,7 @@ function inferredSaleType(p){
   if(['chaussures','chaussure','baskets','basket','baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Chaussures';
   if(['high-tech','high tech','hightech','informatique','informatique / tech','informatique/tech'].includes(cat)) return 'High-Tech';
   if(['loisir','loisirs','sport','sports'].includes(cat)) return 'Loisirs';
-  if(['maison, deco, cosmetiques','maison deco cosmetiques','maison & deco','maison et deco','maison deco','pour la maison','maison'].includes(cat)) return 'Maison, Déco, Cosmétiques';
+  if(['maison, deco, cosmetiques','maison deco cosmetiques','maison & deco','maison et deco','maison deco','pour la maison','maison'].includes(cat)) return 'Maison, Cosmétiques, Animaux';
   if(['colis perdus','colis perdu','colis'].includes(cat)) return 'Colis Perdus';
 
   // Compatibilité anciens produits / anciennes catégories.
@@ -2331,7 +2331,7 @@ function inferredSaleType(p){
   if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Mode';
   if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'High-Tech';
   if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Loisirs';
-  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager|cosmetique|cosmetiques|beaute|soin/.test(h)) return 'Maison, Déco, Cosmétiques';
+  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager|cosmetique|cosmetiques|beaute|soin/.test(h)) return 'Maison, Cosmétiques, Animaux';
   if(/colis perdu|colis perdus|lost parcel|lost parcels/.test(h)) return 'Colis Perdus';
 
   return '';
@@ -2359,7 +2359,7 @@ function subcategoriesForSaleType(type){
 
 function saleTypeAllLabel(type){
   if(type==='Mode') return 'Toute la mode';
-  if(type==='Maison, Déco, Cosmétiques') return 'Toute la maison, déco & cosmétiques';
+  if(type==='Maison, Cosmétiques, Animaux') return 'Toute la maison, cosmétiques & animaux';
   if(type==='Colis Perdus') return 'Tous les colis perdus';
   if(type==='Chaussures') return 'Toutes les chaussures';
   if(type==='High-Tech') return 'Tout le high-tech';
@@ -2460,7 +2460,7 @@ function renderSubcategoryMenu(type){
 
   // Affichage dynamique des sous-catégories sous le titre.
   // Les valeurs proviennent directement des produits publiés (sousCategorie).
-  if(!['Maison, Déco, Cosmétiques','Chaussures','High-Tech','Loisirs'].includes(type)) return;
+  if(!['Maison, Cosmétiques, Animaux','Chaussures','High-Tech','Loisirs'].includes(type)) return;
 
   const subs=subcategoriesForSaleType(type);
   if(!subs.length) return;
@@ -2855,11 +2855,13 @@ function render(){
       'loisirs': 'Loisirs',
       'sports': 'Loisirs',
       'sport': 'Loisirs',
-      'maison deco': 'Maison, Déco, Cosmétiques',
-      'maison et deco': 'Maison, Déco, Cosmétiques',
-      'pour la maison': 'Maison, Déco, Cosmétiques',
-      'maison deco cosmetiques': 'Maison, Déco, Cosmétiques',
-      'cosmetiques': 'Maison, Déco, Cosmétiques',
+      'maison deco': 'Maison, Cosmétiques, Animaux',
+      'maison et deco': 'Maison, Cosmétiques, Animaux',
+      'pour la maison': 'Maison, Cosmétiques, Animaux',
+      'maison deco cosmetiques': 'Maison, Cosmétiques, Animaux',
+      'cosmetiques': 'Maison, Cosmétiques, Animaux',
+      'animaux': 'Maison, Cosmétiques, Animaux',
+      'maison cosmetiques animaux': 'Maison, Cosmétiques, Animaux',
       'colis perdus': 'Colis Perdus'
     };
     const exactCategory = categoryAliases[q];
