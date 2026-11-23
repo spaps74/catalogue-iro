@@ -1,5 +1,31 @@
 [
   {
+    "id": "victgoal-victgoal-casque-velo-vtt-bleu-metallise-avec-visiere-magnetique-et-feu-led-new",
+    "nom": "Victgoal Casque vélo VTT bleu métallisé avec visière magnétique et feu LED",
+    "marque": "Victgoal",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "",
+    "taille": "XL",
+    "prixRetail": 54,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Ce casque de vélo Victgoal pour adulte convient à la pratique du VTT et du vélo de route. Son coloris bleu métallisé est rehaussé de détails blancs et noirs, avec de nombreuses ouvertures d’aération. Il est équipé d’une visière magnétique teintée, d’un pare-soleil amovible et d’un feu arrière LED. Article neuf avec étiquettes.",
+    "photos": [
+      "photos/victgoal-1795457409741-1.jpg",
+      "photos/victgoal-1795457411401-2.jpg",
+      "photos/victgoal-1795457413086-3.jpg",
+      "photos/victgoal-1795457414917-4.jpg",
+      "photos/victgoal-1795457416563-5.jpg"
+    ],
+    "createdAt": "2026-11-23T18:10:18.139Z",
+    "updatedAt": "2026-11-23T18:10:18.139Z"
+  },
+  {
     "id": "victgoal-casque-velo-de-route-victgoal-taille-l-gris-irise-avec-eclairage-arriere-magnetique-l",
     "nom": "Casque vélo de route VICTGOAL taille L gris irisé avec éclairage arrière magnétique",
     "marque": "Victgoal",
