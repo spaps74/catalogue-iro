@@ -621,7 +621,7 @@
   <select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
     <option value="Mode">Mode</option>
-    <option value="Chaussures">Chaussures</option>
+    <option value="Chaussures / Baskets">Chaussures / Baskets</option>
     <option value="High-Tech">High-Tech</option>
     <option value="Loisirs">Loisirs</option>
     <option value="Maison, Soins de la personne, Animaux">Maison, Soins de la personne, Animaux</option>
@@ -1921,7 +1921,7 @@ function inferCheckMainCategory(p){
 
   if(cat==='vetements' || cat==='vetement' || cat==='mode') return 'Mode';
   if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)){
-    return 'Chaussures';
+    return 'Chaussures / Baskets';
   }
 
   const shoeLegacy=new Set([
@@ -1938,7 +1938,7 @@ function inferCheckMainCategory(p){
     'short','shorts','legging','leggings','cargo'
   ]);
 
-  if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Chaussures';
+  if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Chaussures / Baskets';
   if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Mode';
 
   return '';
@@ -2002,7 +2002,7 @@ function showProductCheck(){
   const list=$('productCheckList');
 
   const clothingCount=rows.filter(x=>x.target==='Mode').length;
-  const shoesCount=rows.filter(x=>x.target==='Chaussures').length;
+  const shoesCount=rows.filter(x=>x.target==='Chaussures / Baskets').length;
   const missingCategoryCount=rows.filter(x=>x.issues.some(i=>i.type==='category')).length;
   const missingSubCount=rows.filter(x=>x.issues.some(i=>i.type==='subcategory')).length;
 
@@ -2081,7 +2081,7 @@ function refreshCategories(selectedValue=''){
 
   const defaults=[
     'Mode',
-    'Chaussures',
+    'Chaussures / Baskets',
     'High-Tech',
     'Loisirs',
     'Maison, Soins de la personne, Animaux',
@@ -2440,7 +2440,7 @@ function edit(id){
     category='Maison, Soins de la personne, Animaux';
   }
   if(['Sport','Sports'].includes(category)) category='Loisirs';
-  if(['Basket','Baskets','Baskets / Chaussures'].includes(category)) category='Chaussures';
+  if(['Chaussures','Basket','Baskets','Baskets / Chaussures','Chaussures / Baskets'].includes(category)) category='Chaussures / Baskets';
 
   refreshCategories(category);
   refreshSousCategories(p.sousCategorie||p.sous_categorie||'');

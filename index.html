@@ -1727,7 +1727,7 @@ body.category-focus #catalogTitle{
       <div class="cats nav-all" id="cats"></div>
       <div class="sale-types">
         <button class="sale-type-btn" onclick="selectSaleType('Mode',this)">Mode⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Chaussures',this)">Chaussures⌄</button>
+        <button class="sale-type-btn" onclick="selectSaleType('Chaussures / Baskets',this)">Chaussures / Baskets⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Maison, Soins de la personne, Animaux',this)">Maison, Soins de la personne, Animaux⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
         <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
@@ -1768,7 +1768,7 @@ body.category-focus #catalogTitle{
     </div>
     <div class="univers-grid">
       <button onclick="selectSaleType('Mode',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
-      <button onclick="selectSaleType('Chaussures',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">👟</span><b>Chaussures</b><em>→</em></button>
+      <button onclick="selectSaleType('Chaussures / Baskets',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">👟</span><b>Chaussures / Baskets</b><em>→</em></button>
       <button onclick="selectSaleType('Maison, Soins de la personne, Animaux',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🛋</span><b>Maison, Soins de la personne, Animaux</b><em>→</em></button>
       <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
       <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
@@ -2382,7 +2382,7 @@ function inferredSaleType(p){
 
   // Valeurs principales actuelles saisies dans l'admin.
   if(['mode','vetement','vetements'].includes(cat)) return 'Mode';
-  if(['chaussures','chaussure','baskets','basket','baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Chaussures';
+  if(['chaussures','chaussure','baskets','basket','baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Chaussures / Baskets';
   if(['high-tech','high tech','hightech','informatique','informatique / tech','informatique/tech'].includes(cat)) return 'High-Tech';
   if(['loisir','loisirs','sport','sports'].includes(cat)) return 'Loisirs';
   if(['maison, deco, cosmetiques','maison deco cosmetiques','maison & deco','maison et deco','maison deco','pour la maison','maison'].includes(cat)) return 'Maison, Soins de la personne, Animaux';
@@ -2390,7 +2390,7 @@ function inferredSaleType(p){
 
   // Compatibilité anciens produits / anciennes catégories.
   if(/^(basket|baskets|chaussure|chaussures|sneaker|sneakers|botte|bottes|bottine|bottines|sandale|sandales|mule|mules|escarpin|escarpins|ballerine|ballerines)$/.test(cat)){
-    return 'Chaussures';
+    return 'Chaussures / Baskets';
   }
 
   if(/^(accessoire|accessoires|combi-short|combi short|pantalon|pantalons|jean|jeans|robe|robes|jupe|jupes|chemise|chemises|blouse|blouses|top|tops|t-shirt|t-shirts|pull|pulls|sweat|sweats|veste|vestes|manteau|manteaux|short|shorts|legging|leggings|cargo)$/.test(cat)){
@@ -2398,7 +2398,7 @@ function inferredSaleType(p){
   }
 
   // Dernier filet de compatibilité pour les produits historiques.
-  if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Chaussures';
+  if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Chaussures / Baskets';
   if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Mode';
   if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'High-Tech';
   if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Loisirs';
@@ -2432,7 +2432,7 @@ function saleTypeAllLabel(type){
   if(type==='Mode') return 'Toute la mode';
   if(type==='Maison, Soins de la personne, Animaux') return 'Toute la maison, soins de la personne & animaux';
   if(type==='Colis Perdus') return 'Tous les colis perdus';
-  if(type==='Chaussures') return 'Toutes les chaussures';
+  if(type==='Chaussures / Baskets') return 'Toutes les chaussures / baskets';
   if(type==='High-Tech') return 'Tout le high-tech';
   if(type==='Loisirs') return 'Tous les loisirs';
   return 'Tous';
@@ -2531,7 +2531,7 @@ function renderSubcategoryMenu(type){
 
   // Affichage dynamique des sous-catégories sous le titre.
   // Les valeurs proviennent directement des produits publiés (sousCategorie).
-  if(!['Maison, Soins de la personne, Animaux','Chaussures','High-Tech','Loisirs'].includes(type)) return;
+  if(!['Maison, Soins de la personne, Animaux','Chaussures / Baskets','High-Tech','Loisirs'].includes(type)) return;
 
   const subs=subcategoriesForSaleType(type);
   if(!subs.length) return;
@@ -2919,8 +2919,10 @@ function render(){
       'mode': 'Mode',
       'vetements': 'Mode',
       'vetement': 'Mode',
-      'chaussures': 'Chaussures',
-      'baskets chaussures': 'Chaussures',
+      'chaussures': 'Chaussures / Baskets',
+      'chaussures baskets': 'Chaussures / Baskets',
+      'baskets': 'Chaussures / Baskets',
+      'baskets chaussures': 'Chaussures / Baskets',
       'high tech': 'High-Tech',
       'informatique': 'High-Tech',
       'loisirs': 'Loisirs',
