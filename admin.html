@@ -2126,6 +2126,44 @@ function refreshCategories(selectedValue=''){
   }
 }
 
+const SUBCATEGORY_REGISTRY_KEY='upstyle_admin_subcategories_v1';
+
+function loadSubcategoryRegistry(){
+  try{
+    const raw=localStorage.getItem(SUBCATEGORY_REGISTRY_KEY);
+    const data=raw?JSON.parse(raw):{};
+    return data && typeof data==='object' ? data : {};
+  }catch(_){
+    return {};
+  }
+}
+
+function saveSubcategoryRegistry(data){
+  try{
+    localStorage.setItem(SUBCATEGORY_REGISTRY_KEY,JSON.stringify(data||{}));
+  }catch(_){}
+}
+
+function rememberSubcategory(category,subcategory){
+  const cat=String(category||'').trim();
+  const sub=String(subcategory||'').trim();
+  if(!cat || !sub) return;
+
+  const registry=loadSubcategoryRegistry();
+  const catKey=normalizeCategory(cat);
+  const current=Array.isArray(registry[catKey]) ? registry[catKey] : [];
+  const exists=current.some(v=>normalizeSubcat(v)===normalizeSubcat(sub));
+  if(!exists) current.push(sub);
+  registry[catKey]=current;
+  saveSubcategoryRegistry(registry);
+}
+
+function registeredSubcategoriesFor(category){
+  const registry=loadSubcategoryRegistry();
+  const values=registry[normalizeCategory(category)];
+  return Array.isArray(values) ? values : [];
+}
+
 function normalizeSubcat(s){
   return String(s||'')
     .normalize('NFD')
@@ -2155,17 +2193,31 @@ function refreshSousCategories(selectedValue=''){
   const byKey=new Map();
 
   for(const p of products){
-    const productCategory=(p.categorie||'').trim()==='Informatique'
-      ? 'High-Tech'
-      : (p.categorie||'').trim();
+    let productCategory=String(p.categorie||'').trim();
 
-    if(productCategory!==selectedCategory) continue;
+    // Compatibilité avec les anciens noms de catégories.
+    if(productCategory==='Informatique' || productCategory==='Informatique / Tech') productCategory='High-Tech';
+    if(['Chaussures','Basket','Baskets','Baskets / Chaussures'].includes(productCategory)) productCategory='Chaussures / Baskets';
+    if(['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques','Maison, Cosmétiques, Animaux'].includes(productCategory)){
+      productCategory='Maison, Soins de la personne, Animaux';
+    }
+    if(['Sport','Sports'].includes(productCategory)) productCategory='Loisirs';
+    if(['Vêtements','Vetements'].includes(productCategory)) productCategory='Mode';
+
+    if(normalizeCategory(productCategory)!==normalizeCategory(selectedCategory)) continue;
 
     const sub=(p.sousCategorie||p.sous_categorie||'').trim();
     if(!sub) continue;
 
     const key=normalizeSubcat(sub);
     if(!byKey.has(key)) byKey.set(key,sub);
+  }
+
+  for(const sub of registeredSubcategoriesFor(selectedCategory)){
+    const clean=String(sub||'').trim();
+    if(!clean) continue;
+    const key=normalizeSubcat(clean);
+    if(!byKey.has(key)) byKey.set(key,clean);
   }
 
   const existing=[...byKey.values()]
@@ -2346,8 +2398,6 @@ function editNextProduct(){
 }
 
 async function ensureReferenceDataForNewProduct(){
-  if(referenceDataLoaded) return true;
-
   const key=($('key')?.value||'').trim();
   if(!key){
     alert('Saisissez d’abord la clé admin pour charger les marques et les sous-catégories.');
@@ -2379,8 +2429,10 @@ async function ensureReferenceDataForNewProduct(){
     brands=uniqueSortedBrands(loadedBrands);
     referenceDataLoaded=true;
     renderList();
-    refreshCategories(getCurrentCategory());
+    const currentCategory=getCurrentCategory();
+    refreshCategories(currentCategory);
     refreshSizeSuggestions();
+    if(currentCategory) refreshSousCategories(getCurrentSousCategorie());
     updateCheckProductsButton();
     return true;
   }catch(e){
@@ -2902,8 +2954,14 @@ async function publish(options={}){
     closeBrandSuggestions();
     const saved=products.find(p=>p.id===data.id);
     if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
+
+    if(data.categorie && data.sousCategorie){
+      rememberSubcategory(data.categorie,data.sousCategorie);
+    }
+
     renderList();
     refreshCategories(data.categorie);
+    refreshSousCategories(data.sousCategorie||'');
     refreshSizeSuggestions();
 
     // À ce stade, l'article a été relu depuis l'API et sa présence dans
