@@ -16,9 +16,14 @@
     "gtin": "5063447332610",
     "stock": 1,
     "description": "Sandales de marque Hunter. Modèle désigné Vegan Sandal Polyester. Coloris noir.",
-    "photos": [],
+    "photos": [
+      "photos/hunter-1795459835884-1.jpg",
+      "photos/hunter-1795459840528-2.jpg",
+      "photos/hunter-1795459842146-3.jpg",
+      "photos/hunter-1795459847547-4.jpg"
+    ],
     "createdAt": "2026-11-23T18:47:18.286Z",
-    "updatedAt": "2026-11-23T18:47:18.286Z"
+    "updatedAt": "2026-11-23T18:50:50.726Z"
   },
   {
     "id": "petsafe-chatiere-magnetique-petsafe-staywell-classic-932sgifd-4-positions",
