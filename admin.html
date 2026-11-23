@@ -3020,7 +3020,7 @@ function renderSelectedLookupResult(){
   box.classList.remove('hidden');
   box.innerHTML=`
     <div><b>${escapeHtmlValue(r.brand||'')} ${escapeHtmlValue(r.title||'')}</b></div>
-    <div class="muted" style="margin-top:4px">Sélectionne jusqu'à 5 photos. Elles seront copiées dans l'annonce puis enregistrées normalement sur ton catalogue.</div>
+    <div class="muted" style="margin-top:4px">Tu peux rechercher le prix public d'origine et jusqu'à 10 photos du produit, puis sélectionner jusqu'à 5 photos à importer.</div>
     ${images.length?`
       <div class="product-lookup-photos">
         ${images.map((url,i)=>`
@@ -3030,10 +3030,73 @@ function renderSelectedLookupResult(){
           </label>`).join('')}
       </div>`:'<div class="muted" style="margin-top:8px">Aucune photo fournie par la base produit.</div>'}
     <div class="product-lookup-selected-actions">
+      <button class="yellow" type="button" onclick="searchOriginalPriceAndPhotos()">🔎 Rechercher prix d'origine + 10 photos</button>
       <button class="primary" type="button" onclick="importLookupProduct(true)">✨ Importer + générer l’annonce</button>
       <button type="button" onclick="importLookupProduct(false)">Importer sans IA</button>
     </div>
   `;
+}
+
+async function searchOriginalPriceAndPhotos(){
+  const r=productLookupResults[productLookupSelectedIndex];
+  if(!r) return;
+
+  const title=String(r.title||$('nom')?.value||'').trim();
+  const brand=String(r.brand||$('marque')?.value||'').trim();
+  const model=String(r.model||r.sku||$('sku')?.value||'').trim();
+
+  if(!title){
+    setProductLookupStatus("Le nom du produit est nécessaire avant de rechercher le prix d'origine et les photos.",'error');
+    return;
+  }
+
+  try{
+    setProductLookupStatus("Recherche web du prix public d'origine et des 10 meilleures photos…",'working');
+
+    const enriched=await req('/admin/product-enrich',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        product:{
+          ...r,
+          title,
+          brand,
+          model,
+          sku:model
+        }
+      })
+    });
+
+    if(!enriched?.product){
+      throw new Error("Le Worker n'a renvoyé aucun produit enrichi.");
+    }
+
+    const updated=enriched.product;
+    productLookupResults[productLookupSelectedIndex]=updated;
+
+    if(updated.retailPrice){
+      $('retail').value=Number(updated.retailPrice).toFixed(2).replace(/\.00$/,'');
+    }
+
+    // L'utilisateur choisit lui-même parmi les 10 photos proposées.
+    productLookupSelectedImages=new Set();
+    renderSelectedLookupResult();
+
+    const count=Array.isArray(updated.images)?updated.images.length:0;
+    const priceText=updated.retailPrice
+      ? Number(updated.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})
+      : 'non trouvé';
+
+    setProductLookupStatus(
+      "Recherche terminée · prix public d'origine : "+priceText+
+      " · "+count+" photo"+(count>1?'s':'')+" trouvée"+(count>1?'s':'')+
+      ". Sélectionne jusqu'à 5 photos à importer.",
+      count || updated.retailPrice ? 'ok' : 'error'
+    );
+  }catch(e){
+    console.error(e);
+    setProductLookupStatus("Erreur recherche prix/photos : "+e.message,'error');
+  }
 }
 
 async function importLookupProduct(withAI){
