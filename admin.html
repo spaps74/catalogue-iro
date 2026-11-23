@@ -3049,7 +3049,7 @@ async function importLookupProduct(withAI){
     if(r.description && !$('description').value.trim()){
       $('description').value=r.description;
     }
-    if(r.retailPrice && !$('retail').value){
+    if(r.retailPrice){
       $('retail').value=Number(r.retailPrice).toFixed(2).replace(/\.00$/,'');
     }
 
@@ -3085,8 +3085,10 @@ async function importLookupProduct(withAI){
     }
 
     setProductLookupStatus(
-      'Informations importées'+(imported.length?' · '+imported.length+' photo'+(imported.length>1?'s':'')+' ajoutée'+(imported.length>1?'s':''):'')+'.',
-      'ok'
+      'Informations importées'+
+      (r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):'')+
+      (imported.length?' · '+imported.length+' photo'+(imported.length>1?'s':'')+' ajoutée'+(imported.length>1?'s':''):'')+'.',
+      imported.length>=5 && r.retailPrice ? 'ok' : 'working'
     );
 
     if(withAI){
