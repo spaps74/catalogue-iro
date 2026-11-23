@@ -351,22 +351,20 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 .shipping-included-badge{
   display:inline-flex;
   align-items:center;
-  justify-content:center;
-  gap:6px;
-  width:max-content;
-  max-width:100%;
-  margin-top:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  background:#111;
-  color:#ffd400;
-  font-size:11px;
-  font-weight:950;
-  line-height:1;
-  letter-spacing:.01em;
-  box-shadow:0 2px 0 rgba(0,0,0,.12);
+  gap:5px;
+  margin-left:auto;
+  padding:0;
+  background:transparent;
+  color:#5f5a4d;
+  font-size:10px;
+  font-weight:850;
+  line-height:1.2;
+  white-space:nowrap;
 }
-.shipping-included-badge::before{content:"🚚";font-size:13px}
+.shipping-included-badge::before{content:"🚚";font-size:12px}
+.prices{
+  min-height:28px;
+}
 .detail-shipping-note{
   display:inline-flex;
   align-items:center;
@@ -2998,8 +2996,8 @@ function card(p){
         ${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}
         <span class="sale">${euro(p.prixVente)}</span>
         ${pc>0?`<span class="discount">-${pc}%</span>`:''}
+        <span class="shipping-included-badge">Livraison incluse</span>
       </div>
-      <div class="shipping-included-badge">Livraison incluse</div>
       <div class="card-actions">
         ${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
