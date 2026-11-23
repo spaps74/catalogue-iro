@@ -616,7 +616,9 @@
   </label>
   <div class="muted">Facultatif — les produits cochés sont affichés avant les autres sur le front.</div>
 </div>
-<div><label>Catégorie *</label><select id="categorie" name="categorie" required>
+<div>
+  <label>Catégorie *</label>
+  <select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
     <option value="Mode">Mode</option>
     <option value="Chaussures">Chaussures</option>
@@ -624,8 +626,11 @@
     <option value="Loisirs">Loisirs</option>
     <option value="Maison, Soins de la personne, Animaux">Maison, Soins de la personne, Animaux</option>
     <option value="Colis Perdus">Colis Perdus</option>
-  </select><datalist id="catlist"><option>Chaussures</option>
-<option>Vestes</option><option>Pulls</option><option>T-shirts</option><option>Accessoires</option><option>Jeans</option><option>Pantalons</option><option>Robes</option><option>Chemises</option></datalist></div>
+    <option value="__new__">+ Ajouter une nouvelle catégorie</option>
+  </select>
+  <input id="categorieNew" type="text" placeholder="Nom de la nouvelle catégorie" autocomplete="off" style="display:none;margin-top:8px">
+  <div class="muted" style="margin-top:6px">Les catégories déjà utilisées dans le catalogue sont proposées automatiquement.</div>
+</div>
 <div>
 <div class="field">
   <label for="sousCategorieSelect">Sous-catégorie</label>
@@ -2048,6 +2053,77 @@ function escapeHtmlValue(s){
     .replace(/'/g,'&#039;');
 }
 
+function normalizeCategory(s){
+  return String(s||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase()
+    .trim();
+}
+
+function getCurrentCategory(){
+  const sel=$('categorie');
+  const input=$('categorieNew');
+  if(!sel) return '';
+
+  if(sel.value==='__new__'){
+    return (input?.value||'').trim();
+  }
+  return (sel.value||'').trim();
+}
+
+function refreshCategories(selectedValue=''){
+  const sel=$('categorie');
+  const input=$('categorieNew');
+  if(!sel || !input) return;
+
+  const defaults=[
+    'Mode',
+    'Chaussures',
+    'High-Tech',
+    'Loisirs',
+    'Maison, Soins de la personne, Animaux',
+    'Colis Perdus'
+  ];
+
+  const byKey=new Map();
+  for(const value of defaults){
+    byKey.set(normalizeCategory(value),value);
+  }
+
+  for(const p of products){
+    const value=String(p?.categorie||'').trim();
+    if(!value) continue;
+    const key=normalizeCategory(value);
+    if(!byKey.has(key)) byKey.set(key,value);
+  }
+
+  const values=[...byKey.values()];
+  sel.innerHTML=
+    '<option value="">Sélectionner une catégorie</option>'+
+    values.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('')+
+    '<option value="__new__">+ Ajouter une nouvelle catégorie</option>';
+
+  const wanted=String(selectedValue||'').trim();
+  if(!wanted){
+    sel.value='';
+    input.value='';
+    input.style.display='none';
+    return;
+  }
+
+  const found=values.find(v=>normalizeCategory(v)===normalizeCategory(wanted));
+  if(found){
+    sel.value=found;
+    input.value='';
+    input.style.display='none';
+  }else{
+    sel.value='__new__';
+    input.value=wanted;
+    input.style.display='block';
+  }
+}
+
 function normalizeSubcat(s){
   return String(s||'')
     .normalize('NFD')
@@ -2073,7 +2149,7 @@ function refreshSousCategories(selectedValue=''){
   const input=$('sousCategorieNew');
   if(!cat || !sel || !input) return;
 
-  const selectedCategory=(cat.value||'').trim();
+  const selectedCategory=getCurrentCategory();
   const byKey=new Map();
 
   for(const p of products){
@@ -2126,7 +2202,24 @@ function bindSousCategorieControls(){
   const input=$('sousCategorieNew');
 
   if(cat){
-    cat.addEventListener('change',()=>refreshSousCategories(''));
+    cat.addEventListener('change',()=>{
+      const input=$('categorieNew');
+      if(cat.value==='__new__'){
+        if(input){
+          input.style.display='block';
+          input.focus();
+        }
+      }else if(input){
+        input.style.display='none';
+        input.value='';
+      }
+      refreshSousCategories('');
+    });
+  }
+
+  const catInput=$('categorieNew');
+  if(catInput){
+    catInput.addEventListener('input',()=>refreshSousCategories(getCurrentSousCategorie()));
   }
 
   if(sel){
@@ -2278,6 +2371,7 @@ async function newProduct(){
   galleryItems=[];
   closeBrandSuggestions();
   clear();
+  refreshCategories('');
 
   if($('aiStatus')) $('aiStatus').classList.add('hidden');
   $('editTitle').textContent='Nouvel article';
@@ -2289,9 +2383,48 @@ async function newProduct(){
   refreshSousCategories('');
   $('editor').scrollIntoView({behavior:'smooth'});
 }
-function edit(id){let p=products.find(x=>x.id===id);if(!p)return;editing=id;oldPhotos=p.photos||[];selectedPhotoFiles=[];galleryItems=oldPhotos.map(path=>({type:'existing',path}));for(const [k,id2] of [['nom','nom'],['marque','marque'],['categorie','categorie'],['genre','genre'],['taille','taille'],['sku','sku'],['description','description'],['statut','statut'],['stock','stock']])$(id2).value=p[k]??'';if($('categorie')&&['Vêtements','Vetements','Mode'].includes(p.categorie))$('categorie').value='Mode';if($('categorie')&&['Informatique','Informatique / Tech'].includes(p.categorie))$('categorie').value='High-Tech';if($('categorie')&&['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques','Maison, Soins de la personne, Animaux'].includes(p.categorie))$('categorie').value='Maison, Soins de la personne, Animaux';if($('categorie')&&['Sport','Sports'].includes(p.categorie))$('categorie').value='Loisirs';if($('categorie')&&['Basket','Baskets','Baskets / Chaussures'].includes(p.categorie))$('categorie').value='Chaussures';refreshSousCategories(p.sousCategorie||p.sous_categorie||'');if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;$('retail').value=p.prixRetail||'';$('vente').value=p.prixVente||'';$('editTitle').textContent='Modifier : '+p.nom;$('deleteBtn').classList.remove('hidden');updateProductNavigationButtons();renderPhotoPreviews();$('editor').classList.remove('hidden');$('editor').scrollIntoView({behavior:'smooth'})}
+function edit(id){
+  const p=products.find(x=>x.id===id);
+  if(!p) return;
+
+  editing=id;
+  oldPhotos=p.photos||[];
+  selectedPhotoFiles=[];
+  galleryItems=oldPhotos.map(path=>({type:'existing',path}));
+
+  for(const [k,id2] of [
+    ['nom','nom'],['marque','marque'],['genre','genre'],['taille','taille'],
+    ['sku','sku'],['description','description'],['statut','statut'],['stock','stock']
+  ]){
+    $(id2).value=p[k]??'';
+  }
+
+  let category=String(p.categorie||'').trim();
+  if(['Vêtements','Vetements'].includes(category)) category='Mode';
+  if(['Informatique','Informatique / Tech'].includes(category)) category='High-Tech';
+  if(['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques'].includes(category)){
+    category='Maison, Soins de la personne, Animaux';
+  }
+  if(['Sport','Sports'].includes(category)) category='Loisirs';
+  if(['Basket','Baskets','Baskets / Chaussures'].includes(category)) category='Chaussures';
+
+  refreshCategories(category);
+  refreshSousCategories(p.sousCategorie||p.sous_categorie||'');
+
+  if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';
+  if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;
+  $('retail').value=p.prixRetail||'';
+  $('vente').value=p.prixVente||'';
+  $('editTitle').textContent='Modifier : '+p.nom;
+  $('deleteBtn').classList.remove('hidden');
+  updateProductNavigationButtons();
+  renderPhotoPreviews();
+  $('editor').classList.remove('hidden');
+  $('editor').scrollIntoView({behavior:'smooth'});
+}
 function clear(){
-  ['nom','marque','categorie','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  ['nom','marque','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  refreshCategories('');
   $('statut').value='Disponible';
   if($('etatProduit')) $('etatProduit').value='';
   if($('miseEnPremierePage')) $('miseEnPremierePage').checked=false;
@@ -2540,12 +2673,8 @@ async function generateAIListing(){
       $('nom').value=result.titre;
     }
 
-    if(result.categorie){
-      const cat=$('categorie');
-      const exists=[...cat.options].some(o=>o.value===result.categorie);
-      if(exists){
-        cat.value=result.categorie;
-      }
+    if(result.categorie && !getCurrentCategory()){
+      refreshCategories(result.categorie);
     }
 
     if(result.sousCategorie){
@@ -2675,7 +2804,7 @@ async function publish(options={}){
       marque:$('marque').value.trim(),
       etatProduit:$('etatProduit').value,
       miseEnPremierePage:!!$('miseEnPremierePage')?.checked,
-      categorie:$('categorie').value.trim(),
+      categorie:getCurrentCategory(),
       sousCategorie: getCurrentSousCategorie(),
       genre:$('genre')?.value||'',
       taille:$('taille').value.trim(),
@@ -2968,6 +3097,7 @@ document.addEventListener('keydown',e=>{
 
 
 
+refreshCategories('');
 bindSousCategorieControls();
 setupBrandPicker();
 refreshSousCategories('');
