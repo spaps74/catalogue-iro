@@ -1,5 +1,31 @@
 [
   {
+    "id": "hicc-pet-hicc-pet-nettoyant-pour-les-yeux-des-chiens-et-chats-150-ml",
+    "nom": "HICC PET – Nettoyant pour les yeux des chiens et chats, 150 ml",
+    "marque": "HICC PET",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Cosmétiques",
+    "sousCategorie": "Hygiène pour animaux",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 19,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Solution de rinçage douce HICC PET pour le soin quotidien des yeux des chiens et des chats. Elle aide à éliminer les sécrétions et les débris. Le flacon de 150 ml est doté d’un embout fin et présenté avec son étui en carton.",
+    "photos": [
+      "photos/hicc-pet-1795429031535-1.jpg",
+      "photos/hicc-pet-1795429033029-2.jpg",
+      "photos/hicc-pet-1795429035048-3.jpg",
+      "photos/hicc-pet-1795429036746-4.jpg",
+      "photos/hicc-pet-1795429038514-5.jpg"
+    ],
+    "createdAt": "2026-11-23T10:17:20.326Z",
+    "updatedAt": "2026-11-23T10:17:20.326Z"
+  },
+  {
     "id": "moft-moft-housse-support-ultra-fine-grise-a-2-angles-pour-macbook-air-15-pouces",
     "nom": "MOFT Housse-support ultra-fine grise à 2 angles pour MacBook Air 15 pouces",
     "marque": "MOFT",
