@@ -338,6 +338,38 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 
 
 
+.shipping-included-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  width:max-content;
+  max-width:100%;
+  margin-top:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#111;
+  color:#ffd400;
+  font-size:11px;
+  font-weight:950;
+  line-height:1;
+  letter-spacing:.01em;
+  box-shadow:0 2px 0 rgba(0,0,0,.12);
+}
+.shipping-included-badge::before{content:"🚚";font-size:13px}
+.detail-shipping-note{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:10px 0 4px;
+  padding:8px 12px;
+  border-radius:12px;
+  background:#fff4b8;
+  color:#111;
+  font-size:13px;
+  font-weight:950;
+  border:1px solid #f0d34a;
+}
 .product-state-badge{
   display:inline-flex;
   align-items:center;
@@ -1666,7 +1698,7 @@ body.category-focus #catalogTitle{
   </section>
 
   <section class="trust-strip">
-    <div><b class="trust-icon">🚚</b><span><strong>Livraison gratuite</strong><small>et suivie</small></span></div>
+    <div><b class="trust-icon">🚚</b><span><strong>Livraison incluse</strong><small>sur tous les produits</small></span></div>
     <div><b class="trust-icon">⬡</b><span><strong>Déstock & fins de série</strong><small>à prix avantageux</small></span></div>
     <div><b class="trust-icon">🛡</b><span><strong>Paiement sécurisé</strong><small>et fiable</small></span></div>
     <div><b class="trust-icon">🎧</b><span><strong>Service client réactif</strong><small>à votre écoute</small></span></div>
@@ -2938,6 +2970,7 @@ function card(p){
         <span class="sale">${euro(p.prixVente)}</span>
         ${pc>0?`<span class="discount">-${pc}%</span>`:''}
       </div>
+      <div class="shipping-included-badge">Livraison incluse</div>
       <div class="card-actions">
         ${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
