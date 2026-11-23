@@ -7,9 +7,9 @@
     "miseEnPremierePage": false,
     "categorie": "Chaussures / Baskets",
     "sousCategorie": "sandales",
-    "genre": "",
+    "genre": "Mixte",
     "taille": "37",
-    "prixRetail": 69,
+    "prixRetail": 90,
     "prixVente": 35,
     "statut": "Disponible",
     "sku": "",
@@ -23,7 +23,7 @@
       "photos/hunter-1795459847547-4.jpg"
     ],
     "createdAt": "2026-11-23T18:47:18.286Z",
-    "updatedAt": "2026-11-23T18:50:50.726Z"
+    "updatedAt": "2026-11-23T18:51:00.425Z"
   },
   {
     "id": "petsafe-chatiere-magnetique-petsafe-staywell-classic-932sgifd-4-positions",
