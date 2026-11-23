@@ -344,6 +344,57 @@
 }
 
 
+
+.product-lookup-box{
+  padding:12px;
+  border:1px solid #e2c800;
+  background:#fffceb;
+  border-radius:12px;
+}
+.product-lookup-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px
+}
+.product-lookup-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.product-lookup-actions input{flex:1;min-width:220px}
+.product-lookup-results{display:grid;gap:8px;margin-top:10px}
+.product-lookup-result{
+  display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:10px;align-items:center;
+  padding:9px;border:1px solid #ddd;border-radius:10px;background:#fff
+}
+.product-lookup-result img{
+  width:72px;height:72px;object-fit:contain;border:1px solid #eee;border-radius:8px;background:#fafafa
+}
+.product-lookup-result-title{font-weight:900;font-size:13px}
+.product-lookup-result-meta{font-size:11px;color:#666;margin-top:4px;line-height:1.4}
+.product-lookup-photos{
+  display:grid;grid-template-columns:repeat(5,minmax(70px,1fr));gap:8px;margin-top:10px
+}
+.product-lookup-photo{
+  position:relative;border:2px solid transparent;border-radius:10px;padding:4px;background:#fff;cursor:pointer
+}
+.product-lookup-photo.selected{border-color:#111;background:#fff8b8}
+.product-lookup-photo img{width:100%;height:100px;object-fit:contain;display:block}
+.product-lookup-photo input{position:absolute;top:7px;left:7px;width:18px;height:18px;accent-color:#111}
+.product-lookup-selected{margin-top:10px;padding:10px;border-radius:10px;background:#fff;border:1px solid #ddd}
+.product-lookup-selected-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.scanner-modal{
+  position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);display:none;
+  align-items:center;justify-content:center;padding:16px
+}
+.scanner-modal.open{display:flex}
+.scanner-box{width:min(540px,100%);background:#fff;border-radius:16px;padding:14px}
+.scanner-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+#eanScannerReader{width:100%;min-height:280px;background:#111;border-radius:12px;overflow:hidden}
+.scanner-help{font-size:12px;color:#666;margin-top:8px}
+@media(max-width:700px){
+  .product-lookup-head{flex-direction:column}
+  .product-lookup-head button{width:100%}
+  .product-lookup-result{grid-template-columns:58px minmax(0,1fr)}
+  .product-lookup-result>button{grid-column:1/-1;width:100%}
+  .product-lookup-result img{width:58px;height:58px}
+  .product-lookup-photos{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 .ai-listing-box{
   padding:12px;
   border:1px solid #d8d8d8;
@@ -474,7 +525,7 @@
 .analytics-bar{height:6px;background:#f0eee8;border-radius:999px;overflow:hidden;margin-top:5px}
 .analytics-bar>i{display:block;height:100%;background:#ffd400}
 @media(max-width:850px){.analytics-kpis{grid-template-columns:repeat(2,1fr)}.analytics-grid{grid-template-columns:1fr}}
-</style></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="analyticsBtn" type="button" onclick="showAnalytics()">📊 Visites</button><button class="yellow" id="questionsBtn" type="button" onclick="showProductQuestions()">✉ Questions produits</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
+</style><script defer src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script></head><body><div class="wrap"><div class="head"><div><h1>UPSTYLE — Administration</h1><div class="muted">Catalogue produits</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="yellow" id="ordersBtn" type="button" onclick="showOrders()">🧾 Mes commandes</button><button class="yellow" id="analyticsBtn" type="button" onclick="showAnalytics()">📊 Visites</button><button class="yellow" id="questionsBtn" type="button" onclick="showProductQuestions()">✉ Questions produits</button><button class="yellow" id="subscribersBtn" type="button" onclick="showSubscribers()">📣 Alertes arrivages</button><button class="yellow" id="usersBtn" type="button" onclick="showUsers()">👥 Utilisateurs</button><button class="yellow" id="checkProductsBtn" type="button" onclick="showProductCheck()">✓ Check produits</button><button class="yellow" onclick="newProduct()">+ Nouvel article</button></div></div>
 <div class="box"><label>Adresse API sécurisée</label>
 <div style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#f7f7f5;font-size:13px;word-break:break-all">
   https://soft-tree-927f.stephane-0f5.workers.dev
@@ -668,6 +719,22 @@
 <div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
 <div><label>Référence / SKU</label><input id="sku"></div>
+<div class="full product-lookup-box">
+  <div class="product-lookup-head">
+    <div>
+      <b>📦 Scanner / retrouver un produit</b>
+      <div class="muted">Scanne un EAN/UPC ou saisis un EAN, SKU, modèle ou référence. Les informations et photos trouvées sont proposées avant import.</div>
+    </div>
+    <button class="yellow" type="button" onclick="startBarcodeScanner()">📷 Scanner EAN</button>
+  </div>
+  <div class="product-lookup-actions">
+    <input id="productLookupCode" type="search" placeholder="EAN / UPC / SKU / modèle / référence" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupProduct()}">
+    <button class="primary" id="productLookupBtn" type="button" onclick="lookupProduct()">🔎 Rechercher</button>
+  </div>
+  <div id="productLookupStatus" class="ai-status hidden"></div>
+  <div id="productLookupResults" class="product-lookup-results"></div>
+  <div id="productLookupSelected" class="product-lookup-selected hidden"></div>
+</div>
 <div class="full ai-listing-box">
   <div class="ai-listing-head">
     <div>
@@ -732,11 +799,25 @@
     </div>
   </div>
 </div>
+<div class="scanner-modal" id="eanScannerModal" aria-hidden="true">
+  <div class="scanner-box">
+    <div class="scanner-head">
+      <div><b>Scanner le code-barres</b><div class="muted">EAN-13, EAN-8, UPC-A, UPC-E ou Code 128</div></div>
+      <button type="button" onclick="stopBarcodeScanner()">✕</button>
+    </div>
+    <div id="eanScannerReader"></div>
+    <div class="scanner-help">Place le code-barres au centre. Dès qu’il est lu, la recherche démarre automatiquement.</div>
+  </div>
+</div>
 <script>
 let products=[],editing=null,oldPhotos=[];
 let referenceDataLoaded=false;
 let selectedPhotoFiles=[];
 let galleryItems=[];
+let productLookupResults=[];
+let productLookupSelectedIndex=-1;
+let productLookupSelectedImages=new Set();
+let eanScanner=null;
 const $=id=>document.getElementById(id);
 
 function hideEditor(){
@@ -2576,6 +2657,7 @@ function clear(){
   selectedPhotoFiles=[];
   galleryItems=[];
   renderPhotoPreviews();
+  resetProductLookup();
 }
 
 async function preview(){
@@ -2707,6 +2789,253 @@ async function openGalleryImageEditor(index){
 
 function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 
+
+
+function setProductLookupStatus(text,type='working'){
+  const el=$('productLookupStatus');
+  if(!el) return;
+  if(!text){
+    el.classList.add('hidden');
+    el.textContent='';
+    return;
+  }
+  el.className='ai-status '+type;
+  el.textContent=text;
+  el.classList.remove('hidden');
+}
+
+function resetProductLookup(){
+  productLookupResults=[];
+  productLookupSelectedIndex=-1;
+  productLookupSelectedImages=new Set();
+  if($('productLookupCode')) $('productLookupCode').value='';
+  if($('productLookupResults')) $('productLookupResults').innerHTML='';
+  if($('productLookupSelected')){
+    $('productLookupSelected').innerHTML='';
+    $('productLookupSelected').classList.add('hidden');
+  }
+  setProductLookupStatus('');
+}
+
+async function lookupProduct(){
+  const input=$('productLookupCode');
+  const btn=$('productLookupBtn');
+  const q=String(input?.value||'').trim();
+  if(q.length<2){
+    setProductLookupStatus('Saisis ou scanne un EAN / SKU / modèle.','error');
+    return;
+  }
+
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Recherche…';}
+    setProductLookupStatus('Recherche du produit et de ses photos…','working');
+    const result=await req('/admin/product-lookup?q='+encodeURIComponent(q));
+    productLookupResults=Array.isArray(result.results)?result.results:[];
+    productLookupSelectedIndex=-1;
+    productLookupSelectedImages=new Set();
+    renderProductLookupResults();
+    setProductLookupStatus(
+      productLookupResults.length
+        ? productLookupResults.length+' résultat'+(productLookupResults.length>1?'s':'')+' trouvé'+(productLookupResults.length>1?'s':'')+'. Choisis le bon produit.'
+        : 'Aucun produit trouvé. Tu peux essayer la référence fabricant ou un autre code.',
+      productLookupResults.length?'ok':'error'
+    );
+  }catch(e){
+    console.error(e);
+    setProductLookupStatus('Erreur recherche produit : '+e.message,'error');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='🔎 Rechercher';}
+  }
+}
+
+function renderProductLookupResults(){
+  const box=$('productLookupResults');
+  if(!box) return;
+  if(!productLookupResults.length){box.innerHTML='';return;}
+
+  box.innerHTML=productLookupResults.map((r,i)=>{
+    const image=(r.images&&r.images[0])||'';
+    const ref=r.ean||r.upc||r.sku||r.model||'';
+    return `
+      <div class="product-lookup-result">
+        ${image?`<img src="${escapeHtmlValue(image)}" alt="" loading="lazy">`:'<div></div>'}
+        <div>
+          <div class="product-lookup-result-title">${escapeHtmlValue(r.title||'Produit sans titre')}</div>
+          <div class="product-lookup-result-meta">
+            ${escapeHtmlValue(r.brand||'Marque non renseignée')}
+            ${ref?' · '+escapeHtmlValue(ref):''}
+            ${r.retailPrice?' · env. '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):''}
+          </div>
+        </div>
+        <button type="button" onclick="selectLookupResult(${i})">Choisir</button>
+      </div>`;
+  }).join('');
+}
+
+function selectLookupResult(index){
+  const r=productLookupResults[index];
+  if(!r) return;
+  productLookupSelectedIndex=index;
+  productLookupSelectedImages=new Set((r.images||[]).slice(0,Math.min(5,(r.images||[]).length)).map((_,i)=>i));
+  renderSelectedLookupResult();
+}
+
+function toggleLookupImage(index){
+  if(productLookupSelectedImages.has(index)){
+    productLookupSelectedImages.delete(index);
+  }else if(productLookupSelectedImages.size<5){
+    productLookupSelectedImages.add(index);
+  }else{
+    setProductLookupStatus('Maximum 5 photos par annonce.','error');
+    return;
+  }
+  renderSelectedLookupResult();
+}
+
+function renderSelectedLookupResult(){
+  const box=$('productLookupSelected');
+  const r=productLookupResults[productLookupSelectedIndex];
+  if(!box || !r) return;
+
+  const images=Array.isArray(r.images)?r.images:[];
+  box.classList.remove('hidden');
+  box.innerHTML=`
+    <div><b>${escapeHtmlValue(r.brand||'')} ${escapeHtmlValue(r.title||'')}</b></div>
+    <div class="muted" style="margin-top:4px">Sélectionne jusqu'à 5 photos. Elles seront copiées dans l'annonce puis enregistrées normalement sur ton catalogue.</div>
+    ${images.length?`
+      <div class="product-lookup-photos">
+        ${images.map((url,i)=>`
+          <label class="product-lookup-photo ${productLookupSelectedImages.has(i)?'selected':''}">
+            <input type="checkbox" ${productLookupSelectedImages.has(i)?'checked':''} onchange="toggleLookupImage(${i})">
+            <img src="${escapeHtmlValue(url)}" alt="" loading="lazy">
+          </label>`).join('')}
+      </div>`:'<div class="muted" style="margin-top:8px">Aucune photo fournie par la base produit.</div>'}
+    <div class="product-lookup-selected-actions">
+      <button class="primary" type="button" onclick="importLookupProduct(true)">✨ Importer + générer l’annonce</button>
+      <button type="button" onclick="importLookupProduct(false)">Importer sans IA</button>
+    </div>
+  `;
+}
+
+async function importLookupProduct(withAI){
+  const r=productLookupResults[productLookupSelectedIndex];
+  if(!r) return;
+
+  try{
+    setProductLookupStatus('Import des informations produit…','working');
+
+    if(r.title) $('nom').value=r.title;
+    if(r.brand){
+      $('marque').value=r.brand;
+      closeBrandSuggestions();
+    }
+    if(r.sku || r.ean || r.upc){
+      $('sku').value=r.sku||r.ean||r.upc;
+    }
+    if(r.description && !$('description').value.trim()){
+      $('description').value=r.description;
+    }
+    if(r.retailPrice && !$('retail').value){
+      $('retail').value=Number(r.retailPrice).toFixed(2).replace(/\.00$/,'');
+    }
+
+    const indexes=[...productLookupSelectedImages].sort((a,b)=>a-b).slice(0,5);
+    const imported=[];
+    for(let pos=0;pos<indexes.length;pos++){
+      const url=(r.images||[])[indexes[pos]];
+      if(!url) continue;
+      setProductLookupStatus('Import photo '+(pos+1)+'/'+indexes.length+'…','working');
+      try{
+        const api=String($('api')?.value||'').replace(/\/+$/,'');
+        const key=String($('key')?.value||'');
+        const response=await fetch(api+'/admin/product-image?url='+encodeURIComponent(url),{
+          headers:{'X-Admin-Key':key}
+        });
+        if(!response.ok){
+          const txt=await response.text();
+          throw new Error(txt||('HTTP '+response.status));
+        }
+        const blob=await response.blob();
+        const ext=(blob.type.split('/')[1]||'jpg').replace('jpeg','jpg').replace('svg+xml','svg');
+        const file=new File([blob],'ean-'+Date.now()+'-'+(pos+1)+'.'+ext,{type:blob.type||'image/jpeg'});
+        await loadImageFromFile(file);
+        imported.push({type:'new',file});
+      }catch(err){
+        console.warn('Photo distante ignorée',url,err);
+      }
+    }
+
+    if(imported.length){
+      galleryItems=[...imported,...galleryItems].slice(0,5);
+      renderPhotoPreviews();
+    }
+
+    setProductLookupStatus(
+      'Informations importées'+(imported.length?' · '+imported.length+' photo'+(imported.length>1?'s':'')+' ajoutée'+(imported.length>1?'s':''):'')+'.',
+      'ok'
+    );
+
+    if(withAI){
+      await generateAIListing();
+    }
+  }catch(e){
+    console.error(e);
+    setProductLookupStatus('Erreur import produit : '+e.message,'error');
+  }
+}
+
+async function startBarcodeScanner(){
+  const modal=$('eanScannerModal');
+  if(!modal) return;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+
+  if(!window.Html5Qrcode){
+    setProductLookupStatus('Le module caméra n’a pas pu se charger. Utilise la saisie EAN/SKU manuelle.','error');
+    stopBarcodeScanner();
+    return;
+  }
+
+  try{
+    eanScanner=new Html5Qrcode('eanScannerReader');
+    const formats=[
+      Html5QrcodeSupportedFormats.EAN_13,
+      Html5QrcodeSupportedFormats.EAN_8,
+      Html5QrcodeSupportedFormats.UPC_A,
+      Html5QrcodeSupportedFormats.UPC_E,
+      Html5QrcodeSupportedFormats.CODE_128
+    ].filter(Boolean);
+
+    await eanScanner.start(
+      {facingMode:'environment'},
+      {fps:10,qrbox:{width:280,height:140},formatsToSupport:formats},
+      async decodedText=>{
+        if($('productLookupCode')) $('productLookupCode').value=decodedText;
+        await stopBarcodeScanner();
+        lookupProduct();
+      },
+      ()=>{}
+    );
+  }catch(e){
+    console.error(e);
+    setProductLookupStatus('Impossible d’ouvrir la caméra. Vérifie l’autorisation caméra ou saisis le code manuellement.','error');
+    await stopBarcodeScanner();
+  }
+}
+
+async function stopBarcodeScanner(){
+  const scanner=eanScanner;
+  eanScanner=null;
+  if(scanner){
+    try{await scanner.stop();}catch(_){}
+    try{await scanner.clear();}catch(_){}
+  }
+  const modal=$('eanScannerModal');
+  if(modal){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+  }
+}
 
 function setAIStatus(text,type='working'){
   const el=$('aiStatus');
