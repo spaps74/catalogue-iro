@@ -1,5 +1,32 @@
 [
   {
+    "id": "hunter-claquettes-hunter-vert-kaki-a-semelle-epaisse-hfru0004251-new",
+    "nom": "Claquettes Hunter vert kaki à semelle épaisse HFRU0004251",
+    "marque": "Hunter",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures / Baskets",
+    "sousCategorie": "mules",
+    "genre": "Mixte",
+    "taille": "41",
+    "prixRetail": 79,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "5063447332986",
+    "stock": 1,
+    "description": "Ces claquettes Hunter vert kaki présentent une large bride avec le logo en relief ton sur ton. Leur forme ouverte à l’avant et au talon permet de les enfiler directement. La semelle épaisse se distingue par ses contours crantés. Référence fournie : HFRU0004251.",
+    "photos": [
+      "photos/hunter-1795466708836-1.jpg",
+      "photos/hunter-1795466710927-2.jpg",
+      "photos/hunter-1795466712812-3.jpg",
+      "photos/hunter-1795466714484-4.jpg",
+      "photos/hunter-1795466716142-5.jpg"
+    ],
+    "createdAt": "2026-11-23T20:45:17.444Z",
+    "updatedAt": "2026-11-23T20:45:17.444Z"
+  },
+  {
     "id": "rains-doudoune-courte-rains-alta-short-ld51-creme-a-capuche",
     "nom": "Doudoune courte Rains Alta Short Ld51 crème à capuche",
     "marque": "Rains",
