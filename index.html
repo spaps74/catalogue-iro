@@ -108,6 +108,16 @@ main{max-width:1200px;margin:auto;padding:10px}.grid{display:grid;grid-template-
 .header-action.favorites-active{color:var(--up-yellow)}.info{padding:9px;display:flex;flex-direction:column;flex:1}.name{font-weight:900;font-size:14px;line-height:1.25}.meta{font-size:11px;color:var(--muted);margin-top:4px}.desc{font-size:12px;color:#444;line-height:1.35;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.prices{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-top:8px}.retail{text-decoration:line-through;color:#999;font-size:11px}.sale{font-weight:950;font-size:18px}.discount{background:#111;color:#fff;border-radius:999px;padding:3px 6px;font-size:10px}.btn{width:100%;border:0;border-radius:10px;padding:9px;margin-top:8px;font-weight:900;cursor:pointer}.details{background:#efefec}.add{background:#111;color:white}.empty{grid-column:1/-1;text-align:center;padding:50px;color:#777}
 .footer{margin-top:25px;background:#111;color:white;border-radius:16px;padding:17px;font-size:12px;line-height:1.65}.footer a{color:white}.footer h3{margin:0 0 8px;font-size:16px}
 .cartfab{position:fixed;right:14px;bottom:14px;z-index:50;background:#111;color:white;border:0;border-radius:999px;padding:12px 16px;font-weight:900;box-shadow:0 7px 22px #0004}.count{display:inline-block;background:var(--yellow);color:#111;min-width:22px;border-radius:999px;margin-left:6px;padding:2px 6px}
+.relay-choice{margin:14px 0;padding:14px;border:2px solid #111;border-radius:14px;background:#fff9d8}
+.relay-choice-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.relay-choice-head strong{display:block;font-size:15px}
+.relay-choice-head small{display:block;margin-top:3px;color:#666;font-size:11px}
+.relay-choice-head a{flex:0 0 auto;background:#111;color:#ffd400;text-decoration:none;border-radius:999px;padding:9px 12px;font-size:11px;font-weight:900}
+.relay-choice label{display:block;font-size:12px;font-weight:900;margin-bottom:6px}
+.relay-choice textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:74px;border:1px solid #cfc8b6;border-radius:10px;padding:10px 11px;font:inherit;background:#fff}
+.relay-choice textarea:focus{outline:2px solid #ffd400;border-color:#111}
+.relay-help{margin-top:6px;color:#666;font-size:10px;line-height:1.4}
+@media(max-width:650px){.relay-choice-head{flex-direction:column}.relay-choice-head a{width:100%;text-align:center;box-sizing:border-box}}
 .overlay{position:fixed;inset:0;background:#0008;z-index:80;display:none;align-items:flex-end}.overlay.open{display:flex}.panel{width:100%;max-height:88vh;overflow:auto;background:white;border-radius:20px 20px 0 0;padding:16px}.close{float:right;border:0;border-radius:50%;width:38px;height:38px;font-size:22px}.cartrow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid #eee}.total{font-size:18px;font-weight:950;display:flex;justify-content:space-between;margin:15px 0}.order{width:100%;padding:13px;border:0;border-radius:12px;background:#111;color:white;font-weight:950}
 .detailmodal{position:fixed;inset:0;background:#0009;z-index:90;display:none;padding:20px;overflow:auto}.detailmodal.open{display:block}.detailbox{max-width:680px;margin:5vh auto;background:white;border-radius:18px;padding:18px}.detailphotos{display:flex;gap:8px;overflow:auto}.detailphotos img{width:210px;height:280px;object-fit:contain;background:#fafafa;border-radius:10px}
 .detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:0 42px 10px 0}
@@ -1789,6 +1799,20 @@ body.category-focus #catalogTitle{
 <button id="scrollTopBtn" class="scroll-top-btn" type="button" aria-label="Revenir en haut" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <button class="cartfab" onclick="openCart()">Panier <span class="count" id="cartCount">0</span></button>
 <div class="overlay" id="cart"><div class="panel"><button class="close" onclick="closeCart()">×</button><h2>Votre panier</h2><div id="cartRows"></div><div class="total"><span>Total</span><span id="cartTotal"></span></div>
+
+<div class="relay-choice">
+  <div class="relay-choice-head">
+    <div>
+      <strong>📦 Point Mondial Relay</strong>
+      <small>Obligatoire pour la livraison</small>
+    </div>
+    <a href="https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi" target="_blank" rel="noopener">Trouver mon point relais ↗</a>
+  </div>
+  <label for="mondialRelayPoint">Point Relais® / Locker choisi</label>
+  <textarea id="mondialRelayPoint" rows="3" placeholder="Ex. LOCKER MONDIAL RELAY — Carrefour Market, 12 rue ..., 74160 ..." oninput="saveMondialRelayPoint()"></textarea>
+  <div class="relay-help">Après avoir choisi votre Point Relais® ou Locker sur le site Mondial Relay, copiez ici son nom et son adresse complète.</div>
+</div>
+
 <div class="paypal-zone">
   <div class="paypal-title">Paiement sécurisé</div>
   <div style="margin-bottom:10px;font-weight:800">Payer avec PayPal</div>
@@ -3169,7 +3193,35 @@ function addFavoritesToCart(){
 function add(id){let p=products.find(x=>x.id===id);if(!p||!canAddToCart(p))return;if(!cart.some(x=>x.id===id))cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart();openCart()}
 function removeItem(id){cart=cart.filter(x=>x.id!==id);localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart()}
 function updateCart(){document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartRows').innerHTML=cart.length?cart.map(x=>`<div class="cartrow"><div><b>${x.marque||''} ${x.nom}</b><div class="meta">Taille ${x.taille} · ${euro(x.prixVente)}</div></div><button onclick="removeItem('${x.id}')">Retirer</button></div>`).join(''):'Panier vide';document.getElementById('cartTotal').textContent=euro(cart.reduce((s,x)=>s+Number(x.prixVente||0),0))}
-function openCart(){document.getElementById('cart').classList.add('open')}function closeCart(){document.getElementById('cart').classList.remove('open')}
+const MONDIAL_RELAY_KEY='upstyle_mondial_relay_point';
+
+function getMondialRelayPoint(){
+  return String(document.getElementById('mondialRelayPoint')?.value||'').trim();
+}
+function saveMondialRelayPoint(){
+  const value=getMondialRelayPoint();
+  if(value) localStorage.setItem(MONDIAL_RELAY_KEY,value);
+  else localStorage.removeItem(MONDIAL_RELAY_KEY);
+}
+function requireMondialRelayPoint(){
+  const point=getMondialRelayPoint();
+  if(point) return point;
+
+  const field=document.getElementById('mondialRelayPoint');
+  if(field){
+    field.focus();
+    field.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  paypalMessage('⚠️ Choisissez d’abord votre Point Mondial Relay / Locker.','error');
+  return '';
+}
+function openCart(){
+  const saved=localStorage.getItem(MONDIAL_RELAY_KEY)||'';
+  const field=document.getElementById('mondialRelayPoint');
+  if(field && !field.value) field.value=saved;
+  document.getElementById('cart').classList.add('open');
+}
+function closeCart(){document.getElementById('cart').classList.remove('open')}
 
 
 document.addEventListener('keydown',event=>{if(event.key==='Escape') closeAccount();});
@@ -3317,12 +3369,18 @@ async function loadPayPal(){
       createOrder: async ()=>{
         if(!cart.length) throw new Error('Le panier est vide.');
 
+        const relayPoint=requireMondialRelayPoint();
+        if(!relayPoint) throw new Error('Point Mondial Relay requis.');
+
         paypalMessage('Création de la commande…','info');
 
         const response=await fetch(WORKER_URL+'/paypal/create-order',{
           method:'POST',
           headers:accountHeaders({'Content-Type':'application/json'}),
-          body:JSON.stringify({items:cart.map(x=>x.id)})
+          body:JSON.stringify({
+            items:cart.map(x=>x.id),
+            mondialRelayPoint:relayPoint
+          })
         });
 
         const parsed=await readApiResponse(response);
@@ -3366,6 +3424,9 @@ async function loadPayPal(){
 
         cart=[];
         localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));
+        localStorage.removeItem(MONDIAL_RELAY_KEY);
+        const relayField=document.getElementById('mondialRelayPoint');
+        if(relayField) relayField.value='';
         updateCart();
 
         try{ await load(); }catch(_){}
@@ -3437,7 +3498,35 @@ async function paypalDiagnostic(){
   }
 }
 
-function order(){if(!cart.length)return;let total=cart.reduce((s,x)=>s+Number(x.prixVente||0),0),body=['Bonjour','','Je souhaite commander :','',...cart.map((x,i)=>`${i+1}. ${x.marque||''} ${x.nom} - Taille ${x.taille} - ${euro(x.prixVente)}`),'',`Total : ${euro(total)}`,'','Merci de me confirmer la disponibilité et de m’envoyer la facture ainsi que les instructions de paiement bancaire.','','Nom : ','Téléphone : ','Adresse de livraison : '].join('\n');location.href='mailto:stephane@upstyle-destock.fr?subject='+encodeURIComponent('Commande Upstyle Destock')+'&body='+encodeURIComponent(body)}
+function order(){
+  if(!cart.length) return;
+
+  const relayPoint=requireMondialRelayPoint();
+  if(!relayPoint) return;
+
+  const total=cart.reduce((s,x)=>s+Number(x.prixVente||0),0);
+  const body=[
+    'Bonjour',
+    '',
+    'Je souhaite commander :',
+    '',
+    ...cart.map((x,i)=>`${i+1}. ${x.marque||''} ${x.nom} - Taille ${x.taille} - ${euro(x.prixVente)}`),
+    '',
+    `Total : ${euro(total)}`,
+    '',
+    'Point Mondial Relay / Locker choisi :',
+    relayPoint,
+    '',
+    'Merci de me confirmer la disponibilité et de m’envoyer la facture ainsi que les instructions de paiement bancaire.',
+    '',
+    'Nom : ',
+    'Téléphone : '
+  ].join('\n');
+
+  location.href='mailto:stephane@upstyle-destock.fr?subject='+
+    encodeURIComponent('Commande Upstyle Destock')+
+    '&body='+encodeURIComponent(body);
+}
 
 /* Zoom plein écran des photos + navigation galerie */
 let zoomScale=1, zoomX=0, zoomY=0;
