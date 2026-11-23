@@ -1856,6 +1856,7 @@ async function connect(){
 
     renderList();
     closeBrandSuggestions();
+    refreshCategories(getCurrentCategory());
     refreshSizeSuggestions();
     updateCheckProductsButton();
     setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) · ${brands.length} marque(s).`,'ok');
@@ -2378,6 +2379,7 @@ async function ensureReferenceDataForNewProduct(){
     brands=uniqueSortedBrands(loadedBrands);
     referenceDataLoaded=true;
     renderList();
+    refreshCategories(getCurrentCategory());
     refreshSizeSuggestions();
     updateCheckProductsButton();
     return true;
@@ -2901,6 +2903,7 @@ async function publish(options={}){
     const saved=products.find(p=>p.id===data.id);
     if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
     renderList();
+    refreshCategories(data.categorie);
     refreshSizeSuggestions();
 
     // À ce stade, l'article a été relu depuis l'API et sa présence dans
