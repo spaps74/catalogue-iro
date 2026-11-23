@@ -1,5 +1,31 @@
 [
   {
+    "id": "rains-doudoune-courte-rains-alta-short-ld51-creme-a-capuche",
+    "nom": "Doudoune courte Rains Alta Short Ld51 crème à capuche",
+    "marque": "Rains",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
+    "categorie": "Mode",
+    "sousCategorie": "doudounes",
+    "genre": "Mixte",
+    "taille": "",
+    "prixRetail": 349,
+    "prixVente": 90,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "5711747579753",
+    "stock": 1,
+    "description": "La doudoune Rains Alta Short Ld51 se décline en coloris crème, avec une coupe courte et un matelassage à larges bandes. Elle présente une capuche à cordons de serrage et un col montant. Sa fermeture zippée sur toute la hauteur est complétée par deux poches latérales. Un cordon de serrage à la base permet d'ajuster le bas du vêtement.",
+    "photos": [
+      "photos/rains-1795465617858-1.jpg",
+      "photos/rains-1795465619102-2.jpg",
+      "photos/rains-1795465620683-3.jpg",
+      "photos/rains-1795465622500-4.jpg"
+    ],
+    "createdAt": "2026-11-23T20:27:04.377Z",
+    "updatedAt": "2026-11-23T20:27:04.377Z"
+  },
+  {
     "id": "bandit-bandit-fontaine-a-eau-electrique-sans-fil-2-5-l-creme-pour-animaux",
     "nom": "Bandit – Fontaine à eau électrique sans fil 2,5 L crème pour animaux",
     "marque": "Bandit",
