@@ -719,16 +719,21 @@
 <div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
 <div><label>Référence / SKU</label><input id="sku"></div>
+<div>
+  <label>GTIN / EAN / UPC</label>
+  <input id="gtin" inputmode="numeric" autocomplete="off" placeholder="GTIN-8 / UPC-A / GTIN-13 / GTIN-14">
+  <div class="muted" style="margin-top:5px">Le GTIN est stocké séparément du SKU et contrôlé avant recherche.</div>
+</div>
 <div class="full product-lookup-box">
   <div class="product-lookup-head">
     <div>
       <b>📦 Scanner / retrouver un produit</b>
-      <div class="muted">Scanne un EAN/UPC ou saisis un EAN, SKU, modèle ou référence. Les informations et photos trouvées sont proposées avant import.</div>
+      <div class="muted">Scanne un GTIN / EAN / UPC (y compris GTIN-14 / ITF-14) ou saisis un GTIN, SKU, modèle ou référence. Les variantes compatibles sont recherchées automatiquement.</div>
     </div>
-    <button class="yellow" type="button" onclick="startBarcodeScanner()">📷 Scanner EAN</button>
+    <button class="yellow" type="button" onclick="startBarcodeScanner()">📷 Scanner GTIN / EAN</button>
   </div>
   <div class="product-lookup-actions">
-    <input id="productLookupCode" type="search" placeholder="EAN / UPC / SKU / modèle / référence" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupProduct()}">
+    <input id="productLookupCode" type="search" placeholder="GTIN / EAN / UPC / SKU / modèle / référence" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupProduct()}">
     <button class="primary" id="productLookupBtn" type="button" onclick="lookupProduct()">🔎 Rechercher</button>
   </div>
   <div id="productLookupStatus" class="ai-status hidden"></div>
@@ -1961,7 +1966,7 @@ function renderList(){
   const list=products.filter(p=>{
     if(!q) return true;
     const hay=[
-      p.nom,p.marque,p.categorie,p.taille,p.sku,p.statut,p.description,p.prixVente,p.prixRetail
+      p.nom,p.marque,p.categorie,p.taille,p.sku,p.gtin,p.ean,p.upc,p.statut,p.description,p.prixVente,p.prixRetail
     ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     return hay.includes(q);
   });
@@ -1985,7 +1990,7 @@ function renderList(){
                 · Taille ${escapeHtmlValue(p.taille||'—')}
                 · ${Number(p.prixVente||0).toFixed(2)} €
                 · ${escapeHtmlValue(p.statut||'')}
-                ${p.sku?' · SKU '+escapeHtmlValue(p.sku):''}
+                ${p.sku?' · SKU '+escapeHtmlValue(p.sku):''}${p.gtin?' · GTIN '+escapeHtmlValue(p.gtin):''}
               </div>
             </div>
           </div>
@@ -2615,7 +2620,7 @@ function edit(id){
 
   for(const [k,id2] of [
     ['nom','nom'],['marque','marque'],['genre','genre'],
-    ['sku','sku'],['description','description'],['statut','statut'],['stock','stock']
+    ['sku','sku'],['gtin','gtin'],['description','description'],['statut','statut'],['stock','stock']
   ]){
     $(id2).value=p[k]??'';
   }
@@ -2645,7 +2650,7 @@ function edit(id){
   $('editor').scrollIntoView({behavior:'smooth'});
 }
 function clear(){
-  ['nom','marque','genre','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  ['nom','marque','genre','retail','vente','sku','gtin','description'].forEach(x=>{if($(x)) $(x).value='';});
   refreshSizeSuggestions('');
   refreshCategories('');
   $('statut').value='Disponible';
@@ -2817,27 +2822,130 @@ function resetProductLookup(){
   setProductLookupStatus('');
 }
 
+function normalizeBarcodeText(value){
+  return String(value||'').trim().replace(/[\s-]+/g,'');
+}
+
+function extractGtin(value){
+  let raw=normalizeBarcodeText(value);
+
+  // GS1 human-readable AI: (01)09506000134352
+  let m=raw.match(/^\(01\)(\d{14})/);
+  if(m) return m[1];
+
+  // GS1 DataMatrix / GS1-128 often exposes AI 01 without parentheses.
+  m=raw.match(/^01(\d{14})/);
+  if(m) return m[1];
+
+  // Plain GTIN-8 / UPC-A (GTIN-12) / GTIN-13 / GTIN-14.
+  if(/^\d{8}$/.test(raw) || /^\d{12}$/.test(raw) || /^\d{13}$/.test(raw) || /^\d{14}$/.test(raw)){
+    return raw;
+  }
+  return '';
+}
+
+function isValidGtin(value){
+  const gtin=extractGtin(value);
+  if(!gtin) return false;
+
+  let sum=0;
+  for(let i=gtin.length-2,weight=3;i>=0;i--,weight=weight===3?1:3){
+    sum+=Number(gtin[i])*weight;
+  }
+  const check=(10-(sum%10))%10;
+  return check===Number(gtin[gtin.length-1]);
+}
+
+function gtinType(value){
+  const gtin=extractGtin(value);
+  if(!gtin) return '';
+  if(gtin.length===8) return 'GTIN-8 / EAN-8';
+  if(gtin.length===12) return 'GTIN-12 / UPC-A';
+  if(gtin.length===13) return 'GTIN-13 / EAN-13';
+  if(gtin.length===14) return 'GTIN-14';
+  return 'GTIN';
+}
+
+function gtinSearchVariants(value){
+  const gtin=extractGtin(value);
+  if(!gtin) return [String(value||'').trim()].filter(Boolean);
+
+  const variants=[gtin];
+
+  // Equivalent representations commonly indexed by product databases.
+  if(gtin.length===14 && gtin.startsWith('0')) variants.push(gtin.slice(1)); // GTIN-14 -> EAN-13
+  if(gtin.length===13 && gtin.startsWith('0')) variants.push(gtin.slice(1)); // EAN-13 -> UPC-A
+  if(gtin.length===12) variants.push('0'+gtin);                              // UPC-A -> EAN-13
+  if(gtin.length===13) variants.push('0'+gtin);                              // EAN-13 -> GTIN-14
+
+  return [...new Set(variants)];
+}
+
+function lookupResultKey(r){
+  return [
+    r?.gtin,r?.ean,r?.upc,r?.sku,r?.model,r?.title,r?.brand
+  ].filter(Boolean).join('|').toLowerCase();
+}
+
+async function lookupOneProductQuery(query){
+  const response=await req('/admin/product-lookup?q='+encodeURIComponent(query));
+  return Array.isArray(response?.results)?response.results:[];
+}
+
 async function lookupProduct(){
   const input=$('productLookupCode');
   const btn=$('productLookupBtn');
-  const q=String(input?.value||'').trim();
-  if(q.length<2){
-    setProductLookupStatus('Saisis ou scanne un EAN / SKU / modèle.','error');
+  const raw=String(input?.value||'').trim();
+
+  if(raw.length<2){
+    setProductLookupStatus('Saisis ou scanne un GTIN / EAN / UPC / SKU / modèle.','error');
     return;
   }
 
+  const gtin=extractGtin(raw);
+  if(gtin && !isValidGtin(gtin)){
+    setProductLookupStatus('Code détecté comme '+gtinType(gtin)+' mais la clé de contrôle est invalide : '+gtin+'. Vérifie le scan ou la saisie.','error');
+    return;
+  }
+
+  const queries=gtin ? gtinSearchVariants(gtin) : [raw];
+
   try{
     if(btn){btn.disabled=true;btn.textContent='Recherche…';}
-    setProductLookupStatus('Recherche du produit et de ses photos…','working');
-    const result=await req('/admin/product-lookup?q='+encodeURIComponent(q));
-    productLookupResults=Array.isArray(result.results)?result.results:[];
+    setProductLookupStatus(
+      gtin
+        ? 'Recherche '+gtinType(gtin)+' '+gtin+' dans les variantes GTIN / EAN / UPC…'
+        : 'Recherche de la référence produit…',
+      'working'
+    );
+
+    const merged=[];
+    const seen=new Set();
+
+    for(const query of queries){
+      const rows=await lookupOneProductQuery(query);
+      for(const row of rows){
+        const key=lookupResultKey(row);
+        if(key && seen.has(key)) continue;
+        if(key) seen.add(key);
+        merged.push(row);
+      }
+    }
+
+    productLookupResults=merged;
     productLookupSelectedIndex=-1;
     productLookupSelectedImages=new Set();
     renderProductLookupResults();
+
+    if(gtin && $('gtin')) $('gtin').value=gtin;
+
     setProductLookupStatus(
       productLookupResults.length
-        ? productLookupResults.length+' résultat'+(productLookupResults.length>1?'s':'')+' trouvé'+(productLookupResults.length>1?'s':'')+'. Choisis le bon produit.'
-        : 'Aucun produit trouvé. Tu peux essayer la référence fabricant ou un autre code.',
+        ? productLookupResults.length+' résultat'+(productLookupResults.length>1?'s':'')+
+          ' trouvé'+(productLookupResults.length>1?'s':'')+
+          (gtin?' pour '+gtinType(gtin)+' '+gtin:'')+'. Choisis le bon produit.'
+        : 'Aucun produit trouvé'+(gtin?' pour '+gtinType(gtin)+' '+gtin:'')+
+          '. Essaie aussi la référence fabricant / SKU si elle est disponible.',
       productLookupResults.length?'ok':'error'
     );
   }catch(e){
@@ -2855,7 +2963,7 @@ function renderProductLookupResults(){
 
   box.innerHTML=productLookupResults.map((r,i)=>{
     const image=(r.images&&r.images[0])||'';
-    const ref=r.ean||r.upc||r.sku||r.model||'';
+    const ref=r.gtin||r.ean||r.upc||r.sku||r.model||'';
     return `
       <div class="product-lookup-result">
         ${image?`<img src="${escapeHtmlValue(image)}" alt="" loading="lazy">`:'<div></div>'}
@@ -2929,8 +3037,12 @@ async function importLookupProduct(withAI){
       $('marque').value=r.brand;
       closeBrandSuggestions();
     }
-    if(r.sku || r.ean || r.upc){
-      $('sku').value=r.sku||r.ean||r.upc;
+    if(r.sku){
+      $('sku').value=r.sku;
+    }
+    const importedGtin=extractGtin(r.gtin||r.ean||r.upc||'');
+    if(importedGtin && $('gtin')){
+      $('gtin').value=importedGtin;
     }
     if(r.description && !$('description').value.trim()){
       $('description').value=r.description;
@@ -3003,15 +3115,31 @@ async function startBarcodeScanner(){
       Html5QrcodeSupportedFormats.EAN_8,
       Html5QrcodeSupportedFormats.UPC_A,
       Html5QrcodeSupportedFormats.UPC_E,
-      Html5QrcodeSupportedFormats.CODE_128
-    ].filter(Boolean);
+      Html5QrcodeSupportedFormats.ITF,
+      Html5QrcodeSupportedFormats.CODE_128,
+      Html5QrcodeSupportedFormats.DATA_MATRIX,
+      Html5QrcodeSupportedFormats.QR_CODE
+    ].filter(v=>v!==undefined && v!==null);
 
     await eanScanner.start(
       {facingMode:'environment'},
       {fps:10,qrbox:{width:280,height:140},formatsToSupport:formats},
       async decodedText=>{
-        if($('productLookupCode')) $('productLookupCode').value=decodedText;
+        const decoded=String(decodedText||'').trim();
+        const detectedGtin=extractGtin(decoded);
+
+        if($('productLookupCode')) $('productLookupCode').value=detectedGtin||decoded;
+        if(detectedGtin && $('gtin')) $('gtin').value=detectedGtin;
+
         await stopBarcodeScanner();
+
+        if(detectedGtin && !isValidGtin(detectedGtin)){
+          setProductLookupStatus(
+            'Code lu par la caméra, mais GTIN invalide (clé de contrôle) : '+detectedGtin+'. Recommence le scan.',
+            'error'
+          );
+          return;
+        }
         lookupProduct();
       },
       ()=>{}
@@ -3053,8 +3181,9 @@ function currentAIProductData(){
     categorie:$('categorie')?.value.trim()||'',
     sousCategorie:getCurrentSousCategorie(),
     genre:$('genre')?.value||'',
-    taille:$('taille')?.value.trim()||'',
+    taille:getCurrentSize(),
     sku:$('sku')?.value.trim()||'',
+    gtin:extractGtin($('gtin')?.value||'')||'',
     description:$('description')?.value.trim()||''
   };
 }
@@ -3110,8 +3239,8 @@ async function generateAIListing(){
 
   const data=currentAIProductData();
 
-  if(!data.nom && !data.marque && !data.sku){
-    setAIStatus('Renseigne au moins le nom, la marque ou le SKU avant de lancer la génération.','error');
+  if(!data.nom && !data.marque && !data.sku && !data.gtin){
+    setAIStatus('Renseigne au moins le nom, la marque, le SKU ou le GTIN avant de lancer la génération.','error');
     return;
   }
 
@@ -3283,10 +3412,15 @@ async function publish(options={}){
       prixVente:Number($('vente').value||0),
       statut:$('statut').value,
       sku:$('sku').value.trim(),
+      gtin:extractGtin($('gtin')?.value||'') || String($('gtin')?.value||'').trim(),
       stock:Number($('stock').value||0),
       description:$('description').value.trim(),
       photos:[]
     };
+
+    if(data.gtin && extractGtin(data.gtin) && !isValidGtin(data.gtin)){
+      throw new Error('Le GTIN saisi est invalide (clé de contrôle incorrecte).');
+    }
 
     if(!data.nom||!data.marque||!data.etatProduit||!data.categorie||!data.prixVente){
       throw new Error('Nom, marque, état, catégorie et prix de vente sont obligatoires.');
