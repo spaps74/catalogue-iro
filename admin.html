@@ -651,7 +651,7 @@
     Les sous-catégories déjà utilisées dans cette catégorie sont proposées automatiquement.
   </div>
 </div>
-<label>Taille</label><input id="taille"></div>
+<label>Taille</label><input id="taille" list="tailleSuggestions" autocomplete="off"><datalist id="tailleSuggestions"></datalist></div>
 <div><label>Genre</label><select id="genre">
   <option value="">Non renseigné</option>
   <option value="Hommes">Hommes</option>
@@ -1856,6 +1856,7 @@ async function connect(){
 
     renderList();
     closeBrandSuggestions();
+    refreshSizeSuggestions();
     updateCheckProductsButton();
     setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) · ${brands.length} marque(s).`,'ok');
   }catch(e){
@@ -2236,6 +2237,36 @@ function bindSousCategorieControls(){
 }
 
 
+function normalizeSizeValue(s){
+  return String(s||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase()
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function refreshSizeSuggestions(){
+  const list=$('tailleSuggestions');
+  if(!list) return;
+
+  const byKey=new Map();
+  for(const p of products){
+    const value=String(p?.taille||'').trim();
+    if(!value) continue;
+    const key=normalizeSizeValue(value);
+    if(!byKey.has(key)) byKey.set(key,value);
+  }
+
+  const sizes=[...byKey.values()].sort((a,b)=>
+    a.localeCompare(b,'fr',{numeric:true,sensitivity:'base'})
+  );
+
+  list.innerHTML=sizes
+    .map(v=>`<option value="${escapeHtmlValue(v)}"></option>`)
+    .join('');
+}
+
 function updateProductNavigationButtons(){
   const prevBtn=$('prevProductBtn');
   const nextBtn=$('nextProductBtn');
@@ -2347,6 +2378,7 @@ async function ensureReferenceDataForNewProduct(){
     brands=uniqueSortedBrands(loadedBrands);
     referenceDataLoaded=true;
     renderList();
+    refreshSizeSuggestions();
     updateCheckProductsButton();
     return true;
   }catch(e){
@@ -2869,6 +2901,7 @@ async function publish(options={}){
     const saved=products.find(p=>p.id===data.id);
     if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
     renderList();
+    refreshSizeSuggestions();
 
     // À ce stade, l'article a été relu depuis l'API et sa présence dans
     // produits.json est confirmée. On peut donc repartir sans risque.
@@ -3098,6 +3131,7 @@ document.addEventListener('keydown',e=>{
 
 
 refreshCategories('');
+refreshSizeSuggestions();
 bindSousCategorieControls();
 setupBrandPicker();
 refreshSousCategories('');
