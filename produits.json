@@ -1,5 +1,29 @@
 [
   {
+    "id": "bandit-bandit-fontaine-a-eau-electrique-sans-fil-2-5-l-creme-pour-animaux",
+    "nom": "Bandit – Fontaine à eau électrique sans fil 2,5 L crème pour animaux",
+    "marque": "Bandit",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Pour nos amis les bêtes",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 79.95,
+    "prixVente": 45,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "3760329473233",
+    "stock": 1,
+    "description": "Cette fontaine à eau Bandit pour animaux offre une capacité de 2,5 L et un fonctionnement électrique sans fil. Son réservoir couleur crème présente une forme rectangulaire aux angles arrondis. Le plateau supérieur argenté accueille une sortie d’eau centrale surélevée, tandis qu’un liseré noir souligne la base.",
+    "photos": [
+      "photos/bandit-1795464975384-1.jpg",
+      "photos/bandit-1795464976752-2.jpg"
+    ],
+    "createdAt": "2026-11-23T20:16:18.307Z",
+    "updatedAt": "2026-11-23T20:16:18.307Z"
+  },
+  {
     "id": "petsafe-chatiere-magnetique-petsafe-staywell-classic-932sgifd-4-positions",
     "nom": "Chatière magnétique PetSafe Staywell Classic 932sgifd – 4 positions",
     "marque": "PetSafe",
