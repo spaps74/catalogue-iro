@@ -32,7 +32,7 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques moto",
+    "sousCategorie": "Casques",
     "genre": "Mixte",
     "taille": "L",
     "prixRetail": 79,
@@ -49,7 +49,7 @@
       "photos/yema-1795456111470-5.jpg"
     ],
     "createdAt": "2026-11-23T17:48:32.971Z",
-    "updatedAt": "2026-11-23T17:48:32.971Z"
+    "updatedAt": "2026-11-23T18:05:38.413Z"
   },
   {
     "id": "hicc-pet-hicc-pet-nettoyant-pour-les-yeux-des-chiens-et-chats-150-ml",
