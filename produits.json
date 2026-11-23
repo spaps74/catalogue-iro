@@ -1,5 +1,26 @@
 [
   {
+    "id": "hunter-sandales-hunter-vegan-sandal-polyester-coloris-noir-37",
+    "nom": "Sandales Hunter Vegan Sandal Polyester coloris noir",
+    "marque": "Hunter",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures / Baskets",
+    "sousCategorie": "sandales",
+    "genre": "",
+    "taille": "37",
+    "prixRetail": 69,
+    "prixVente": 35,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "5063447332610",
+    "stock": 1,
+    "description": "Sandales de marque Hunter. Modèle désigné Vegan Sandal Polyester. Coloris noir.",
+    "photos": [],
+    "createdAt": "2026-11-23T18:47:18.286Z",
+    "updatedAt": "2026-11-23T18:47:18.286Z"
+  },
+  {
     "id": "petsafe-chatiere-magnetique-petsafe-staywell-classic-932sgifd-4-positions",
     "nom": "Chatière magnétique PetSafe Staywell Classic 932sgifd – 4 positions",
     "marque": "PetSafe",
