@@ -1888,7 +1888,9 @@ async function req(path,opt={}){
   }
 
   const controller=new AbortController();
-  const timeoutMs=path.startsWith('/ai/') ? 45000 : 15000;
+  const timeoutMs=path.startsWith('/ai/')
+    ? 45000
+    : (path.startsWith('/admin/product-lookup') ? 30000 : 15000);
   const timer=setTimeout(()=>controller.abort(),timeoutMs);
 
   try{
