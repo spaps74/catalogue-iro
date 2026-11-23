@@ -2910,7 +2910,7 @@ async function lookupProduct(){
     return;
   }
 
-  const queries=gtin ? gtinSearchVariants(gtin) : [raw];
+  const queries=gtin ? [gtin] : [raw];
 
   try{
     if(btn){btn.disabled=true;btn.textContent='Recherche…';}
@@ -2940,6 +2940,13 @@ async function lookupProduct(){
     renderProductLookupResults();
 
     if(gtin && $('gtin')) $('gtin').value=gtin;
+
+    if(productLookupResults.length){
+      const exactIndex=gtin
+        ? productLookupResults.findIndex(r=>extractGtin(r.gtin||r.ean||r.upc||'')===gtin)
+        : 0;
+      selectLookupResult(exactIndex>=0?exactIndex:0);
+    }
 
     setProductLookupStatus(
       productLookupResults.length
@@ -2974,7 +2981,9 @@ function renderProductLookupResults(){
           <div class="product-lookup-result-meta">
             ${escapeHtmlValue(r.brand||'Marque non renseignée')}
             ${ref?' · '+escapeHtmlValue(ref):''}
-            ${r.retailPrice?' · env. '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):''}
+            ${r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):''}
+            ${r.images?.length?' · '+r.images.length+' photo'+(r.images.length>1?'s':''):''}
+            ${r.webResearchError?' · ⚠ '+escapeHtmlValue(r.webResearchError):''}
           </div>
         </div>
         <button type="button" onclick="selectLookupResult(${i})">Choisir</button>
