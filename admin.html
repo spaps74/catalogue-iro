@@ -651,7 +651,13 @@
     Les sous-catégories déjà utilisées dans cette catégorie sont proposées automatiquement.
   </div>
 </div>
-<label>Taille</label><input id="taille" list="tailleSuggestions" autocomplete="off"><datalist id="tailleSuggestions"></datalist></div>
+<label>Taille</label>
+<select id="taille">
+  <option value="">Sélectionner une taille</option>
+  <option value="__new__">+ Ajouter une nouvelle taille</option>
+</select>
+<input id="tailleNew" type="text" placeholder="Nouvelle taille" autocomplete="off" style="display:none;margin-top:8px">
+</div>
 <div><label>Genre</label><select id="genre">
   <option value="">Non renseigné</option>
   <option value="Hommes">Hommes</option>
@@ -2299,9 +2305,21 @@ function normalizeSizeValue(s){
     .trim();
 }
 
-function refreshSizeSuggestions(){
-  const list=$('tailleSuggestions');
-  if(!list) return;
+function getCurrentSize(){
+  const sel=$('taille');
+  const input=$('tailleNew');
+  if(!sel) return '';
+
+  if(sel.value==='__new__'){
+    return (input?.value||'').trim();
+  }
+  return (sel.value||'').trim();
+}
+
+function refreshSizeSuggestions(selectedValue=''){
+  const sel=$('taille');
+  const input=$('tailleNew');
+  if(!sel || !input) return;
 
   const byKey=new Map();
   for(const p of products){
@@ -2315,9 +2333,45 @@ function refreshSizeSuggestions(){
     a.localeCompare(b,'fr',{numeric:true,sensitivity:'base'})
   );
 
-  list.innerHTML=sizes
-    .map(v=>`<option value="${escapeHtmlValue(v)}"></option>`)
-    .join('');
+  sel.innerHTML=
+    '<option value="">Sélectionner une taille</option>'+
+    sizes.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('')+
+    '<option value="__new__">+ Ajouter une nouvelle taille</option>';
+
+  const wanted=String(selectedValue||'').trim();
+  if(!wanted){
+    sel.value='';
+    input.value='';
+    input.style.display='none';
+    return;
+  }
+
+  const found=sizes.find(v=>normalizeSizeValue(v)===normalizeSizeValue(wanted));
+  if(found){
+    sel.value=found;
+    input.value='';
+    input.style.display='none';
+  }else{
+    sel.value='__new__';
+    input.value=wanted;
+    input.style.display='block';
+  }
+}
+
+function bindSizeControls(){
+  const sel=$('taille');
+  const input=$('tailleNew');
+  if(!sel || !input) return;
+
+  sel.addEventListener('change',()=>{
+    if(sel.value==='__new__'){
+      input.style.display='block';
+      input.focus();
+    }else{
+      input.style.display='none';
+      input.value='';
+    }
+  });
 }
 
 function updateProductNavigationButtons(){
@@ -2479,7 +2533,7 @@ function edit(id){
   galleryItems=oldPhotos.map(path=>({type:'existing',path}));
 
   for(const [k,id2] of [
-    ['nom','nom'],['marque','marque'],['genre','genre'],['taille','taille'],
+    ['nom','nom'],['marque','marque'],['genre','genre'],
     ['sku','sku'],['description','description'],['statut','statut'],['stock','stock']
   ]){
     $(id2).value=p[k]??'';
@@ -2496,6 +2550,7 @@ function edit(id){
 
   refreshCategories(category);
   refreshSousCategories(p.sousCategorie||p.sous_categorie||'');
+  refreshSizeSuggestions(p.taille||'');
 
   if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';
   if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;
@@ -2509,7 +2564,8 @@ function edit(id){
   $('editor').scrollIntoView({behavior:'smooth'});
 }
 function clear(){
-  ['nom','marque','genre','taille','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  ['nom','marque','genre','retail','vente','sku','description'].forEach(x=>{if($(x)) $(x).value='';});
+  refreshSizeSuggestions('');
   refreshCategories('');
   $('statut').value='Disponible';
   if($('etatProduit')) $('etatProduit').value='';
@@ -2893,7 +2949,7 @@ async function publish(options={}){
       categorie:getCurrentCategory(),
       sousCategorie: getCurrentSousCategorie(),
       genre:$('genre')?.value||'',
-      taille:$('taille').value.trim(),
+      taille:getCurrentSize(),
       prixRetail:Number($('retail').value||0),
       prixVente:Number($('vente').value||0),
       statut:$('statut').value,
@@ -2962,7 +3018,7 @@ async function publish(options={}){
     renderList();
     refreshCategories(data.categorie);
     refreshSousCategories(data.sousCategorie||'');
-    refreshSizeSuggestions();
+    refreshSizeSuggestions(data.taille||'');
 
     // À ce stade, l'article a été relu depuis l'API et sa présence dans
     // produits.json est confirmée. On peut donc repartir sans risque.
@@ -3192,8 +3248,9 @@ document.addEventListener('keydown',e=>{
 
 
 refreshCategories('');
-refreshSizeSuggestions();
+refreshSizeSuggestions('');
 bindSousCategorieControls();
+bindSizeControls();
 setupBrandPicker();
 refreshSousCategories('');
 </script>
