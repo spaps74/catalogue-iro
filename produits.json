@@ -25,24 +25,28 @@
   },
   {
     "id": "petsafe-chatiere-magnetique-petsafe-staywell-classic-932sgifd-4-positions",
-    "nom": "Chatière magnétique PetSafe Staywell Classic 932sgifd – 4 positions",
+    "nom": "Chatière magnétique PetSafe Staywell Classic 932sgifd blanche – 4 positions",
     "marque": "PetSafe",
     "etatProduit": "Retour Amazon comme neuf",
     "miseEnPremierePage": false,
     "categorie": "Maison, Soins de la personne, Animaux",
-    "sousCategorie": "Chatières",
+    "sousCategorie": "Pour nos amis les bêtes",
     "genre": "",
     "taille": "",
-    "prixRetail": 94.99,
+    "prixRetail": 75,
     "prixVente": 39,
     "statut": "Disponible",
     "sku": "B00BN6PX5W",
     "gtin": "5011569008548",
     "stock": 1,
-    "description": "La chatière magnétique PetSafe Staywell Classic 932sgifd est conçue pour le passage des chats. Elle dispose d’un système de verrouillage à 4 positions pour gérer leurs entrées et sorties. Son fonctionnement magnétique complète ce dispositif de contrôle des accès.",
-    "photos": [],
+    "description": "La chatière magnétique PetSafe Staywell Classic 932sgifd permet de contrôler les entrées et sorties de votre chat grâce à son verrouillage à 4 positions. Elle présente un cadre blanc, un battant translucide et une commande de verrouillage rouge. Une clé magnétique à anneau est visible sur les photos, aux côtés de la boîte du produit. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/petsafe-1795465252734-1.jpg",
+      "photos/petsafe-1795465254512-2.jpg",
+      "photos/petsafe-1795465256139-3.jpg"
+    ],
     "createdAt": "2026-11-23T18:14:46.095Z",
-    "updatedAt": "2026-11-23T18:25:46.215Z"
+    "updatedAt": "2026-11-23T20:20:57.938Z"
   },
   {
     "id": "victgoal-victgoal-casque-velo-vtt-bleu-metallise-avec-visiere-magnetique-et-feu-led-new",
