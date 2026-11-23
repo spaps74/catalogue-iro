@@ -1,5 +1,31 @@
 [
   {
+    "id": "jetech-coque-jetech-pour-ipad-air-13-pouces-m4-m3-m2-lumiere-stellaire",
+    "nom": "Coque JETech pour iPad Air 13 pouces M4/M3/M2 – Lumière Stellaire",
+    "marque": "JETech",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Étuis pour tablettes",
+    "genre": "",
+    "taille": "",
+    "prixRetail": 24,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "stock": 1,
+    "description": "Coque JETech pour iPad Air 13 pouces M4/M3/M2, modèles 2026/2025/2024, en coloris Lumière Stellaire avec dos transparent. La couverture à trois volets se replie pour servir de support à la tablette. Un porte-Pencil intégré permet de garder le stylet à portée de main. La housse dispose de la fonction veille/réveil automatique et de découpes pour les ports et l’appareil photo. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/jetech-1795427222132-1.jpg",
+      "photos/jetech-1795427223956-2.jpg",
+      "photos/jetech-1795427225497-3.jpg",
+      "photos/jetech-1795427227602-4.jpg",
+      "photos/jetech-1795427229151-5.jpg"
+    ],
+    "createdAt": "2026-11-23T09:47:11.028Z",
+    "updatedAt": "2026-11-23T09:47:11.028Z"
+  },
+  {
     "id": "sgxbos-pedales-de-velo-sgxbos-en-carbone-axes-en-titane-noires-et-rouges",
     "nom": "Pédales de vélo Sgxbos en carbone, axes en titane, noires et rouges",
     "marque": "Sgxbos",
