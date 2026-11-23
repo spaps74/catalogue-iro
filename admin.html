@@ -1890,7 +1890,7 @@ async function req(path,opt={}){
   const controller=new AbortController();
   const timeoutMs=path.startsWith('/ai/')
     ? 45000
-    : (path.startsWith('/admin/product-lookup') ? 30000 : 15000);
+    : ((path.startsWith('/admin/product-lookup') || path.startsWith('/admin/product-enrich')) ? 40000 : 15000);
   const timer=setTimeout(()=>controller.abort(),timeoutMs);
 
   try{
@@ -3037,11 +3037,43 @@ function renderSelectedLookupResult(){
 }
 
 async function importLookupProduct(withAI){
-  const r=productLookupResults[productLookupSelectedIndex];
+  let r=productLookupResults[productLookupSelectedIndex];
   if(!r) return;
 
   try{
-    setProductLookupStatus('Import des informations produit…','working');
+    setProductLookupStatus('Recherche du prix public et des photos du produit…','working');
+
+    try{
+      const enriched=await req('/admin/product-enrich',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          product:r,
+          query:r.gtin||r.ean||r.upc||$('productLookupCode')?.value||r.title||''
+        })
+      });
+      if(enriched?.product){
+        r=enriched.product;
+        productLookupResults[productLookupSelectedIndex]=r;
+        productLookupSelectedImages=new Set(
+          (r.images||[]).slice(0,Math.min(5,(r.images||[]).length)).map((_,i)=>i)
+        );
+        renderSelectedLookupResult();
+      }
+      if(enriched?.diagnostics?.webResearchError){
+        console.warn('Enrichissement web :',enriched.diagnostics.webResearchError);
+      }
+    }catch(enrichErr){
+      console.warn('Enrichissement produit impossible',enrichErr);
+      setProductLookupStatus('Enrichissement incomplet : '+enrichErr.message+' — import des informations déjà trouvées…','working');
+    }
+
+    setProductLookupStatus(
+      'Import du produit'+
+      (r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):'')+
+      (r.images?.length?' · '+r.images.length+' photo'+(r.images.length>1?'s':'')+' trouvée'+(r.images.length>1?'s':''):'')+'…',
+      'working'
+    );
 
     if(r.title) $('nom').value=r.title;
     if(r.brand){
@@ -3101,6 +3133,15 @@ async function importLookupProduct(withAI){
     );
 
     if(withAI){
+      if(imported.length===0){
+        setProductLookupStatus(
+          'Produit importé'+
+          (r.retailPrice?' · prix public '+Number(r.retailPrice).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):'')+
+          ', mais aucune photo n’a pu être téléchargée. L’IA n’est pas lancée pour éviter une génération sans photo.',
+          'error'
+        );
+        return;
+      }
       await generateAIListing();
     }
   }catch(e){
