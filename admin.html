@@ -699,19 +699,10 @@
   <label for="sousCategorieSelect">Sous-catégorie</label>
   <select id="sousCategorieSelect">
     <option value="">Aucune / sélectionner une sous-catégorie</option>
-    <option value="__new__">+ Ajouter une nouvelle sous-catégorie</option>
   </select>
 
-  <input
-    id="sousCategorieNew"
-    type="text"
-    placeholder="Nom de la nouvelle sous-catégorie"
-    autocomplete="off"
-    style="display:none;margin-top:8px"
-  >
-
   <div class="souscat-help">
-    Les sous-catégories déjà utilisées dans cette catégorie sont proposées automatiquement.
+    Choisis uniquement une sous-catégorie existante. La création de nouvelles sous-catégories est désactivée.
   </div>
 </div>
 <label>Tailles</label>
@@ -2342,119 +2333,43 @@ function normalizeSubcat(s){
     .trim();
 }
 
-function getCurrentSousCategorie(){
-  const sel=$('sousCategorieSelect');
-  const input=$('sousCategorieNew');
-  if(!sel) return '';
-
-  if(sel.value==='__new__'){
-    return (input?.value||'').trim();
-  }
-  return (sel.value||'').trim();
-}
-
-function refreshSousCategories(selectedValue=''){
-  const cat=$('categorie');
-  const sel=$('sousCategorieSelect');
-  const input=$('sousCategorieNew');
-  if(!cat || !sel || !input) return;
-
-  const selectedCategory=getCurrentCategory();
+function existingSubcategoriesFor(category){
   const byKey=new Map();
-
+  const categoryKey=normalizeCategory(category);
+  if(!categoryKey) return [];
   for(const p of products){
-    let productCategory=String(p.categorie||'').trim();
-
-    // Compatibilité avec les anciens noms de catégories.
-    if(productCategory==='Informatique' || productCategory==='Informatique / Tech') productCategory='High-Tech';
-    if(['Chaussures','Basket','Baskets','Baskets / Chaussures'].includes(productCategory)) productCategory='Chaussures / Baskets';
-    if(['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques','Maison, Cosmétiques, Animaux'].includes(productCategory)){
-      productCategory='Maison, Soins de la personne, Animaux';
-    }
-    if(['Sport','Sports'].includes(productCategory)) productCategory='Loisirs';
-    if(['Vêtements','Vetements'].includes(productCategory)) productCategory='Mode';
-
-    if(normalizeCategory(productCategory)!==normalizeCategory(selectedCategory)) continue;
-
+    if(normalizeCategory(p.categorie)!==categoryKey) continue;
     const sub=capitalizeSubcategory(p.sousCategorie||p.sous_categorie||'');
-    if(!sub) continue;
-
-    const key=normalizeSubcat(sub);
-    if(!byKey.has(key)) byKey.set(key,sub);
+    if(sub && !byKey.has(normalizeSubcat(sub))) byKey.set(normalizeSubcat(sub),sub);
   }
-
-  // Les sous-catégories proviennent uniquement des fiches existantes.
-  // Ne pas réintroduire les anciennes valeurs du registre local.
-
-  const existing=[...byKey.values()]
-    .sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
-
-  sel.innerHTML=
-    '<option value="">Aucune / sélectionner une sous-catégorie</option>'+
-    existing.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('')+
-    '<option value="__new__">+ Ajouter une nouvelle sous-catégorie</option>';
-
-  const wanted=capitalizeSubcategory(selectedValue);
-
-  if(!wanted){
-    sel.value='';
-    input.value='';
-    input.style.display='none';
-    return;
-  }
-
-  const found=existing.find(v=>normalizeSubcat(v)===normalizeSubcat(wanted));
-
-  if(found){
-    sel.value=found;
-    input.value='';
-    input.style.display='none';
-  }else{
-    sel.value='__new__';
-    input.value=wanted;
-    input.style.display='block';
-  }
+  return [...byKey.values()].sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
 }
-
+function getCurrentSousCategorie(){
+  return String($('sousCategorieSelect')?.value||'').trim();
+}
+function refreshSousCategories(selectedValue=''){
+  const sel=$('sousCategorieSelect');
+  if(!sel) return;
+  const existing=existingSubcategoriesFor(getCurrentCategory());
+  sel.innerHTML='<option value="">Aucune / sélectionner une sous-catégorie</option>'+
+    existing.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('');
+  sel.value=existing.find(v=>normalizeSubcat(v)===normalizeSubcat(selectedValue))||'';
+}
 function bindSousCategorieControls(){
   const cat=$('categorie');
-  const sel=$('sousCategorieSelect');
-  const input=$('sousCategorieNew');
-
   if(cat){
     cat.addEventListener('change',()=>{
       const input=$('categorieNew');
-      if(cat.value==='__new__'){
-        if(input){
-          input.style.display='block';
-          input.focus();
-        }
-      }else if(input){
-        input.style.display='none';
-        input.value='';
+      if(input){
+        input.style.display=cat.value==='__new__'?'block':'none';
+        if(cat.value==='__new__') input.focus();
+        else input.value='';
       }
       refreshSousCategories('');
     });
   }
-
-  const catInput=$('categorieNew');
-  if(catInput){
-    catInput.addEventListener('input',()=>refreshSousCategories(getCurrentSousCategorie()));
-  }
-
-  if(sel){
-    sel.addEventListener('change',()=>{
-      if(sel.value==='__new__'){
-        input.style.display='block';
-        input.focus();
-      }else{
-        input.style.display='none';
-        input.value='';
-      }
-    });
-  }
+  $('categorieNew')?.addEventListener('input',()=>refreshSousCategories(getCurrentSousCategorie()));
 }
-
 
 function normalizeSizeValue(s){
   return String(s||'')
@@ -3614,6 +3529,7 @@ function currentAIProductData(){
     etatProduit:$('etatProduit')?.value||'',
     categorie:$('categorie')?.value.trim()||'',
     sousCategorie:getCurrentSousCategorie(),
+    sousCategoriesAutorisees:existingSubcategoriesFor(getCurrentCategory()),
     genre:$('genre')?.value||'',
     taille:getCurrentSize(),
     sku:$('sku')?.value.trim()||'',
@@ -3711,11 +3627,11 @@ async function generateAIListing(){
       refreshCategories(result.categorie);
     }
 
-    if(result.sousCategorie){
-      refreshSousCategories(result.sousCategorie);
-    }else{
-      refreshSousCategories(getCurrentSousCategorie());
-    }
+    const currentSub=getCurrentSousCategorie();
+    const existingSubs=existingSubcategoriesFor(getCurrentCategory());
+    const aiSub=existingSubs.find(v=>normalizeSubcat(v)===normalizeSubcat(result.sousCategorie));
+    refreshSousCategories(currentSub||aiSub||'');
+    const ignoredSub=!currentSub && result.sousCategorie && !aiSub;
 
     if(result.description){
       $('description').value=result.description;
@@ -3723,7 +3639,7 @@ async function generateAIListing(){
 
     const used=Number(result.photosAnalysees||0);
     setAIStatus(
-      `✓ Proposition générée${used ? ` avec analyse de ${used} photo${used>1?'s':''}` : ' sans photo'}. Relis les champs puis publie normalement si le résultat te convient.`,
+      `✓ Proposition générée${used ? ` avec analyse de ${used} photo${used>1?'s':''}` : ' sans photo'}. Relis les champs puis publie normalement si le résultat te convient.${ignoredSub?' Sous-catégorie IA ignorée : choisis une valeur existante.':''}`,
       'ok'
     );
   }catch(e){
@@ -3919,6 +3835,12 @@ async function publish(options={}){
       photos:[]
     };
 
+    if(common.sousCategorie){
+      const existing=existingSubcategoriesFor(common.categorie).find(v=>normalizeSubcat(v)===normalizeSubcat(common.sousCategorie));
+      if(!existing) throw new Error('Sous-catégorie inconnue : choisis une sous-catégorie existante.');
+      common.sousCategorie=existing;
+    }
+
     if(common.gtin && extractGtin(common.gtin) && !isValidGtin(common.gtin)){
       throw new Error('Le GTIN saisi est invalide (clé de contrôle incorrecte).');
     }
@@ -4030,9 +3952,7 @@ async function publish(options={}){
     const firstSaved=savedVariants[0];
     if(!firstSaved) throw new Error("Aucune variante n'a été enregistrée.");
 
-    if(common.categorie && common.sousCategorie){
-      rememberSubcategory(common.categorie,common.sousCategorie);
-    }
+
 
     renderList();
     refreshCategories(common.categorie);
