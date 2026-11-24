@@ -70,9 +70,15 @@ function trackVisit(){
 trackVisit();
 const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n||0));
 const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;");
+const productSizes=p=>{
+  const raw=Array.isArray(p?.tailles)&&p.tailles.length?p.tailles:String(p?.taille||'').split(/\s*(?:,|;|\/)\s*/);
+  return [...new Set(raw.map(x=>String(x||'').trim()).filter(Boolean))];
+};
+const productSizeLabel=p=>productSizes(p).join(' / ');
+
 function discount(p){const retail=Number(p.prixRetail||0),sale=Number(p.prixVente||0);return retail>sale&&retail>0?Math.round((1-sale/retail)*100):0}
 function setMainPhoto(src,index){const img=document.getElementById('mainPhoto');if(img)img.src=src;document.querySelectorAll('.thumbs img').forEach((x,i)=>x.classList.toggle('active',i===index))}
-function addToCart(p){const key='upstyle_cart_v2';let cart=[];try{cart=JSON.parse(localStorage.getItem(key)||'[]')}catch{}if(!Array.isArray(cart))cart=[];if(!cart.some(x=>x.id===p.id)){cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem(key,JSON.stringify(cart))}window.location.href='/'}
+function addToCart(p){const key='upstyle_cart_v2';let cart=[];try{cart=JSON.parse(localStorage.getItem(key)||'[]')}catch{}if(!Array.isArray(cart))cart=[];if(!cart.some(x=>x.id===p.id)){cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:productSizeLabel(p),prixVente:p.prixVente});localStorage.setItem(key,JSON.stringify(cart))}window.location.href='/'}
 function loadFavs(){try{const v=JSON.parse(localStorage.getItem('upstyle_favorites_v1')||'[]');return Array.isArray(v)?v.map(String):[]}catch{return []}}
 function isFav(id){return loadFavs().includes(String(id))}
 function toggleFav(p){
@@ -175,7 +181,7 @@ async function loadProduct(){
             <button type="button" id="questionBtn" class="quick-icon quick-question" title="Poser une question">✉</button>
             <button type="button" id="whatsappBtn" class="quick-icon quick-whatsapp" title="Partager sur WhatsApp">☏</button>
           </div>
-          <div class="meta">${esc(p.categorie||'')}${p.sousCategorie?` · ${esc(p.sousCategorie)}`:''}${p.taille?` · Taille ${esc(p.taille)}`:''}${p.sku?` · Réf. ${esc(p.sku)}`:''}</div>
+          <div class="meta">${esc(p.categorie||'')}${p.sousCategorie?` · ${esc(p.sousCategorie)}`:''}${productSizes(p).length?` · Taille${productSizes(p).length>1?'s':''} ${esc(productSizeLabel(p))}`:''}${p.sku?` · Réf. ${esc(p.sku)}`:''}</div>
           <div class="desc">${esc(p.description||'Aucune description renseignée.')}</div>
           <div class="pricebox"><span class="sale">${euro(p.prixVente)}</span>${Number(p.prixRetail||0)>Number(p.prixVente||0)?`<span class="retail">${euro(p.prixRetail)}</span>`:''}${pc>0?`<span class="discount">-${pc}%</span>`:''}</div>
           <div class="stock ${available?'ok':'no'}">${available?'✓ Disponible':'Indisponible'}</div>
