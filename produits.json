@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Victgoal Casque vélo et VTT adulte avec lunettes magnétiques et visière détachable",
+    "marque": "Victgoal",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "",
+    "prixRetail": 53,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque de vélo et VTT Victgoal pour adultes, neuf et léger. Il est équipé de lunettes de sécurité magnétiques amovibles et d’une visière détachable. Sa coque présente de nombreuses ouvertures d’aération et une dominante noire. Les lunettes affichent une teinte fumée.",
+    "photos": [
+      "photos/victgoal-1795546675744-1.jpg",
+      "photos/victgoal-1795546677691-2.jpg",
+      "photos/victgoal-1795546679609-3.jpg",
+      "photos/victgoal-1795546681463-4.jpg",
+      "photos/victgoal-1795546683266-5.jpg"
+    ],
+    "id": "victgoal-victgoal-casque-velo-et-vtt-adulte-avec-lunettes-magnetiques-et-visiere-detachable-1795546674628--taille-unique",
+    "variantGroupId": "victgoal-victgoal-casque-velo-et-vtt-adulte-avec-lunettes-magnetiques-et-visiere-detachable-1795546674628",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T18:58:04.996Z",
+    "updatedAt": "2026-11-24T18:58:04.996Z"
+  },
+  {
     "nom": "Casque vélo mixte kinflead noir et gris avec visière magnétique amovible - M",
     "marque": "kinflead",
     "etatProduit": "Neuf",
