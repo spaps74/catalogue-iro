@@ -1,5 +1,32 @@
 [
   {
+    "nom": "G2RISE Masque de plongée intégral blanc et bleu avec tuba détachable",
+    "marque": "G2RISE",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Masques et tubas",
+    "genre": "",
+    "prixRetail": 36,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 6,
+    "description": "Ce masque de plongée intégral G2RISE présente un coloris blanc et bleu et une grande visière transparente. Il dispose d’un tuba détachable, d’un design pliable et d’une conception anti-buée. Des sangles assurent son maintien autour de la tête. Article neuf avec étiquettes.",
+    "photos": [
+      "photos/g2rise-1795553870580-1.jpg",
+      "photos/g2rise-1795553872165-2.jpg"
+    ],
+    "id": "g2rise-g2rise-masque-de-plongee-integral-blanc-et-bleu-avec-tuba-detachable-1795553868455--taille-unique",
+    "variantGroupId": "g2rise-g2rise-masque-de-plongee-integral-blanc-et-bleu-avec-tuba-detachable-1795553868455",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:57:53.603Z",
+    "updatedAt": "2026-11-24T20:57:53.603Z"
+  },
+  {
     "nom": "Câble d’extension Xgmatt pour Starlink Gen 3 étanche – 40 m gris",
     "marque": "Xgmatt",
     "etatProduit": "Neuf avec étiquettes",
