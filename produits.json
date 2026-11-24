@@ -1087,7 +1087,6 @@
     "updatedAt": "2026-11-23T20:50:26.270Z"
   },
   {
-    "id": "rains-doudoune-courte-rains-alta-short-ld51-creme-a-capuche",
     "nom": "Doudoune courte Rains Alta Short Ld51 crème à capuche",
     "marque": "Rains",
     "etatProduit": "Neuf avec étiquettes",
@@ -1095,10 +1094,9 @@
     "categorie": "Mode",
     "sousCategorie": "Doudounes",
     "genre": "Mixte",
-    "taille": "",
     "prixRetail": 349,
     "prixVente": 86,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
     "gtin": "5711747579753",
     "stock": 1,
@@ -1109,8 +1107,13 @@
       "photos/rains-1795465620683-3.jpg",
       "photos/rains-1795465622500-4.jpg"
     ],
+    "id": "rains-doudoune-courte-rains-alta-short-ld51-creme-a-capuche",
+    "variantGroupId": "rains-doudoune-courte-rains-alta-short-ld51-creme-a-capuche",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-23T20:27:04.377Z",
-    "updatedAt": "2026-11-23T20:27:04.377Z"
+    "updatedAt": "2026-11-24T21:12:28.633Z"
   },
   {
     "id": "bandit-bandit-fontaine-a-eau-electrique-sans-fil-2-5-l-creme-pour-animaux",
