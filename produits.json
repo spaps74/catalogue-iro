@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Caisse de transport pour chiens et chats, pliable",
+    "marque": "PfotenPass",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Pour nos amis les bêtes",
+    "genre": "",
+    "prixRetail": 79,
+    "prixVente": 35,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette sacoche de transport pliable est conçue pour les chiens et les chats pesant jusqu'à 15 kg. Ses dimensions ont été choisies pour les voyages en avion.\n\nPourquoi vous allez l'adorer\nQuatre panneaux latéraux en mesh respirant et une ouverture qui permet un contact visuel avec son propriétaire nt plus de tranquillité à votre animal.\nEntrées en haut et à l'avant avec des fermetures éclair sécurisées.\nLe matériau résistant aux déchirures et le fond étanche maintiennent l'ensemble propre.\nLe tapis de couchage lavable est amovible.\nCaractéristiques\nDimensions : 55 x 40 x 23 cm.\nConvient aux chiens et aux chats pesant jusqu'à 15 kg.\nPliable, avec bandoulière et poignée télescopique.\nCourroie courte à l'intérieur.",
+    "photos": [
+      "photos/pfotenpass-1795551375179-1.jpg"
+    ],
+    "id": "pfotenpass-caisse-de-transport-pour-chiens-et-chats-pliable-1795551373948--taille-unique",
+    "variantGroupId": "pfotenpass-caisse-de-transport-pour-chiens-et-chats-pliable-1795551373948",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:16:17.062Z",
+    "updatedAt": "2026-11-24T20:16:17.062Z"
+  },
+  {
     "nom": "Xmatt – Câble Ethernet étanche 45 m pour Starlink Gen 3 / Satellite V3",
     "marque": "Xmatt",
     "etatProduit": "Retour Amazon comme neuf",
