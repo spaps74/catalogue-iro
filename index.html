@@ -2303,6 +2303,51 @@ function productSizeLabel(p){
   return productSizes(p).join(' / ');
 }
 
+function variantGroupKey(p){
+  return String(p?.variantGroupId || p?.id || '').trim();
+}
+
+function productVariants(p){
+  const key=variantGroupKey(p);
+  return products
+    .filter(x=>variantGroupKey(x)===key)
+    .sort((a,b)=>String(a.taille||'').localeCompare(String(b.taille||''),'fr',{numeric:true,sensitivity:'base'}));
+}
+
+function groupedProducts(list){
+  const order=[];
+  const groups=new Map();
+  for(const p of (list||[])){
+    const key=variantGroupKey(p);
+    if(!groups.has(key)){
+      groups.set(key,[]);
+      order.push(key);
+    }
+    groups.get(key).push(p);
+  }
+  return order.map(key=>{
+    const variants=groups.get(key)||[];
+    return variants.find(canAddToCart) || variants[0];
+  }).filter(Boolean);
+}
+
+function groupSizeLabels(p){
+  return productVariants(p)
+    .map(v=>String(v.taille||productSizeLabel(v)||'').trim())
+    .filter(Boolean);
+}
+
+function availableProductVariants(p){
+  return productVariants(p).filter(canAddToCart);
+}
+
+function groupAvailabilityStatus(p){
+  const vars=productVariants(p);
+  if(vars.some(canAddToCart)) return 'Disponible';
+  if(vars.some(v=>normalizedStatus(v)==='réservé' || normalizedStatus(v)==='reserve' || normalizedStatus(v)==='reservé')) return 'Réservé';
+  return 'Vendu';
+}
+
 
 function productDiscount(p){
   const retail=Number(p?.prixRetail||0);
@@ -2864,9 +2909,9 @@ function updateDealsMomentBadge(list){
 }
 
 function renderDeals(){
-  const list=products
-    .filter(isDealOfTheMoment)
-    .sort((a,b)=>discountPercent(b)-discountPercent(a));
+  const list=groupedProducts(
+    products.filter(isDealOfTheMoment)
+  ).sort((a,b)=>discountPercent(b)-discountPercent(a));
 
   updateDealsMomentBadge(list);
 
@@ -3055,6 +3100,7 @@ function render(){
     list=list.filter(p=>isFavorite(p.id));
   }
 
+  list = groupedProducts(list);
   list = prioritizeFirstPageProducts(list);
 
   renderSearchResults(list,q);
@@ -3105,20 +3151,31 @@ function canAddToCart(p){
 }
 
 function card(p){
-  let pc=discountPercent(p),
-      img=p.photos?.[0]||'',
-      canAdd=canAddToCart(p);
+  const variants=productVariants(p);
+  const availableVariants=variants.filter(canAddToCart);
+  const sizes=groupSizeLabels(p);
+  const pc=discountPercent(p);
+  const img=p.photos?.[0]||'';
+  const groupStatus=groupAvailabilityStatus(p);
+  const groupStatusClass=groupStatus==='Vendu'?'status-sold':(groupStatus==='Réservé'?'status-reserved':'status-available');
+  const fav=variants.some(v=>isFavorite(v.id));
+
+  const cartButton=availableVariants.length===1
+    ? `<button class="btn add" onclick="add('${availableVariants[0].id}')">Ajouter au panier</button>`
+    : availableVariants.length>1
+      ? `<button class="btn add" onclick="details('${p.id}')">Choisir la pointure</button>`
+      : `<button class="btn add" disabled aria-disabled="true">Indisponible</button>`;
 
   return `<article class="card">
     <div class="pic" onclick="details('${p.id}')" title="Voir le produit">
       ${img?`<img src="${img}" alt="${p.nom||''}">`:'<div class="empty">PHOTO</div>'}
-      <span class="badge status ${statusClass(p)}">${p.statut}</span>
+      <span class="badge status ${groupStatusClass}">${groupStatus}</span>
       <span class="badge brandbadge">${p.marque||''}</span>
-      <button type="button" class="favorite-btn ${isFavorite(p.id)?'active':''}" onclick="toggleFavorite('${p.id}',event)" aria-label="${isFavorite(p.id)?'Retirer des favoris':'Ajouter aux favoris'}" title="${isFavorite(p.id)?'Retirer des favoris':'Ajouter aux favoris'}">${isFavorite(p.id)?'♥':'♡'}</button>
+      <button type="button" class="favorite-btn ${fav?'active':''}" onclick="toggleGroupFavorite('${p.id}',event)" aria-label="${fav?'Retirer des favoris':'Ajouter aux favoris'}" title="${fav?'Retirer des favoris':'Ajouter aux favoris'}">${fav?'♥':'♡'}</button>
     </div>
     <div class="info">
       <div class="name">${p.nom}</div>
-      <div class="meta">${p.categorie||''} · Taille${productSizes(p).length>1?'s':''} ${productSizeLabel(p)||'—'}${p.sku?' · Réf. '+p.sku:''}</div>
+      <div class="meta">${p.categorie||''}${sizes.length?' · Pointure'+(sizes.length>1?'s':'')+' '+sizes.join(' · '):''}${p.sku?' · Réf. '+p.sku:''}</div>
       <div class="desc">${p.description||''}</div>
       <div class="prices">
         ${p.prixRetail?`<span class="retail">${euro(p.prixRetail)}</span>`:''}
@@ -3129,61 +3186,75 @@ function card(p){
       <div class="card-actions">
         ${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
-        <button class="btn add" ${canAdd?`onclick="add('${p.id}')"`:'disabled aria-disabled="true"'}>Ajouter au panier</button>
+        ${cartButton}
       </div>
     </div>
   </article>`;
 }
-function details(id){
+
+function toggleGroupFavorite(id,event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
   const p=products.find(x=>x.id===id);
   if(!p) return;
+  const variants=productVariants(p);
+  const allFav=variants.every(v=>isFavorite(v.id));
+  const ids=new Set(variants.map(v=>String(v.id)));
+  favorites=favorites.filter(x=>!ids.has(String(x)));
+  if(!allFav) favorites.push(...variants.map(v=>String(v.id)));
+  saveFavorites();
+  render();
+  updateFavoritesHeader();
+}
 
-  const canAdd=canAddToCart(p);
-  const fav=isFavorite(p.id);
+function details(id){
+  const requested=products.find(x=>x.id===id);
+  if(!requested) return;
+
+  const variants=productVariants(requested);
+  const selected=variants.find(v=>v.id===id) || variants.find(canAddToCart) || variants[0];
+  if(!selected) return;
+
+  const available=canAddToCart(selected);
+  const fav=variants.some(v=>isFavorite(v.id));
+  const hasSizes=variants.some(v=>String(v.taille||'').trim());
+
+  const sizeSelector=hasSizes && variants.length>1
+    ? `<div class="variant-size-picker" style="margin:12px 0">
+        <label for="detailVariantSize" style="display:block;font-weight:900;margin-bottom:6px">Choisir la pointure</label>
+        <select id="detailVariantSize" onchange="details(this.value)" style="width:100%;max-width:240px;padding:10px;border-radius:10px;border:1px solid #ddd">
+          ${variants.map(v=>{
+            const label=escapeHtml(v.taille||productSizeLabel(v)||'—');
+            const suffix=canAddToCart(v)?'':' — Indisponible';
+            return `<option value="${escapeHtml(v.id)}" ${v.id===selected.id?'selected':''} ${canAddToCart(v)?'':'disabled'}>${label}${suffix}</option>`;
+          }).join('')}
+        </select>
+      </div>`
+    : '';
 
   document.getElementById('detailBody').innerHTML=`
     <div class="detail-head">
-      <h2>${p.marque? escapeHtml(p.marque)+' — ':''}${escapeHtml(p.nom||'')}</h2>
+      <h2>${selected.marque? escapeHtml(selected.marque)+' — ':''}${escapeHtml(selected.nom||'')}</h2>
       <div class="detail-actions">
-        <button
-          type="button"
-          class="detail-action favorite-btn ${fav?'active':''}"
-          onclick="toggleDetailFavorite('${p.id}',event)"
-          aria-label="${fav?'Retirer des favoris':'Ajouter aux favoris'}"
-          title="${fav?'Retirer des favoris':'Ajouter aux favoris'}"
-        >${fav?'♥':'♡'}</button>
-        <button
-          type="button"
-          class="detail-action detail-cart-btn"
-          ${canAdd?`onclick="addFromDetail('${p.id}')"`:'disabled aria-disabled="true"'}
-          aria-label="Ajouter au panier"
-          title="${canAdd?'Ajouter au panier':'Produit indisponible'}"
-        >🛒</button>
-        <button
-          type="button"
-          class="detail-action detail-question-btn"
-          onclick="openProductQuestion('${p.id}')"
-          aria-label="Poser une question sur ce produit"
-          title="Poser une question"
-        >✉</button>
-        <button
-          type="button"
-          class="detail-action detail-whatsapp-btn"
-          onclick="shareProductWhatsApp('${p.id}')"
-          aria-label="Partager sur WhatsApp"
-          title="Partager sur WhatsApp"
-        >☏</button>
+        <button type="button" class="detail-action favorite-btn ${fav?'active':''}" onclick="toggleGroupFavorite('${selected.id}',event)" aria-label="${fav?'Retirer des favoris':'Ajouter aux favoris'}" title="${fav?'Retirer des favoris':'Ajouter aux favoris'}">${fav?'♥':'♡'}</button>
+        <button type="button" class="detail-action detail-cart-btn" ${available?`onclick="addFromDetail('${selected.id}')"`:'disabled aria-disabled="true"'} aria-label="Ajouter au panier" title="${available?'Ajouter au panier':'Pointure indisponible'}">🛒</button>
+        <button type="button" class="detail-action detail-question-btn" onclick="openProductQuestion('${selected.id}')" aria-label="Poser une question sur ce produit" title="Poser une question">✉</button>
+        <button type="button" class="detail-action detail-whatsapp-btn" onclick="shareProductWhatsApp('${selected.id}')" aria-label="Partager sur WhatsApp" title="Partager sur WhatsApp">☏</button>
       </div>
     </div>
-    ${stateBadge(p)}
-    <div class="meta">${escapeHtml(p.categorie||'')} · Taille${productSizes(p).length>1?'s':''} ${escapeHtml(productSizeLabel(p)||'—')} <span class="detail-status ${statusClass(p)}">${escapeHtml(p.statut||'')}</span></div>
-    <div class="detailphotos">${(p.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${p.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div>
-    <p class="detail-description">${escapeHtml(p.description||'Aucune description renseignée.')}</p>
-    <div class="sale">${euro(p.prixVente)}</div>
+    ${stateBadge(selected)}
+    <div class="meta">${escapeHtml(selected.categorie||'')}${selected.taille?' · Pointure '+escapeHtml(selected.taille):''} <span class="detail-status ${statusClass(selected)}">${escapeHtml(selected.statut||'')}</span></div>
+    ${sizeSelector}
+    <div class="detailphotos">${(selected.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${selected.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div>
+    <p class="detail-description">${escapeHtml(selected.description||'Aucune description renseignée.')}</p>
+    <div class="sale">${euro(selected.prixVente)}</div>
   `;
 
   document.getElementById('detail').classList.add('open');
 }
+
 function toggleDetailFavorite(id,event){
   if(event){
     event.preventDefault();
