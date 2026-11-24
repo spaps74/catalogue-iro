@@ -2394,8 +2394,17 @@ function normalizeGenre(value){
   return '';
 }
 
+function beautySection(p){
+  const sub=normSaleTxt(explicitSubcategory(p));
+  if(/^soins? de la personne$/.test(sub)) return 'Soins de la personne';
+  if(/^cosmetiques?$/.test(sub)) return 'Cosmétiques';
+  return '';
+}
+
 function genderMatchesProduct(p,genre){
   if(!genre) return true;
+  if(genre==='Soins de la personne' || genre==='Cosmétiques') return beautySection(p)===genre;
+  if(beautySection(p) && inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique') return false;
   const pg=normalizeGenre(p?.genre||'');
 
   if(genre==='Hommes') return pg==='Hommes' || pg==='Mixte';
@@ -2572,7 +2581,7 @@ function renderClothingGenreMenu(){
   });
   top.appendChild(all);
 
-  for(const genre of ['Femmes','Hommes','Enfants','Mixte']){
+  for(const genre of ['Femmes','Hommes','Enfants','Mixte','Soins de la personne','Cosmétiques']){
     if(!products.some(p=>(genre==='Enfants'?['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p)):inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique') && genderMatchesProduct(p,genre))) continue;
     const btn=document.createElement('button');
     btn.type='button';
@@ -2581,6 +2590,12 @@ function renderClothingGenreMenu(){
     btn.addEventListener('click',()=>{
       saleGenreFilter=genre;
       saleSubcatFilter='';
+      if(genre==='Soins de la personne' || genre==='Cosmétiques'){
+        const gender=document.getElementById('genre');
+        if(gender) gender.value='';
+        const size=document.getElementById('size');
+        if(size) size.value='';
+      }
       renderClothingGenreMenu();
       refreshSizeOptionsForCurrentCategory();
       render();
@@ -2592,7 +2607,8 @@ function renderClothingGenreMenu(){
   wrap.appendChild(top);
 
   {
-    const subs=saleGenreFilter ? clothingSubcategoriesForGenre(saleGenreFilter) : subcategoriesForSaleType('Mode, Soins de la personne, Cosmétique');
+    const isBeautySection=['Soins de la personne','Cosmétiques'].includes(saleGenreFilter);
+    const subs=isBeautySection ? [] : (saleGenreFilter ? clothingSubcategoriesForGenre(saleGenreFilter) : subcategoriesForSaleType('Mode, Soins de la personne, Cosmétique')).filter(sub=>!beautySection({sousCategorie:sub}));
 
     if(subs.length){
       const subWrap=document.createElement('div');
