@@ -2013,6 +2013,7 @@ function renderList(){
               <div class="muted">
                 ${p.miseEnPremierePage?'⭐ Première page · ':''}
                 ${escapeHtmlValue(p.categorie||'')}
+                ${(p.sousCategorie||p.sous_categorie)?' · Sous-catégorie : '+escapeHtmlValue(p.sousCategorie||p.sous_categorie):''}
                 ${p.genre?' · '+escapeHtmlValue(p.genre):''}
                 · Taille${productSizes(p).length>1?'s':''} ${escapeHtmlValue(productSizes(p).join(' / ')||'—')}
                 · ${Number(p.prixVente||0).toFixed(2)} €
