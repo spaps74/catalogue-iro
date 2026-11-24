@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Sacoche noire iMedic Deluxe pour fauteuil roulant, fixation aux poignées",
+    "marque": "iMedic",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Accessoires pour fauteuil roulant",
+    "genre": "",
+    "prixRetail": 29,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 2,
+    "description": "Cette sacoche iMedic Deluxe noire, neuve, se fixe aux poignées d’un fauteuil roulant pour ranger vos effets personnels à l’arrière du dossier. Elle dispose de plusieurs rangements zippés, dont des poches en façade, et d’une poignée de transport sur le dessus. Les dimensions indiquées sur le visuel sont de 37 cm de hauteur, 33 cm de largeur et 18 cm de profondeur. Vérifiez ces mesures avant l’achat pour vous assurer qu’elle convient à votre fauteuil.",
+    "photos": [
+      "photos/imedic-1795556968568-1.jpg",
+      "photos/imedic-1795556970209-2.jpg",
+      "photos/imedic-1795556972073-3.jpg",
+      "photos/imedic-1795556973914-4.jpg",
+      "photos/imedic-1795556975682-5.jpg"
+    ],
+    "id": "imedic-sacoche-noire-imedic-deluxe-pour-fauteuil-roulant-fixation-aux-poignees-1795556961471--taille-unique",
+    "variantGroupId": "imedic-sacoche-noire-imedic-deluxe-pour-fauteuil-roulant-fixation-aux-poignees-1795556961471",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T21:49:37.656Z",
+    "updatedAt": "2026-11-24T21:49:37.656Z"
+  },
+  {
     "nom": "Chaussettes sportives femme coton imprimé léopard lot de 4 tailles 35-38 – Multicolore",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
