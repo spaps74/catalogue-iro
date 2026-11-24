@@ -1,5 +1,36 @@
 [
   {
+    "nom": "Westt – Casque moto noir mat taille S avec mentonnière relevable",
+    "marque": "Westt",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques moto",
+    "genre": "",
+    "prixRetail": 149,
+    "prixVente": 69,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque de moto Westt noir mat en taille S, neuf avec étiquettes. Sa mentonnière renforcée est relevable, comme le montrent les photos. Il dispose d’une visière transparente et d’un écran intérieur teinté. Les certifications ECE et DOT sont indiquées dans les informations fournies.",
+    "photos": [
+      "photos/westt-1795545185521-1.jpg",
+      "photos/westt-1795545187365-2.jpg",
+      "photos/westt-1795545188954-3.jpg",
+      "photos/westt-1795545190657-4.jpg"
+    ],
+    "id": "westt-westt-casque-moto-noir-mat-taille-s-avec-mentonniere-relevable-1795545184646--taille-s",
+    "variantGroupId": "westt-westt-casque-moto-noir-mat-taille-s-avec-mentonniere-relevable-1795545184646",
+    "variantSize": "S",
+    "tailles": [
+      "S"
+    ],
+    "taille": "S",
+    "createdAt": "2026-11-24T18:33:12.796Z",
+    "updatedAt": "2026-11-24T18:33:12.796Z"
+  },
+  {
     "nom": "Casque Bluetooth 5.4 avec traduction IA en 164 langues",
     "marque": "Autres",
     "etatProduit": "Neuf",
