@@ -1966,13 +1966,14 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": true,
     "categorie": "Mode",
-    "sousCategorie": "doudounes",
+    "sousCategorie": "Doudounes sans manches",
     "genre": "Femmes",
     "taille": "",
     "prixRetail": 129,
     "prixVente": 42,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "🔥 Superbe doudoune sans manches Calvin Klein Golf, modèle Chill Force, neuve avec ses étiquettes d'origine !\n\n✨ Caractéristiques :\n\nMarque : Calvin Klein Golf\n\nCollection : Chill Force\n\nRéférence : D10026\n\nTaille : EU 38 / US 8\n\nCouleur : vert sauge\n\nMatelassage vertical sur le devant\n\nFermeture intégrale zippée\n\nCol montant protecteur\n\nEmpiècements en tissu souple sur les côtés\n\nLogo CK brodé sur la poitrine\n\nStyle sportif, chic et moderne\n\n💚 Idéale pour le golf, les activités en extérieur ou pour compléter une tenue casual et élégante à la mi-saison.\n\n📦 Envoi rapide et soigné.",
     "photos": [
@@ -1980,7 +1981,9 @@
       "photos/calvin-klein-doudoune-sans-manches-calvin-klein-golf-portland-hybrid-vert-sauge-1794898599920-2.jpg",
       "photos/calvin-klein-doudoune-sans-manches-calvin-klein-golf-portland-hybrid-vert-sauge-1794898601537-3.jpg",
       "photos/calvin-klein-doudoune-sans-manches-calvin-klein-golf-portland-hybrid-vert-sauge-1794898603208-4.jpg"
-    ]
+    ],
+    "createdAt": "2026-11-17T06:56:38.183Z",
+    "updatedAt": "2026-11-24T05:48:50.817Z"
   },
   {
     "id": "dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir",
