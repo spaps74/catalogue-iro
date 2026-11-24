@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Casque vélo adulte Findway violet – Taille unique, 14 canaux de ventilation",
+    "marque": "Findway",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce casque de vélo Findway pour adulte, neuf et en taille unique, présente un coloris violet avec une bordure claire et une courte visière intégrée. Il dispose de 14 canaux de ventilation et d’une mentonnière réglable. Une molette de réglage est visible à l’arrière. Il est également doté du système PopLock anti-vol.",
+    "photos": [
+      "photos/findway-1795549233870-1.jpg"
+    ],
+    "id": "findway-casque-velo-adulte-findway-violet-taille-unique-14-canaux-de-ventilation-1795549233050--taille-unique",
+    "variantGroupId": "findway-casque-velo-adulte-findway-violet-taille-unique-14-canaux-de-ventilation-1795549233050",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T19:40:35.403Z",
+    "updatedAt": "2026-11-24T19:40:35.403Z"
+  },
+  {
     "nom": "Casque vélo et trottinette ILM MB101L blanc L-XL avec visière et clignotants",
     "marque": "ILM",
     "etatProduit": "Neuf",
