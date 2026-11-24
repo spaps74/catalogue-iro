@@ -4,8 +4,8 @@
     "marque": "Jefedana",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
-    "categorie": "Maison, Déco, Cosmétiques",
-    "sousCategorie": "",
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Jardin",
     "genre": "",
     "prixRetail": 29,
     "prixVente": 15,
@@ -27,7 +27,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T21:01:02.279Z",
-    "updatedAt": "2026-11-24T21:01:02.279Z"
+    "updatedAt": "2026-11-24T21:01:38.779Z"
   },
   {
     "nom": "G2RISE Masque de plongée intégral blanc et bleu avec tuba détachable",
