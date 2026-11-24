@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Casque Bluetooth 5.4 avec traduction IA en 164 langues",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Casques Bluetooth",
+    "genre": "",
+    "prixRetail": 40,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce casque Bluetooth intègre une fonction de traduction par intelligence artificielle annoncée pour 164 langues. Il dispose d’une connexion Bluetooth 5.4. Marque renseignée : Autres. Produit neuf.",
+    "photos": [
+      "photos/autres-1795545078389-1.jpg"
+    ],
+    "id": "autres-casque-bluetooth-5-4-avec-traduction-ia-en-164-langues-1795545077596--taille-unique",
+    "variantGroupId": "autres-casque-bluetooth-5-4-avec-traduction-ia-en-164-langues-1795545077596",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T18:31:19.986Z",
+    "updatedAt": "2026-11-24T18:31:19.986Z"
+  },
+  {
     "nom": "Casque vélo mixte Victgoal noir avec lunettes magnétiques et éclairage USB",
     "marque": "Victgoal",
     "etatProduit": "Neuf avec étiquettes",
