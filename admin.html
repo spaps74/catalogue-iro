@@ -702,12 +702,12 @@
     Les sous-catégories déjà utilisées dans cette catégorie sont proposées automatiquement.
   </div>
 </div>
-<label>Taille</label>
-<select id="taille">
-  <option value="">Sélectionner une taille</option>
+<label>Tailles</label>
+<select id="taille" multiple size="6">
   <option value="__new__">+ Ajouter une nouvelle taille</option>
 </select>
-<input id="tailleNew" type="text" placeholder="Nouvelle taille" autocomplete="off" style="display:none;margin-top:8px">
+<input id="tailleNew" type="text" placeholder="Nouvelle(s) taille(s), séparées par une virgule" autocomplete="off" style="display:none;margin-top:8px">
+<div class="muted" style="margin-top:6px">Sélectionne une ou plusieurs tailles. Pour en créer plusieurs, saisis par exemple : XS, S, M.</div>
 </div>
 <div><label>Genre</label><select id="genre">
   <option value="">Non renseigné</option>
@@ -1968,7 +1968,7 @@ function renderList(){
   const list=products.filter(p=>{
     if(!q) return true;
     const hay=[
-      p.nom,p.marque,p.categorie,p.taille,p.sku,p.gtin,p.ean,p.upc,p.statut,p.description,p.prixVente,p.prixRetail
+      p.nom,p.marque,p.categorie,productSizes(p).join(' '),p.sku,p.gtin,p.ean,p.upc,p.statut,p.description,p.prixVente,p.prixRetail
     ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     return hay.includes(q);
   });
@@ -1989,7 +1989,7 @@ function renderList(){
                 ${p.miseEnPremierePage?'⭐ Première page · ':''}
                 ${escapeHtmlValue(p.categorie||'')}
                 ${p.genre?' · '+escapeHtmlValue(p.genre):''}
-                · Taille ${escapeHtmlValue(p.taille||'—')}
+                · Taille${productSizes(p).length>1?'s':''} ${escapeHtmlValue(productSizes(p).join(' / ')||'—')}
                 · ${Number(p.prixVente||0).toFixed(2)} €
                 · ${escapeHtmlValue(p.statut||'')}
                 ${p.sku?' · SKU '+escapeHtmlValue(p.sku):''}${p.gtin?' · GTIN '+escapeHtmlValue(p.gtin):''}
@@ -2399,15 +2399,59 @@ function normalizeSizeValue(s){
     .trim();
 }
 
-function getCurrentSize(){
+function splitSizeValues(value){
+  if(Array.isArray(value)) return value.map(v=>String(v||'').trim()).filter(Boolean);
+  const raw=String(value||'').trim();
+  if(!raw) return [];
+  return raw
+    .split(/\s*(?:,|;|\/)\s*/)
+    .map(v=>v.trim())
+    .filter(Boolean);
+}
+
+function productSizes(p){
+  const values=Array.isArray(p?.tailles) && p.tailles.length
+    ? p.tailles
+    : splitSizeValues(p?.taille||'');
+  const out=[];
+  const seen=new Set();
+  for(const value of values){
+    const clean=String(value||'').trim();
+    const key=normalizeSizeValue(clean);
+    if(!clean || seen.has(key)) continue;
+    seen.add(key);
+    out.push(clean);
+  }
+  return out;
+}
+
+function getCurrentSizes(){
   const sel=$('taille');
   const input=$('tailleNew');
-  if(!sel) return '';
+  if(!sel) return [];
 
-  if(sel.value==='__new__'){
-    return (input?.value||'').trim();
+  const values=[...sel.selectedOptions]
+    .map(o=>o.value)
+    .filter(v=>v && v!=='__new__');
+
+  if([...sel.selectedOptions].some(o=>o.value==='__new__')){
+    values.push(...splitSizeValues(input?.value||''));
   }
-  return (sel.value||'').trim();
+
+  const out=[];
+  const seen=new Set();
+  for(const value of values){
+    const clean=String(value||'').trim();
+    const key=normalizeSizeValue(clean);
+    if(!clean || seen.has(key)) continue;
+    seen.add(key);
+    out.push(clean);
+  }
+  return out;
+}
+
+function getCurrentSize(){
+  return getCurrentSizes().join(' / ');
 }
 
 function refreshSizeSuggestions(selectedValue=''){
@@ -2417,39 +2461,33 @@ function refreshSizeSuggestions(selectedValue=''){
 
   const byKey=new Map();
   for(const p of products){
-    const value=String(p?.taille||'').trim();
-    if(!value) continue;
+    for(const value of productSizes(p)){
+      const key=normalizeSizeValue(value);
+      if(!byKey.has(key)) byKey.set(key,value);
+    }
+  }
+
+  const wanted=splitSizeValues(selectedValue);
+  for(const value of wanted){
     const key=normalizeSizeValue(value);
     if(!byKey.has(key)) byKey.set(key,value);
   }
 
-  const sizes=[...byKey.values()].sort((a,b)=>
-    a.localeCompare(b,'fr',{numeric:true,sensitivity:'base'})
+  const sizes=[...byKey.values()].sort((x,y)=>
+    x.localeCompare(y,'fr',{numeric:true,sensitivity:'base'})
   );
 
   sel.innerHTML=
-    '<option value="">Sélectionner une taille</option>'+
     sizes.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('')+
     '<option value="__new__">+ Ajouter une nouvelle taille</option>';
 
-  const wanted=String(selectedValue||'').trim();
-  if(!wanted){
-    sel.value='';
-    input.value='';
-    input.style.display='none';
-    return;
-  }
+  const wantedKeys=new Set(wanted.map(normalizeSizeValue));
+  [...sel.options].forEach(option=>{
+    option.selected=option.value!=='__new__' && wantedKeys.has(normalizeSizeValue(option.value));
+  });
 
-  const found=sizes.find(v=>normalizeSizeValue(v)===normalizeSizeValue(wanted));
-  if(found){
-    sel.value=found;
-    input.value='';
-    input.style.display='none';
-  }else{
-    sel.value='__new__';
-    input.value=wanted;
-    input.style.display='block';
-  }
+  input.value='';
+  input.style.display='none';
 }
 
 function bindSizeControls(){
@@ -2458,13 +2496,10 @@ function bindSizeControls(){
   if(!sel || !input) return;
 
   sel.addEventListener('change',()=>{
-    if(sel.value==='__new__'){
-      input.style.display='block';
-      input.focus();
-    }else{
-      input.style.display='none';
-      input.value='';
-    }
+    const addNew=[...sel.selectedOptions].some(o=>o.value==='__new__');
+    input.style.display=addNew?'block':'none';
+    if(addNew) input.focus();
+    else input.value='';
   });
 }
 
@@ -2644,7 +2679,7 @@ function edit(id){
 
   refreshCategories(category);
   refreshSousCategories(p.sousCategorie||p.sous_categorie||'');
-  refreshSizeSuggestions(p.taille||'');
+  refreshSizeSuggestions(p.tailles||p.taille||'');
 
   if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';
   if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;
@@ -3505,7 +3540,7 @@ async function publish(options={}){
   try{
     const fd=new FormData();
     const data={
-      id:editing||slug($('marque').value+'-'+$('nom').value+'-'+$('taille').value),
+      id:editing||slug($('marque').value+'-'+$('nom').value+'-'+getCurrentSize()),
       nom:$('nom').value.trim(),
       marque:$('marque').value.trim(),
       etatProduit:$('etatProduit').value,
@@ -3513,6 +3548,7 @@ async function publish(options={}){
       categorie:getCurrentCategory(),
       sousCategorie: getCurrentSousCategorie(),
       genre:$('genre')?.value||'',
+      tailles:getCurrentSizes(),
       taille:getCurrentSize(),
       prixRetail:Number($('retail').value||0),
       prixVente:Number($('vente').value||0),
@@ -3587,7 +3623,7 @@ async function publish(options={}){
     renderList();
     refreshCategories(data.categorie);
     refreshSousCategories(data.sousCategorie||'');
-    refreshSizeSuggestions(data.taille||'');
+    refreshSizeSuggestions(data.tailles||data.taille||'');
 
     // À ce stade, l'article a été relu depuis l'API et sa présence dans
     // produits.json est confirmée. On peut donc repartir sans risque.
