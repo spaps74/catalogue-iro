@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Alimentation Dewin sur rail DIN 12 V 2 A pour contrôle industriel",
+    "marque": "Dewin",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Alimentations électriques",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 13,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Alimentation Dewin neuve, conçue pour un montage sur rail DIN dans les systèmes de contrôle industriels. Elle délivre une sortie de 12 V à 2 A et accepte une entrée de 100 à 240 V CA, à 50/60 Hz. La référence HDR-30-12 est visible sur la façade. Son boîtier noir comporte des bornes repérées pour l’entrée et la sortie ainsi qu’un réglage de la tension de sortie.",
+    "photos": [
+      "photos/dewin-1795550417400-1.jpg"
+    ],
+    "id": "dewin-alimentation-dewin-sur-rail-din-12-v-2-a-pour-controle-industriel-1795550416454--taille-unique",
+    "variantGroupId": "dewin-alimentation-dewin-sur-rail-din-12-v-2-a-pour-controle-industriel-1795550416454",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:00:18.894Z",
+    "updatedAt": "2026-11-24T20:00:18.894Z"
+  },
+  {
     "nom": "Casque vélo adulte Findway violet – Taille unique, 14 canaux de ventilation",
     "marque": "Findway",
     "etatProduit": "Neuf",
