@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Chaussettes sportives femme coton imprimé léopard lot de 4 tailles 35-38 – Multicolore",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "Chausettes",
+    "genre": "",
+    "prixRetail": 22.8,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 6,
+    "description": "",
+    "photos": [
+      "photos/autres-1795556725881-1.jpg",
+      "photos/autres-1795556727595-2.jpg",
+      "photos/autres-1795556729452-3.jpg",
+      "photos/autres-1795556731110-4.jpg"
+    ],
+    "id": "autres-chaussettes-sportives-femme-coton-imprime-leopard-lot-de-4-tailles-35-38-multicolore-1795556723963--taille-unique",
+    "variantGroupId": "autres-chaussettes-sportives-femme-coton-imprime-leopard-lot-de-4-tailles-35-38-multicolore-1795556723963",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T21:45:33.047Z",
+    "updatedAt": "2026-11-24T21:45:33.047Z"
+  },
+  {
     "nom": "Pare-brise déflecteur PSLER pour TMAX 530 2012-2016 – Noir mat",
     "marque": "PSLER",
     "etatProduit": "Retour Amazon comme neuf",
