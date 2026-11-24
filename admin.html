@@ -2360,12 +2360,8 @@ function refreshSousCategories(selectedValue=''){
     if(!byKey.has(key)) byKey.set(key,sub);
   }
 
-  for(const sub of registeredSubcategoriesFor(selectedCategory)){
-    const clean=capitalizeSubcategory(sub);
-    if(!clean) continue;
-    const key=normalizeSubcat(clean);
-    if(!byKey.has(key)) byKey.set(key,clean);
-  }
+  // Les sous-catégories proviennent uniquement des fiches existantes.
+  // Ne pas réintroduire les anciennes valeurs du registre local.
 
   const existing=[...byKey.values()]
     .sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
