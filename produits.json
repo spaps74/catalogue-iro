@@ -1,5 +1,37 @@
 [
   {
+    "nom": "VICTGOAL Casque Velo Casque VTT avec Lunettes de Sécurité Magnétiques Amovibles Visière Détachable Casque Léger pour Adultes",
+    "marque": "Victgoal",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "",
+    "prixRetail": 53,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "",
+    "photos": [
+      "photos/victgoal-1795542776513-1.jpg",
+      "photos/victgoal-1795542778566-2.jpg",
+      "photos/victgoal-1795542780405-3.jpg",
+      "photos/victgoal-1795542782128-4.jpg",
+      "photos/victgoal-1795542783656-5.jpg"
+    ],
+    "id": "victgoal-victgoal-casque-velo-casque-vtt-avec-lunettes-de-securite-magnetiques-amovibles-visiere-detachable-casque-leger-pour-adultes-1795542774932--taille-m",
+    "variantGroupId": "victgoal-victgoal-casque-velo-casque-vtt-avec-lunettes-de-securite-magnetiques-amovibles-visiere-detachable-casque-leger-pour-adultes-1795542774932",
+    "variantSize": "M",
+    "tailles": [
+      "M"
+    ],
+    "taille": "M",
+    "createdAt": "2026-11-24T17:53:05.652Z",
+    "updatedAt": "2026-11-24T17:53:05.652Z"
+  },
+  {
     "nom": "Tessan Adaptateur universel de voyage GaN 65 W PD avec 5 ports USB dont 3 USB-C",
     "marque": "Tessan",
     "etatProduit": "Neuf avec étiquettes",
