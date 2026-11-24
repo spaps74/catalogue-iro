@@ -1972,7 +1972,8 @@ body.category-focus #catalogTitle{
 </div>
 <script>
 
-// Toujours démarrer la boutique en haut après un chargement ou un rafraîchissement.
+// Toujours démarrer la boutique en haut après un chargement ou un rafraîchissement,
+// sans lancer de reset différé susceptible d'annuler le premier clic utilisateur.
 if('scrollRestoration' in history){
   history.scrollRestoration='manual';
 }
@@ -1981,15 +1982,31 @@ function forcePageTop(){
   window.scrollTo(0,0);
 }
 
+let startupScrollResetActive=true;
+
+function stopStartupScrollReset(){
+  startupScrollResetActive=false;
+}
+
+window.addEventListener('pointerdown',stopStartupScrollReset,{once:true,passive:true});
+window.addEventListener('keydown',stopStartupScrollReset,{once:true});
+
 window.addEventListener('load',()=>{
+  if(!startupScrollResetActive) return;
   forcePageTop();
-  requestAnimationFrame(forcePageTop);
-  setTimeout(forcePageTop,50);
+  requestAnimationFrame(()=>{
+    if(startupScrollResetActive) forcePageTop();
+    startupScrollResetActive=false;
+  });
 });
 
-window.addEventListener('pageshow',()=>{
-  forcePageTop();
-  requestAnimationFrame(forcePageTop);
+window.addEventListener('pageshow',event=>{
+  // Sur un retour depuis le cache navigateur, ne jamais réécrire la position
+  // après que l'utilisateur a commencé à interagir avec la page.
+  if(event.persisted && startupScrollResetActive){
+    forcePageTop();
+    startupScrollResetActive=false;
+  }
 });
 
 // Bandeau supérieur : visible uniquement tout en haut.
@@ -2570,38 +2587,52 @@ function renderSubcategoryMenu(type){
   target.classList.add('open');
 }
 
+let categoryScrollToken=0;
+
 function scrollToArticlesStart(){
-  // Au premier clic catégorie, la page change fortement de hauteur :
-  // les deals disparaissent et les sous-catégories apparaissent.
-  // Comme html utilise scroll-behavior:smooth, behavior:"auto" pouvait
-  // encore produire une animation pendant ce recalcul => descente/remontée.
-  // On attend que le layout soit stable puis on force CE scroll en instantané.
+  // Le premier clic utilisateur annule définitivement les éventuels resets
+  // de position du démarrage de page.
+  stopStartupScrollReset();
+
+  const token=++categoryScrollToken;
+
   requestAnimationFrame(()=>{
     requestAnimationFrame(()=>{
+      const catalogue=document.getElementById('catalogue');
+      if(!catalogue || token!==categoryScrollToken) return;
+
+      const topGap=Math.max(24,Math.min(48,window.innerHeight*0.04));
+      const targetTop=Math.max(
+        0,
+        window.scrollY + catalogue.getBoundingClientRect().top - topGap
+      );
+
+      window.scrollTo({
+        top:targetTop,
+        behavior:'smooth'
+      });
+
+      // Une fois l'animation terminée, on contrôle que les changements de
+      // hauteur (header/sous-catégories/images) n'ont pas déplacé la cible.
       setTimeout(()=>{
-        const catalogue=document.getElementById('catalogue');
-        if(!catalogue) return;
+        if(token!==categoryScrollToken) return;
 
-        const topGap=Math.max(24,Math.min(48,window.innerHeight*0.04));
-        const targetTop=Math.max(
-          0,
-          window.scrollY + catalogue.getBoundingClientRect().top - topGap
-        );
+        const currentCatalogue=document.getElementById('catalogue');
+        if(!currentCatalogue) return;
 
-        const html=document.documentElement;
-        const previousScrollBehavior=html.style.scrollBehavior;
-        const previousOverflowAnchor=html.style.overflowAnchor;
+        const expectedTop=topGap;
+        const actualTop=currentCatalogue.getBoundingClientRect().top;
+        const drift=actualTop-expectedTop;
 
-        html.style.scrollBehavior='auto';
-        html.style.overflowAnchor='none';
-
-        window.scrollTo(0,targetTop);
-
-        requestAnimationFrame(()=>{
-          html.style.scrollBehavior=previousScrollBehavior;
-          html.style.overflowAnchor=previousOverflowAnchor;
-        });
-      },40);
+        // Correction uniquement si le catalogue a réellement bougé.
+        // Le petit ajustement reste fluide et empêche la page de remonter.
+        if(Math.abs(drift)>6){
+          window.scrollTo({
+            top:Math.max(0,window.scrollY+drift),
+            behavior:'smooth'
+          });
+        }
+      },650);
     });
   });
 }
