@@ -791,7 +791,6 @@
     "updatedAt": "2026-11-23T09:22:38.939Z"
   },
   {
-    "id": "sezane-pull-long-sezane-68-baby-alpaga-camel",
     "nom": "Pull long SÉZANE – 68 % Baby Alpaga – Camel",
     "marque": "Sézane",
     "etatProduit": "Seconde main",
@@ -799,11 +798,11 @@
     "categorie": "Mode",
     "sousCategorie": "Pulls",
     "genre": "Femmes",
-    "taille": "",
     "prixRetail": 249,
     "prixVente": 59,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Magnifique pull long Sézane – La Maille Sézane, dans une superbe teinte camel / marron cognac.\n\nUne pièce élégante et intemporelle, confectionnée dans une maille douce et duveteuse, riche en baby alpaga.\n\n✨ Caractéristiques :\n\nMarque : Sézane\n\nTaille : M\n\nCouleur : camel / marron chaud\n\nComposition : 68 % baby alpaga, 30 % polyamide, 2 % élasthanne\n\nCoupe : longue et confortable\n\nCol : rond avec finitions côtelées\n\nManches : longues\n\nFinitions : poignets et bas côtelés\n\n🤎 Une très belle pièce à porter seule avec une ceinture ou avec un jean, un pantalon habillé ou des bottes pour un look chic et décontracté.",
     "photos": [
@@ -812,8 +811,13 @@
       "photos/sezane-1795374189587-3.jpg",
       "photos/sezane-1795374191449-4.jpg"
     ],
+    "id": "sezane-pull-long-sezane-68-baby-alpaga-camel",
+    "variantGroupId": "sezane-pull-long-sezane-68-baby-alpaga-camel",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-22T19:03:12.990Z",
-    "updatedAt": "2026-11-22T19:03:12.990Z"
+    "updatedAt": "2026-11-24T18:26:08.453Z"
   },
   {
     "id": "alexander-sachs-cravate-alexander-sachs-60-soie-beige-a-pois-gris",
