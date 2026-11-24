@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Uvex exxential III – Casque d’équitation noir léger, taille L-XL",
+    "marque": "Uvex",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques d’équitation",
+    "genre": "",
+    "prixRetail": 129,
+    "prixVente": 65,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque d’équitation Uvex exxential III neuf, en taille L-XL. Ce modèle léger dispose d’un ajustement individuel et d’une jugulaire réglable avec fermeture sous le menton. Sa finition noire mate est associée à une visière courte et à des ouvertures d’aération sur le dessus et à l’arrière.",
+    "photos": [
+      "photos/uvex-1795548809569-1.jpg",
+      "photos/uvex-1795548811624-2.jpg",
+      "photos/uvex-1795548813492-3.jpg",
+      "photos/uvex-1795548815521-4.jpg",
+      "photos/uvex-1795548817595-5.jpg"
+    ],
+    "id": "uvex-uvex-exxential-iii-casque-d-equitation-noir-leger-taille-l-xl-1795548807974--taille-l-xl",
+    "variantGroupId": "uvex-uvex-exxential-iii-casque-d-equitation-noir-leger-taille-l-xl-1795548807974",
+    "variantSize": "L-XL",
+    "tailles": [
+      "L-XL"
+    ],
+    "taille": "L-XL",
+    "createdAt": "2026-11-24T19:33:39.191Z",
+    "updatedAt": "2026-11-24T19:33:39.191Z"
+  },
+  {
     "nom": "Casque vélo ILM E3-10L gris L/XL avec visière, LED et cadenas – Neuf",
     "marque": "ILM",
     "etatProduit": "Neuf",
