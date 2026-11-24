@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Alimentation LED Geeklux 200 W – transformateur 220 V vers 12 V, IP20",
+    "marque": "Geeklux",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "prixRetail": 89,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 8,
+    "description": "Cette alimentation LED Geeklux neuve convertit le 220 V en 12 V, pour une puissance annoncée de 200 W. Son format compact et mince présente un boîtier gris ajouré et des borniers à vis aux extrémités. Elle dispose de quatre commutateurs de réglage visibles sur la photo. Annoncée sans bruit et sans clignotement, elle bénéficie d’un indice de protection IP20 pour une utilisation en intérieur.",
+    "photos": [
+      "photos/geeklux-1795558430998-1.jpg"
+    ],
+    "id": "geeklux-alimentation-led-geeklux-200-w-transformateur-220-v-vers-12-v-ip20-1795558430426--taille-unique",
+    "variantGroupId": "geeklux-alimentation-led-geeklux-200-w-transformateur-220-v-vers-12-v-ip20-1795558430426",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T22:13:52.774Z",
+    "updatedAt": "2026-11-24T22:13:52.774Z"
+  },
+  {
     "nom": "Bali Curls Curl Travel Kit – 5 soins pour boucles en format voyage",
     "marque": "Bali Curls",
     "etatProduit": "Neuf avec étiquettes",
