@@ -1,5 +1,37 @@
 [
   {
+    "nom": "VICTGOAL Casque Velo Casque VTT avec Lunettes de Sécurité Magnétiques Amovibles Visière Détachable Casque Léger pour Adultes",
+    "marque": "Victgoal",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "Mixte",
+    "prixRetail": 53,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque de vélo adulte VICTGOAL avec lumière LED intégrée, idéal pour la pratique du VTT et la sécurité en toutes conditions.\n- Type de produit : Casque\n- Marque : VICTGOAL\n- Pratique : VTT / Cyclisme adulte\n- Univers : Mixte\n- Taille : XL\n- Couleur : jaune\n- Accessoires inclus : Lumière LED arrière, Visière amovible, Sangle de maintien réglable",
+    "photos": [
+      "photos/victgoal-1795540530984-1.jpg",
+      "photos/victgoal-1795540532747-2.jpg",
+      "photos/victgoal-1795540534316-3.jpg",
+      "photos/victgoal-1795540536129-4.jpg",
+      "photos/victgoal-1795540538238-5.jpg"
+    ],
+    "id": "victgoal-victgoal-casque-velo-casque-vtt-avec-lunettes-de-securite-magnetiques-amovibles-visiere-detachable-casque-leger-pour-adultes-1795540528317--taille-xl",
+    "variantGroupId": "victgoal-victgoal-casque-velo-casque-vtt-avec-lunettes-de-securite-magnetiques-amovibles-visiere-detachable-casque-leger-pour-adultes-1795540528317",
+    "variantSize": "XL",
+    "tailles": [
+      "XL"
+    ],
+    "taille": "XL",
+    "createdAt": "2026-11-24T17:15:40.423Z",
+    "updatedAt": "2026-11-24T17:15:40.423Z"
+  },
+  {
     "nom": "SHEGLAM Brosse Thermique Vapeur, Brosse Ronde 4-en-1 38 mm 3 modes vapeur, nano-vapeur anti-chaleur, chauffe vite, moins de dégâts, anti-frizz, Dual Voltage, volume, longue tenue",
     "marque": "Sheglam",
     "etatProduit": "Neuf avec étiquettes",
