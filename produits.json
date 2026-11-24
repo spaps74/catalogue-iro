@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Xmatt – Câble Ethernet étanche 45 m pour Starlink Gen 3 / Satellite V3",
+    "marque": "Xmatt",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Câbles Starlink",
+    "genre": "",
+    "prixRetail": 90,
+    "prixVente": 45,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Câble Ethernet Xmatt de 45 m, prévu pour remplacer le câble d’une installation Starlink Standard Actuated Gen 3 / Satellite V3 selon la compatibilité indiquée. De couleur grise, il comporte deux connecteurs avec manchons de protection. Son étanchéité est indiquée dans les informations produit. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/xmatt-1795550706889-1.jpg",
+      "photos/xmatt-1795550708873-2.jpg",
+      "photos/xmatt-1795550710854-3.jpg",
+      "photos/xmatt-1795550712852-4.jpg",
+      "photos/xmatt-1795550714473-5.jpg"
+    ],
+    "id": "xmatt-xmatt-cable-ethernet-etanche-45-m-pour-starlink-gen-3-satellite-v3-1795550705758--taille-unique",
+    "variantGroupId": "xmatt-xmatt-cable-ethernet-etanche-45-m-pour-starlink-gen-3-satellite-v3-1795550705758",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:05:16.255Z",
+    "updatedAt": "2026-11-24T20:05:16.255Z"
+  },
+  {
     "nom": "2 en 1 pour câble Ethernet Starlink Mini 9,99m/32,8pieds, pour câble d'alimentation Starlink Mini + câble Ethernet RJ45, DC à DC, câble d'alimentation DC à C de remplacement étanche",
     "marque": "HanCenDa",
     "etatProduit": "Retour Amazon comme neuf",
