@@ -5,7 +5,7 @@
     "etatProduit": "Neuf",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques de vélo",
+    "sousCategorie": "Casques de vélo/trottinette",
     "genre": "",
     "prixRetail": 83,
     "prixVente": 39,
@@ -29,7 +29,7 @@
     ],
     "taille": "L-XL",
     "createdAt": "2026-11-24T19:25:42.939Z",
-    "updatedAt": "2026-11-24T19:25:42.939Z"
+    "updatedAt": "2026-11-24T19:28:03.997Z"
   },
   {
     "nom": "Victgoal Casque vélo et VTT adulte avec lunettes magnétiques et visière détachable",
