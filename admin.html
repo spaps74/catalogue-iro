@@ -2014,7 +2014,9 @@ async function connect(){
 
     renderList();
     closeBrandSuggestions();
+    const currentSubcategory=getCurrentSousCategorie();
     refreshCategories(getCurrentCategory());
+    refreshSousCategories(currentSubcategory);
     refreshSizeSuggestions();
     updateCheckProductsButton();
     setConnectionStatus(`✅ Connexion réussie — ${products.length} article(s) · ${brands.length} marque(s).`,'ok');
@@ -2216,11 +2218,13 @@ function escapeHtmlValue(s){
 }
 
 function normalizeCategory(s){
-  return String(s||'')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g,'')
-    .toLowerCase()
-    .trim();
+  const key=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  if(key==='maison' || key.startsWith('maison ') || key==='pour la maison') return 'maison soins de la personne animaux';
+  if(['vetements','vetement','mode'].includes(key)) return 'mode';
+  if(['chaussures','basket','baskets','baskets chaussures','chaussures baskets'].includes(key)) return 'chaussures baskets';
+  if(['informatique','informatique tech','high tech'].includes(key)) return 'high tech';
+  if(['sport','sports','loisirs'].includes(key)) return 'loisirs';
+  return key;
 }
 
 function getCurrentCategory(){
