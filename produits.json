@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Skön Life Needs Detox – Masque visage détoxifiant à la vitamine C, 50 ml",
+    "marque": "Skön",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Masques visage",
+    "genre": "",
+    "prixRetail": 22.38,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 18,
+    "description": "Le masque visage Skön Life Needs Detox est un soin détoxifiant et purifiant à l'action antioxydante. Sa formule associe vitamine C, acide hyaluronique et argile verte ventilée. Il convient à tous les types de peau. Présenté en tube de 50 ml avec bouchon à vis. Produit neuf avec étiquettes.",
+    "photos": [
+      "photos/skon-1795553215778-1.jpg"
+    ],
+    "id": "skon-skon-life-needs-detox-masque-visage-detoxifiant-a-la-vitamine-c-50-ml-1795553213999--taille-unique",
+    "variantGroupId": "skon-skon-life-needs-detox-masque-visage-detoxifiant-a-la-vitamine-c-50-ml-1795553213999",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:46:57.943Z",
+    "updatedAt": "2026-11-24T20:46:57.943Z"
+  },
+  {
     "nom": "Skön Abrakadabra Glow – Fond de teint sérum SPF30 Golden Tan",
     "marque": "Skön",
     "etatProduit": "Neuf avec étiquettes",
