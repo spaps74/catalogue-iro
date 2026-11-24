@@ -850,6 +850,27 @@ let eanTorchEnabled=false;
 let eanZoomValue=1;
 const $=id=>document.getElementById(id);
 
+function returnToCatalogArticle(id){
+  const findRow=()=>Array.from($('list').querySelectorAll('[data-product-id]')).find(row=>row.dataset.productId===String(id));
+  let row=findRow();
+  if(!row && $('catalogSearch')?.value){
+    // Si la modification ne correspond plus à la recherche, afficher l'article.
+    $('catalogSearch').value='';
+    renderList();
+    row=findRow();
+  }
+  if(!row) return;
+  $('editor').classList.add('hidden');
+  editing=null;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    row.scrollIntoView({behavior:'smooth',block:'center'});
+    row.style.transition='background-color .3s, box-shadow .3s';
+    row.style.backgroundColor='#fff4b0';
+    row.style.boxShadow='0 0 0 2px #e2c800';
+    setTimeout(()=>{row.style.backgroundColor='';row.style.boxShadow='';},3000);
+  }));
+}
+
 function hideEditor(){
   const ids=['editor','editorBox','editorModal','productEditor','editPanel'];
   for(const id of ids){
@@ -2005,7 +2026,7 @@ function renderList(){
           ? `<img class="catalog-thumb" src="${escapeHtmlValue(photo)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="catalog-thumb-empty" style="display:none">PHOTO</div>`
           : '<div class="catalog-thumb-empty">PHOTO</div>';
 
-        return `<div class="item">
+        return `<div class="item" data-product-id="${escapeHtmlValue(p.id)}">
           <div class="item-main">
             ${thumb}
             <div class="item-text">
@@ -2672,6 +2693,7 @@ async function newProduct(){
   $('editTitle').textContent='Nouvel article';
   $('deleteBtn').classList.add('hidden');
   updateProductNavigationButtons();
+  $('editor').style.removeProperty('display');
   $('editor').classList.remove('hidden');
 
   // Les référentiels sont maintenant disponibles dès le premier article.
@@ -2715,6 +2737,7 @@ function edit(id){
   $('deleteBtn').classList.remove('hidden');
   updateProductNavigationButtons();
   renderPhotoPreviews();
+  $('editor').style.removeProperty('display');
   $('editor').classList.remove('hidden');
   $('editor').scrollIntoView({behavior:'smooth'});
 }
@@ -4009,6 +4032,7 @@ async function publish(options={}){
       (refreshed.taille?' · Taille '+refreshed.taille:'');
     $('deleteBtn').classList.remove('hidden');
     updateProductNavigationButtons();
+    returnToCatalogArticle(firstSaved.id);
     return true;
 
   }catch(e){
