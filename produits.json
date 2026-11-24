@@ -1597,7 +1597,6 @@
     "updatedAt": "2026-11-20T09:24:56.775Z"
   },
   {
-    "id": "qezer-sac-de-couchage-extra-large-qezer-en-duvet-xxl-230-x-100-cm-3-4-saisons-leger-et-chaud",
     "nom": "Denmay Lot de 2 grilles en fonte pour barbecue à gaz Weber Pulse 2000",
     "marque": "Weber",
     "etatProduit": "Neuf avec étiquettes",
@@ -1605,11 +1604,11 @@
     "categorie": "Maison, Soins de la personne, Animaux",
     "sousCategorie": "Jardin",
     "genre": "",
-    "taille": "",
     "prixRetail": 49,
     "prixVente": 30,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Lot de 2 grilles en fonte pour barbecue à gaz Weber Pulse 2000\n- Marque : Denmay (compatible avec)\n- Modèle compatible : Weber Pulse 2000\n- Quantité : Lot de 2 grilles\n- Matière : Fonte émaillée\n- Couleur : Noir\nÉtat neuf emballé",
     "photos": [
@@ -1618,8 +1617,13 @@
       "photos/weber-1795166394113-3.jpg",
       "photos/weber-1795166396064-4.jpg"
     ],
+    "id": "qezer-sac-de-couchage-extra-large-qezer-en-duvet-xxl-230-x-100-cm-3-4-saisons-leger-et-chaud",
+    "variantGroupId": "qezer-sac-de-couchage-extra-large-qezer-en-duvet-xxl-230-x-100-cm-3-4-saisons-leger-et-chaud",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-20T09:16:15.575Z",
-    "updatedAt": "2026-11-20T09:19:58.053Z"
+    "updatedAt": "2026-11-24T18:26:52.434Z"
   },
   {
     "id": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire-amovible-4-saisons",
