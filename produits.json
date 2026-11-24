@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Skön Abrakadabra Glow – Fond de teint sérum SPF30 Golden Tan",
+    "marque": "Skön",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Cosmétiques",
+    "sousCategorie": "",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 8,
+    "description": "Le fond de teint sérum illuminateur Abrakadabra Glow de Skön se décline en teinte Golden Tan. Sa formule à l’acide hyaluronique hydrate, unifie et repulpe la peau, avec une protection SPF30. Sa texture légère offre un fini naturel et lumineux. Présenté en flacon avec capuchon noir. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/skon-1795552619931-1.jpg"
+    ],
+    "id": "skon-skon-abrakadabra-glow-fond-de-teint-serum-spf30-golden-tan-1795552619409--taille-unique",
+    "variantGroupId": "skon-skon-abrakadabra-glow-fond-de-teint-serum-spf30-golden-tan-1795552619409",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:37:01.295Z",
+    "updatedAt": "2026-11-24T20:37:01.295Z"
+  },
+  {
     "nom": "Lighteu WL5 – Contrôleur de bande LED WiFi 5 en 1 compatible Alexa et Google Home",
     "marque": "Lighteu",
     "etatProduit": "Retour Amazon comme neuf",
