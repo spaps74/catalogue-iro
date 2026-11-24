@@ -1761,19 +1761,18 @@
     "updatedAt": "2026-11-20T03:10:12.117Z"
   },
   {
-    "id": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-m",
     "nom": "Casque Simaas trottinette & vélo réglable",
     "marque": "Simaas",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques",
+    "sousCategorie": "Casques de vélo",
     "genre": "Mixte",
-    "taille": "L",
     "prixRetail": 59,
     "prixVente": 30,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "casque Simaas réglable, certifié sécurité, idéal pour la trottinette et le vélo. Cet accessoire polyvalent offre une protection optimale pour tous vos trajets.\n- Type de produit : Casque\n- Marque : Simaas\n- Univers : Mixte\n- Pratique : Trottinette et vélo\n- Taille : L (52-63 cm)\n- Couleur : Beige et orange\n- Réglable : Oui\n- Certification : Norme de sécurité CE\n- Visière : Incluse",
     "photos": [
@@ -1781,8 +1780,15 @@
       "https://raw.githubusercontent.com/spaps74/catalogue-iro/main/photos/simaas-1795158058557-2.jpg",
       "https://raw.githubusercontent.com/spaps74/catalogue-iro/main/photos/simaas-1795158059991-3.jpg"
     ],
+    "id": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-m",
+    "variantGroupId": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-m",
+    "variantSize": "L",
+    "tailles": [
+      "L"
+    ],
+    "taille": "L",
     "createdAt": "2026-11-20T02:57:06.286Z",
-    "updatedAt": "2026-11-20T07:04:15.578Z"
+    "updatedAt": "2026-11-24T18:27:47.566Z"
   },
   {
     "id": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire",
