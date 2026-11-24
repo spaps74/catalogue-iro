@@ -498,19 +498,18 @@
     "updatedAt": "2026-11-23T18:10:18.139Z"
   },
   {
-    "id": "victgoal-casque-velo-de-route-victgoal-taille-l-gris-irise-avec-eclairage-arriere-magnetique-l",
     "nom": "Casque vélo de route VICTGOAL taille L gris irisé avec éclairage arrière magnétique",
     "marque": "Victgoal",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques",
+    "sousCategorie": "Casques de vélo",
     "genre": "",
-    "taille": "L",
     "prixRetail": 75,
     "prixVente": 35,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Ce casque de vélo de route VICTGOAL pour adulte est proposé en taille L  (57-61 cm), neuf avec étiquettes. Sa finition gris foncé aux reflets irisés est soulignée par le logo blanc sur les côtés. Léger et réglable, il dispose de nombreuses ouvertures de ventilation et de sangles avec fermeture sous le menton. Il est équipé d’un éclairage arrière magnétique.",
     "photos": [
@@ -520,8 +519,15 @@
       "photos/victgoal-1795457043423-4.jpg",
       "photos/victgoal-1795457045293-5.jpg"
     ],
+    "id": "victgoal-casque-velo-de-route-victgoal-taille-l-gris-irise-avec-eclairage-arriere-magnetique-l",
+    "variantGroupId": "victgoal-casque-velo-de-route-victgoal-taille-l-gris-irise-avec-eclairage-arriere-magnetique-l",
+    "variantSize": "L",
+    "tailles": [
+      "L"
+    ],
+    "taille": "L",
     "createdAt": "2026-11-23T18:04:07.112Z",
-    "updatedAt": "2026-11-23T18:05:49.288Z"
+    "updatedAt": "2026-11-24T18:17:19.213Z"
   },
   {
     "id": "yema-casque-jet-moto-et-scooter-yema-ym-627-noir-mat-double-visiere-taille-l-l",
