@@ -3654,10 +3654,11 @@ async function publish(options={}){
       const existingSibling=siblingBySize.get(sizeKey);
 
       let id;
-      if(existingSibling?.id){
-        id=existingSibling.id;
-      }else if(i===0 && editing){
+      if(i===0 && editing){
+        // La fiche actuellement éditée reste cette variante.
         id=editing;
+      }else if(existingSibling?.id){
+        id=existingSibling.id;
       }else{
         const sizePart=slug(size||'unique')||'unique';
         id=`${baseGroupId}--taille-${sizePart}`;
@@ -3705,13 +3706,8 @@ async function publish(options={}){
       );
     }
 
-    // Supprime les anciennes variantes de ce groupe qui ne sont plus sélectionnées.
-    const savedIds=new Set(savedVariants.map(p=>String(p.id)));
-    const stale=groupSiblings.filter(p=>!savedIds.has(String(p.id)));
-
-    for(const old of stale){
-      await req('/product/'+encodeURIComponent(old.id),{method:'DELETE'});
-    }
+    // Chaque taille est une fiche indépendante : une édition ne supprime jamais
+    // automatiquement les autres variantes du même produit.
 
     const [updatedProducts,updatedBrands]=await Promise.all([
       req('/products'),
