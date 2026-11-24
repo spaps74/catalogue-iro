@@ -75,6 +75,16 @@ const productSizes=p=>{
   return [...new Set(raw.map(x=>String(x||'').trim()).filter(Boolean))];
 };
 const productSizeLabel=p=>productSizes(p).join(' / ');
+const variantGroupKey=p=>String(p?.variantGroupId||p?.id||'').trim();
+const isAvailable=p=>String(p?.statut||'').toLowerCase()==='disponible'&&Number(p?.stock||0)>0;
+let currentVariants=[];
+function variantsForProduct(p,list){
+  const key=variantGroupKey(p);
+  return (Array.isArray(list)?list:[])
+    .filter(x=>variantGroupKey(x)===key)
+    .sort((a,b)=>String(a.taille||'').localeCompare(String(b.taille||''),'fr',{numeric:true,sensitivity:'base'}));
+}
+
 
 function discount(p){const retail=Number(p.prixRetail||0),sale=Number(p.prixVente||0);return retail>sale&&retail>0?Math.round((1-sale/retail)*100):0}
 function setMainPhoto(src,index){const img=document.getElementById('mainPhoto');if(img)img.src=src;document.querySelectorAll('.thumbs img').forEach((x,i)=>x.classList.toggle('active',i===index))}
@@ -157,46 +167,115 @@ async function sendProductQuestion(e){
     if(btn){btn.disabled=false;btn.textContent='✉ Envoyer la question';}
   }
 }
+function renderProductVariant(selected){
+  const app=document.getElementById('app');
+  if(!selected) return;
+
+  const variants=currentVariants.length?currentVariants:[selected];
+  const photos=Array.isArray(selected.photos)?selected.photos.filter(Boolean):[];
+  const main=photos[0]||'';
+  const pc=discount(selected);
+  const available=isAvailable(selected);
+  const hasSizes=variants.some(v=>String(v.taille||'').trim());
+
+  document.title=`${selected.marque?selected.marque+' - ':''}${selected.nom||'Produit'} | Upstyle Destock`;
+
+  const sizeSelector=hasSizes && variants.length>1
+    ? `<div style="margin:14px 0">
+        <label for="productVariantSize" style="display:block;font-weight:900;margin-bottom:7px">Choisir la pointure</label>
+        <select id="productVariantSize" style="width:100%;max-width:260px;padding:11px;border-radius:10px;border:1px solid #ddd;background:#fff">
+          ${variants.map(v=>`<option value="${esc(v.id)}" ${v.id===selected.id?'selected':''} ${isAvailable(v)?'':'disabled'}>${esc(v.taille||productSizeLabel(v)||'—')}${isAvailable(v)?'':' — Indisponible'}</option>`).join('')}
+        </select>
+      </div>`
+    : '';
+
+  app.className='';
+  app.innerHTML=`
+    <section class="card">
+      <div class="gallery">
+        ${main?`<img id="mainPhoto" class="hero-img" src="${esc(main)}" alt="${esc(selected.nom||'Produit')}">`:'<div class="hero-img" style="display:grid;place-items:center;color:#888">PHOTO</div>'}
+        <div class="thumbs">${photos.map((x,i)=>`<img class="${i===0?'active':''}" src="${esc(x)}" alt="">`).join('')}</div>
+      </div>
+      <div class="info">
+        <div class="brandline">${esc(selected.marque||'UPSTYLE')}</div>
+        <h1>${esc(selected.nom||'Produit')}</h1>
+        <div class="quick-actions">
+          <button type="button" id="favBtn" class="quick-icon quick-fav ${isFav(selected.id)?'active':''}" title="${isFav(selected.id)?'Retirer des favoris':'Ajouter aux favoris'}">${isFav(selected.id)?'♥':'♡'}</button>
+          <button type="button" id="quickCartBtn" class="quick-icon quick-cart" ${available?'':'disabled'} title="${available?'Ajouter au panier':'Produit indisponible'}">🛒</button>
+          <button type="button" id="questionBtn" class="quick-icon quick-question" title="Poser une question">✉</button>
+          <button type="button" id="whatsappBtn" class="quick-icon quick-whatsapp" title="Partager sur WhatsApp">☏</button>
+        </div>
+        <div class="meta">${esc(selected.categorie||'')}${selected.sousCategorie?` · ${esc(selected.sousCategorie)}`:''}${selected.taille?` · Pointure ${esc(selected.taille)}`:''}${selected.sku?` · Réf. ${esc(selected.sku)}`:''}</div>
+        ${sizeSelector}
+        <div class="desc">${esc(selected.description||'Aucune description renseignée.')}</div>
+        <div class="pricebox"><span class="sale">${euro(selected.prixVente)}</span>${Number(selected.prixRetail||0)>Number(selected.prixVente||0)?`<span class="retail">${euro(selected.prixRetail)}</span>`:''}${pc>0?`<span class="discount">-${pc}%</span>`:''}</div>
+        <div class="stock ${available?'ok':'no'}">${available?'✓ Disponible':'Indisponible'}</div>
+        <div class="actions"><button class="primary" ${available?'':'disabled'} id="addBtn">Ajouter au panier</button><a class="btn secondary" href="/">Continuer mes achats</a></div>
+        <div class="note">Stock limité — chaque pointure est gérée séparément.</div>
+      </div>
+    </section>`;
+
+  document.querySelectorAll('.thumbs img').forEach((img,i)=>img.addEventListener('click',()=>setMainPhoto(photos[i],i)));
+
+  currentProduct=selected;
+
+  const variantSelect=document.getElementById('productVariantSize');
+  if(variantSelect){
+    variantSelect.addEventListener('change',()=>{
+      const next=currentVariants.find(v=>String(v.id)===String(variantSelect.value));
+      if(next) renderProductVariant(next);
+    });
+  }
+
+  const add=document.getElementById('addBtn');
+  if(add&&available)add.addEventListener('click',()=>addToCart(selected));
+
+  const quickCart=document.getElementById('quickCartBtn');
+  if(quickCart&&available)quickCart.addEventListener('click',()=>addToCart(selected));
+
+  const favBtn=document.getElementById('favBtn');
+  if(favBtn)favBtn.addEventListener('click',()=>toggleFav(selected));
+
+  const questionBtn=document.getElementById('questionBtn');
+  if(questionBtn)questionBtn.addEventListener('click',openProductQuestion);
+
+  const whatsappBtn=document.getElementById('whatsappBtn');
+  if(whatsappBtn)whatsappBtn.addEventListener('click',shareProductWhatsApp);
+}
+
 async function loadProduct(){
-  const id=new URLSearchParams(location.search).get('id')||'',app=document.getElementById('app');
-  if(!id){app.textContent='Produit non spécifié.';return}
+  const id=new URLSearchParams(location.search).get('id')||'';
+  const app=document.getElementById('app');
+
+  if(!id){
+    app.textContent='Produit non spécifié.';
+    return;
+  }
+
   try{
-    const r=await fetch(`${WORKER_URL}/catalog/product/${encodeURIComponent(id)}?ts=${Date.now()}`,{cache:'no-store'});
-    const p=await r.json().catch(()=>({}));if(!r.ok)throw new Error(p.error||`HTTP ${r.status}`);
-    document.title=`${p.marque?p.marque+' - ':''}${p.nom||'Produit'} | Upstyle Destock`;
-    const photos=Array.isArray(p.photos)?p.photos.filter(Boolean):[],main=photos[0]||'',pc=discount(p);
-    const available=String(p.statut||'').toLowerCase()==='disponible'&&Number(p.stock||0)>0;
-    app.className='';app.innerHTML=`
-      <section class="card">
-        <div class="gallery">
-          ${main?`<img id="mainPhoto" class="hero-img" src="${esc(main)}" alt="${esc(p.nom||'Produit')}">`:'<div class="hero-img" style="display:grid;place-items:center;color:#888">PHOTO</div>'}
-          <div class="thumbs">${photos.map((x,i)=>`<img class="${i===0?'active':''}" src="${esc(x)}" alt="">`).join('')}</div>
-        </div>
-        <div class="info">
-          <div class="brandline">${esc(p.marque||'UPSTYLE')}</div>
-          <h1>${esc(p.nom||'Produit')}</h1>
-          <div class="quick-actions">
-            <button type="button" id="favBtn" class="quick-icon quick-fav ${isFav(p.id)?'active':''}" title="${isFav(p.id)?'Retirer des favoris':'Ajouter aux favoris'}">${isFav(p.id)?'♥':'♡'}</button>
-            <button type="button" id="quickCartBtn" class="quick-icon quick-cart" ${available?'':'disabled'} title="${available?'Ajouter au panier':'Produit indisponible'}">🛒</button>
-            <button type="button" id="questionBtn" class="quick-icon quick-question" title="Poser une question">✉</button>
-            <button type="button" id="whatsappBtn" class="quick-icon quick-whatsapp" title="Partager sur WhatsApp">☏</button>
-          </div>
-          <div class="meta">${esc(p.categorie||'')}${p.sousCategorie?` · ${esc(p.sousCategorie)}`:''}${productSizes(p).length?` · Taille${productSizes(p).length>1?'s':''} ${esc(productSizeLabel(p))}`:''}${p.sku?` · Réf. ${esc(p.sku)}`:''}</div>
-          <div class="desc">${esc(p.description||'Aucune description renseignée.')}</div>
-          <div class="pricebox"><span class="sale">${euro(p.prixVente)}</span>${Number(p.prixRetail||0)>Number(p.prixVente||0)?`<span class="retail">${euro(p.prixRetail)}</span>`:''}${pc>0?`<span class="discount">-${pc}%</span>`:''}</div>
-          <div class="stock ${available?'ok':'no'}">${available?'✓ Disponible':'Indisponible'}</div>
-          <div class="actions"><button class="primary" ${available?'':'disabled'} id="addBtn">Ajouter au panier</button><a class="btn secondary" href="/">Continuer mes achats</a></div>
-          <div class="note">Stock limité — article vendu dans la limite des quantités disponibles.</div>
-        </div>
-      </section>`;
-    document.querySelectorAll('.thumbs img').forEach((img,i)=>img.addEventListener('click',()=>setMainPhoto(photos[i],i)));
-    currentProduct=p;
-    const add=document.getElementById('addBtn');if(add&&available)add.addEventListener('click',()=>addToCart(p));
-    const quickCart=document.getElementById('quickCartBtn');if(quickCart&&available)quickCart.addEventListener('click',()=>addToCart(p));
-    const favBtn=document.getElementById('favBtn');if(favBtn)favBtn.addEventListener('click',()=>toggleFav(p));
-    const questionBtn=document.getElementById('questionBtn');if(questionBtn)questionBtn.addEventListener('click',openProductQuestion);
-    const whatsappBtn=document.getElementById('whatsappBtn');if(whatsappBtn)whatsappBtn.addEventListener('click',shareProductWhatsApp);
-  }catch(e){app.className='status';app.textContent='Impossible de charger ce produit : '+String(e.message||e)}
+    const [productRes,catalogRes]=await Promise.all([
+      fetch(`${WORKER_URL}/catalog/product/${encodeURIComponent(id)}?ts=${Date.now()}`,{cache:'no-store'}),
+      fetch(`${WORKER_URL}/catalog?ts=${Date.now()}`,{cache:'no-store'})
+    ]);
+
+    const selected=await productRes.json().catch(()=>({}));
+    if(!productRes.ok) throw new Error(selected.error||`HTTP ${productRes.status}`);
+
+    const catalog=await catalogRes.json().catch(()=>[]);
+    currentVariants=variantsForProduct(selected,Array.isArray(catalog)?catalog:[]);
+
+    if(!currentVariants.length) currentVariants=[selected];
+
+    const initial=currentVariants.find(v=>v.id===id) ||
+      currentVariants.find(isAvailable) ||
+      currentVariants[0];
+
+    renderProductVariant(initial);
+
+  }catch(e){
+    app.className='status';
+    app.textContent='Impossible de charger ce produit : '+String(e.message||e);
+  }
 }
 loadProduct();
 </script>
