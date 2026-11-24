@@ -99,10 +99,17 @@ function toggleFav(p){
   if(b){const active=favs.includes(id);b.classList.toggle('active',active);b.textContent=active?'♥':'♡';}
 }
 let currentProduct=null;
+function productShareKey(value){
+  const id=String(value||'');
+  if(/^[a-zA-Z0-9_-]{1,240}$/.test(id)) return id;
+  let h=14695981039346656037n;
+  for(let i=0;i<id.length;i++) h=BigInt.asUintN(64,(h^BigInt(id.charCodeAt(i)))*1099511628211n);
+  return 'share-'+id.replace(/[^a-zA-Z0-9_-]/g,'-').slice(0,80)+'-'+h.toString(16).padStart(16,'0');
+}
 function shareProductWhatsApp(){
   if(!currentProduct)return;
 
-  const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(String(currentProduct.id||''))+'/?v='+Date.now();
+  const shareUrl='https://www.upstyle-destock.fr/p/'+encodeURIComponent(productShareKey(currentProduct.id))+'/?v='+Date.now();
   const message='J’ai trouvé ça qui pourrait t’intéresser '+String.fromCodePoint(0x1F440)+'\n'+shareUrl;
 
   window.open(
