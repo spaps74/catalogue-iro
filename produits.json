@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Tessan Adaptateur universel de voyage GaN 65 W PD avec 5 ports USB dont 3 USB-C",
+    "marque": "Tessan",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Adaptateur de voyage",
+    "genre": "",
+    "prixRetail": 50,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 2,
+    "description": "Cet adaptateur universel de voyage Tessan intègre la technologie GaN et la charge PD 65 W. Il dispose de 5 ports USB, dont 3 ports USB-C. Il est prévu pour les voyages depuis la France vers les États-Unis, le Royaume-Uni, la Thaïlande, le Japon, l’Australie, la Chine et le Brésil.",
+    "photos": [
+      "photos/tessan-1795541893979-1.jpg",
+      "photos/tessan-1795541895656-2.jpg",
+      "photos/tessan-1795541897275-3.jpg",
+      "photos/tessan-1795541899097-4.jpg",
+      "photos/tessan-1795541900938-5.jpg"
+    ],
+    "id": "tessan-tessan-adaptateur-universel-de-voyage-gan-65-w-pd-avec-5-ports-usb-dont-3-usb-c-1795541892135--taille-unique",
+    "variantGroupId": "tessan-tessan-adaptateur-universel-de-voyage-gan-65-w-pd-avec-5-ports-usb-dont-3-usb-c-1795541892135",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T17:38:23.027Z",
+    "updatedAt": "2026-11-24T17:38:23.027Z"
+  },
+  {
     "nom": "VICTGOAL Casque Velo Casque VTT avec Lunettes de Sécurité Magnétiques Amovibles Visière Détachable Casque Léger pour Adultes",
     "marque": "Victgoal",
     "etatProduit": "Neuf avec étiquettes",
