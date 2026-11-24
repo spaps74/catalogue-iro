@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Câble d’extension Xmatt pour Starlink Gen 3 étanche – 40 m gris",
+    "marque": "Xmatt",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Câbles Starlink",
+    "genre": "",
+    "prixRetail": 79,
+    "prixVente": 38,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Câble d’extension Xmatt de 40 m pour Starlink Gen 3, annoncé étanche.\nColoris gris, avec deux connecteurs munis de protections moulées.\nSa longueur permet d’adapter le cheminement du câble aux besoins de votre installation.\nÉtat : neuf avec étiquettes.",
+    "photos": [
+      "photos/xmatt-1795553667083-1.jpg"
+    ],
+    "id": "xmatt-cable-d-extension-xmatt-pour-starlink-gen-3-etanche-40-m-gris-1795553665912--taille-unique",
+    "variantGroupId": "xmatt-cable-d-extension-xmatt-pour-starlink-gen-3-etanche-40-m-gris-1795553665912",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:54:28.985Z",
+    "updatedAt": "2026-11-24T20:54:28.985Z"
+  },
+  {
     "nom": "Skön Life Needs Detox – Masque visage détoxifiant à la vitamine C, 50 ml",
     "marque": "Skön",
     "etatProduit": "Neuf avec étiquettes",
