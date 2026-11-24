@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Casque vélo et trottinette ILM MB101L blanc L-XL avec visière et clignotants",
+    "marque": "ILM",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques vélo et trottinette",
+    "genre": "",
+    "prixRetail": 89,
+    "prixVente": 49,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque adulte ILM MB101L neuf, taille L-XL, pour vélo et trottinette électrique. Son design blanc intègre une visière fumée et des aérations. Il dispose de clignotants automatiques à capteur G, d’une alerte de freinage et d’un éclairage avant. Une molette arrière permet d’ajuster le maintien, en complément de la jugulaire à boucle. Homologations indiquées : NTA-8776, CPSC et CE.",
+    "photos": [
+      "photos/ilm-1795549074321-1.jpg",
+      "photos/ilm-1795549076281-2.jpg",
+      "photos/ilm-1795549077971-3.jpg",
+      "photos/ilm-1795549079497-4.jpg",
+      "photos/ilm-1795549081098-5.jpg"
+    ],
+    "id": "ilm-casque-velo-et-trottinette-ilm-mb101l-blanc-l-xl-avec-visiere-et-clignotants-1795549072282--taille-l-xl",
+    "variantGroupId": "ilm-casque-velo-et-trottinette-ilm-mb101l-blanc-l-xl-avec-visiere-et-clignotants-1795549072282",
+    "variantSize": "L-XL",
+    "tailles": [
+      "L-XL"
+    ],
+    "taille": "L-XL",
+    "createdAt": "2026-11-24T19:38:02.926Z",
+    "updatedAt": "2026-11-24T19:38:02.926Z"
+  },
+  {
     "nom": "Casque vélo VTT ILM adulte mixte rose avec visière et éclairages LED USB",
     "marque": "ILM",
     "etatProduit": "Neuf",
