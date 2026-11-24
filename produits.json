@@ -1,35 +1,5 @@
 [
   {
-    "nom": "Casque vélo et skateboard Thousand Heritage noir mat adulte mixte – PopLock",
-    "marque": "Thousand",
-    "etatProduit": "Neuf",
-    "miseEnPremierePage": false,
-    "categorie": "Loisirs",
-    "sousCategorie": "Casques de vélo et skateboard",
-    "genre": "Mixte",
-    "prixRetail": 110,
-    "prixVente": 49,
-    "statut": "Disponible",
-    "sku": "",
-    "gtin": "",
-    "stock": 1,
-    "description": "Ce casque Thousand Heritage neuf est un modèle adulte mixte pour le vélo ou le skateboard. Son design d’inspiration vintage associe une coque noire mate, une bordure claire et des sangles marron. Il possède des ouvertures de ventilation et une visière courte intégrée. Il est équipé d’une boucle magnétique et du système antivol PopLock.",
-    "photos": [
-      "photos/thousand-1795548058751-1.jpg",
-      "photos/thousand-1795548060247-2.jpg",
-      "photos/thousand-1795548061826-3.jpg",
-      "photos/thousand-1795548063453-4.jpg",
-      "photos/thousand-1795548065146-5.jpg"
-    ],
-    "id": "thousand-casque-velo-et-skateboard-thousand-heritage-noir-mat-adulte-mixte-poplock-1795548058097--taille-unique",
-    "variantGroupId": "thousand-casque-velo-et-skateboard-thousand-heritage-noir-mat-adulte-mixte-poplock-1795548058097",
-    "variantSize": "",
-    "tailles": [],
-    "taille": "",
-    "createdAt": "2026-11-24T19:21:06.812Z",
-    "updatedAt": "2026-11-24T19:21:06.812Z"
-  },
-  {
     "nom": "Victgoal Casque vélo et VTT adulte avec lunettes magnétiques et visière détachable",
     "marque": "Victgoal",
     "etatProduit": "Neuf",
