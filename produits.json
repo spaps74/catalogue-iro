@@ -2307,25 +2307,32 @@
     "updatedAt": "2026-11-24T05:48:50.817Z"
   },
   {
-    "id": "dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir",
     "nom": "Dancemoon JustHang Raclette douche avec crochet intégré, 25 cm, Noir",
     "marque": "Dancemoon",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Maison, Soins de la personne, Animaux",
-    "sousCategorie": "",
-    "taille": "",
+    "sousCategorie": "Accessoires",
+    "genre": "",
     "prixRetail": 22,
     "prixVente": 15,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Raclette de douche avec crochet intégré de la marque Dancemoon, idéale pour suspendre vos serviettes et accessoires directement sur votre paroi.\n\n- Type de produit : Raclette de douche\n- Marque : Dancemoon\n- Modèle : JustHang\n- Couleur : Noir\n- Dimensions : 25 cm\n- Poids : 200 g",
     "photos": [
       "photos/dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir-1794897859546-1.jpg",
       "photos/dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir-1794897861030-2.jpg",
       "photos/dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir-1794897862663-3.jpg"
-    ]
+    ],
+    "id": "dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir",
+    "variantGroupId": "dancemoon-dancemoon-justhang-raclette-douche-avec-crochet-integre-25-cm-noir",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-17T06:44:19.546Z",
+    "updatedAt": "2026-11-24T18:29:08.743Z"
   },
   {
     "id": "jott-jott-seda-doudoune-sans-manches-femme-blue-jeans-xs",
