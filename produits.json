@@ -37,7 +37,7 @@
     "etatProduit": "Neuf",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques de vélo",
+    "sousCategorie": "Casques de vélo/trottinette",
     "genre": "",
     "prixRetail": 53,
     "prixVente": 30,
@@ -59,7 +59,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T18:58:04.996Z",
-    "updatedAt": "2026-11-24T18:58:04.996Z"
+    "updatedAt": "2026-11-24T19:28:57.179Z"
   },
   {
     "nom": "Casque vélo mixte kingead noir et gris avec visière magnétique amovible - M",
