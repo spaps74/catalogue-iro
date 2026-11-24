@@ -1,5 +1,28 @@
 [
   {
+    "id": "jott-doudoune-jott-cha-cherry-pink-femme-col-montant-taille-34-36-new",
+    "nom": "Doudoune Jott Cha Cherry Pink femme, col montant, taille 34-36",
+    "marque": "Jott",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "doudounes",
+    "genre": "Femmes",
+    "taille": "34-36",
+    "prixRetail": 169,
+    "prixVente": 39,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette doudoune Jott Cha pour femme se décline en coloris Cherry Pink, un rose soutenu. Sa coupe cintrée est soulignée par un matelassage horizontal et un col montant. Elle dispose d’une fermeture zippée sur le devant et de deux poches latérales zippées. Taille indiquée : 34-36. Article neuf avec étiquettes.",
+    "photos": [
+      "photos/jott-1795499272777-1.jpg"
+    ],
+    "createdAt": "2026-11-24T05:47:54.089Z",
+    "updatedAt": "2026-11-24T05:47:54.089Z"
+  },
+  {
     "id": "jott-doudoune-jott-cha-cherry-pink-pour-femme-taille-34-36-new",
     "nom": "Jott Mali – Doudoune sans manches femme à capuche jaune moutarde",
     "marque": "Jott",
