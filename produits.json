@@ -1,6 +1,6 @@
 [
   {
-    "nom": "T-shirt Timberland vert coupe slim, manches courtes",
+    "nom": "T-shirt Timberland olive coupe slim, manches courtes",
     "marque": "Timberland",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
@@ -13,7 +13,7 @@
     "sku": "",
     "gtin": "198266239989",
     "stock": 1,
-    "description": "Ce t-shirt Timberland vert est proposé en taille S avec une coupe slim. Il présente un col rond et des manches courtes. Un petit logo arbre contrastant sur la poitrine complète son design uni.",
+    "description": "Ce t-shirt Timberland olive est proposé en taille S avec une coupe slim",
     "photos": [
       "photos/timberland-1795508240207-1.jpg"
     ],
@@ -25,7 +25,7 @@
     ],
     "taille": "S",
     "createdAt": "2026-11-24T08:17:21.834Z",
-    "updatedAt": "2026-11-24T08:17:21.834Z"
+    "updatedAt": "2026-11-24T08:23:25.757Z"
   },
   {
     "nom": "On Running Cloud 5",
