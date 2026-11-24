@@ -2226,19 +2226,18 @@
     ]
   },
   {
-    "id": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s",
     "nom": "uvex exxential III – Casque d’équitation Unisexe léger – Ajustement Individuel",
     "marque": "Uvex",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": true,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques",
+    "sousCategorie": "Casqes d'équitation",
     "genre": "Mixte",
-    "taille": "XXS-S",
     "prixRetail": 129,
     "prixVente": 65,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Casque d'équitation uvex exxential III, un équipement de protection léger et confortable pour tous les cavaliers.\n\n- Type de produit : Casque d'équitation\n- Marque : uvex\n- Modèle : exxential III\n- Pour : Unisexe\n- Activité/Sport : Équitation\n- Caractéristiques : Léger, ajustement individuel\n- Couleur : Noir\n- Fonctionnalités : Système de ventilation, sangle de maintien réglable\n\nN'hésitez pas à me contacter pour plus d'informations ou de photos !",
     "photos": [
@@ -2248,8 +2247,15 @@
       "photos/uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s-1794937015735-4.webp",
       "photos/uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s-1794937017196-5.jpeg"
     ],
+    "id": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s",
+    "variantGroupId": "uvex-uvex-exxential-iii-casque-d-equitation-unisexe-leger-ajustement-individuel-xxs-s",
+    "variantSize": "XXS-S",
+    "tailles": [
+      "XXS-S"
+    ],
+    "taille": "XXS-S",
     "createdAt": "2026-11-17T17:36:50.699Z",
-    "updatedAt": "2026-11-20T06:56:03.727Z"
+    "updatedAt": "2026-11-24T18:28:54.152Z"
   },
   {
     "id": "champion-sweat-zipe-hampion-rose-fuchsia",
