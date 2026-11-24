@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Casque Westt noir mat avec visière – Mixte, taille S-M",
+    "marque": "Westt",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques",
+    "genre": "Mixte",
+    "prixRetail": 59,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque Westt mixte, neuf, en taille S-M. Il présente une coque noire mate avec une visière teintée et des aérations sur le dessus. L’intérieur est rembourré et la jugulaire dispose d’une boucle à ouverture rapide. Le poids indiqué sur le visuel est de 550 g.",
+    "photos": [
+      "photos/westt-1795545318253-1.jpg",
+      "photos/westt-1795545319689-2.jpg",
+      "photos/westt-1795545321338-3.jpg"
+    ],
+    "id": "westt-casque-westt-noir-mat-avec-visiere-mixte-taille-s-m-1795545315858--taille-s-m",
+    "variantGroupId": "westt-casque-westt-noir-mat-avec-visiere-mixte-taille-s-m-1795545315858",
+    "variantSize": "S-M",
+    "tailles": [
+      "S-M"
+    ],
+    "taille": "S-M",
+    "createdAt": "2026-11-24T18:35:22.943Z",
+    "updatedAt": "2026-11-24T18:35:22.943Z"
+  },
+  {
     "nom": "Westt – Casque moto noir mat taille S avec mentonnière relevable",
     "marque": "Westt",
     "etatProduit": "Neuf avec étiquettes",
