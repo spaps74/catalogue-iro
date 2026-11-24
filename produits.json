@@ -8,7 +8,7 @@
     "sousCategorie": "Soin de la personne",
     "genre": "Femmes",
     "prixRetail": 80,
-    "prixVente": 50,
+    "prixVente": 45,
     "statut": "Disponible",
     "sku": "",
     "gtin": "",
@@ -27,7 +27,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T10:49:45.915Z",
-    "updatedAt": "2026-11-24T10:49:45.915Z"
+    "updatedAt": "2026-11-24T11:20:37.755Z"
   },
   {
     "nom": "T-shirt Timberland olive coupe slim, manches courtes",
