@@ -4,8 +4,8 @@
     "marque": "Aquaphor",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
-    "categorie": "Maison, Déco, Cosmétiques",
-    "sousCategorie": "",
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Accessoires",
     "genre": "",
     "prixRetail": 25,
     "prixVente": 15,
@@ -26,7 +26,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T20:21:05.984Z",
-    "updatedAt": "2026-11-24T20:21:05.984Z"
+    "updatedAt": "2026-11-24T20:21:41.440Z"
   },
   {
     "nom": "JBAO adaptateur de tube 360° pour Starlink V3 – support de toit, 28–54 mm",
