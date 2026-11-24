@@ -707,7 +707,7 @@
   <option value="__new__">+ Ajouter une nouvelle taille</option>
 </select>
 <input id="tailleNew" type="text" placeholder="Nouvelle(s) taille(s), séparées par une virgule" autocomplete="off" style="display:none;margin-top:8px">
-<div class="muted" style="margin-top:6px">Sélectionne une ou plusieurs tailles. Pour en créer plusieurs, saisis par exemple : XS, S, M.</div>
+<div class="muted" style="margin-top:6px">Sélectionne une ou plusieurs tailles. Chaque taille sera enregistrée comme une fiche produit distincte avec son propre stock. Pour en créer plusieurs, saisis par exemple : XS, S, M.</div>
 </div>
 <div><label>Genre</label><select id="genre">
   <option value="">Non renseigné</option>
@@ -3535,21 +3535,84 @@ async function compressImageFile(file,maxDimension=1800,quality=0.88){
   });
 }
 
+async function buildPhotoUploadPlan(fd){
+  const photoPlan=[];
+  let uploadIndex=0;
+
+  for(const item of galleryItems.slice(0,5)){
+    if(item.type==='existing'){
+      photoPlan.push({type:'existing',path:item.path});
+      continue;
+    }
+
+    const original=item.file;
+    if(!original) throw new Error('Photo '+(uploadIndex+1)+' introuvable dans le formulaire.');
+
+    setMsg(
+      `Optimisation photo ${uploadIndex+1} : ${original.name||'image'} (${Math.round((original.size||0)/1024)} Ko)…`,
+      'working'
+    );
+
+    const optimised=await compressImageFile(original,1800,0.86);
+    photoPlan.push({type:'upload',index:uploadIndex});
+    fd.append('photos',optimised);
+    uploadIndex++;
+  }
+
+  return photoPlan;
+}
+
+async function saveVariantProduct(product,photoPlan,photoFilesFormData=null){
+  const fd=new FormData();
+
+  if(photoFilesFormData){
+    for(const [key,value] of photoFilesFormData.entries()){
+      if(key==='photos') fd.append('photos',value);
+    }
+  }
+
+  fd.append('product',JSON.stringify(product));
+  fd.append('photoPlan',JSON.stringify(photoPlan));
+
+  const api=cfg();
+  const response=await fetch(api.api+'/product',{
+    method:'POST',
+    headers:{'X-Admin-Key':api.key},
+    body:fd
+  });
+
+  const text=await response.text();
+  if(!response.ok) throw new Error(text||('HTTP '+response.status));
+
+  return text ? JSON.parse(text) : {};
+}
+
 async function publish(options={}){
   const startNewAfterSave=!!options.startNewAfterSave;
+
   try{
-    const fd=new FormData();
-    const data={
-      id:editing||slug($('marque').value+'-'+$('nom').value+'-'+getCurrentSize()),
+    const sizes=getCurrentSizes();
+    const variantSizes=sizes.length ? sizes : [''];
+    const existingProduct=editing ? products.find(p=>p.id===editing) : null;
+
+    const baseGroupId=String(
+      existingProduct?.variantGroupId ||
+      existingProduct?.id ||
+      slug(
+        $('marque').value+'-'+
+        $('nom').value+'-'+
+        ($('sku').value||$('gtin')?.value||Date.now())
+      )
+    );
+
+    const common={
       nom:$('nom').value.trim(),
       marque:$('marque').value.trim(),
       etatProduit:$('etatProduit').value,
       miseEnPremierePage:!!$('miseEnPremierePage')?.checked,
       categorie:getCurrentCategory(),
-      sousCategorie: getCurrentSousCategorie(),
+      sousCategorie:getCurrentSousCategorie(),
       genre:$('genre')?.value||'',
-      tailles:getCurrentSizes(),
-      taille:getCurrentSize(),
       prixRetail:Number($('retail').value||0),
       prixVente:Number($('vente').value||0),
       statut:$('statut').value,
@@ -3560,102 +3623,146 @@ async function publish(options={}){
       photos:[]
     };
 
-    if(data.gtin && extractGtin(data.gtin) && !isValidGtin(data.gtin)){
+    if(common.gtin && extractGtin(common.gtin) && !isValidGtin(common.gtin)){
       throw new Error('Le GTIN saisi est invalide (clé de contrôle incorrecte).');
     }
 
-    if(!data.nom||!data.marque||!data.etatProduit||!data.categorie||!data.prixVente){
+    if(!common.nom||!common.marque||!common.etatProduit||!common.categorie||!common.prixVente){
       throw new Error('Nom, marque, état, catégorie et prix de vente sont obligatoires.');
     }
 
-    const photoPlan=[];
-    let uploadIndex=0;
-    for(const item of galleryItems.slice(0,5)){
-      if(item.type==='existing'){
-        photoPlan.push({type:'existing',path:item.path});
+    const groupSiblings=products.filter(p=>
+      String(p.variantGroupId||'')===baseGroupId ||
+      (editing && p.id===editing)
+    );
+
+    const siblingBySize=new Map(
+      groupSiblings.map(p=>[
+        normalizeSizeValue(productSizes(p)[0]||p.taille||''),
+        p
+      ])
+    );
+
+    const firstFd=new FormData();
+    const firstPhotoPlan=await buildPhotoUploadPlan(firstFd);
+    let sharedPhotos=null;
+    const savedVariants=[];
+
+    for(let i=0;i<variantSizes.length;i++){
+      const size=String(variantSizes[i]||'').trim();
+      const sizeKey=normalizeSizeValue(size);
+      const existingSibling=siblingBySize.get(sizeKey);
+
+      let id;
+      if(existingSibling?.id){
+        id=existingSibling.id;
+      }else if(i===0 && editing){
+        id=editing;
       }else{
-        const original=item.file;
-        if(!original) throw new Error('Photo '+(uploadIndex+1)+' introuvable dans le formulaire.');
-
-        setMsg(
-          `Optimisation photo ${uploadIndex+1} : ${original.name||'image'} `+
-          `(${Math.round((original.size||0)/1024)} Ko)…`,
-          'working'
-        );
-
-        const optimised=await compressImageFile(original,1800,0.86);
-
-        photoPlan.push({type:'upload',index:uploadIndex});
-        fd.append('photos',optimised);
-        uploadIndex++;
+        const sizePart=slug(size||'unique')||'unique';
+        id=`${baseGroupId}--taille-${sizePart}`;
       }
+
+      const product={
+        ...common,
+        id,
+        variantGroupId:baseGroupId,
+        variantSize:size,
+        tailles:size?[size]:[],
+        taille:size,
+        stock:Number(common.stock||0),
+        statut:Number(common.stock||0)>0 ? common.statut : 'Vendu'
+      };
+
+      let result;
+
+      if(i===0){
+        firstFd.append('product',JSON.stringify(product));
+        firstFd.append('photoPlan',JSON.stringify(firstPhotoPlan));
+
+        const api=cfg();
+        const response=await fetch(api.api+'/product',{
+          method:'POST',
+          headers:{'X-Admin-Key':api.key},
+          body:firstFd
+        });
+        const text=await response.text();
+        if(!response.ok) throw new Error(text||('HTTP '+response.status));
+        result=text ? JSON.parse(text) : {};
+
+        sharedPhotos=Array.isArray(result?.product?.photos)
+          ? result.product.photos.slice(0,5)
+          : [];
+      }else{
+        const photoPlan=(sharedPhotos||[]).map(path=>({type:'existing',path}));
+        result=await saveVariantProduct(product,photoPlan);
+      }
+
+      savedVariants.push(result?.product||product);
+      setMsg(
+        `Enregistrement variante ${i+1}/${variantSizes.length}${size?' · Taille '+escapeHtmlValue(size):''}…`,
+        'working'
+      );
     }
 
-    fd.append('product',JSON.stringify(data));
-    fd.append('photoPlan',JSON.stringify(photoPlan));
+    // Supprime les anciennes variantes de ce groupe qui ne sont plus sélectionnées.
+    const savedIds=new Set(savedVariants.map(p=>String(p.id)));
+    const stale=groupSiblings.filter(p=>!savedIds.has(String(p.id)));
 
-    setMsg('Publication vers GitHub en cours…','working');
-
-    const c=cfg();
-    const r=await fetch(c.api+'/product',{
-      method:'POST',
-      headers:{'X-Admin-Key':c.key},
-      body:fd
-    });
-
-    const t=await r.text();
-    if(!r.ok) throw new Error(t);
+    for(const old of stale){
+      await req('/product/'+encodeURIComponent(old.id),{method:'DELETE'});
+    }
 
     const [updatedProducts,updatedBrands]=await Promise.all([
       req('/products'),
       req('/brands')
     ]);
+
     products=updatedProducts;
     brands=uniqueSortedBrands(updatedBrands);
     closeBrandSuggestions();
-    const saved=products.find(p=>p.id===data.id);
-    if(!saved) throw new Error("L'article n'est pas présent dans produits.json après publication.");
 
-    if(data.categorie && data.sousCategorie){
-      rememberSubcategory(data.categorie,data.sousCategorie);
+    const firstSaved=savedVariants[0];
+    if(!firstSaved) throw new Error("Aucune variante n'a été enregistrée.");
+
+    if(common.categorie && common.sousCategorie){
+      rememberSubcategory(common.categorie,common.sousCategorie);
     }
 
     renderList();
-    refreshCategories(data.categorie);
-    refreshSousCategories(data.sousCategorie||'');
-    refreshSizeSuggestions(data.tailles||data.taille||'');
+    refreshCategories(common.categorie);
+    refreshSousCategories(common.sousCategorie||'');
+    refreshSizeSuggestions(variantSizes);
 
-    // À ce stade, l'article a été relu depuis l'API et sa présence dans
-    // produits.json est confirmée. On peut donc repartir sans risque.
     if(startNewAfterSave){
-      const savedName=saved.nom||data.nom;
+      const savedName=firstSaved.nom||common.nom;
       await newProduct();
       setMsg(
-        '✅ <b>'+escapeHtmlValue(savedName)+'</b> est bien enregistré. Nouvelle annonce prête à être saisie.',
+        '✅ <b>'+escapeHtmlValue(savedName)+'</b> : '+
+        variantSizes.length+' variante'+(variantSizes.length>1?'s':'')+
+        ' de taille enregistrée'+(variantSizes.length>1?'s':'')+'. Nouvelle annonce prête à être saisie.',
         'ok'
       );
       return true;
     }
 
     setMsg(
-      'Article enregistré dans <b>produits.json</b>. GitHub Pages met maintenant la boutique à jour…',
-      'working'
+      '✅ '+variantSizes.length+' fiche'+(variantSizes.length>1?'s':'')+
+      ' produit enregistrée'+(variantSizes.length>1?'s':'')+
+      ' séparément par taille.',
+      'ok'
     );
 
-    const visible=await waitForStoreProduct(data.id,15);
-    if(visible){
-      setMsg('✅ Article publié et visible dans la boutique. <a href="index.html?refresh='+Date.now()+'" target="_blank">Ouvrir la boutique</a>','ok');
-    }else{
-      setMsg('✅ Article enregistré sur GitHub. La boutique publique peut avoir un léger délai. <a href="index.html?refresh='+Date.now()+'" target="_blank">Vérifier la boutique</a>','warn');
-    }
-
-    editing=data.id;
-    oldPhotos=saved.photos||[];
+    editing=firstSaved.id;
+    const refreshed=products.find(p=>p.id===firstSaved.id)||firstSaved;
+    oldPhotos=refreshed.photos||sharedPhotos||[];
     galleryItems=oldPhotos.map(path=>({type:'existing',path}));
     selectedPhotoFiles=[];
     renderPhotoPreviews();
-    $('editTitle').textContent='Modifier : '+saved.nom;
+    $('editTitle').textContent='Modifier : '+refreshed.nom+
+      (refreshed.taille?' · Taille '+refreshed.taille:'');
     $('deleteBtn').classList.remove('hidden');
+    updateProductNavigationButtons();
     return true;
 
   }catch(e){
