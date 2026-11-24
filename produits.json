@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Bali Curls Curl Travel Kit – 5 soins pour boucles en format voyage",
+    "marque": "Bali Curls",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 13,
+    "description": "Le Curl Travel Kit de Bali Curls réunit 5 soins capillaires en format voyage pour une routine dédiée aux boucles. Il comprend un shampoing, un après-shampooing, une crème à boucles, un gel définissant et une mousse modelante. Les quatre tubes et le flacon-pompe permettent d’emporter sa routine de lavage et de coiffage en déplacement. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/bali-curls-1795558170290-1.jpg",
+      "photos/bali-curls-1795558172413-2.jpg",
+      "photos/bali-curls-1795558174120-3.jpg",
+      "photos/bali-curls-1795558175922-4.jpg",
+      "photos/bali-curls-1795558177791-5.jpg"
+    ],
+    "id": "bali-curls-bali-curls-curl-travel-kit-5-soins-pour-boucles-en-format-voyage-1795558167450--taille-unique",
+    "variantGroupId": "bali-curls-bali-curls-curl-travel-kit-5-soins-pour-boucles-en-format-voyage-1795558167450",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T22:09:39.696Z",
+    "updatedAt": "2026-11-24T22:09:39.696Z"
+  },
+  {
     "nom": "Sacoche noire iMedic Deluxe pour fauteuil roulant, fixation aux poignées",
     "marque": "iMedic",
     "etatProduit": "Neuf",
