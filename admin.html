@@ -687,7 +687,7 @@
     <option value="Chaussures / Baskets">Chaussures / Baskets</option>
     <option value="High-Tech">High-Tech</option>
     <option value="Loisirs">Loisirs</option>
-    <option value="Maison, Animaux">Maison, Animaux</option>
+    <option value="Maison, Déco, Animaux">Maison, Déco, Animaux</option>
     <option value="Colis Perdus">Colis Perdus</option>
     <option value="__new__">+ Ajouter une nouvelle catégorie</option>
   </select>
@@ -2210,7 +2210,7 @@ function escapeHtmlValue(s){
 
 function normalizeCategory(s){
   const key=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-  if(key==='maison' || key.startsWith('maison ') || key==='pour la maison') return 'maison animaux';
+  if(key==='maison' || key.startsWith('maison ') || key==='pour la maison') return 'maison deco animaux';
   if(['vetements','vetement','mode','mode soins de la personne cosmetique','soins de la personne','cosmetique','cosmetiques','beaute'].includes(key)) return 'mode';
   if(['chaussures','basket','baskets','baskets chaussures','chaussures baskets'].includes(key)) return 'chaussures baskets';
   if(['informatique','informatique tech','high tech'].includes(key)) return 'high tech';
@@ -2239,7 +2239,7 @@ function refreshCategories(selectedValue=''){
     'Chaussures / Baskets',
     'High-Tech',
     'Loisirs',
-    'Maison, Animaux',
+    'Maison, Déco, Animaux',
     'Colis Perdus'
   ];
 
@@ -2654,7 +2654,7 @@ function edit(id){
   if(['Mode','Vêtements','Vetements'].includes(category)) category='Mode, Soins de la personne, Cosmétique';
   if(['Informatique','Informatique / Tech'].includes(category)) category='High-Tech';
   if(['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques','Maison, Soins de la personne, Animaux'].includes(category)){
-    category='Maison, Animaux';
+    category='Maison, Déco, Animaux';
   }
   if(['Sport','Sports'].includes(category)) category='Loisirs';
   if(['Chaussures','Basket','Baskets','Baskets / Chaussures','Chaussures / Baskets'].includes(category)) category='Chaussures / Baskets';
