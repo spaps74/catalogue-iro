@@ -5,7 +5,7 @@
     "etatProduit": "Neuf",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques",
+    "sousCategorie": "Casques de vélo/trottinette",
     "genre": "Mixte",
     "prixRetail": 59,
     "prixVente": 29,
@@ -27,7 +27,7 @@
     ],
     "taille": "S-M",
     "createdAt": "2026-11-24T18:35:22.943Z",
-    "updatedAt": "2026-11-24T18:35:22.943Z"
+    "updatedAt": "2026-11-24T18:39:17.259Z"
   },
   {
     "nom": "Westt – Casque moto noir mat taille S avec mentonnière relevable",
