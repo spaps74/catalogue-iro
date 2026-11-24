@@ -1,5 +1,32 @@
 [
   {
+    "id": "clarks-clarks-torhill-lo-white-canvas-homme-blanc-casse-pointure-41-5-new",
+    "nom": "Clarks Torhill Lo White Canvas homme blanc cassé – Pointure 41,5",
+    "marque": "Clarks",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Chaussures / Baskets",
+    "sousCategorie": "Chaussures à lacets",
+    "genre": "Hommes",
+    "taille": "41.5",
+    "prixRetail": 110,
+    "prixVente": 55,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "5063421719055",
+    "stock": 1,
+    "description": "Chaussures basses Clarks Torhill Lo White Canvas pour homme, en pointure 41,5. Leur teinte blanc cassé est contrastée par un col foncé et des lacets bicolores. Les coutures apparentes sur l’avant soulignent la forme arrondie du modèle. La semelle épaisse couleur miel se distingue par son relief vertical marqué. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/clarks-1795505859854-1.jpg",
+      "photos/clarks-1795505861892-2.jpg",
+      "photos/clarks-1795505863582-3.jpg",
+      "photos/clarks-1795505865398-4.jpg",
+      "photos/clarks-1795505866998-5.jpg"
+    ],
+    "createdAt": "2026-11-24T07:37:48.686Z",
+    "updatedAt": "2026-11-24T07:37:48.686Z"
+  },
+  {
     "id": "jott-doudoune-jott-cha-cherry-pink-femme-col-montant-taille-34-36-new",
     "nom": "Doudoune Jott Cha Cherry Pink femme, col montant",
     "marque": "Jott",
