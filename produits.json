@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Casque de Vélo Réglable 14 Canaux de Ventilation",
+    "marque": "Findway",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo/trottinette",
+    "genre": "Mixte",
+    "prixRetail": 49,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 2,
+    "description": "",
+    "photos": [
+      "photos/findway-1795546281163-1.jpg",
+      "photos/findway-1795546282879-2.jpg",
+      "photos/findway-1795546284529-3.jpg",
+      "photos/findway-1795546286072-4.jpg",
+      "photos/findway-1795546287829-5.jpg"
+    ],
+    "id": "findway-casque-de-velo-reglable-14-canaux-de-ventilation-1795546280207--taille-unique",
+    "variantGroupId": "findway-casque-de-velo-reglable-14-canaux-de-ventilation-1795546280207",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T18:51:29.619Z",
+    "updatedAt": "2026-11-24T18:51:29.619Z"
+  },
+  {
     "nom": "Casque Westt noir mat avec visière – Mixte, taille S-M",
     "marque": "Westt",
     "etatProduit": "Neuf",
