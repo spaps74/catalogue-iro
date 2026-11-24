@@ -384,8 +384,20 @@
 .scanner-modal.open{display:flex}
 .scanner-box{width:min(540px,100%);background:#fff;border-radius:16px;padding:14px}
 .scanner-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-#eanScannerReader{width:100%;min-height:280px;background:#111;border-radius:12px;overflow:hidden}
-.scanner-help{font-size:12px;color:#666;margin-top:8px}
+#eanScannerReader{width:100%;min-height:320px;background:#111;border-radius:12px;overflow:hidden}
+#eanScannerReader video{object-fit:cover !important}
+.scanner-help{font-size:12px;color:#666;margin-top:8px;line-height:1.45}
+.scanner-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:10px;background:#f7f7f5;border-radius:10px}
+.scanner-controls button{white-space:nowrap}
+.scanner-zoom{display:flex;align-items:center;gap:8px;flex:1;min-width:190px}
+.scanner-zoom input{width:100%;margin:0}
+.scanner-camera-info{font-size:11px;color:#666;margin-top:7px}
+@media(max-width:700px){
+  .scanner-modal{padding:6px;align-items:flex-start}
+  .scanner-box{width:100%;max-height:calc(100vh - 12px);overflow:auto;border-radius:12px;padding:10px}
+  #eanScannerReader{min-height:48vh}
+  .scanner-controls{position:sticky;bottom:0;background:#fff;z-index:3;border:1px solid #ddd}
+}
 @media(max-width:700px){
   .product-lookup-head{flex-direction:column}
   .product-lookup-head button{width:100%}
@@ -811,7 +823,17 @@
       <button type="button" onclick="stopBarcodeScanner()">✕</button>
     </div>
     <div id="eanScannerReader"></div>
-    <div class="scanner-help">Place le code-barres au centre. Dès qu’il est lu, la recherche démarre automatiquement.</div>
+    <div class="scanner-controls">
+      <button type="button" id="eanTorchBtn" onclick="toggleBarcodeTorch()" style="display:none">🔦 Lampe</button>
+      <div class="scanner-zoom" id="eanZoomWrap" style="display:none">
+        <span>Zoom</span>
+        <input id="eanZoomRange" type="range" min="1" max="3" step="0.1" value="1" oninput="setBarcodeZoom(this.value)">
+        <b id="eanZoomValue">1×</b>
+      </div>
+      <button type="button" id="eanRefocusBtn" onclick="refocusBarcodeCamera()" style="display:none">🎯 Refaire la mise au point</button>
+    </div>
+    <div class="scanner-help"><b>Astuce :</b> garde le téléphone à environ 15–25 cm du code et place tout le code-barres horizontalement dans le cadre. Le zoom permet de rester plus loin tout en gardant le code grand à l’écran.</div>
+    <div class="scanner-camera-info" id="eanCameraInfo"></div>
   </div>
 </div>
 <script>
@@ -823,6 +845,9 @@ let productLookupResults=[];
 let productLookupSelectedIndex=-1;
 let productLookupSelectedImages=new Set();
 let eanScanner=null;
+let eanScannerCapabilities=null;
+let eanTorchEnabled=false;
+let eanZoomValue=1;
 const $=id=>document.getElementById(id);
 
 function hideEditor(){
@@ -3237,34 +3262,195 @@ async function importLookupProduct(withAI){
   }
 }
 
+async function configureBarcodeCamera(){
+  if(!eanScanner) return;
+
+  let caps={};
+  let settings={};
+
+  try{
+    caps=eanScanner.getRunningTrackCapabilities?.()||{};
+    settings=eanScanner.getRunningTrackSettings?.()||{};
+  }catch(_){}
+
+  eanScannerCapabilities=caps;
+
+  const info=$('eanCameraInfo');
+  if(info){
+    const parts=[];
+    if(settings.width&&settings.height) parts.push(settings.width+'×'+settings.height);
+    if(settings.deviceId) parts.push('caméra arrière');
+    info.textContent=parts.length?'Caméra : '+parts.join(' · '):'Caméra arrière active';
+  }
+
+  // Demande une mise au point continue lorsque le navigateur / téléphone l'expose.
+  try{
+    const constraints={advanced:[]};
+    const focusModes=Array.isArray(caps.focusMode)?caps.focusMode:[];
+    if(focusModes.includes('continuous')){
+      constraints.advanced.push({focusMode:'continuous'});
+    }else if(focusModes.includes('single-shot')){
+      constraints.advanced.push({focusMode:'single-shot'});
+    }
+
+    // Un léger zoom permet de tenir le téléphone plus loin du code,
+    // ce qui facilite fortement l'autofocus sur beaucoup de smartphones.
+    if(caps.zoom && Number.isFinite(Number(caps.zoom.min)) && Number.isFinite(Number(caps.zoom.max))){
+      const min=Number(caps.zoom.min);
+      const max=Number(caps.zoom.max);
+      const ideal=Math.min(max,Math.max(min,1.5));
+      constraints.advanced.push({zoom:ideal});
+      eanZoomValue=ideal;
+
+      const wrap=$('eanZoomWrap');
+      const slider=$('eanZoomRange');
+      const value=$('eanZoomValue');
+      if(wrap&&slider&&value){
+        wrap.style.display='flex';
+        slider.min=String(min);
+        slider.max=String(max);
+        slider.step=String(caps.zoom.step||0.1);
+        slider.value=String(ideal);
+        value.textContent=ideal.toFixed(1).replace('.0','')+'×';
+      }
+    }
+
+    if(constraints.advanced.length){
+      await eanScanner.applyVideoConstraints(constraints);
+    }
+  }catch(e){
+    console.debug('Contraintes autofocus/zoom non appliquées',e);
+  }
+
+  const torchBtn=$('eanTorchBtn');
+  if(torchBtn){
+    const torchSupported=Boolean(caps.torch);
+    torchBtn.style.display=torchSupported?'inline-flex':'none';
+    torchBtn.textContent='🔦 Lampe';
+  }
+
+  const focusBtn=$('eanRefocusBtn');
+  if(focusBtn){
+    const modes=Array.isArray(caps.focusMode)?caps.focusMode:[];
+    focusBtn.style.display=(modes.includes('single-shot')||modes.includes('continuous'))?'inline-flex':'none';
+  }
+}
+
+async function setBarcodeZoom(value){
+  if(!eanScanner || !eanScannerCapabilities?.zoom) return;
+
+  const min=Number(eanScannerCapabilities.zoom.min);
+  const max=Number(eanScannerCapabilities.zoom.max);
+  const zoom=Math.min(max,Math.max(min,Number(value)||min));
+
+  try{
+    await eanScanner.applyVideoConstraints({advanced:[{zoom}]});
+    eanZoomValue=zoom;
+    if($('eanZoomValue')) $('eanZoomValue').textContent=zoom.toFixed(1).replace('.0','')+'×';
+  }catch(e){
+    console.debug('Zoom caméra non disponible',e);
+  }
+}
+
+async function toggleBarcodeTorch(){
+  if(!eanScanner || !eanScannerCapabilities?.torch) return;
+
+  eanTorchEnabled=!eanTorchEnabled;
+  try{
+    await eanScanner.applyVideoConstraints({advanced:[{torch:eanTorchEnabled}]});
+    const btn=$('eanTorchBtn');
+    if(btn){
+      btn.textContent=eanTorchEnabled?'🔦 Éteindre':'🔦 Lampe';
+      btn.classList.toggle('yellow',eanTorchEnabled);
+    }
+  }catch(e){
+    eanTorchEnabled=false;
+    console.debug('Torche non disponible',e);
+  }
+}
+
+async function refocusBarcodeCamera(){
+  if(!eanScanner) return;
+
+  const caps=eanScannerCapabilities||{};
+  const modes=Array.isArray(caps.focusMode)?caps.focusMode:[];
+
+  try{
+    if(modes.includes('single-shot')){
+      await eanScanner.applyVideoConstraints({advanced:[{focusMode:'single-shot'}]});
+      setTimeout(async()=>{
+        try{
+          if(eanScanner && modes.includes('continuous')){
+            await eanScanner.applyVideoConstraints({advanced:[{focusMode:'continuous'}]});
+          }
+        }catch(_){}
+      },700);
+    }else if(modes.includes('continuous')){
+      // Relancer la contrainte continue force certains téléphones à refaire le point.
+      await eanScanner.applyVideoConstraints({advanced:[{focusMode:'continuous'}]});
+    }
+  }catch(e){
+    console.debug('Refocus non disponible',e);
+  }
+}
+
 async function startBarcodeScanner(){
   const modal=$('eanScannerModal');
   if(!modal) return;
+
   modal.classList.add('open');
   modal.setAttribute('aria-hidden','false');
+  eanTorchEnabled=false;
+  eanScannerCapabilities=null;
+
+  if($('eanTorchBtn')){
+    $('eanTorchBtn').style.display='none';
+    $('eanTorchBtn').textContent='🔦 Lampe';
+  }
+  if($('eanZoomWrap')) $('eanZoomWrap').style.display='none';
+  if($('eanRefocusBtn')) $('eanRefocusBtn').style.display='none';
+  if($('eanCameraInfo')) $('eanCameraInfo').textContent='Ouverture de la caméra arrière…';
 
   if(!window.Html5Qrcode){
     setProductLookupStatus('Le module caméra n’a pas pu se charger. Utilise la saisie EAN/SKU manuelle.','error');
-    stopBarcodeScanner();
+    await stopBarcodeScanner();
     return;
   }
 
   try{
     eanScanner=new Html5Qrcode('eanScannerReader');
+
+    // Scanner spécialisé codes-barres produits : on évite QR/DataMatrix pour
+    // réduire le travail du décodeur et améliorer la rapidité des EAN/UPC.
     const formats=[
       Html5QrcodeSupportedFormats.EAN_13,
       Html5QrcodeSupportedFormats.EAN_8,
       Html5QrcodeSupportedFormats.UPC_A,
       Html5QrcodeSupportedFormats.UPC_E,
       Html5QrcodeSupportedFormats.ITF,
-      Html5QrcodeSupportedFormats.CODE_128,
-      Html5QrcodeSupportedFormats.DATA_MATRIX,
-      Html5QrcodeSupportedFormats.QR_CODE
+      Html5QrcodeSupportedFormats.CODE_128
     ].filter(v=>v!==undefined && v!==null);
 
+    const qrbox=(viewfinderWidth,viewfinderHeight)=>{
+      const width=Math.max(260,Math.min(Math.floor(viewfinderWidth*0.92),520));
+      const height=Math.max(100,Math.min(Math.floor(width*0.34),170));
+      return {width,height};
+    };
+
     await eanScanner.start(
-      {facingMode:'environment'},
-      {fps:10,qrbox:{width:280,height:140},formatsToSupport:formats},
+      {
+        facingMode:{ideal:'environment'},
+        width:{ideal:1920},
+        height:{ideal:1080}
+      },
+      {
+        fps:15,
+        qrbox,
+        aspectRatio:1.7777778,
+        disableFlip:true,
+        formatsToSupport:formats,
+        experimentalFeatures:{useBarCodeDetectorIfSupported:true}
+      },
       async decodedText=>{
         const decoded=String(decodedText||'').trim();
         const detectedGtin=extractGtin(decoded);
@@ -3281,24 +3467,87 @@ async function startBarcodeScanner(){
           );
           return;
         }
+
         lookupProduct();
       },
       ()=>{}
     );
+
+    await configureBarcodeCamera();
+
   }catch(e){
     console.error(e);
-    setProductLookupStatus('Impossible d’ouvrir la caméra. Vérifie l’autorisation caméra ou saisis le code manuellement.','error');
-    await stopBarcodeScanner();
+
+    // Certains navigateurs refusent les contraintes HD : second essai plus simple.
+    try{
+      if(eanScanner){
+        try{await eanScanner.clear();}catch(_){}
+      }
+
+      eanScanner=new Html5Qrcode('eanScannerReader');
+
+      await eanScanner.start(
+        {facingMode:'environment'},
+        {
+          fps:12,
+          qrbox:(w,h)=>({
+            width:Math.max(240,Math.min(Math.floor(w*0.9),480)),
+            height:Math.max(100,Math.min(Math.floor(w*0.32),160))
+          }),
+          disableFlip:true,
+          formatsToSupport:[
+            Html5QrcodeSupportedFormats.EAN_13,
+            Html5QrcodeSupportedFormats.EAN_8,
+            Html5QrcodeSupportedFormats.UPC_A,
+            Html5QrcodeSupportedFormats.UPC_E,
+            Html5QrcodeSupportedFormats.CODE_128
+          ].filter(v=>v!==undefined&&v!==null)
+        },
+        async decodedText=>{
+          const decoded=String(decodedText||'').trim();
+          const detectedGtin=extractGtin(decoded);
+          if($('productLookupCode')) $('productLookupCode').value=detectedGtin||decoded;
+          if(detectedGtin&&$('gtin')) $('gtin').value=detectedGtin;
+          await stopBarcodeScanner();
+          if(detectedGtin&&!isValidGtin(detectedGtin)){
+            setProductLookupStatus('Code lu mais GTIN invalide : '+detectedGtin+'.','error');
+            return;
+          }
+          lookupProduct();
+        },
+        ()=>{}
+      );
+
+      await configureBarcodeCamera();
+
+    }catch(e2){
+      console.error(e2);
+      setProductLookupStatus(
+        'Impossible d’ouvrir correctement la caméra arrière. Vérifie l’autorisation caméra ou saisis le code manuellement.',
+        'error'
+      );
+      await stopBarcodeScanner();
+    }
   }
 }
 
 async function stopBarcodeScanner(){
   const scanner=eanScanner;
   eanScanner=null;
+
   if(scanner){
+    try{
+      if(eanTorchEnabled){
+        await scanner.applyVideoConstraints?.({advanced:[{torch:false}]});
+      }
+    }catch(_){}
     try{await scanner.stop();}catch(_){}
     try{await scanner.clear();}catch(_){}
   }
+
+  eanTorchEnabled=false;
+  eanScannerCapabilities=null;
+
   const modal=$('eanScannerModal');
   if(modal){
     modal.classList.remove('open');
