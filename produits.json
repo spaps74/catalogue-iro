@@ -2564,7 +2564,7 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": true,
     "categorie": "Loisirs",
-    "sousCategorie": "Casqes d'équitation",
+    "sousCategorie": "Casques d’équitation",
     "genre": "Mixte",
     "prixRetail": 129,
     "prixVente": 65,
@@ -2588,7 +2588,7 @@
     ],
     "taille": "XXS-S",
     "createdAt": "2026-11-17T17:36:50.699Z",
-    "updatedAt": "2026-11-24T18:28:54.152Z"
+    "updatedAt": "2026-11-24T19:41:51.973Z"
   },
   {
     "id": "champion-sweat-zipe-hampion-rose-fuchsia",
