@@ -1,5 +1,32 @@
 [
   {
+    "id": "odlo-odlo-veste-technique-windproof-femme-grise-taille-s-s",
+    "nom": "odlo – Veste technique Windproof femme grise, taille S",
+    "marque": "odlo",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
+    "categorie": "Mode",
+    "sousCategorie": "Vestes de sport",
+    "genre": "Femmes",
+    "taille": "S",
+    "prixRetail": 160,
+    "prixVente": 55,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Veste technique Windproof odlo pour femme, grise avec des bandes claires le long des manches et un logo sur la poitrine. Sa coupe cintrée est complétée par un col montant et une fermeture zippée intégrale. Deux poches latérales zippées permettent de garder de petits effets personnels à portée de main. Taille S indiquée sur l’étiquette. État : Neuf avec étiquettes.",
+    "photos": [
+      "photos/odlo-1795498599622-1.jpg",
+      "photos/odlo-1795498601118-2.jpg",
+      "photos/odlo-1795498602787-3.jpg",
+      "photos/odlo-1795498604336-4.jpg",
+      "photos/odlo-1795498605824-5.jpg"
+    ],
+    "createdAt": "2026-11-24T05:36:47.635Z",
+    "updatedAt": "2026-11-24T05:36:47.635Z"
+  },
+  {
     "id": "adidas-adidas-veste-de-sport-classique-rayee-croisee-originals-x-ivy-park-unisexe-bleu-homme-h33303-xs",
     "nom": "Adidas Originals x Ivy Park H33303 – Veste de sport bleue mixte XS",
     "marque": "Adidas",
