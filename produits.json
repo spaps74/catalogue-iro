@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Casque vélo ILM E3-10L gris L/XL avec visière, LED et cadenas – Neuf",
+    "marque": "ILM",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "",
+    "prixRetail": 83,
+    "prixVente": 39,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque de vélo ILM E3-10L neuf, en gris et taille L/XL. Il dispose d’une visière rétractable et d’un éclairage LED à l’avant et à l’arrière. Ses multiples aérations et sa sangle de menton réglable complètent son équipement. Un cadenas est également inclus, conformément aux informations fournies.",
+    "photos": [
+      "photos/ilm-1795548334009-1.jpg",
+      "photos/ilm-1795548335840-2.jpg",
+      "photos/ilm-1795548337679-3.jpg",
+      "photos/ilm-1795548339351-4.jpg",
+      "photos/ilm-1795548341145-5.jpg"
+    ],
+    "id": "ilm-casque-velo-ilm-e3-10l-gris-l-xl-avec-visiere-led-et-cadenas-neuf-1795548333237--taille-l-xl",
+    "variantGroupId": "ilm-casque-velo-ilm-e3-10l-gris-l-xl-avec-visiere-led-et-cadenas-neuf-1795548333237",
+    "variantSize": "L-XL",
+    "tailles": [
+      "L-XL"
+    ],
+    "taille": "L-XL",
+    "createdAt": "2026-11-24T19:25:42.939Z",
+    "updatedAt": "2026-11-24T19:25:42.939Z"
+  },
+  {
     "nom": "Victgoal Casque vélo et VTT adulte avec lunettes magnétiques et visière détachable",
     "marque": "Victgoal",
     "etatProduit": "Neuf",
