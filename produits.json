@@ -34,7 +34,7 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "High-Tech",
-    "sousCategorie": "Supports Starlink",
+    "sousCategorie": "Starlink",
     "genre": "",
     "prixRetail": 29,
     "prixVente": 15,
@@ -52,7 +52,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T20:19:06.901Z",
-    "updatedAt": "2026-11-24T20:19:06.901Z"
+    "updatedAt": "2026-11-24T20:21:27.816Z"
   },
   {
     "nom": "Caisse de transport pour chiens et chats, pliable",
