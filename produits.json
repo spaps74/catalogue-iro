@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Casque vélo mixte kinflead noir et gris avec visière magnétique amovible - M",
+    "marque": "kinflead",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "Mixte",
+    "prixRetail": 43,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque de vélo kinflead mixte, taille M, neuf, pour la pratique du vélo et du VTT. Sa visière fumée est amovible et se fixe par un système magnétique. Ultraléger et ajustable, il présente plusieurs ouvertures de ventilation. Son design profilé associe le noir et le gris.",
+    "photos": [
+      "photos/kinflead-1795546538276-1.jpg",
+      "photos/kinflead-1795546539762-2.jpg",
+      "photos/kinflead-1795546541470-3.jpg",
+      "photos/kinflead-1795546543662-4.jpg",
+      "photos/kinflead-1795546545446-5.jpg"
+    ],
+    "id": "kinflead-casque-velo-mixte-kinflead-noir-et-gris-avec-visiere-magnetique-amovible-m-1795546537272--taille-m",
+    "variantGroupId": "kinflead-casque-velo-mixte-kinflead-noir-et-gris-avec-visiere-magnetique-amovible-m-1795546537272",
+    "variantSize": "M",
+    "tailles": [
+      "M"
+    ],
+    "taille": "M",
+    "createdAt": "2026-11-24T18:55:47.260Z",
+    "updatedAt": "2026-11-24T18:55:47.260Z"
+  },
+  {
     "nom": "Casque de Vélo Réglable 14 Canaux de Ventilation",
     "marque": "Findway",
     "etatProduit": "Neuf",
