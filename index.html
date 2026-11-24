@@ -2418,9 +2418,7 @@ function clothingSubcategoriesForGenre(genre){
   const byKey=new Map();
 
   products
-    .filter(p => genre==='Enfants'
-      ? ['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p))
-      : inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique')
+    .filter(p => inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique')
     .filter(p => genderMatchesProduct(p,genre))
     .map(p => explicitSubcategory(p))
     .filter(Boolean)
@@ -2442,11 +2440,7 @@ function refreshSizeOptionsForCurrentCategory(){
 
   let source=products;
   if(saleTypeFilter){
-    if(saleTypeFilter==='Mode, Soins de la personne, Cosmétique' && saleGenreFilter==='Enfants'){
-      source=products.filter(p=>['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p)));
-    }else{
-      source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
-    }
+    source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
     if(saleTypeFilter==='Mode, Soins de la personne, Cosmétique' && saleGenreFilter){
       source=source.filter(p=>genderMatchesProduct(p,saleGenreFilter));
     }
@@ -2584,7 +2578,7 @@ function renderClothingGenreMenu(){
   top.appendChild(all);
 
   for(const genre of ['Femmes','Hommes','Enfants','Mixte','Soins de la personne','Cosmétiques']){
-    if(!products.some(p=>(genre==='Enfants'?['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p)):inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique') && genderMatchesProduct(p,genre))) continue;
+    if(!products.some(p=>inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique' && genderMatchesProduct(p,genre))) continue;
     const btn=document.createElement('button');
     btn.type='button';
     btn.className='gender-nav-btn'+(saleGenreFilter===genre?' active':'');
@@ -2825,12 +2819,7 @@ function selectSaleSubcat(sub,btn){
 function passesSaleFilters(p){
   const inferredType=inferredSaleType(p);
 
-  if(
-    saleTypeFilter==='Mode, Soins de la personne, Cosmétique' &&
-    saleGenreFilter==='Enfants'
-  ){
-    if(!['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredType)) return false;
-  }else if(saleTypeFilter && inferredType!==saleTypeFilter){
+  if(saleTypeFilter && inferredType!==saleTypeFilter){
     return false;
   }
 
