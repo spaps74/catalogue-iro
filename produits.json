@@ -4,8 +4,8 @@
     "marque": "Skön",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
-    "categorie": "Maison, Déco, Cosmétiques",
-    "sousCategorie": "",
+    "categorie": "Maison, Soins de la personne, Animaux",
+    "sousCategorie": "Cosmétiques",
     "genre": "",
     "prixRetail": 23,
     "prixVente": 10,
@@ -23,7 +23,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T20:37:01.295Z",
-    "updatedAt": "2026-11-24T20:37:01.295Z"
+    "updatedAt": "2026-11-24T20:38:29.798Z"
   },
   {
     "nom": "Lighteu WL5 – Contrôleur de bande LED WiFi 5 en 1 compatible Alexa et Google Home",
