@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Aquaphor Onyx – Carafe filtrante 4,2 L noire avec 1 filtre inclus",
+    "marque": "Aquaphor",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Cosmétiques",
+    "sousCategorie": "",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "La carafe filtrante Aquaphor Onyx offre une capacité de 4,2 L et comprend un filtre. Son corps transparent est associé à un couvercle noir et à un réservoir intérieur gris. Elle dispose d’une grande poignée latérale et d’un bec verseur. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/aquaphor-1795551659262-1.jpg",
+      "photos/aquaphor-1795551660755-2.jpg",
+      "photos/aquaphor-1795551662239-3.jpg",
+      "photos/aquaphor-1795551664176-4.jpg"
+    ],
+    "id": "aquaphor-aquaphor-onyx-carafe-filtrante-4-2-l-noire-avec-1-filtre-inclus-1795551657503--taille-unique",
+    "variantGroupId": "aquaphor-aquaphor-onyx-carafe-filtrante-4-2-l-noire-avec-1-filtre-inclus-1795551657503",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T20:21:05.984Z",
+    "updatedAt": "2026-11-24T20:21:05.984Z"
+  },
+  {
     "nom": "JBAO adaptateur de tube 360° pour Starlink V3 – support de toit, 28–54 mm",
     "marque": "JBAO",
     "etatProduit": "Neuf avec étiquettes",
