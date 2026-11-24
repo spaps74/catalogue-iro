@@ -1,5 +1,30 @@
 [
   {
+    "id": "adidas-adidas-veste-de-sport-classique-rayee-croisee-originals-x-ivy-park-unisexe-bleu-homme-h33303-xs",
+    "nom": "Adidas Veste de Sport Classique Rayée Croisée Originals x Ivy Park Unisexe Bleu Homme H33303",
+    "marque": "Adidas",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode",
+    "sousCategorie": "vestes",
+    "genre": "Mixte",
+    "taille": "XS",
+    "prixRetail": 160,
+    "prixVente": 55,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "",
+    "photos": [
+      "photos/adidas-1795497548479-1.jpg",
+      "photos/adidas-1795497550296-2.jpg",
+      "photos/adidas-1795497552076-3.jpg"
+    ],
+    "createdAt": "2026-11-24T05:19:13.672Z",
+    "updatedAt": "2026-11-24T05:19:13.672Z"
+  },
+  {
     "id": "hunter-claquettes-hunter-vert-kaki-a-semelle-epaisse-hfru0004251-new",
     "nom": "Claquettes Hunter vert kaki à semelle épaisse HFRU0004251",
     "marque": "Hunter",
