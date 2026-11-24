@@ -5,7 +5,7 @@
     "etatProduit": "Neuf",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques de vélo",
+    "sousCategorie": "Casques de vélo/trottinette",
     "genre": "",
     "prixRetail": 25,
     "prixVente": 15,
@@ -23,7 +23,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-24T19:40:35.403Z",
-    "updatedAt": "2026-11-24T19:40:35.403Z"
+    "updatedAt": "2026-11-24T19:43:45.771Z"
   },
   {
     "nom": "Casque vélo et trottinette ILM MB101L blanc L-XL avec visière et clignotants",
