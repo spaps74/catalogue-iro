@@ -530,19 +530,18 @@
     "updatedAt": "2026-11-24T18:17:19.213Z"
   },
   {
-    "id": "yema-casque-jet-moto-et-scooter-yema-ym-627-noir-mat-double-visiere-taille-l-l",
     "nom": "Casque jet moto et scooter Yema YM-627 noir mat, double visière, taille L",
     "marque": "Yema",
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques",
+    "sousCategorie": "Casques moto",
     "genre": "Mixte",
-    "taille": "L",
     "prixRetail": 79,
     "prixVente": 42,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Casque jet Yema YM-627 pour moto et scooter, modèle mixte en taille L. Sa finition noir mat est rehaussée de détails gris et du logo Yema à l’avant et à l’arrière. Il dispose d’une visière transparente et d’un écran pare-soleil intérieur teinté. Des aérations sont présentes sur le dessus et à l’arrière du casque. Homologué ECE, il est neuf avec étiquettes.",
     "photos": [
@@ -552,8 +551,15 @@
       "photos/yema-1795456110030-4.jpg",
       "photos/yema-1795456111470-5.jpg"
     ],
+    "id": "yema-casque-jet-moto-et-scooter-yema-ym-627-noir-mat-double-visiere-taille-l-l",
+    "variantGroupId": "yema-casque-jet-moto-et-scooter-yema-ym-627-noir-mat-double-visiere-taille-l-l",
+    "variantSize": "L",
+    "tailles": [
+      "L"
+    ],
+    "taille": "L",
     "createdAt": "2026-11-23T17:48:32.971Z",
-    "updatedAt": "2026-11-23T18:05:38.413Z"
+    "updatedAt": "2026-11-24T18:25:39.461Z"
   },
   {
     "id": "hicc-pet-hicc-pet-nettoyant-pour-les-yeux-des-chiens-et-chats-150-ml",
