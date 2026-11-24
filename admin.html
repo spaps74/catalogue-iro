@@ -2163,9 +2163,9 @@ function getCurrentCategory(){
   if(!sel) return '';
 
   if(sel.value==='__new__'){
-    return (input?.value||'').trim();
+    return capitalizeSubcategory(input?.value||'');
   }
-  return (sel.value||'').trim();
+  return capitalizeSubcategory(sel.value||'');
 }
 
 function refreshCategories(selectedValue=''){
@@ -2215,7 +2215,7 @@ function refreshCategories(selectedValue=''){
     input.style.display='none';
   }else{
     sel.value='__new__';
-    input.value=wanted;
+    input.value=capitalizeSubcategory(wanted);
     input.style.display='block';
   }
 }
@@ -2240,7 +2240,7 @@ function saveSubcategoryRegistry(data){
 
 function rememberSubcategory(category,subcategory){
   const cat=String(category||'').trim();
-  const sub=String(subcategory||'').trim();
+  const sub=capitalizeSubcategory(subcategory);
   if(!cat || !sub) return;
 
   const registry=loadSubcategoryRegistry();
@@ -2256,6 +2256,12 @@ function registeredSubcategoriesFor(category){
   const registry=loadSubcategoryRegistry();
   const values=registry[normalizeCategory(category)];
   return Array.isArray(values) ? values : [];
+}
+
+function capitalizeSubcategory(value){
+  const s=String(value||'').trim();
+  if(!s) return '';
+  return s.charAt(0).toLocaleUpperCase('fr-FR')+s.slice(1);
 }
 
 function normalizeSubcat(s){
@@ -2300,7 +2306,7 @@ function refreshSousCategories(selectedValue=''){
 
     if(normalizeCategory(productCategory)!==normalizeCategory(selectedCategory)) continue;
 
-    const sub=(p.sousCategorie||p.sous_categorie||'').trim();
+    const sub=capitalizeSubcategory(p.sousCategorie||p.sous_categorie||'');
     if(!sub) continue;
 
     const key=normalizeSubcat(sub);
@@ -2308,7 +2314,7 @@ function refreshSousCategories(selectedValue=''){
   }
 
   for(const sub of registeredSubcategoriesFor(selectedCategory)){
-    const clean=String(sub||'').trim();
+    const clean=capitalizeSubcategory(sub);
     if(!clean) continue;
     const key=normalizeSubcat(clean);
     if(!byKey.has(key)) byKey.set(key,clean);
@@ -2322,7 +2328,7 @@ function refreshSousCategories(selectedValue=''){
     existing.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('')+
     '<option value="__new__">+ Ajouter une nouvelle sous-catégorie</option>';
 
-  const wanted=(selectedValue||'').trim();
+  const wanted=capitalizeSubcategory(selectedValue);
 
   if(!wanted){
     sel.value='';
