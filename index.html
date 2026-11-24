@@ -1726,12 +1726,12 @@ body.category-focus #catalogTitle{
     <div class="nav-inner">
       <div class="cats nav-all" id="cats"></div>
       <div class="sale-types">
-        <button class="sale-type-btn" onclick="selectSaleType('Mode',this)">Mode⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Chaussures / Baskets',this)">Chaussures / Baskets⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Maison, Soins de la personne, Animaux',this)">Maison, Soins de la personne, Animaux⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
-        <button class="sale-type-btn" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
-        <button class="sale-type-btn lost-parcels-nav" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
+        <button class="sale-type-btn" data-sale-category="Mode" onclick="selectSaleType('Mode',this)">Mode⌄</button>
+        <button class="sale-type-btn" data-sale-category="Chaussures / Baskets" onclick="selectSaleType('Chaussures / Baskets',this)">Chaussures / Baskets⌄</button>
+        <button class="sale-type-btn" data-sale-category="Maison, Soins de la personne, Animaux" onclick="selectSaleType('Maison, Soins de la personne, Animaux',this)">Maison, Soins de la personne, Animaux⌄</button>
+        <button class="sale-type-btn" data-sale-category="High-Tech" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
+        <button class="sale-type-btn" data-sale-category="Loisirs" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
+        <button class="sale-type-btn lost-parcels-nav" data-sale-category="Colis Perdus" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
         <button class="deal-nav-btn" type="button" onclick="showBestDeals()">🔥 Bons plans</button>
       </div>
     </div>
@@ -1767,11 +1767,11 @@ body.category-focus #catalogTitle{
       <button type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">Voir tous les rayons →</button>
     </div>
     <div class="univers-grid">
-      <button onclick="selectSaleType('Mode',document.querySelectorAll('.sale-type-btn')[0])"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
-      <button onclick="selectSaleType('Chaussures / Baskets',document.querySelectorAll('.sale-type-btn')[1])"><span class="univers-icon">👟</span><b>Chaussures / Baskets</b><em>→</em></button>
-      <button onclick="selectSaleType('Maison, Soins de la personne, Animaux',document.querySelectorAll('.sale-type-btn')[2])"><span class="univers-icon">🛋</span><b>Maison, Soins de la personne, Animaux</b><em>→</em></button>
-      <button onclick="selectSaleType('High-Tech',document.querySelectorAll('.sale-type-btn')[3])"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
-      <button onclick="selectSaleType('Loisirs',document.querySelectorAll('.sale-type-btn')[4])"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
+      <button data-sale-category="Mode" onclick="selectSaleType('Mode')"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
+      <button data-sale-category="Chaussures / Baskets" onclick="selectSaleType('Chaussures / Baskets')"><span class="univers-icon">👟</span><b>Chaussures / Baskets</b><em>→</em></button>
+      <button data-sale-category="Maison, Soins de la personne, Animaux" onclick="selectSaleType('Maison, Soins de la personne, Animaux')"><span class="univers-icon">🛋</span><b>Maison, Soins de la personne, Animaux</b><em>→</em></button>
+      <button data-sale-category="High-Tech" onclick="selectSaleType('High-Tech')"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
+      <button data-sale-category="Loisirs" onclick="selectSaleType('Loisirs')"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
     </div>
   </section>
 
@@ -2234,7 +2234,22 @@ async function load(){
   updateFavoritesHeader();
   updateScrollUI();
 }
+function refreshCategoryVisibility(){
+  const activeTypes=new Set(products.map(inferredSaleType).filter(Boolean));
+  document.querySelectorAll('[data-sale-category]').forEach(btn=>{
+    btn.style.display=activeTypes.has(btn.dataset.saleCategory)?'':'none';
+  });
+  if(saleTypeFilter && !activeTypes.has(saleTypeFilter)){
+    saleTypeFilter=''; saleSubcatFilter=''; saleGenreFilter=''; category='Tous';
+    document.querySelectorAll('.sale-type-btn').forEach(b=>b.classList.remove('active'));
+    document.body.classList.remove('category-focus');
+    renderSubcategoryMenu('');
+  }else if(saleTypeFilter){
+    renderSubcategoryMenu(saleTypeFilter);
+  }
+}
 function build(){
+  refreshCategoryVisibility();
   document.getElementById('cats').innerHTML=
     '<button class="chip active" data-cat="Tous" onclick="selectAllProducts(this)">Tout le catalogue</button>';
 
@@ -2556,6 +2571,7 @@ function renderClothingGenreMenu(){
   top.appendChild(all);
 
   for(const genre of ['Femmes','Hommes','Enfants','Mixte']){
+    if(!products.some(p=>(genre==='Enfants'?['Mode','Chaussures / Baskets'].includes(inferredSaleType(p)):inferredSaleType(p)==='Mode') && genderMatchesProduct(p,genre))) continue;
     const btn=document.createElement('button');
     btn.type='button';
     btn.className='gender-nav-btn'+(saleGenreFilter===genre?' active':'');
@@ -2719,6 +2735,8 @@ function updateGenreFilterVisibility(){
 }
 
 function selectSaleType(type,btn){
+  if(!products.some(p=>inferredSaleType(p)===type)) return;
+  btn=Array.from(document.querySelectorAll('.sale-type-btn[data-sale-category]')).find(b=>b.dataset.saleCategory===type)||btn;
   favoriteOnly=false;
   updateFavoritesHeader();
   category='Tous';
