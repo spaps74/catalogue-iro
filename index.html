@@ -1726,9 +1726,9 @@ body.category-focus #catalogTitle{
     <div class="nav-inner">
       <div class="cats nav-all" id="cats"></div>
       <div class="sale-types">
-        <button class="sale-type-btn" data-sale-category="Mode" onclick="selectSaleType('Mode',this)">Mode⌄</button>
+        <button class="sale-type-btn" data-sale-category="Mode, Soins de la personne, Cosmétique" onclick="selectSaleType('Mode, Soins de la personne, Cosmétique',this)">Mode, Soins de la personne, Cosmétique⌄</button>
         <button class="sale-type-btn" data-sale-category="Chaussures / Baskets" onclick="selectSaleType('Chaussures / Baskets',this)">Chaussures / Baskets⌄</button>
-        <button class="sale-type-btn" data-sale-category="Maison, Soins de la personne, Animaux" onclick="selectSaleType('Maison, Soins de la personne, Animaux',this)">Maison, Soins de la personne, Animaux⌄</button>
+        <button class="sale-type-btn" data-sale-category="Maison, Animaux" onclick="selectSaleType('Maison, Animaux',this)">Maison, Animaux⌄</button>
         <button class="sale-type-btn" data-sale-category="High-Tech" onclick="selectSaleType('High-Tech',this)">High-Tech⌄</button>
         <button class="sale-type-btn" data-sale-category="Loisirs" onclick="selectSaleType('Loisirs',this)">Loisirs⌄</button>
         <button class="sale-type-btn lost-parcels-nav" data-sale-category="Colis Perdus" onclick="selectSaleType('Colis Perdus',this)">Colis Perdus <span class="new-tag">NEW</span></button>
@@ -1767,9 +1767,9 @@ body.category-focus #catalogTitle{
       <button type="button" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">Voir tous les rayons →</button>
     </div>
     <div class="univers-grid">
-      <button data-sale-category="Mode" onclick="selectSaleType('Mode')"><span class="univers-icon">👕</span><b>Mode</b><em>→</em></button>
+      <button data-sale-category="Mode, Soins de la personne, Cosmétique" onclick="selectSaleType('Mode, Soins de la personne, Cosmétique')"><span class="univers-icon">👕</span><b>Mode, Soins de la personne, Cosmétique</b><em>→</em></button>
       <button data-sale-category="Chaussures / Baskets" onclick="selectSaleType('Chaussures / Baskets')"><span class="univers-icon">👟</span><b>Chaussures / Baskets</b><em>→</em></button>
-      <button data-sale-category="Maison, Soins de la personne, Animaux" onclick="selectSaleType('Maison, Soins de la personne, Animaux')"><span class="univers-icon">🛋</span><b>Maison, Soins de la personne, Animaux</b><em>→</em></button>
+      <button data-sale-category="Maison, Animaux" onclick="selectSaleType('Maison, Animaux')"><span class="univers-icon">🛋</span><b>Maison, Animaux</b><em>→</em></button>
       <button data-sale-category="High-Tech" onclick="selectSaleType('High-Tech')"><span class="univers-icon">🎧</span><b>High-Tech</b><em>→</em></button>
       <button data-sale-category="Loisirs" onclick="selectSaleType('Loisirs')"><span class="univers-icon">🏀</span><b>Loisirs</b><em>→</em></button>
     </div>
@@ -2410,8 +2410,8 @@ function clothingSubcategoriesForGenre(genre){
 
   products
     .filter(p => genre==='Enfants'
-      ? ['Mode','Chaussures / Baskets'].includes(inferredSaleType(p))
-      : inferredSaleType(p)==='Mode')
+      ? ['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p))
+      : inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique')
     .filter(p => genderMatchesProduct(p,genre))
     .map(p => explicitSubcategory(p))
     .filter(Boolean)
@@ -2433,12 +2433,12 @@ function refreshSizeOptionsForCurrentCategory(){
 
   let source=products;
   if(saleTypeFilter){
-    if(saleTypeFilter==='Mode' && saleGenreFilter==='Enfants'){
-      source=products.filter(p=>['Mode','Chaussures / Baskets'].includes(inferredSaleType(p)));
+    if(saleTypeFilter==='Mode, Soins de la personne, Cosmétique' && saleGenreFilter==='Enfants'){
+      source=products.filter(p=>['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p)));
     }else{
       source=products.filter(p=>inferredSaleType(p)===saleTypeFilter);
     }
-    if(saleTypeFilter==='Mode' && saleGenreFilter){
+    if(saleTypeFilter==='Mode, Soins de la personne, Cosmétique' && saleGenreFilter){
       source=source.filter(p=>genderMatchesProduct(p,saleGenreFilter));
     }
     if(saleSubcatFilter){
@@ -2476,11 +2476,12 @@ function inferredSaleType(p){
   const h=normSaleTxt(`${p.categorie||''} ${p.nom||''} ${p.marque||''}`);
 
   // Valeurs principales actuelles saisies dans l'admin.
-  if(['mode','vetement','vetements'].includes(cat)) return 'Mode';
+  if(['mode','mode, soins de la personne, cosmetique','vetement','vetements'].includes(cat)) return 'Mode, Soins de la personne, Cosmétique';
   if(['chaussures','chaussure','baskets','basket','baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)) return 'Chaussures / Baskets';
   if(['high-tech','high tech','hightech','informatique','informatique / tech','informatique/tech'].includes(cat)) return 'High-Tech';
   if(['loisir','loisirs','sport','sports'].includes(cat)) return 'Loisirs';
   if([
+    'maison, animaux',
     'maison, soins de la personne, animaux',
     'maison soins de la personne animaux',
     'maison, deco, cosmetiques',
@@ -2490,7 +2491,7 @@ function inferredSaleType(p){
     'maison deco',
     'pour la maison',
     'maison'
-  ].includes(cat)) return 'Maison, Soins de la personne, Animaux';
+  ].includes(cat)) return 'Maison, Animaux';
   if(['colis perdus','colis perdu','colis'].includes(cat)) return 'Colis Perdus';
 
   // Compatibilité anciens produits / anciennes catégories.
@@ -2499,15 +2500,16 @@ function inferredSaleType(p){
   }
 
   if(/^(accessoire|accessoires|combi-short|combi short|pantalon|pantalons|jean|jeans|robe|robes|jupe|jupes|chemise|chemises|blouse|blouses|top|tops|t-shirt|t-shirts|pull|pulls|sweat|sweats|veste|vestes|manteau|manteaux|short|shorts|legging|leggings|cargo)$/.test(cat)){
-    return 'Mode';
+    return 'Mode, Soins de la personne, Cosmétique';
   }
 
   // Dernier filet de compatibilité pour les produits historiques.
   if(/basket|chaussure|sneaker|botte|bottine|sandale|mule|escarpin|ballerine/.test(h)) return 'Chaussures / Baskets';
-  if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Mode';
+  if(/pantalon|jean|robe|jupe|chemise|blouse|top|t-shirt|tee|pull|sweat|veste|manteau|short|legging|cargo/.test(h)) return 'Mode, Soins de la personne, Cosmétique';
   if(/informatique|electronique|ordinateur|pc\b|laptop|clavier|souris|ecran|monitor|ssd|routeur|switch|usb|dock|webcam|nas|qnap|starlink|gamesir|ugreen|gaming/.test(h)) return 'High-Tech';
   if(/sport|fitness|running|velo|cyclisme|football|tennis|padel|musculation|gym|ski|snow|randonnee/.test(h)) return 'Loisirs';
-  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager|cosmetique|cosmetiques|beaute|soin/.test(h)) return 'Maison, Soins de la personne, Animaux';
+  if(/cosmetique|beaute|soin/.test(h)) return 'Mode, Soins de la personne, Cosmétique';
+  if(/maison|cuisine|salle de bain|jardin|bricolage|outil|lampe|eclairage|ventilateur|aspirateur|meuble|decoration|linge|electromenager/.test(h)) return 'Maison, Animaux';
   if(/colis perdu|colis perdus|lost parcel|lost parcels/.test(h)) return 'Colis Perdus';
 
   return '';
@@ -2534,8 +2536,8 @@ function subcategoriesForSaleType(type){
 }
 
 function saleTypeAllLabel(type){
-  if(type==='Mode') return 'Toute la mode';
-  if(type==='Maison, Soins de la personne, Animaux') return 'Toute la maison, soins de la personne & animaux';
+  if(type==='Mode, Soins de la personne, Cosmétique') return 'Toute la mode, soins et cosmétique';
+  if(type==='Maison, Animaux') return 'Toute la maison & animaux';
   if(type==='Colis Perdus') return 'Tous les colis perdus';
   if(type==='Chaussures / Baskets') return 'Toutes les chaussures / baskets';
   if(type==='High-Tech') return 'Tout le high-tech';
@@ -2571,7 +2573,7 @@ function renderClothingGenreMenu(){
   top.appendChild(all);
 
   for(const genre of ['Femmes','Hommes','Enfants','Mixte']){
-    if(!products.some(p=>(genre==='Enfants'?['Mode','Chaussures / Baskets'].includes(inferredSaleType(p)):inferredSaleType(p)==='Mode') && genderMatchesProduct(p,genre))) continue;
+    if(!products.some(p=>(genre==='Enfants'?['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredSaleType(p)):inferredSaleType(p)==='Mode, Soins de la personne, Cosmétique') && genderMatchesProduct(p,genre))) continue;
     const btn=document.createElement('button');
     btn.type='button';
     btn.className='gender-nav-btn'+(saleGenreFilter===genre?' active':'');
@@ -2589,8 +2591,8 @@ function renderClothingGenreMenu(){
 
   wrap.appendChild(top);
 
-  if(saleGenreFilter){
-    const subs=clothingSubcategoriesForGenre(saleGenreFilter);
+  {
+    const subs=saleGenreFilter ? clothingSubcategoriesForGenre(saleGenreFilter) : subcategoriesForSaleType('Mode, Soins de la personne, Cosmétique');
 
     if(subs.length){
       const subWrap=document.createElement('div');
@@ -2599,7 +2601,7 @@ function renderClothingGenreMenu(){
       const allSub=document.createElement('button');
       allSub.type='button';
       allSub.className='subcat-btn'+(!saleSubcatFilter?' active':'');
-      allSub.textContent=`Tous ${saleGenreFilter.toLowerCase()}`;
+      allSub.textContent=saleGenreFilter ? `Tous ${saleGenreFilter.toLowerCase()}` : 'Toutes les sous-catégories';
       allSub.addEventListener('click',()=>selectSaleSubcat('',allSub));
       subWrap.appendChild(allSub);
 
@@ -2630,14 +2632,14 @@ function renderSubcategoryMenu(type){
 
   if(!type) return;
 
-  if(type==='Mode'){
+  if(type==='Mode, Soins de la personne, Cosmétique'){
     renderClothingGenreMenu();
     return;
   }
 
   // Affichage dynamique des sous-catégories sous le titre.
   // Les valeurs proviennent directement des produits publiés (sousCategorie).
-  if(!['Maison, Soins de la personne, Animaux','Chaussures / Baskets','High-Tech','Loisirs'].includes(type)) return;
+  if(!['Maison, Animaux','Chaussures / Baskets','High-Tech','Loisirs'].includes(type)) return;
 
   const subs=subcategoriesForSaleType(type);
   if(!subs.length) return;
@@ -2723,7 +2725,7 @@ function updateGenreFilterVisibility(){
   if(!wrap || !genre) return;
 
   const show =
-    saleTypeFilter==='Mode' ||
+    saleTypeFilter==='Mode, Soins de la personne, Cosmétique' ||
     saleTypeFilter==='Chaussures / Baskets';
 
   wrap.style.display=show ? 'inline-flex' : 'none';
@@ -2806,16 +2808,16 @@ function passesSaleFilters(p){
   const inferredType=inferredSaleType(p);
 
   if(
-    saleTypeFilter==='Mode' &&
+    saleTypeFilter==='Mode, Soins de la personne, Cosmétique' &&
     saleGenreFilter==='Enfants'
   ){
-    if(!['Mode','Chaussures / Baskets'].includes(inferredType)) return false;
+    if(!['Mode, Soins de la personne, Cosmétique','Chaussures / Baskets'].includes(inferredType)) return false;
   }else if(saleTypeFilter && inferredType!==saleTypeFilter){
     return false;
   }
 
   if(
-    saleTypeFilter==='Mode' &&
+    saleTypeFilter==='Mode, Soins de la personne, Cosmétique' &&
     saleGenreFilter &&
     !genderMatchesProduct(p,saleGenreFilter)
   ) return false;
@@ -3053,9 +3055,11 @@ function render(){
     // Si la saisie correspond exactement à une catégorie, on privilégie
     // cette catégorie afin d'éviter les faux positifs dans descriptions/noms.
     const categoryAliases = {
-      'mode': 'Mode',
-      'vetements': 'Mode',
-      'vetement': 'Mode',
+      'mode soins de la personne cosmetique': 'Mode, Soins de la personne, Cosmétique',
+      'maison animaux': 'Maison, Animaux',
+      'mode': 'Mode, Soins de la personne, Cosmétique',
+      'vetements': 'Mode, Soins de la personne, Cosmétique',
+      'vetement': 'Mode, Soins de la personne, Cosmétique',
       'chaussures': 'Chaussures / Baskets',
       'chaussures baskets': 'Chaussures / Baskets',
       'baskets': 'Chaussures / Baskets',
@@ -3065,19 +3069,19 @@ function render(){
       'loisirs': 'Loisirs',
       'sports': 'Loisirs',
       'sport': 'Loisirs',
-      'maison deco': 'Maison, Soins de la personne, Animaux',
-      'maison et deco': 'Maison, Soins de la personne, Animaux',
-      'pour la maison': 'Maison, Soins de la personne, Animaux',
-      'maison soins de la personne animaux': 'Maison, Soins de la personne, Animaux',
-      'animaux': 'Maison, Soins de la personne, Animaux',
-      'soins de la personne': 'Maison, Soins de la personne, Animaux',
-      'maison deco cosmetiques': 'Maison, Soins de la personne, Animaux',
-      'cosmetiques': 'Maison, Soins de la personne, Animaux',
-      'soins de la personne': 'Maison, Soins de la personne, Animaux',
-      'soins personne': 'Maison, Soins de la personne, Animaux',
-      'beaute': 'Maison, Soins de la personne, Animaux',
-      'animaux': 'Maison, Soins de la personne, Animaux',
-      'maison cosmetiques animaux': 'Maison, Soins de la personne, Animaux',
+      'maison deco': 'Maison, Animaux',
+      'maison et deco': 'Maison, Animaux',
+      'pour la maison': 'Maison, Animaux',
+      'maison soins de la personne animaux': 'Maison, Animaux',
+      'animaux': 'Maison, Animaux',
+      'soins de la personne': 'Mode, Soins de la personne, Cosmétique',
+      'maison deco cosmetiques': 'Maison, Animaux',
+      'cosmetiques': 'Mode, Soins de la personne, Cosmétique',
+      'soins de la personne': 'Mode, Soins de la personne, Cosmétique',
+      'soins personne': 'Mode, Soins de la personne, Cosmétique',
+      'beaute': 'Mode, Soins de la personne, Cosmétique',
+      'animaux': 'Maison, Animaux',
+      'maison cosmetiques animaux': 'Maison, Animaux',
       'colis perdus': 'Colis Perdus'
     };
     const exactCategory = categoryAliases[q];

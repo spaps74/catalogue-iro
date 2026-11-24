@@ -683,11 +683,11 @@
   <label>Catégorie *</label>
   <select id="categorie" name="categorie" required>
     <option value="">Sélectionner une catégorie</option>
-    <option value="Mode">Mode</option>
+    <option value="Mode, Soins de la personne, Cosmétique">Mode, Soins de la personne, Cosmétique</option>
     <option value="Chaussures / Baskets">Chaussures / Baskets</option>
     <option value="High-Tech">High-Tech</option>
     <option value="Loisirs">Loisirs</option>
-    <option value="Maison, Soins de la personne, Animaux">Maison, Soins de la personne, Animaux</option>
+    <option value="Maison, Animaux">Maison, Animaux</option>
     <option value="Colis Perdus">Colis Perdus</option>
     <option value="__new__">+ Ajouter une nouvelle catégorie</option>
   </select>
@@ -2072,7 +2072,7 @@ function inferCheckMainCategory(p){
   const cat=normalizeCheckValue(p.categorie);
   const sub=normalizeCheckValue(p.sousCategorie||p.sous_categorie);
 
-  if(cat==='vetements' || cat==='vetement' || cat==='mode') return 'Mode';
+  if(cat==='vetements' || cat==='vetement' || cat==='mode' || cat==='mode soins de la personne cosmetique' || cat==='mode, soins de la personne, cosmetique') return 'Mode, Soins de la personne, Cosmétique';
   if(['baskets / chaussures','baskets/chaussures','basket / chaussure','basket/chaussure'].includes(cat)){
     return 'Chaussures / Baskets';
   }
@@ -2092,7 +2092,7 @@ function inferCheckMainCategory(p){
   ]);
 
   if(shoeLegacy.has(cat) || (!cat && shoeLegacy.has(sub))) return 'Chaussures / Baskets';
-  if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Mode';
+  if(clothingLegacy.has(cat) || (!cat && clothingLegacy.has(sub))) return 'Mode, Soins de la personne, Cosmétique';
 
   return '';
 }
@@ -2154,7 +2154,7 @@ function showProductCheck(){
   const summary=$('productCheckSummary');
   const list=$('productCheckList');
 
-  const clothingCount=rows.filter(x=>x.target==='Mode').length;
+  const clothingCount=rows.filter(x=>x.target==='Mode, Soins de la personne, Cosmétique').length;
   const shoesCount=rows.filter(x=>x.target==='Chaussures / Baskets').length;
   const missingCategoryCount=rows.filter(x=>x.issues.some(i=>i.type==='category')).length;
   const missingSubCount=rows.filter(x=>x.issues.some(i=>i.type==='subcategory')).length;
@@ -2210,8 +2210,8 @@ function escapeHtmlValue(s){
 
 function normalizeCategory(s){
   const key=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-  if(key==='maison' || key.startsWith('maison ') || key==='pour la maison') return 'maison soins de la personne animaux';
-  if(['vetements','vetement','mode'].includes(key)) return 'mode';
+  if(key==='maison' || key.startsWith('maison ') || key==='pour la maison') return 'maison animaux';
+  if(['vetements','vetement','mode','mode soins de la personne cosmetique','soins de la personne','cosmetique','cosmetiques','beaute'].includes(key)) return 'mode';
   if(['chaussures','basket','baskets','baskets chaussures','chaussures baskets'].includes(key)) return 'chaussures baskets';
   if(['informatique','informatique tech','high tech'].includes(key)) return 'high tech';
   if(['sport','sports','loisirs'].includes(key)) return 'loisirs';
@@ -2235,11 +2235,11 @@ function refreshCategories(selectedValue=''){
   if(!sel || !input) return;
 
   const defaults=[
-    'Mode',
+    'Mode, Soins de la personne, Cosmétique',
     'Chaussures / Baskets',
     'High-Tech',
     'Loisirs',
-    'Maison, Soins de la personne, Animaux',
+    'Maison, Animaux',
     'Colis Perdus'
   ];
 
@@ -2651,10 +2651,10 @@ function edit(id){
   }
 
   let category=String(p.categorie||'').trim();
-  if(['Vêtements','Vetements'].includes(category)) category='Mode';
+  if(['Mode','Vêtements','Vetements'].includes(category)) category='Mode, Soins de la personne, Cosmétique';
   if(['Informatique','Informatique / Tech'].includes(category)) category='High-Tech';
-  if(['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques'].includes(category)){
-    category='Maison, Soins de la personne, Animaux';
+  if(['Pour la maison','Maison & Déco','Maison, Déco, Cosmétiques','Maison, Soins de la personne, Animaux'].includes(category)){
+    category='Maison, Animaux';
   }
   if(['Sport','Sports'].includes(category)) category='Loisirs';
   if(['Chaussures','Basket','Baskets','Baskets / Chaussures','Chaussures / Baskets'].includes(category)) category='Chaussures / Baskets';
