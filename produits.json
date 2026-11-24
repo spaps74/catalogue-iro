@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Casque vélo VTT ILM adulte mixte rose avec visière et éclairages LED USB",
+    "marque": "ILM",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "Mixte",
+    "prixRetail": 83,
+    "prixVente": 39,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce casque de vélo et VTT ILM neuf, pour adulte mixte, se présente dans un coloris rose avec une large visière teintée. Ses éclairages LED avant et arrière sont rechargeables par USB. L’éclairage avant diffuse une lumière blanche fixe, tandis que le feu arrière rouge propose deux modes clignotants. Il dispose d’ouvertures d’aération, d’une molette de réglage à l’arrière et d’une jugulaire avec fermeture à boucle.",
+    "photos": [
+      "photos/ilm-1795548931531-1.jpg",
+      "photos/ilm-1795548933330-2.jpg",
+      "photos/ilm-1795548934879-3.jpg",
+      "photos/ilm-1795548936899-4.jpg",
+      "photos/ilm-1795548938824-5.jpg"
+    ],
+    "id": "ilm-casque-velo-vtt-ilm-adulte-mixte-rose-avec-visiere-et-eclairages-led-usb-1795548930208--taille-xs",
+    "variantGroupId": "ilm-casque-velo-vtt-ilm-adulte-mixte-rose-avec-visiere-et-eclairages-led-usb-1795548930208",
+    "variantSize": "XS",
+    "tailles": [
+      "XS"
+    ],
+    "taille": "XS",
+    "createdAt": "2026-11-24T19:35:40.643Z",
+    "updatedAt": "2026-11-24T19:35:40.643Z"
+  },
+  {
     "nom": "Uvex exxential III – Casque d’équitation noir léger, taille L-XL",
     "marque": "Uvex",
     "etatProduit": "Neuf",
