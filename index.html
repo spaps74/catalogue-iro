@@ -1694,6 +1694,19 @@ body.category-focus #catalogTitle{
   color:#111 !important;
   font-weight:950 !important;
 }
+
+/* Navigation : largeur adaptée aux libellés longs. */
+.nav-inner{max-width:1440px;width:100%;}
+.nav-inner .nav-all{flex:0 0 auto;}
+.nav-inner .sale-types{min-width:0;}
+.nav-inner .sale-type-btn,.nav-inner .deal-nav-btn{flex:0 0 auto;}
+@media(min-width:901px){
+  .nav-inner .sale-types{flex-wrap:wrap;overflow:visible;row-gap:4px;}
+  .nav-inner .deal-nav-btn{margin-left:auto;}
+}
+@media(max-width:900px){
+  .nav-inner .sale-types{flex-wrap:nowrap;overflow-x:auto;}
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
