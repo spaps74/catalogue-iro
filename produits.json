@@ -62,12 +62,12 @@
     "updatedAt": "2026-11-24T18:58:04.996Z"
   },
   {
-    "nom": "Casque vélo mixte kinflead noir et gris avec visière magnétique amovible - M",
-    "marque": "kinflead",
+    "nom": "Casque vélo mixte kingead noir et gris avec visière magnétique amovible - M",
+    "marque": "kinglead",
     "etatProduit": "Neuf",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques de vélo",
+    "sousCategorie": "Casques de vélo/trottinette",
     "genre": "Mixte",
     "prixRetail": 43,
     "prixVente": 30,
@@ -91,7 +91,7 @@
     ],
     "taille": "M",
     "createdAt": "2026-11-24T18:55:47.260Z",
-    "updatedAt": "2026-11-24T18:55:47.260Z"
+    "updatedAt": "2026-11-24T19:28:38.754Z"
   },
   {
     "nom": "Casque de Vélo Réglable 14 Canaux de Ventilation",
