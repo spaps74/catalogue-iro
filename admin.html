@@ -728,7 +728,7 @@
   <option value="Enfants">Enfants</option>
   <option value="Mixte">Mixte</option>
 </select></div>
-<div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
+<div><label>Prix d’achat unitaire (€) — privé</label><input id="achat" type="number" min="0" max="10000000" step="0.01" placeholder="Non renseigné" disabled><div id="achatStatus" class="muted">Disponible après connexion au Worker.</div></div><div><label>Prix retail (€)</label><input id="retail" type="number" step=".01"></div><div><label>Prix vente (€) *</label><input id="vente" type="number" step=".01"></div>
 <div><label>Statut</label><select id="statut"><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div><div><label>Stock</label><input id="stock" type="number" min="0" value="1"></div>
 <div><label>Référence / SKU</label><input id="sku"></div>
 <div>
@@ -1918,6 +1918,23 @@ function setupBrandPicker(){
   });
 }
 
+let purchasePrices=Object.create(null);
+let purchasePricesReady=false;
+async function loadPurchasePrices(){
+  purchasePricesReady=false;
+  $('achat').disabled=true;
+  try{
+    const data=await req('/admin/purchase-prices');
+    if(!data.prices || typeof data.prices!=='object' || Array.isArray(data.prices)) throw new Error('Réponse invalide');
+    purchasePrices=Object.assign(Object.create(null),data.prices);
+    purchasePricesReady=true;
+    $('achat').disabled=false;
+    $('achatStatus').textContent='Privé · prix unitaire, jamais affiché aux clients.';
+  }catch(e){
+    purchasePrices=Object.create(null);
+    $('achatStatus').textContent='Prix d’achat indisponible : déployer le Worker compatible et vérifier D1.';
+  }
+}
 function cfg(){return {api:$('api').value.trim().replace(/\/$/,''),key:$('key').value}}
 function saveCfg(){localStorage.setItem('upstyle_admin_key',$('key').value)}
 $('api').value='https://soft-tree-927f.stephane-0f5.workers.dev';$('key').value=localStorage.getItem('upstyle_admin_key')||'';
@@ -1984,6 +2001,7 @@ async function connect(){
     ]);
 
     products=loadedProducts;
+    await loadPurchasePrices();
     brands=uniqueSortedBrands(loadedBrands);
     referenceDataLoaded=true;
 
@@ -2038,6 +2056,7 @@ function renderList(){
                 ${p.genre?' · '+escapeHtmlValue(p.genre):''}
                 · Taille${productSizes(p).length>1?'s':''} ${escapeHtmlValue(productSizes(p).join(' / ')||'—')}
                 · ${Number(p.prixVente||0).toFixed(2)} €
+                ${purchasePricesReady && purchasePrices[p.id]!=null?' · Achat : '+Number(purchasePrices[p.id]).toFixed(2)+' €':''}
                 · ${escapeHtmlValue(p.statut||'')}
                 ${p.sku?' · SKU '+escapeHtmlValue(p.sku):''}${p.gtin?' · GTIN '+escapeHtmlValue(p.gtin):''}
               </div>
@@ -2727,6 +2746,7 @@ function edit(id){
 
   if($('etatProduit')) $('etatProduit').value=p.etatProduit||p.etat||'';
   if($('miseEnPremierePage')) $('miseEnPremierePage').checked=!!p.miseEnPremierePage;
+  $('achat').value=purchasePricesReady ? (purchasePrices[p.id]??'') : '';
   $('retail').value=p.prixRetail||'';
   $('vente').value=p.prixVente||'';
   $('editTitle').textContent='Modifier : '+p.nom;
@@ -2738,7 +2758,7 @@ function edit(id){
   $('editor').scrollIntoView({behavior:'smooth'});
 }
 function clear(){
-  ['nom','marque','genre','retail','vente','sku','gtin','description'].forEach(x=>{if($(x)) $(x).value='';});
+  ['nom','marque','genre','achat','retail','vente','sku','gtin','description'].forEach(x=>{if($(x)) $(x).value='';});
   refreshSizeSuggestions('');
   refreshCategories('');
   $('statut').value='Disponible';
@@ -3860,6 +3880,9 @@ async function publish(options={}){
   const startNewAfterSave=!!options.startNewAfterSave;
 
   try{
+    const purchaseRaw=$('achat').value.trim();
+    const purchasePrice=purchaseRaw===''?null:Number(purchaseRaw);
+    if(purchasePricesReady && purchasePrice!==null && (!Number.isFinite(purchasePrice)||purchasePrice<0||purchasePrice>10000000)) throw new Error('Prix d’achat invalide.');
     const sizes=getCurrentSizes();
     const variantSizes=sizes.length ? sizes : [''];
     const existingProduct=editing ? products.find(p=>p.id===editing) : null;
@@ -3975,6 +3998,19 @@ async function publish(options={}){
       );
     }
 
+    let purchaseWarning='';
+    if(purchasePricesReady){
+      try{
+        const ids=savedVariants.map(v=>String(v.id));
+        await req('/admin/purchase-prices',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids,price:purchasePrice})});
+        for(const id of ids){
+          if(purchasePrice===null) delete purchasePrices[id];
+          else purchasePrices[id]=purchasePrice;
+        }
+      }catch(e){
+        purchaseWarning='Le produit est publié, mais le prix d’achat n’a pas été enregistré : '+e.message;
+      }
+    }
     // Chaque taille est une fiche indépendante : une édition ne supprime jamais
     // automatiquement les autres variantes du même produit.
 
@@ -3999,6 +4035,11 @@ async function publish(options={}){
     refreshSousCategories(common.sousCategorie||'');
     refreshSizeSuggestions(variantSizes);
 
+    if(purchaseWarning){
+      editing=firstSaved.id;
+      setMsg(escapeHtmlValue(purchaseWarning),'error');
+      return false;
+    }
     if(startNewAfterSave){
       const savedName=firstSaved.nom||common.nom;
       await newProduct();
