@@ -63,7 +63,7 @@
     "etatProduit": "Neuf",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Casques de vélo",
+    "sousCategorie": "Casques de vélo/trottinette",
     "genre": "Mixte",
     "prixRetail": 83,
     "prixVente": 39,
@@ -87,7 +87,7 @@
     ],
     "taille": "XS",
     "createdAt": "2026-11-24T19:35:40.643Z",
-    "updatedAt": "2026-11-24T19:35:40.643Z"
+    "updatedAt": "2026-11-24T19:43:31.980Z"
   },
   {
     "nom": "Uvex exxential III – Casque d’équitation noir léger, taille L-XL",
