@@ -2010,19 +2010,22 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Mode",
-    "sousCategorie": "doudounes",
+    "sousCategorie": "Doudounes sans manches",
     "genre": "Femmes",
     "taille": "XS",
     "prixRetail": 119,
     "prixVente": 35,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "Craquez pour cette superbe doudoune sans manches JOTT Seda, dans son élégant coloris Blue Jeans, un bleu intemporel facile à assortir !\n\n✨ Caractéristiques :\n\nMarque : JOTT (Just Over The Top)\n\nModèle : Seda\n\nTaille : XS (peut convenir à un petit S selon la coupe souhaitée)\n\nColoris : Blue Jeans\n\nÉtat : Neuve\n\nCoupe : Féminine et légèrement cintrée\n\nCol montant pour davantage de confort\n\nFermeture zippée sur toute la longueur\n\nDeux poches latérales discrètes\n\nModèle matelassé, léger et facile à superposer\n\n💙 Parfaite avec un jean, un pull ou un sweat, pour un look chic, décontracté et moderne.\n\n📦 Expédition soignée et rapide.",
     "photos": [
       "photos/jott-jott-seda-doudoune-sans-manches-femme-blue-jeans-xs-1794893258800-1.webp",
       "photos/jott-jott-seda-doudoune-sans-manches-femme-blue-jeans-xs-1794893260469-2.webp"
-    ]
+    ],
+    "createdAt": "2026-11-17T05:27:38.800Z",
+    "updatedAt": "2026-11-24T05:48:31.831Z"
   },
   {
     "id": "surprise-25kg-de-colis-perdus",
