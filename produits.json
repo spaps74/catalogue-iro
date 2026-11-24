@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Casque vélo mixte Victgoal noir avec lunettes magnétiques et éclairage USB",
+    "marque": "Victgoal",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Casques de vélo",
+    "genre": "Mixte",
+    "prixRetail": 53,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Casque de vélo adulte mixte Victgoal, neuf avec étiquettes, pour le cyclisme sur route et le VTT. Son coloris noir est rehaussé de détails blancs et sa coque présente de nombreuses aérations. Il dispose de lunettes teintées magnétiques détachables et d’une visière solaire amovible. Un éclairage rechargeable par USB et un câble de recharge complètent l’ensemble. La jugulaire comporte une protection au menton et une boucle à ouverture rapide.",
+    "photos": [
+      "photos/victgoal-1795543077664-1.jpg",
+      "photos/victgoal-1795543079315-2.jpg",
+      "photos/victgoal-1795543080904-3.jpg",
+      "photos/victgoal-1795543082742-4.jpg",
+      "photos/victgoal-1795543084557-5.jpg"
+    ],
+    "id": "victgoal-casque-velo-mixte-victgoal-noir-avec-lunettes-magnetiques-et-eclairage-usb-1795543076472--taille-unique",
+    "variantGroupId": "victgoal-casque-velo-mixte-victgoal-noir-avec-lunettes-magnetiques-et-eclairage-usb-1795543076472",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-24T17:58:06.688Z",
+    "updatedAt": "2026-11-24T17:58:06.688Z"
+  },
+  {
     "nom": "VICTGOAL Casque Velo Casque VTT avec Lunettes de Sécurité Magnétiques Amovibles Visière Détachable Casque Léger pour Adultes",
     "marque": "Victgoal",
     "etatProduit": "Neuf avec étiquettes",
