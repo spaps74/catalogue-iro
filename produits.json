@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Bouchons d’oreilles antibruit roses en silicone – 2 paires avec étui",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 2,
+    "description": "Lot de 2 paires de bouchons d’oreilles antibruit en silicone, réutilisables et lavables, de marque Autres. Les bouchons roses présentent une forme incurvée et sont proposés en deux tailles, petite et grande. Un étui de rangement noir accompagne le lot. Ils sont destinés au sommeil ainsi qu’aux environnements bruyants comme les fêtes et les concerts. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795602774286-1.jpg",
+      "photos/autres-1795602776138-2.jpg",
+      "photos/autres-1795602777774-3.jpg",
+      "photos/autres-1795602779747-4.jpg",
+      "photos/autres-1795602781322-5.jpg"
+    ],
+    "id": "autres-bouchons-d-oreilles-antibruit-roses-en-silicone-2-paires-avec-etui-1795602772057--taille-unique",
+    "variantGroupId": "autres-bouchons-d-oreilles-antibruit-roses-en-silicone-2-paires-avec-etui-1795602772057",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:33:03.243Z",
+    "updatedAt": "2026-11-25T10:33:03.243Z"
+  },
+  {
     "nom": "Caméra USB ELP 2 MP 1080p avec objectif fisheye grand angle 180°",
     "marque": "ELP",
     "etatProduit": "Retour Amazon comme neuf",
