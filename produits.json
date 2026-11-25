@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Ceinture de soutien dorsale Freetoo noire avec 7 supports et coussin lombaire 3D",
+    "marque": "Freetoo",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 34.99,
+    "prixVente": 19,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette ceinture de soutien dorsale Freetoo est neuve et conçue pour le maintien du bas du dos. Elle dispose de 7 supports métalliques et d’un coussin lombaire 3D amovible. Sa structure respirante est complétée par de larges sangles croisées. Noire avec des surpiqûres vertes, elle est prévue pour une utilisation au travail ou pendant le sport.",
+    "photos": [
+      "photos/freetoo-1795583916572-1.jpg"
+    ],
+    "id": "freetoo-ceinture-de-soutien-dorsale-freetoo-noire-avec-7-supports-et-coussin-lombaire-3d-1795583915868--taille-unique",
+    "variantGroupId": "freetoo-ceinture-de-soutien-dorsale-freetoo-noire-avec-7-supports-et-coussin-lombaire-3d-1795583915868",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:18:38.307Z",
+    "updatedAt": "2026-11-25T05:18:38.307Z"
+  },
+  {
     "nom": "Émetteur de guitare Airline AG8 uniquement - Bande G",
     "marque": "Samson",
     "etatProduit": "Neuf",
