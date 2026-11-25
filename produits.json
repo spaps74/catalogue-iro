@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Hikenture Matelas de camping bleu 1 personne, 13 cm, avec coussin et pompe à pied",
+    "marque": "Hikenture",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Matelas de camping",
+    "genre": "",
+    "prixRetail": 47,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce matelas de camping Hikenture bleu pour 1 personne est neuf. Son épaisseur de 13 cm et son coussin intégré offrent un couchage adapté aux nuits en plein air. Il dispose d’une pompe à pied intégrée pour le gonflage. Léger et compact, il se transporte pour le camping, le trekking, le bivouac ou la plage.",
+    "photos": [
+      "photos/hikenture-1795600699006-1.jpg",
+      "photos/hikenture-1795600700391-2.jpg",
+      "photos/hikenture-1795600702589-3.jpg",
+      "photos/hikenture-1795600704462-4.jpg",
+      "photos/hikenture-1795600706428-5.jpg"
+    ],
+    "id": "hikenture-hikenture-matelas-de-camping-bleu-1-personne-13-cm-avec-coussin-et-pompe-a-pied-1795600697552--taille-unique",
+    "variantGroupId": "hikenture-hikenture-matelas-de-camping-bleu-1-personne-13-cm-avec-coussin-et-pompe-a-pied-1795600697552",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:58:28.282Z",
+    "updatedAt": "2026-11-25T09:58:28.282Z"
+  },
+  {
     "nom": "Lighteu MiBoxer TRI-K1 – Variateur LED TRIAC rotatif 2,4 GHz blanc",
     "marque": "Lighteu",
     "etatProduit": "Neuf avec étiquettes",
