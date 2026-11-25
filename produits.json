@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Lecteur cassette Bluetooth noir – batterie 1100 mAh, écouteurs et clip arrière",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 52,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce lecteur cassette compact de marque Autres est neuf et dispose d’une connexion Bluetooth. Sa batterie rechargeable offre une capacité de 1100 mAh. Son design rétro associe un boîtier noir translucide à des détails orange et des commandes sur le dessus. Il est fourni avec des écouteurs et possède un clip arrière pour le fixer à la ceinture.",
+    "photos": [
+      "photos/autres-1795600397970-1.jpg",
+      "photos/autres-1795600399740-2.jpg",
+      "photos/autres-1795600401616-3.jpg",
+      "photos/autres-1795600403602-4.jpg",
+      "photos/autres-1795600405380-5.jpg"
+    ],
+    "id": "autres-lecteur-cassette-bluetooth-noir-batterie-1100-mah-ecouteurs-et-clip-arriere-1795600396903--taille-unique",
+    "variantGroupId": "autres-lecteur-cassette-bluetooth-noir-batterie-1100-mah-ecouteurs-et-clip-arriere-1795600396903",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:53:27.145Z",
+    "updatedAt": "2026-11-25T09:53:27.145Z"
+  },
+  {
     "nom": "Pantalon médiéval marron à lacets, coupe ample et bas resserrés",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
