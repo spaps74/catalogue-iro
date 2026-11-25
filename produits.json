@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Masque de snorkeling intégral pour enfants rose et blanc – Neuf",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 30,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce masque de snorkeling pour enfants couvre l’ensemble du visage avec une grande visière transparente. Son design rose et blanc comprend un tuba supérieur et des sangles de maintien roses. Il est destiné à l’observation aquatique en surface. Marque renseignée : Autres. Produit neuf.",
+    "photos": [
+      "photos/autres-1795598760968-1.jpg",
+      "photos/autres-1795598762642-2.jpg",
+      "photos/autres-1795598764051-3.jpg",
+      "photos/autres-1795598765632-4.jpg",
+      "photos/autres-1795598767113-5.jpg"
+    ],
+    "id": "autres-masque-de-snorkeling-integral-pour-enfants-rose-et-blanc-neuf-1795598760183--taille-unique",
+    "variantGroupId": "autres-masque-de-snorkeling-integral-pour-enfants-rose-et-blanc-neuf-1795598760183",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:26:08.924Z",
+    "updatedAt": "2026-11-25T09:26:08.924Z"
+  },
+  {
     "nom": "Short de maternité Autres vert sauge à taille haute pour yoga",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
