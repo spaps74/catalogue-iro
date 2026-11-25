@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Lighteu FUT036Z – Variateur Zigbee 3.0 pour bande LED monochrome 12/24 V",
+    "marque": "Lighteu",
+    "etatProduit": "Neuf sans boîte",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "prixRetail": 28,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Le variateur Lighteu FUT036Z permet de régler l’intensité d’une bande LED monochrome en 12 V ou 24 V. Il utilise le protocole Zigbee 3.0 pour le pilotage depuis une application compatible. Il est également compatible avec Amazon Echo pour la commande vocale. Article neuf sans boîte.",
+    "photos": [
+      "photos/lighteu-1795629969065-1.jpg",
+      "photos/lighteu-1795629970428-2.jpg",
+      "photos/lighteu-1795629971930-3.jpg",
+      "photos/lighteu-1795629973478-4.jpg"
+    ],
+    "id": "lighteu-lighteu-fut036z-variateur-zigbee-3-0-pour-bande-led-monochrome-12-24-v-1795629968038--taille-unique",
+    "variantGroupId": "lighteu-lighteu-fut036z-variateur-zigbee-3-0-pour-bande-led-monochrome-12-24-v-1795629968038",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T18:06:15.211Z",
+    "updatedAt": "2026-11-25T18:06:15.211Z"
+  },
+  {
     "nom": "Manette GuliKit KK3 Max noire – Effet Hall, 4 palettes et 1000 Hz",
     "marque": "GuliKit",
     "etatProduit": "Retour Amazon comme neuf",
