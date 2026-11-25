@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Genouillère de compression noire à motifs cuivrés – soutien du genou",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Soin de la personne",
+    "genre": "",
+    "prixRetail": 20,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Genouillère de compression pour le soutien articulaire du genou. Son design noir présente des motifs cuivrés et une zone à rayures autour de la rotule. Sa forme tubulaire à enfiler comporte de larges bordures en haut et en bas. Marque renseignée : Autres ; état : Neuf.",
+    "photos": [
+      "photos/autres-1795601777725-1.jpg",
+      "photos/autres-1795601779278-2.jpg",
+      "photos/autres-1795601780653-3.jpg",
+      "photos/autres-1795601782335-4.jpg"
+    ],
+    "id": "autres-genouillere-de-compression-noire-a-motifs-cuivres-soutien-du-genou-1795601776464--taille-unique",
+    "variantGroupId": "autres-genouillere-de-compression-noire-a-motifs-cuivres-soutien-du-genou-1795601776464",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:16:24.250Z",
+    "updatedAt": "2026-11-25T10:16:24.250Z"
+  },
+  {
     "nom": "Binette cultivateur 3 dents Autres – manche long 127 cm, coloris argent",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
