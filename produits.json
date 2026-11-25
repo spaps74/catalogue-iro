@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Lot de 30 cintres pantalons en velours noir antidérapant – crochets rotatifs 360°",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 21,
+    "prixVente": 13,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Lot de 30 cintres noirs pour pantalons, de marque Autres, neufs avec étiquettes. Leur revêtement en velours antidérapant aide à maintenir les vêtements en place. Les crochets rotatifs à 360° facilitent leur orientation dans la penderie. Leur forme rectangulaire à barre horizontale permet de suspendre les pantalons pliés. Dimensions indiquées sur le visuel : 35 cm de largeur et 16 cm de hauteur.",
+    "photos": [
+      "photos/autres-1795598269286-1.jpg",
+      "photos/autres-1795598270808-2.jpg",
+      "photos/autres-1795598272284-3.jpg"
+    ],
+    "id": "autres-lot-de-30-cintres-pantalons-en-velours-noir-antiderapant-crochets-rotatifs-360-1795598268218--taille-unique",
+    "variantGroupId": "autres-lot-de-30-cintres-pantalons-en-velours-noir-antiderapant-crochets-rotatifs-360-1795598268218",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:17:54.140Z",
+    "updatedAt": "2026-11-25T09:17:54.140Z"
+  },
+  {
     "nom": "Lot de 2 appliques LED cubes noires en aluminium 9 W 3000 K IP65, faisceau réglable",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
