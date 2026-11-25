@@ -1708,6 +1708,24 @@ body.category-focus #catalogTitle{
   .nav-inner .sale-types{flex-wrap:nowrap;overflow-x:auto;}
 }
 .quantity-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;font-size:13px;margin:8px 0}.quantity-picker input{width:72px;padding:7px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111}.quantity-picker small{font-weight:500;color:#666}.card-actions .quantity-picker{flex-basis:100%}
+
+/* Recherche : panneau élargi et colonnes indépendantes. */
+.search-result-item{grid-template-columns:58px minmax(0,1fr) max-content;min-width:0;}
+.search-result-info{display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+.search-result-name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;overflow-wrap:anywhere;overflow:hidden;}
+.search-result-meta{display:block;min-width:0;}
+.search-result-price{justify-self:end;text-align:right;align-self:center;padding-left:8px;}
+@media(min-width:901px){
+  .search-results-panel{left:50%;right:auto;transform:translateX(-50%);width:min(760px,calc(100vw - 48px));}
+}
+@media(min-width:651px) and (max-width:900px){
+  .search-results-panel{width:100%;left:0;right:0;}
+}
+@media(max-width:650px){
+  .search-result-item{grid-template-columns:48px minmax(0,1fr) max-content;gap:8px;padding:8px 5px;}
+  .search-result-thumb{width:48px;height:48px;}
+  .search-result-price{padding-left:0;}
+}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
