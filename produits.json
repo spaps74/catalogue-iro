@@ -1,5 +1,32 @@
 [
   {
+    "nom": "Crème au venin d’abeille 30 g – Soin hydratant anti-âge, emballage allemand",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 7,
+    "prixVente": 3,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 70,
+    "description": "Crème au venin d’abeille de la marque Autres, en format 30 g. Soin présenté comme hydratant et anti-âge, pour tous types de peau. Présentation en pot ambré avec couvercle doré et boîte portant des inscriptions en allemand. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795582856786-1.jpg",
+      "photos/autres-1795582858474-2.jpg"
+    ],
+    "id": "autres-creme-au-venin-d-abeille-30-g-soin-hydratant-anti-age-emballage-allemand-1795582854214--taille-unique",
+    "variantGroupId": "autres-creme-au-venin-d-abeille-30-g-soin-hydratant-anti-age-emballage-allemand-1795582854214",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:01:00.275Z",
+    "updatedAt": "2026-11-25T05:01:00.275Z"
+  },
+  {
     "nom": "Mini brosse motorisée anti-nœuds compatible Dyson V15 V11 V10 V8 V7",
     "marque": "Autres",
     "etatProduit": "Retour Amazon comme neuf",
