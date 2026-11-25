@@ -1,5 +1,35 @@
 [
   {
+    "nom": "ManbaOne de Manba – Manette sans fil noire avec écran et station de chargement",
+    "marque": "Manba",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Manette",
+    "genre": "",
+    "prixRetail": 90,
+    "prixVente": 45,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "La manette sans fil ManbaOne de Manba, en noir, dispose d’un écran interactif central. Elle est compatible avec Switch, PC Windows, iOS et Android. Elle est équipée de joysticks à effet Hall et fournie avec une station de chargement. Ses deux sticks asymétriques sont complétés par une croix directionnelle et quatre boutons d’action. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/manba-1795597731349-1.jpg",
+      "photos/manba-1795597733096-2.jpg",
+      "photos/manba-1795597734868-3.jpg",
+      "photos/manba-1795597736565-4.jpg",
+      "photos/manba-1795597738311-5.jpg"
+    ],
+    "id": "manba-manbaone-de-manba-manette-sans-fil-noire-avec-ecran-et-station-de-chargement-1795597729206--taille-unique",
+    "variantGroupId": "manba-manbaone-de-manba-manette-sans-fil-noire-avec-ecran-et-station-de-chargement-1795597729206",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:09:00.501Z",
+    "updatedAt": "2026-11-25T09:09:00.501Z"
+  },
+  {
     "nom": "Vase en céramique blanc strié 25 cm pour pampa et fleurs séchées",
     "marque": "Autres",
     "etatProduit": "Neuf",
