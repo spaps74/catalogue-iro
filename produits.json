@@ -1,5 +1,32 @@
 [
   {
+    "nom": "Télécommande porte de garage 868 MHz HSE/HS – 1 bouton, noire et argentée",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 19,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Télécommande de marque Autres, neuve, pour porte de garage, fonctionnant sur la fréquence 868 MHz. Elle dispose d’un bouton unique, d’un boîtier noir aux finitions argentées et d’une attache pour porte-clés. La compatibilité annoncée concerne les modèles HSE/HS à code tournant avec LED bleue. Les télécommandes d’origine à code fixe avec LED rouge ne sont pas compatibles. Vérifiez le modèle et le type de codage de votre télécommande actuelle avant l’achat.",
+    "photos": [
+      "photos/autres-1795603101084-1.jpg",
+      "photos/autres-1795603102464-2.jpg"
+    ],
+    "id": "autres-telecommande-porte-de-garage-868-mhz-hse-hs-1-bouton-noire-et-argentee-1795603099778--taille-unique",
+    "variantGroupId": "autres-telecommande-porte-de-garage-868-mhz-hse-hs-1-bouton-noire-et-argentee-1795603099778",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:38:23.836Z",
+    "updatedAt": "2026-11-25T10:38:23.836Z"
+  },
+  {
     "nom": "Petsafe harnais de soutien arrière pour chien avec poignée et sangle – M",
     "marque": "Petsafe",
     "etatProduit": "Neuf",
