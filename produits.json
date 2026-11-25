@@ -5,7 +5,7 @@
     "etatProduit": "Neuf avec étiquettes",
     "miseEnPremierePage": false,
     "categorie": "Loisirs",
-    "sousCategorie": "Accessoires",
+    "sousCategorie": "Gymnatique",
     "genre": "",
     "prixRetail": 80,
     "prixVente": 49,
@@ -26,7 +26,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-25T18:12:57.576Z",
-    "updatedAt": "2026-11-25T18:12:57.576Z"
+    "updatedAt": "2026-11-25T18:20:02.732Z"
   },
   {
     "nom": "Lighteu FUT036Z – Variateur Zigbee 3.0 pour bande LED monochrome 12/24 V",
