@@ -2802,7 +2802,6 @@
     "updatedAt": "2026-11-22T08:39:07.365Z"
   },
   {
-    "id": "yizemay-huile-corps-lifting-collagene-raffermissante-hydratante-nourrissante-massage-flacon",
     "nom": "Huile corps lifting collagène raffermissante hydratante nourrissante massage – Flacon",
     "marque": "Yizemay",
     "etatProduit": "Neuf avec étiquettes",
@@ -2810,18 +2809,23 @@
     "categorie": "Mode, Soins de la personne, Cosmétique",
     "sousCategorie": "Cosmétiques",
     "genre": "",
-    "taille": "",
     "prixRetail": 13.9,
     "prixVente": 5,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 10,
     "description": "",
     "photos": [
       "photos/yizemay-1795336598066-1.jpg"
     ],
+    "id": "yizemay-huile-corps-lifting-collagene-raffermissante-hydratante-nourrissante-massage-flacon",
+    "variantGroupId": "yizemay-huile-corps-lifting-collagene-raffermissante-hydratante-nourrissante-massage-flacon",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-22T08:36:39.467Z",
-    "updatedAt": "2026-11-22T08:36:39.467Z"
+    "updatedAt": "2026-11-25T06:23:16.656Z"
   },
   {
     "id": "zealsea-serum-acide-hyaluronique-2-avec-vitamine-b-hydratant-anti-age-30ml",
