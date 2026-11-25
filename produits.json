@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Émetteur de guitare Airline AG8 uniquement - Bande G",
+    "marque": "Samson",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 219,
+    "prixVente": 49,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Le AG8/CR88 G est un metteur UHF prvu pour mettre un rcepteur Samson Airline 88 sur le plan de frquence G (863-865 MHz). L'articulation au niveau du Jack permet de l'utiliser sur n'importe quel type de guitare. © SonoVente.com :https://www.sonovente.com/samson-ag8-cr88-g-p61082.html",
+    "photos": [
+      "photos/samson-1795583688658-1.jpg"
+    ],
+    "id": "samson-emetteur-de-guitare-airline-ag8-uniquement-bande-g-1795583686836--taille-unique",
+    "variantGroupId": "samson-emetteur-de-guitare-airline-ag8-uniquement-bande-g-1795583686836",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:14:50.110Z",
+    "updatedAt": "2026-11-25T05:14:50.110Z"
+  },
+  {
     "nom": "Tête de brosse motorisée pour Dyson V12 et V9 Motorbar – Neuf",
     "marque": "Autres",
     "etatProduit": "Neuf",
