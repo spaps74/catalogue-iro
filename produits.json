@@ -2752,7 +2752,6 @@
     "updatedAt": "2026-11-25T05:46:37.188Z"
   },
   {
-    "id": "m-sense-bougie-parfumee-en-cire-de-soja-en-verre-470-g-110-h-de-combustion-sparkling-fruit-drops",
     "nom": "Bougie parfumée en cire de soja en verre 470 g 110 h de combustion – Sparkling Fruit Drops",
     "marque": "M&Sense",
     "etatProduit": "Neuf avec étiquettes",
@@ -2760,20 +2759,25 @@
     "categorie": "Maison, Déco, Animaux",
     "sousCategorie": "Accessoires",
     "genre": "",
-    "taille": "",
     "prixRetail": 55,
     "prixVente": 11,
     "statut": "Disponible",
     "sku": "",
-    "stock": 1,
+    "gtin": "",
+    "stock": 3,
     "description": "",
     "photos": [
       "photos/m-sense-1795337023417-1.jpg",
       "photos/m-sense-1795337024831-2.jpg",
       "photos/m-sense-1795337026703-3.jpg"
     ],
+    "id": "m-sense-bougie-parfumee-en-cire-de-soja-en-verre-470-g-110-h-de-combustion-sparkling-fruit-drops",
+    "variantGroupId": "m-sense-bougie-parfumee-en-cire-de-soja-en-verre-470-g-110-h-de-combustion-sparkling-fruit-drops",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-22T08:43:48.410Z",
-    "updatedAt": "2026-11-22T08:43:48.410Z"
+    "updatedAt": "2026-11-25T06:24:05.781Z"
   },
   {
     "id": "neutriherbs-serum-anti-rides-a-la-mucine-d-escargot-neutriherbs-50-ml-serum-a-la-niacinamide-pour-le-visage-attenue-les-taches-brunes-soin-anti-age-tout-en-un-a-la-mucine-d-escargot-pour-femmes-et-hommes-serum-visage-apaisant-et-reparateur-panthenol",
