@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Pantalon médiéval marron à lacets, coupe ample et bas resserrés",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Déguisements",
+    "genre": "",
+    "prixRetail": 20,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce pantalon de marque Autres présente un style médiéval d’inspiration viking, dans un coloris marron foncé uni. Sa coupe ample se resserre sur le bas des jambes, avec des laçages latéraux passant dans des œillets. La taille froncée est dotée d’un cordon à nouer. Une pièce à associer à une tenue de déguisement médiéval ou vintage. État : Neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795600262166-1.jpg",
+      "photos/autres-1795600263881-2.jpg",
+      "photos/autres-1795600265641-3.jpg",
+      "photos/autres-1795600267083-4.jpg",
+      "photos/autres-1795600268691-5.jpg"
+    ],
+    "id": "autres-pantalon-medieval-marron-a-lacets-coupe-ample-et-bas-resserres-1795600259993--taille-xxl",
+    "variantGroupId": "autres-pantalon-medieval-marron-a-lacets-coupe-ample-et-bas-resserres-1795600259993",
+    "variantSize": "XXL",
+    "tailles": [
+      "XXL"
+    ],
+    "taille": "XXL",
+    "createdAt": "2026-11-25T09:51:10.351Z",
+    "updatedAt": "2026-11-25T09:51:10.351Z"
+  },
+  {
     "nom": "Sweat à capuche bordeaux à lacets, style médiéval gothique",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
