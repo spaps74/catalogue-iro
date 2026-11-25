@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Câble Boutop USB-C vers MagSafe 3 140 W – 2 m, blanc tressé – Neuf",
+    "marque": "Boutop",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 27,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce câble Boutop neuf relie un port USB-C à un connecteur MagSafe 3 pour la recharge d’un MacBook compatible. D’une longueur de 2 m, il prend en charge la charge rapide Power Delivery jusqu’à 140 W. Il présente une finition tressée blanche et un connecteur magnétique argenté avec témoin lumineux. Il est destiné aux MacBook Air et MacBook Pro équipés d’un port MagSafe 3, notamment les modèles mentionnés dans les gammes M1, M2 et M3. Il n’est pas compatible avec les ports MagSafe 1 et MagSafe 2.",
+    "photos": [
+      "photos/boutop-1795601399351-1.jpg",
+      "photos/boutop-1795601400944-2.jpg",
+      "photos/boutop-1795601402635-3.jpg",
+      "photos/boutop-1795601404443-4.jpg"
+    ],
+    "id": "boutop-cable-boutop-usb-c-vers-magsafe-3-140-w-2-m-blanc-tresse-neuf-1795601397881--taille-unique",
+    "variantGroupId": "boutop-cable-boutop-usb-c-vers-magsafe-3-140-w-2-m-blanc-tresse-neuf-1795601397881",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:10:06.103Z",
+    "updatedAt": "2026-11-25T10:10:06.103Z"
+  },
+  {
     "nom": "Miucda Thermostat WiFi blanc programmable pour chauffage au sol à eau",
     "marque": "Miucda",
     "etatProduit": "Retour Amazon comme neuf",
