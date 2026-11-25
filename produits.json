@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Lot de 2 bocaux noirs en céramique 260 ml avec couvercles – Autres",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Cuisine",
+    "genre": "",
+    "prixRetail": 20,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce lot neuf de marque Autres comprend 2 bocaux de rangement en céramique noire de 260 ml chacun. Leur forme arrondie et leurs couvercles de couleur naturelle offrent un contraste sobre pour la cuisine. Chaque pot est équipé d’un couvercle avec anneau en silicone et d’un autocollant pour identifier son contenu. Ils permettent de ranger des épices, du sucre ou du café.",
+    "photos": [
+      "photos/autres-1795603221079-1.jpg",
+      "photos/autres-1795603222621-2.jpg",
+      "photos/autres-1795603224175-3.jpg"
+    ],
+    "id": "autres-lot-de-2-bocaux-noirs-en-ceramique-260-ml-avec-couvercles-autres-1795603220388--taille-unique",
+    "variantGroupId": "autres-lot-de-2-bocaux-noirs-en-ceramique-260-ml-avec-couvercles-autres-1795603220388",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:40:25.872Z",
+    "updatedAt": "2026-11-25T10:40:25.872Z"
+  },
+  {
     "nom": "Télécommande porte de garage 868 MHz HSE/HS – 1 bouton, noire et argentée",
     "marque": "Autres",
     "etatProduit": "Neuf",
