@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Neutriherbs – Crème visage de nuit au rétinol, soin anti-âge 50 ml",
+    "marque": "Neutriherbs",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 34,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette crème visage Neutriherbs au rétinol est un soin hydratant de nuit riche en vitamine A. Elle aide à atténuer l’apparence des rides et des ridules pour une peau visiblement plus lisse. Le format de 50 ml se présente dans un pot blanc aux finitions argentées, portant la mention « Pro Retinol Cream ». Produit neuf.",
+    "photos": [
+      "photos/neutriherbs-1795588008911-1.jpg",
+      "photos/neutriherbs-1795588010384-2.jpg",
+      "photos/neutriherbs-1795588012169-3.jpg",
+      "photos/neutriherbs-1795588013671-4.jpg",
+      "photos/neutriherbs-1795588015191-5.jpg"
+    ],
+    "id": "neutriherbs-neutriherbs-creme-visage-de-nuit-au-retinol-soin-anti-age-50-ml-1795588007204--taille-unique",
+    "variantGroupId": "neutriherbs-neutriherbs-creme-visage-de-nuit-au-retinol-soin-anti-age-50-ml-1795588007204",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T06:26:56.731Z",
+    "updatedAt": "2026-11-25T06:26:56.731Z"
+  },
+  {
     "nom": "Moes Thermostat WiFi blanc programmable pour chaudière gaz, compatible Google/Alexa",
     "marque": "Moes",
     "etatProduit": "Retour Amazon comme neuf",
