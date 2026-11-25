@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Lot de 2 appliques LED cubes noires en aluminium 9 W 3000 K IP65, faisceau réglable",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Luminaire",
+    "genre": "",
+    "prixRetail": 33,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce lot de 2 appliques murales de marque Autres présente un design cubique en aluminium noir. L’éclairage LED 9 W diffuse une lumière blanc chaud de 3000 K vers le haut et le bas. Le faisceau réglable permet de varier l’ouverture des projections lumineuses sur le mur. Leur indice de protection IP65 convient à une installation en intérieur comme en extérieur. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795598171515-1.jpg",
+      "photos/autres-1795598173271-2.jpg",
+      "photos/autres-1795598174946-3.jpg",
+      "photos/autres-1795598176522-4.jpg",
+      "photos/autres-1795598178370-5.jpg"
+    ],
+    "id": "autres-lot-de-2-appliques-led-cubes-noires-en-aluminium-9-w-3000-k-ip65-faisceau-reglable-1795598168429--taille-unique",
+    "variantGroupId": "autres-lot-de-2-appliques-led-cubes-noires-en-aluminium-9-w-3000-k-ip65-faisceau-reglable-1795598168429",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:16:20.119Z",
+    "updatedAt": "2026-11-25T09:16:20.119Z"
+  },
+  {
     "nom": "Lighteu MiBoxer SM2 – Contrôleur LED 2-en-1 Matter sur Wi-Fi, DC 12–24 V",
     "marque": "Lighteu",
     "etatProduit": "Neuf",
