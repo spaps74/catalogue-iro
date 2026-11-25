@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Autres - Machine à bruit blanc bébé avec veilleuse, blanche et rechargeable USB",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette machine à bruit blanc pour bébé propose 15 sons apaisants, dont des berceuses, pour accompagner les moments de repos. Elle intègre une veilleuse et se recharge par USB. Son format rond et portable, avec boucle d’attache, permet de l’emporter facilement. Le boîtier blanc dispose de commandes sur le pourtour et d’une façade grise portant l’inscription Sweety Fox. Produit neuf.",
+    "photos": [
+      "photos/autres-1795605831595-1.jpg",
+      "photos/autres-1795605833060-2.jpg",
+      "photos/autres-1795605834609-3.jpg",
+      "photos/autres-1795605836346-4.jpg",
+      "photos/autres-1795605838625-5.jpg"
+    ],
+    "id": "autres-autres-machine-a-bruit-blanc-bebe-avec-veilleuse-blanche-et-rechargeable-usb-1795605829946--taille-unique",
+    "variantGroupId": "autres-autres-machine-a-bruit-blanc-bebe-avec-veilleuse-blanche-et-rechargeable-usb-1795605829946",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:24:00.279Z",
+    "updatedAt": "2026-11-25T11:24:00.279Z"
+  },
+  {
     "nom": "Visière Everalo Iridium Chrome compatible Scorpion Exo 520, 1400, 391 et R1 Air",
     "marque": "Everalo",
     "etatProduit": "Neuf",
