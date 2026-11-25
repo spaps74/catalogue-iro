@@ -12,7 +12,7 @@
     "statut": "Disponible",
     "sku": "",
     "gtin": "",
-    "stock": 1,
+    "stock": 5,
     "description": "Ce ventilateur de cou portable de marque Autres est neuf, en coloris noir selon les informations fournies. Son format en U se porte autour du cou pour garder les mains libres. Il dispose de 3 vitesses et d’une batterie de 5000 mAh rechargeable par USB. Sa conception sans pales et son fonctionnement silencieux permettent une ventilation personnelle au quotidien.",
     "photos": [
       "photos/autres-1795583270377-1.jpg",
@@ -27,7 +27,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-25T05:07:58.246Z",
-    "updatedAt": "2026-11-25T05:07:58.246Z"
+    "updatedAt": "2026-11-25T05:08:23.499Z"
   },
   {
     "nom": "Câble d’extension pour Starlink rectangulaire 23 m – extérieur étanche",
