@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Palmina 901 – Lampe de table noire sans fil rechargeable, intensité variable, IP54",
+    "marque": "Palmina",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Colis Perdus",
+    "sousCategorie": "",
+    "genre": "",
+    "prixRetail": 30,
+    "prixVente": 19,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "La lampe de table Palmina 901 en aluminium présente un design épuré noir, avec un pied fin, une base ronde et un abat-jour évasé. Sans fil et rechargeable, elle dispose d’une batterie de 4 400 mAh et d’une intensité lumineuse réglable. Prévue pour un usage intérieur ou extérieur, elle bénéficie d’un indice de protection IP54. Classe énergétique F. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/palmina-1795600975947-1.jpg",
+      "photos/palmina-1795600977271-2.jpg",
+      "photos/palmina-1795600978620-3.jpg"
+    ],
+    "id": "palmina-palmina-901-lampe-de-table-noire-sans-fil-rechargeable-intensite-variable-ip54-1795600974873--taille-unique",
+    "variantGroupId": "palmina-palmina-901-lampe-de-table-noire-sans-fil-rechargeable-intensite-variable-ip54-1795600974873",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:03:00.261Z",
+    "updatedAt": "2026-11-25T10:03:00.261Z"
+  },
+  {
     "nom": "Casque TV sans fil Retekess TA008 noir – 2,4 GHz, faible latence et double batterie",
     "marque": "Retekess",
     "etatProduit": "Retour Amazon comme neuf",
