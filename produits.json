@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Lekato – Duo de microphones sans fil 2,4 GHz rechargeables argentés",
+    "marque": "Lekato",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 76,
+    "prixVente": 35,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ensemble neuf Lekato comprenant deux microphones sans fil 2,4 GHz et un récepteur à fiche jack. Les microphones en métal présentent une finition argentée, des grilles noires et un écran d’affichage. Les microphones et le récepteur sont rechargeables, avec une autonomie annoncée jusqu’à 30 heures pour les micros et 15 heures pour le récepteur. Un ensemble destiné au karaoké, au chant et à l’animation de fêtes ou de mariages.",
+    "photos": [
+      "photos/lekato-1795602252429-1.jpg",
+      "photos/lekato-1795602254272-2.jpg",
+      "photos/lekato-1795602256557-3.jpg",
+      "photos/lekato-1795602258432-4.jpg",
+      "photos/lekato-1795602260190-5.jpg"
+    ],
+    "id": "lekato-lekato-duo-de-microphones-sans-fil-2-4-ghz-rechargeables-argentes-1795602250375--taille-unique",
+    "variantGroupId": "lekato-lekato-duo-de-microphones-sans-fil-2-4-ghz-rechargeables-argentes-1795602250375",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:24:21.629Z",
+    "updatedAt": "2026-11-25T10:24:21.629Z"
+  },
+  {
     "nom": "Tablier de cuisine et BBQ noir imperméable réglable « Ma cuisine, mes lois »",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
