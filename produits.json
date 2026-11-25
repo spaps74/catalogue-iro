@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Zolmer – Lot de 2 pulvérisateurs d’huile rechargeables 100 ml, noir et argenté",
+    "marque": "Zolmer",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 22,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 5,
+    "description": "Ce lot neuf Zolmer comprend deux pulvérisateurs d’huile rechargeables de 100 ml chacun. Les flacons en verre et acier, sans BPA, présentent des finitions noire et argentée. Leur format compact et leur système de pulvérisation permettent de doser l’huile avec précision. Ils s’utilisent pour l’assaisonnement, la cuisson à la friteuse à air, le rôtissage et le barbecue.",
+    "photos": [
+      "photos/zolmer-1795584549377-1.jpg",
+      "photos/zolmer-1795584550990-2.jpg",
+      "photos/zolmer-1795584552687-3.jpg",
+      "photos/zolmer-1795584554267-4.jpg",
+      "photos/zolmer-1795584556150-5.jpg"
+    ],
+    "id": "zolmer-zolmer-lot-de-2-pulverisateurs-d-huile-rechargeables-100-ml-noir-et-argente-1795584548655--taille-unique",
+    "variantGroupId": "zolmer-zolmer-lot-de-2-pulverisateurs-d-huile-rechargeables-100-ml-noir-et-argente-1795584548655",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:29:17.948Z",
+    "updatedAt": "2026-11-25T05:29:17.948Z"
+  },
+  {
     "nom": "Couverture en flanelle bleue « Je t’aime Papa » – Taille unique",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
