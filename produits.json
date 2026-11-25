@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Neakasa Magic 1 – Défroisseur vapeur portable et pliable avec aspiration",
+    "marque": "Autres",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Soin de la personne",
+    "genre": "",
+    "prixRetail": 99,
+    "prixVente": 50,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Le Neakasa Magic 1 associe vapeur et aspiration pour défroisser les vêtements sans planche à repasser. Compact et pliable, il s’utilise à une main. Son design blanc et gris comprend une grande poignée intégrée. État : Retour Amazon comme neuf. Marque renseignée : Autres.",
+    "photos": [
+      "photos/autres-1795605177752-1.jpg",
+      "photos/autres-1795605179347-2.jpg",
+      "photos/autres-1795605180934-3.jpg",
+      "photos/autres-1795605182415-4.jpg",
+      "photos/autres-1795605183885-5.jpg"
+    ],
+    "id": "autres-neakasa-magic-1-defroisseur-vapeur-portable-et-pliable-avec-aspiration-1795605176678--taille-unique",
+    "variantGroupId": "autres-neakasa-magic-1-defroisseur-vapeur-portable-et-pliable-avec-aspiration-1795605176678",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:13:05.486Z",
+    "updatedAt": "2026-11-25T11:13:05.486Z"
+  },
+  {
     "nom": "Défroisseur portable Steamery Cirrus Core blanc – 1 350 W",
     "marque": "Autres",
     "etatProduit": "Retour Amazon comme neuf",
