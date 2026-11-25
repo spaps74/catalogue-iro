@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Masque de plongée intégral pliable G2RISE noir et bleu avec support caméra",
+    "marque": "G2RISE",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 32,
+    "prixVente": 13,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce masque de plongée intégral G2RISE est neuf et présente un coloris noir et bleu. Sa large visière transparente couvre l’ensemble du visage. Son tuba pliable facilite le rangement, tandis qu’un support permet de fixer une caméra. Des sangles à l’arrière assurent le maintien du masque.",
+    "photos": [
+      "photos/g2rise-1795585196801-1.jpg",
+      "photos/g2rise-1795585198138-2.jpg",
+      "photos/g2rise-1795585199817-3.jpg",
+      "photos/g2rise-1795585201243-4.jpg"
+    ],
+    "id": "g2rise-masque-de-plongee-integral-pliable-g2rise-noir-et-bleu-avec-support-camera-1795585196180--taille-unique",
+    "variantGroupId": "g2rise-masque-de-plongee-integral-pliable-g2rise-noir-et-bleu-avec-support-camera-1795585196180",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:40:03.122Z",
+    "updatedAt": "2026-11-25T05:40:03.122Z"
+  },
+  {
     "nom": "Bouton rotatif pour Neff/Bosch/Siemens/Gaggenau – 00636170 / 10004928",
     "marque": "Autres",
     "etatProduit": "Neuf",
