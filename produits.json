@@ -1,5 +1,36 @@
 [
   {
+    "nom": "Genouillère réglable 4XL avec stabilisateurs latéraux, grise et rose",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Soin de la personne",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Genouillère de marque Autres, neuve, en taille 4XL. Elle dispose de stabilisateurs latéraux et de coussinets en gel au niveau de la rotule. Ses quatre sangles réglables permettent d’ajuster le serrage autour du genou. Son design gris foncé à bordures roses présente une surface perforée et une ouverture au niveau de la rotule.",
+    "photos": [
+      "photos/autres-1795599859029-1.jpg",
+      "photos/autres-1795599860693-2.jpg",
+      "photos/autres-1795599862510-3.jpg",
+      "photos/autres-1795599864045-4.jpg"
+    ],
+    "id": "autres-genouillere-reglable-4xl-avec-stabilisateurs-lateraux-grise-et-rose-1795599856620--taille-4xl",
+    "variantGroupId": "autres-genouillere-reglable-4xl-avec-stabilisateurs-lateraux-grise-et-rose-1795599856620",
+    "variantSize": "4XL",
+    "tailles": [
+      "4XL"
+    ],
+    "taille": "4XL",
+    "createdAt": "2026-11-25T09:44:25.723Z",
+    "updatedAt": "2026-11-25T09:44:25.723Z"
+  },
+  {
     "nom": "Mini pompe vélo Autres TurboPocket avec manomètre et modes HV/HP – 6,9 bar",
     "marque": "Autres",
     "etatProduit": "Retour Amazon comme neuf",
