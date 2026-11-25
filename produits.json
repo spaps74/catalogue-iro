@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Kit de diffuseurs de phéromones apaisantes pour chien avec 4 recharges",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Pour nos amis les bêtes",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 14,
+    "description": "Ce kit de phéromones de marque Autres est conçu pour aider à apaiser le chien face au stress et à l'anxiété en intérieur. Sans odeur, il comprend deux diffuseurs blancs aux détails jaunes et quatre recharges de 48 ml. Les diffuseurs présentent une forme arrondie et s'utilisent avec les flacons de recharge. Produit neuf avec étiquettes. Respecter les précautions d'emploi : ne pas ingérer et tenir hors de portée des enfants.",
+    "photos": [
+      "photos/autres-1795605906617-1.jpg",
+      "photos/autres-1795605908712-2.jpg",
+      "photos/autres-1795605910766-3.jpg",
+      "photos/autres-1795605912570-4.jpg",
+      "photos/autres-1795605914419-5.jpg"
+    ],
+    "id": "autres-kit-de-diffuseurs-de-pheromones-apaisantes-pour-chien-avec-4-recharges-1795605902898--taille-unique",
+    "variantGroupId": "autres-kit-de-diffuseurs-de-pheromones-apaisantes-pour-chien-avec-4-recharges-1795605902898",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:25:16.058Z",
+    "updatedAt": "2026-11-25T11:25:16.058Z"
+  },
+  {
     "nom": "Autres - Machine à bruit blanc bébé avec veilleuse, blanche et rechargeable USB",
     "marque": "Autres",
     "etatProduit": "Neuf",
