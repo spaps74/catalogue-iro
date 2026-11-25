@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Lot de 2 petits pots noirs et 2 anneaux pour panneau acoustique",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Décoration",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce lot de marque Autres comprend 2 petits anneaux et 2 petits pots pour panneau acoustique. Les pots noirs présentent un relief strié vertical et une forme arrondie à la base. Les anneaux entourent les pots pour une présentation murale, comme illustré sur les photos. État : neuf.",
+    "photos": [
+      "photos/autres-1795603667159-1.jpg",
+      "photos/autres-1795603668846-2.jpg",
+      "photos/autres-1795603670990-3.jpg",
+      "photos/autres-1795603672568-4.jpg"
+    ],
+    "id": "autres-lot-de-2-petits-pots-noirs-et-2-anneaux-pour-panneau-acoustique-1795603665799--taille-unique",
+    "variantGroupId": "autres-lot-de-2-petits-pots-noirs-et-2-anneaux-pour-panneau-acoustique-1795603665799",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:47:54.201Z",
+    "updatedAt": "2026-11-25T10:47:54.201Z"
+  },
+  {
     "nom": "Télécommande universelle portail et garage 4 en 1 – 250 à 915 MHz – Autres",
     "marque": "Autres",
     "etatProduit": "Neuf",
