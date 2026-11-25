@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Lighteu MiBoxer TRI-K1 – Variateur LED TRIAC rotatif 2,4 GHz blanc",
+    "marque": "Lighteu",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "prixRetail": 36,
+    "prixVente": 19,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce variateur Lighteu MiBoxer TRI-K1 est conçu pour les LED dimmables, avec un réglage de luminosité de 0 à 100 % sans scintillement. Il utilise la technologie TRIAC et une liaison radio 2,4 GHz. Sa façade carrée blanche comporte une grande commande rotative ronde avec un symbole marche/arrêt au centre. Produit neuf avec étiquettes.",
+    "photos": [
+      "photos/lighteu-1795600493441-1.jpg",
+      "photos/lighteu-1795600494837-2.jpg",
+      "photos/lighteu-1795600496229-3.jpg",
+      "photos/lighteu-1795600497916-4.jpg"
+    ],
+    "id": "lighteu-lighteu-miboxer-tri-k1-variateur-led-triac-rotatif-2-4-ghz-blanc-1795600492282--taille-unique",
+    "variantGroupId": "lighteu-lighteu-miboxer-tri-k1-variateur-led-triac-rotatif-2-4-ghz-blanc-1795600492282",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:54:59.420Z",
+    "updatedAt": "2026-11-25T09:54:59.420Z"
+  },
+  {
     "nom": "Lecteur cassette Bluetooth noir – batterie 1100 mAh, écouteurs et clip arrière",
     "marque": "Autres",
     "etatProduit": "Neuf",
