@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Lighteu FUT035W+ – Contrôleur de bande LED 2 en 1 WiFi et 2,4 GHz",
+    "marque": "Lighteu",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "prixRetail": 24,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Contrôleur de bande LED Lighteu FUT035W+ neuf, pour éclairage monochrome ou blanc à température variable. Il permet de régler la luminosité et, avec une bande adaptée, de passer du blanc chaud au blanc froid. Connexion WiFi et 2,4 GHz, avec Bluetooth 4.2 annoncé. Compatible avec Tuya Smart et la commande vocale via Amazon Alexa et Google Home. Son boîtier blanc dispose de borniers à vis pour le raccordement.",
+    "photos": [
+      "photos/lighteu-1795599295750-1.jpg",
+      "photos/lighteu-1795599297297-2.jpg",
+      "photos/lighteu-1795599298901-3.jpg"
+    ],
+    "id": "lighteu-lighteu-fut035w-controleur-de-bande-led-2-en-1-wifi-et-2-4-ghz-1795599293334--taille-unique",
+    "variantGroupId": "lighteu-lighteu-fut035w-controleur-de-bande-led-2-en-1-wifi-et-2-4-ghz-1795599293334",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:35:00.304Z",
+    "updatedAt": "2026-11-25T09:35:00.304Z"
+  },
+  {
     "nom": "Lighteu MiBoxer – Module variateur TRIAC RF et PUSH pour LED dimmables",
     "marque": "Lighteu",
     "etatProduit": "Neuf",
