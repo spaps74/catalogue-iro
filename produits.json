@@ -4842,7 +4842,6 @@
     "updatedAt": "2026-11-24T18:27:47.566Z"
   },
   {
-    "id": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire",
     "nom": "Lisseur à air, lisseur à air ionique",
     "marque": "PARWIN PRO BEAUTY",
     "etatProduit": "Neuf avec étiquettes",
@@ -4850,11 +4849,11 @@
     "categorie": "Mode, Soins de la personne, Cosmétique",
     "sousCategorie": "Soin de la personne",
     "genre": "",
-    "taille": "",
     "prixRetail": 149,
     "prixVente": 46,
     "statut": "Disponible",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "lisseur à air ionique PARWIN PRO BEAUTY, humide à sec, sans plaques chauffantes, sans dommage thermique, lissage à l'air, pour cheveux mi-longs et cheveux longs (35-75cm)\n\n- Type de produit : Lisseur à air\n- Univers : Femme\n- Marque : PARWIN PRO BEAUTY\n- Matière : Plastique\n- Couleur : Vert\n- Fonctionnalités : Humide à sec, sans plaques chauffantes, sans dommage thermique, lissage à l'air\n- Compatibilité : Cheveux mi-longs et longs (35-75 cm)\n- Température maximale conseillée : 160°C",
     "photos": [
@@ -4862,8 +4861,13 @@
       "photos/parwin-pro-beauty-1795143192604-2.avif",
       "photos/parwin-pro-beauty-1795143194683-3.avif"
     ],
+    "id": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire",
+    "variantGroupId": "skinwalker-skinwalker-gigoteuse-pour-adulte-avec-couverture-polaire",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-20T02:48:59.353Z",
-    "updatedAt": "2026-11-23T09:48:04.093Z"
+    "updatedAt": "2026-11-25T10:19:20.555Z"
   },
   {
     "nom": "EasySMX Manette Téléphone, Manette Smartphone USB-C",
