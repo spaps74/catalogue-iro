@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Petsafe Collier récepteur rouge pour clôture enterrée – chiens têtus",
+    "marque": "Petsafe",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Pour nos amis les bêtes",
+    "genre": "",
+    "prixRetail": 89,
+    "prixVente": 40,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Collier récepteur Petsafe pour clôture enterrée, destiné aux chiens têtus, à l’état neuf. Il présente une sangle rouge réglable avec fermeture à clip et un boîtier récepteur noir. Le visuel indique une compatibilité avec plusieurs clôtures anti-fugue filaires Petsafe, à vérifier selon votre installation. Il précise une incompatibilité avec YardMax et la clôture anti-fugue classique avec fil.",
+    "photos": [
+      "photos/petsafe-1795585517958-1.jpg",
+      "photos/petsafe-1795585519783-2.jpg",
+      "photos/petsafe-1795585521797-3.jpg",
+      "photos/petsafe-1795585523626-4.jpg",
+      "photos/petsafe-1795585525741-5.jpg"
+    ],
+    "id": "petsafe-petsafe-collier-recepteur-rouge-pour-cloture-enterree-chiens-tetus-1795585516675--taille-unique",
+    "variantGroupId": "petsafe-petsafe-collier-recepteur-rouge-pour-cloture-enterree-chiens-tetus-1795585516675",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:45:27.582Z",
+    "updatedAt": "2026-11-25T05:45:27.582Z"
+  },
+  {
     "nom": "Kutook – Veste softshell homme noire à capuche, imperméable, taille S",
     "marque": "Kutook",
     "etatProduit": "Neuf avec étiquettes",
