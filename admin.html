@@ -697,12 +697,13 @@
 <div>
 <div class="field">
   <label for="sousCategorieSelect">Sous-catégorie</label>
+  <div style="margin-bottom:6px"><button type="button" id="createSubcategoryBtn" onclick="createManualSubcategory()">+ Créer une sous-catégorie</button></div>
   <select id="sousCategorieSelect">
     <option value="">Aucune / sélectionner une sous-catégorie</option>
   </select>
 
   <div class="souscat-help">
-    Choisis uniquement une sous-catégorie existante. La création de nouvelles sous-catégories est désactivée.
+    Sélectionne une sous-catégorie existante ou crée-la manuellement. L’IA ne peut pas créer de sous-catégorie.
   </div>
 </div>
 <label>Tailles</label>
@@ -2339,12 +2340,26 @@ function existingSubcategoriesFor(category){
   const byKey=new Map();
   const categoryKey=normalizeCategory(category);
   if(!categoryKey) return [];
+  for(const sub of registeredSubcategoriesFor(category)){
+    if(sub && !byKey.has(normalizeSubcat(sub))) byKey.set(normalizeSubcat(sub),sub);
+  }
   for(const p of products){
     if(normalizeCategory(p.categorie)!==categoryKey) continue;
     const sub=capitalizeSubcategory(p.sousCategorie||p.sous_categorie||'');
     if(sub && !byKey.has(normalizeSubcat(sub))) byKey.set(normalizeSubcat(sub),sub);
   }
   return [...byKey.values()].sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
+}
+function createManualSubcategory(){
+  const category=getCurrentCategory();
+  if(!category){alert('Sélectionne d’abord une catégorie.');$('categorie')?.focus();return;}
+  const raw=prompt('Nouvelle sous-catégorie dans '+category+' :');
+  if(raw===null)return;
+  const sub=capitalizeSubcategory(raw.replace(/\s+/g,' '));
+  if(!sub || sub.length>100){alert('Saisis un nom de 1 à 100 caractères.');return;}
+  const existing=existingSubcategoriesFor(category).find(v=>normalizeSubcat(v)===normalizeSubcat(sub));
+  if(!existing)rememberSubcategory(category,sub);
+  refreshSousCategories(existing||sub);
 }
 function getCurrentSousCategorie(){
   return String($('sousCategorieSelect')?.value||'').trim();
@@ -2353,6 +2368,7 @@ function refreshSousCategories(selectedValue=''){
   const sel=$('sousCategorieSelect');
   if(!sel) return;
   const existing=existingSubcategoriesFor(getCurrentCategory());
+  const btn=$('createSubcategoryBtn');if(btn)btn.disabled=!getCurrentCategory();
   sel.innerHTML='<option value="">Aucune / sélectionner une sous-catégorie</option>'+
     existing.map(v=>`<option value="${escapeHtmlValue(v)}">${escapeHtmlValue(v)}</option>`).join('');
   sel.value=existing.find(v=>normalizeSubcat(v)===normalizeSubcat(selectedValue))||'';
