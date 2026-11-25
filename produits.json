@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Table pliable pour ordinateur portable noire 60 x 40 cm avec 4 ports USB et tiroir",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 59,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette table pour ordinateur portable de marque Autres dispose d’un plateau noir de 60 x 40 cm aux angles arrondis. Elle comprend 4 ports de chargement USB, un tiroir latéral, un support pour tablette et un emplacement pour tasse. Ses pieds pliables facilitent le rangement après utilisation sur un lit, un canapé ou au sol. Le plateau présente un aspect bois veiné et un bord incurvé. État : Neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795601124613-1.jpg",
+      "photos/autres-1795601126708-2.jpg",
+      "photos/autres-1795601128434-3.jpg",
+      "photos/autres-1795601131125-4.jpg"
+    ],
+    "id": "autres-table-pliable-pour-ordinateur-portable-noire-60-x-40-cm-avec-4-ports-usb-et-tiroir-1795601122867--taille-unique",
+    "variantGroupId": "autres-table-pliable-pour-ordinateur-portable-noire-60-x-40-cm-avec-4-ports-usb-et-tiroir-1795601122867",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:05:33.786Z",
+    "updatedAt": "2026-11-25T10:05:33.786Z"
+  },
+  {
     "nom": "Palmina 901 – Lampe de table noire sans fil rechargeable, intensité variable, IP54",
     "marque": "Palmina",
     "etatProduit": "Retour Amazon comme neuf",
