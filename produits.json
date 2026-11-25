@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Sweat à capuche bordeaux à lacets, style médiéval gothique",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Déguisements",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 13,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce sweat à capuche de marque Autres affiche un style médiéval gothique dans un coloris bordeaux. Son encolure est lacée sur le devant, avec des œillets argentés et de longs cordons. Les manches longues présentent des bandes noires décoratives aux avant-bras, tandis que des empiècements noirs à œillets soulignent les épaules. Article neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795600090601-1.jpg",
+      "photos/autres-1795600092200-2.jpg",
+      "photos/autres-1795600094190-3.jpg",
+      "photos/autres-1795600096131-4.jpg",
+      "photos/autres-1795600098197-5.jpg"
+    ],
+    "id": "autres-sweat-a-capuche-bordeaux-a-lacets-style-medieval-gothique-1795600089188--taille-unique",
+    "variantGroupId": "autres-sweat-a-capuche-bordeaux-a-lacets-style-medieval-gothique-1795600089188",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:48:20.070Z",
+    "updatedAt": "2026-11-25T09:48:20.070Z"
+  },
+  {
     "nom": "Glacière électrique portable pour insuline 2–8 °C blanche avec poignée",
     "marque": "Autres",
     "etatProduit": "Retour Amazon comme neuf",
