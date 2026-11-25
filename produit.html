@@ -93,7 +93,7 @@ function productCartQty(x){return Math.max(1,Math.floor(Number(x?.quantity)||1))
 function productRemaining(p){return Math.max(0,Math.floor(Number(p.stock)||0)-readProductCart().reduce((n,x)=>n+(x.id===p.id?productCartQty(x):0),0))}
 function addToCart(p){
   if(!isAvailable(p))return;
-  const key='upstyle_cart_v2',cart=readProductCart(),q=Number(document.getElementById('productQuantity')?.value||1),remaining=productRemaining(p);
+  const key='upstyle_cart_v2',cart=readProductCart(),q=1,remaining=productRemaining(p);
   if(!Number.isInteger(q)||q<1||q>remaining){alert(remaining?'Quantité disponible : '+remaining:'Le stock disponible est déjà dans votre panier.');return}
   const row=cart.find(x=>x.id===p.id);
   if(row)row.quantity=productCartQty(row)+q;
@@ -228,7 +228,6 @@ function renderProductVariant(selected){
         <div class="desc">${esc(selected.description||'Aucune description renseignée.')}</div>
         <div class="pricebox"><span class="sale">${euro(selected.prixVente)}</span>${Number(selected.prixRetail||0)>Number(selected.prixVente||0)?`<span class="retail">${euro(selected.prixRetail)}</span>`:''}${pc>0?`<span class="discount">-${pc}%</span>`:''}</div>
         <div class="stock ${available?'ok':'no'}">${available?'✓ Disponible':'Indisponible'}</div>
-        ${available&&Number(selected.stock)>1&&productRemaining(selected)>0?`<label style="display:flex;align-items:center;gap:10px;margin:12px 0;font-weight:800">Quantité <input id="productQuantity" type="number" min="1" max="${productRemaining(selected)}" step="1" value="1" style="width:72px;padding:8px;border:1px solid #ddd;border-radius:8px"> <small>${productRemaining(selected)} disponible(s)</small></label>`:''}
         <div class="actions"><button class="primary" ${available?'':'disabled'} id="addBtn">Ajouter au panier</button><a class="btn secondary" href="/">Continuer mes achats</a></div>
         <div class="note">Stock limité — chaque pointure est gérée séparément.</div>
       </div>

@@ -3232,7 +3232,7 @@ function card(p){
   const fav=variants.some(v=>isFavorite(v.id));
 
   const cartButton=availableVariants.length===1
-    ? `<button class="btn add" onclick="add('${availableVariants[0].id}',selectedQty(this.parentElement))">Ajouter au panier</button>`
+    ? `<button class="btn add" onclick="add('${availableVariants[0].id}',1)">Ajouter au panier</button>`
     : availableVariants.length>1
       ? `<button class="btn add" onclick="details('${p.id}')">Choisir la pointure</button>`
       : `<button class="btn add" disabled aria-disabled="true">Indisponible</button>`;
@@ -3256,7 +3256,6 @@ function card(p){
       <div class="card-actions">
         ${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
-        ${availableVariants.length===1?qtyPicker(availableVariants[0],'card'):''}
         ${cartButton}
       </div>
     </div>
@@ -3318,7 +3317,6 @@ function details(id){
     ${stateBadge(selected)}
     <div class="meta">${escapeHtml(selected.categorie||'')}${selected.taille?' · Pointure '+escapeHtml(selected.taille):''} <span class="detail-status ${statusClass(selected)}">${escapeHtml(selected.statut||'')}</span></div>
     ${sizeSelector}
-    ${available?qtyPicker(selected,'detail'):''}
     <div class="detailphotos">${(selected.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${selected.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div>
     <p class="detail-description">${escapeHtml(selected.description||'Aucune description renseignée.')}</p>
     <div class="sale">${euro(selected.prixVente)}</div>
@@ -3347,7 +3345,7 @@ function toggleDetailFavorite(id,event){
 }
 
 function addFromDetail(id){
-  const qty=selectedQty(document.getElementById('detailBody'));
+  const qty=1;
   if(add(id,qty)) closeDetail();
 }
 
