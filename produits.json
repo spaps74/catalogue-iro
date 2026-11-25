@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Kutook – Veste softshell homme noire à capuche, imperméable, taille S",
+    "marque": "Kutook",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Vestes",
+    "genre": "Hommes",
+    "prixRetail": 53,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Veste softshell Kutook pour homme, noire, en taille S, neuve avec étiquettes. Imperméable, coupe-vent et respirante, elle convient aux sorties en extérieur et à la randonnée. Elle dispose d’une capuche avec cordons de serrage, d’un col montant et d’une fermeture zippée intégrale. Une poche poitrine zippée et deux poches latérales complètent son design. Les poignets se règlent par pattes autoagrippantes.",
+    "photos": [
+      "photos/kutook-1795585355851-1.jpg",
+      "photos/kutook-1795585357296-2.jpg",
+      "photos/kutook-1795585359029-3.jpg",
+      "photos/kutook-1795585360722-4.jpg",
+      "photos/kutook-1795585362684-5.jpg"
+    ],
+    "id": "kutook-kutook-veste-softshell-homme-noire-a-capuche-impermeable-taille-s-1795585355185--taille-unique",
+    "variantGroupId": "kutook-kutook-veste-softshell-homme-noire-a-capuche-impermeable-taille-s-1795585355185",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:42:44.617Z",
+    "updatedAt": "2026-11-25T05:42:44.617Z"
+  },
+  {
     "nom": "Masque de plongée intégral pliable G2RISE noir et bleu avec support caméra",
     "marque": "G2RISE",
     "etatProduit": "Neuf",
