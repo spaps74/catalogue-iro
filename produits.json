@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Lighteu MiBoxer SM2 – Contrôleur LED 2-en-1 Matter sur Wi-Fi, DC 12–24 V",
+    "marque": "Lighteu",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Contrôleur LED Lighteu MiBoxer SM2 neuf, certifié Matter et fonctionnant en Wi-Fi.\nSes deux modes permettent de piloter un éclairage LED monochrome ou à blanc variable.\nIl fonctionne sous une tension de 12 à 24 V CC, avec une sortie totale maximale de 12 A.\nLe pilotage s’effectue par application ou télécommande compatible.\nLe visuel indique une compatibilité avec Google Assistant, Apple Home, Amazon Alexa et Samsung SmartThings.",
+    "photos": [
+      "photos/lighteu-1795597971320-1.jpg",
+      "photos/lighteu-1795597972866-2.jpg",
+      "photos/lighteu-1795597974118-3.jpg"
+    ],
+    "id": "lighteu-lighteu-miboxer-sm2-controleur-led-2-en-1-matter-sur-wi-fi-dc-12-24-v-1795597968375--taille-unique",
+    "variantGroupId": "lighteu-lighteu-miboxer-sm2-controleur-led-2-en-1-matter-sur-wi-fi-dc-12-24-v-1795597968375",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:12:55.614Z",
+    "updatedAt": "2026-11-25T09:12:55.614Z"
+  },
+  {
     "nom": "Applique murale LED blanche 60 cm 22 W – 3 températures de couleur",
     "marque": "Autres",
     "etatProduit": "Retour Amazon bon état",
