@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Petsafe harnais de soutien arrière pour chien avec poignée et sangle – M",
+    "marque": "Petsafe",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Pour nos amis les bêtes",
+    "genre": "",
+    "prixRetail": 39,
+    "prixVente": 19,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Harnais de soutien arrière Petsafe, taille M, neuf, conçu pour aider au levage du chien. Il dispose d'une poignée supérieure et d'une sangle d'épaule ajustable pour accompagner ses mouvements. Les zones de contact sont rembourrées et respirantes pour favoriser le confort. Son design associe des sangles noires, des parties grises et un empiècement à motif géométrique.",
+    "photos": [
+      "photos/petsafe-1795602911557-1.jpg",
+      "photos/petsafe-1795602913126-2.jpg",
+      "photos/petsafe-1795602914701-3.jpg",
+      "photos/petsafe-1795602916050-4.jpg"
+    ],
+    "id": "petsafe-petsafe-harnais-de-soutien-arriere-pour-chien-avec-poignee-et-sangle-m-1795602910670--taille-unique",
+    "variantGroupId": "petsafe-petsafe-harnais-de-soutien-arriere-pour-chien-avec-poignee-et-sangle-m-1795602910670",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:35:17.548Z",
+    "updatedAt": "2026-11-25T10:35:17.548Z"
+  },
+  {
     "nom": "Bouchons d’oreilles antibruit roses en silicone – 2 paires avec étui",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
