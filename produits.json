@@ -1,5 +1,37 @@
 [
   {
+    "nom": "Chaussons d’hiver Veilante en cuir camel à motifs bohèmes – Pointure 39",
+    "marque": "Veilante",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": true,
+    "categorie": "Chaussures / Baskets",
+    "sousCategorie": "Sabots",
+    "genre": "",
+    "prixRetail": 52,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 3,
+    "description": "Chaussons d’hiver Veilante en cuir, en pointure 39, neufs avec étiquettes. Leur coloris camel est rehaussé d’une bordure à motifs rouges, écrus et bordeaux d’inspiration bohème. L’intérieur présente une doublure duveteuse claire et une languette rouge est visible à l’arrière. Ce modèle à bout fermé est doté d’une semelle antidérapante.",
+    "photos": [
+      "photos/veilante-1795588158396-1.jpg",
+      "photos/veilante-1795588159853-2.jpg",
+      "photos/veilante-1795588161597-3.jpg",
+      "photos/veilante-1795588163258-4.jpg",
+      "photos/veilante-1795588164782-5.jpg"
+    ],
+    "id": "veilante-chaussons-d-hiver-veilante-en-cuir-camel-a-motifs-bohemes-pointure-39-1795588153684--taille-39",
+    "variantGroupId": "veilante-chaussons-d-hiver-veilante-en-cuir-camel-a-motifs-bohemes-pointure-39-1795588153684",
+    "variantSize": "39",
+    "tailles": [
+      "39"
+    ],
+    "taille": "39",
+    "createdAt": "2026-11-25T06:29:26.804Z",
+    "updatedAt": "2026-11-25T06:29:26.804Z"
+  },
+  {
     "nom": "Neutriherbs – Crème visage de nuit au rétinol, soin anti-âge 50 ml",
     "marque": "Neutriherbs",
     "etatProduit": "Neuf",
