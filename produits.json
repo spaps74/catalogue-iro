@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Épaulière électrique noire chauffante avec vibration et sangle réglable",
+    "marque": "Autres",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Soin de la personne",
+    "genre": "",
+    "prixRetail": 39,
+    "prixVente": 20,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette épaulière électrique associe chaleur et vibration au niveau de l’épaule. Sa forme enveloppante noire est maintenue par une sangle réglable passant autour du buste. Elle convient à l’épaule gauche comme à l’épaule droite et dispose d’un boîtier de commande avec affichage numérique sur le côté du bras. Marque renseignée : Autres. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/autres-1795599561732-1.jpg",
+      "photos/autres-1795599563725-2.jpg",
+      "photos/autres-1795599565573-3.jpg",
+      "photos/autres-1795599567684-4.jpg",
+      "photos/autres-1795599569452-5.jpg"
+    ],
+    "id": "autres-epauliere-electrique-noire-chauffante-avec-vibration-et-sangle-reglable-1795599560041--taille-unique",
+    "variantGroupId": "autres-epauliere-electrique-noire-chauffante-avec-vibration-et-sangle-reglable-1795599560041",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:39:31.476Z",
+    "updatedAt": "2026-11-25T09:39:31.476Z"
+  },
+  {
     "nom": "Applique murale LED noire 40 cm – 16 W, 1 800 lm, blanc chaud 3 000 K",
     "marque": "Autres",
     "etatProduit": "Neuf",
