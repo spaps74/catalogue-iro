@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Lighteu MiBoxer – Module variateur TRIAC RF et PUSH pour LED dimmables",
+    "marque": "Lighteu",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Contrôleurs LED",
+    "genre": "",
+    "prixRetail": 19,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 5,
+    "description": "Ce module variateur Lighteu MiBoxer permet de régler l’intensité des LED dimmables par commande RF ou bouton-poussoir PUSH. Le modèle TRI-C1 fonctionne sur une alimentation de 100 à 240 V AC, à 50/60 Hz. Son boîtier blanc comporte des borniers à vis avec repérage des connexions d’entrée et de sortie. Produit neuf.",
+    "photos": [
+      "photos/lighteu-1795599139512-1.jpg",
+      "photos/lighteu-1795599141603-2.jpg",
+      "photos/lighteu-1795599144219-3.jpg"
+    ],
+    "id": "lighteu-lighteu-miboxer-module-variateur-triac-rf-et-push-pour-led-dimmables-1795599138232--taille-unique",
+    "variantGroupId": "lighteu-lighteu-miboxer-module-variateur-triac-rf-et-push-pour-led-dimmables-1795599138232",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:32:30.307Z",
+    "updatedAt": "2026-11-25T09:32:30.307Z"
+  },
+  {
     "nom": "Câble d’extension étanche Xgmatt pour Starlink Gen3 – 35 m, noir",
     "marque": "Xgmatt",
     "etatProduit": "Neuf avec étiquettes",
