@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Lot de 2 vases blancs en céramique ajourés – Décoration minimaliste",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 29,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 3,
+    "description": "Ce lot de 2 vases en céramique de marque Autres associe deux formats complémentaires, en blanc à l’aspect légèrement moucheté. Leurs silhouettes arrondies présentent un centre ajouré et un col étroit. À disposer ensemble ou séparément sur une console, une étagère ou une table pour une décoration minimaliste. État : Neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795588742275-1.jpg",
+      "photos/autres-1795588743967-2.jpg",
+      "photos/autres-1795588745557-3.jpg",
+      "photos/autres-1795588747251-4.jpg"
+    ],
+    "id": "autres-lot-de-2-vases-blancs-en-ceramique-ajoures-decoration-minimaliste-1795588740585--taille-unique",
+    "variantGroupId": "autres-lot-de-2-vases-blancs-en-ceramique-ajoures-decoration-minimaliste-1795588740585",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T06:39:08.865Z",
+    "updatedAt": "2026-11-25T06:39:08.865Z"
+  },
+  {
     "nom": "Bracelet Tauri en nylon vert pour Apple Watch Ultra 49 mm et Series 44/45/46 mm",
     "marque": "Tauri",
     "etatProduit": "Retour Amazon comme neuf",
