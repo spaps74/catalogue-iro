@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Câble Ugreen USB-C vers DisplayPort 1.4 – 8K à 60 Hz – 2 m",
+    "marque": "Ugreen",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 20,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Câble Ugreen USB-C vers DisplayPort 1.4 d’une longueur de 2 m. Prend en charge une définition jusqu’à 8K à 60 Hz. Il présente une gaine tressée noire et des embouts gris avec inscriptions UGREEN. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/ugreen-1795588498079-1.jpg"
+    ],
+    "id": "ugreen-cable-ugreen-usb-c-vers-displayport-1-4-8k-a-60-hz-2-m-1795588496930--taille-unique",
+    "variantGroupId": "ugreen-cable-ugreen-usb-c-vers-displayport-1-4-8k-a-60-hz-2-m-1795588496930",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T06:34:59.709Z",
+    "updatedAt": "2026-11-25T06:34:59.709Z"
+  },
+  {
     "nom": "Neutriherbs – Sérum mucine d’escargot et niacinamide 50 ml – Neuf",
     "marque": "Neutriherbs",
     "etatProduit": "Neuf",
