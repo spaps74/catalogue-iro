@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Short de maternité Autres vert sauge à taille haute pour yoga",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Joggings",
+    "genre": "",
+    "prixRetail": 35,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce short de maternité de marque Autres présente une coupe ajustée et un coloris vert sauge uni. Sa taille haute forme un large bandeau qui recouvre le ventre. Ce modèle pour le yoga affiche une longueur annoncée de 15 cm et des coutures ton sur ton. Article neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795598653671-1.jpg",
+      "photos/autres-1795598655369-2.jpg",
+      "photos/autres-1795598657104-3.jpg"
+    ],
+    "id": "autres-short-de-maternite-autres-vert-sauge-a-taille-haute-pour-yoga-1795598652830--taille-unique",
+    "variantGroupId": "autres-short-de-maternite-autres-vert-sauge-a-taille-haute-pour-yoga-1795598652830",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:24:18.721Z",
+    "updatedAt": "2026-11-25T09:24:18.721Z"
+  },
+  {
     "nom": "Pantalon décontracté blanc en coton et lin – taille XL – Autres",
     "marque": "Autres",
     "etatProduit": "Neuf",
