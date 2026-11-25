@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Support carrousel noir pour 80 capsules Nespresso – Petit modèle",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Cuisine",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce support de marque Autres permet de ranger jusqu’à 80 capsules Nespresso au format carrousel. Sa structure noire dispose de compartiments verticaux répartis autour d’une base ronde. Les étuis se placent à la verticale, avec un accès aux capsules par le bas. Ce petit modèle s’installe sur un plan de travail pour organiser votre espace café. Produit neuf.",
+    "photos": [
+      "photos/autres-1795601873795-1.jpg",
+      "photos/autres-1795601875208-2.jpg",
+      "photos/autres-1795601876801-3.jpg",
+      "photos/autres-1795601878519-4.jpg",
+      "photos/autres-1795601880044-5.jpg"
+    ],
+    "id": "autres-support-carrousel-noir-pour-80-capsules-nespresso-petit-modele-1795601871467--taille-unique",
+    "variantGroupId": "autres-support-carrousel-noir-pour-80-capsules-nespresso-petit-modele-1795601871467",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:18:01.512Z",
+    "updatedAt": "2026-11-25T10:18:01.512Z"
+  },
+  {
     "nom": "Genouillère de compression noire à motifs cuivrés – soutien du genou",
     "marque": "Autres",
     "etatProduit": "Neuf",
