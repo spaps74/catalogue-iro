@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Crème réparatrice au karité pour pieds secs, callosités et talons crevassés",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 7,
+    "description": "Cette crème hydratante au karité est destinée aux pieds secs, aux callosités et aux talons crevassés. L’emballage mentionne notamment des huiles d’olive, d’amande douce, de ricin et de sésame. Elle est présentée dans un pot rond métallique avec un étui cartonné. Fabriquée en Espagne, elle est proposée neuve, sous la marque renseignée « Autres ».",
+    "photos": [
+      "photos/autres-1795582390794-1.jpg",
+      "photos/autres-1795582392334-2.jpg",
+      "photos/autres-1795582394047-3.jpg",
+      "photos/autres-1795582395605-4.jpg"
+    ],
+    "id": "autres-creme-reparatrice-au-karite-pour-pieds-secs-callosites-et-talons-crevasses-1795582389088--taille-unique",
+    "variantGroupId": "autres-creme-reparatrice-au-karite-pour-pieds-secs-callosites-et-talons-crevasses-1795582389088",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T04:53:17.235Z",
+    "updatedAt": "2026-11-25T04:53:17.235Z"
+  },
+  {
     "nom": "Triax DCT ATF – Huile synthétique pour boîte double embrayage – G 052 182 A2",
     "marque": "Triax",
     "etatProduit": "Neuf",
