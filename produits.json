@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Lisseur à air ionique PARWIN PRO BEAUTY humide à sec – Argenté",
+    "marque": "PARWIN PRO BEAUTY",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Soin de la personne",
+    "genre": "",
+    "prixRetail": 149,
+    "prixVente": 48.25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce lisseur à air ionique PARWIN PRO BEAUTY neuf sèche et lisse les cheveux légèrement humides, sans plaques chauffantes. Il est conçu pour les cheveux mi-longs à longs, de 35 à 75 cm. Sa finition argentée est associée à des détails noirs et à des commandes avec voyants de niveau. Une pochette de rangement argentée accompagne l’appareil.",
+    "photos": [
+      "photos/parwin-pro-beauty-1795603913438-1.jpg",
+      "photos/parwin-pro-beauty-1795603915010-2.jpg",
+      "photos/parwin-pro-beauty-1795603916890-3.jpg",
+      "photos/parwin-pro-beauty-1795603918693-4.jpg"
+    ],
+    "id": "parwin-pro-beauty-lisseur-a-air-ionique-parwin-pro-beauty-humide-a-sec-argente-1795603912411--taille-unique",
+    "variantGroupId": "parwin-pro-beauty-lisseur-a-air-ionique-parwin-pro-beauty-humide-a-sec-argente-1795603912411",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:52:00.247Z",
+    "updatedAt": "2026-11-25T10:52:00.247Z"
+  },
+  {
     "nom": "Lot de 2 lampes de table LED blanches sans fil rechargeables USB-C",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
