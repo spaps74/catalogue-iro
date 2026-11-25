@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Neutriherbs – Sérum mucine d’escargot et niacinamide 50 ml – Neuf",
+    "marque": "Neutriherbs",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 22,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 6,
+    "description": "Le sérum Snail All in One de Neutriherbs associe mucine d’escargot, niacinamide et panthénol dans un format de 50 ml. Ce soin est destiné à atténuer l’apparence des taches et des signes de l’âge, tout en apportant hydratation et apaisement. L’emballage indique une formule sans parfum ni colorant, pour tous les types de peau. Produit neuf, présenté en flacon avec pipette et étui cartonné.",
+    "photos": [
+      "photos/neutriherbs-1795588437317-1.jpg",
+      "photos/neutriherbs-1795588438927-2.jpg",
+      "photos/neutriherbs-1795588440529-3.jpg",
+      "photos/neutriherbs-1795588442395-4.jpg",
+      "photos/neutriherbs-1795588443886-5.jpg"
+    ],
+    "id": "neutriherbs-neutriherbs-serum-mucine-d-escargot-et-niacinamide-50-ml-neuf-1795588432701--taille-unique",
+    "variantGroupId": "neutriherbs-neutriherbs-serum-mucine-d-escargot-et-niacinamide-50-ml-neuf-1795588432701",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T06:34:05.353Z",
+    "updatedAt": "2026-11-25T06:34:05.353Z"
+  },
+  {
     "nom": "Neutriherbs Superior Defining Gel raffermissant corps – 150 ml",
     "marque": "Neutriherbs",
     "etatProduit": "Neuf",
