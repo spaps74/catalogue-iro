@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Câble d’extension étanche Xgmatt pour Starlink Gen3 – 35 m, noir",
+    "marque": "Xgmatt",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Starlink",
+    "genre": "",
+    "prixRetail": 50,
+    "prixVente": 30,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 3,
+    "description": "Ce câble d’extension étanche Xgmatt est destiné à Starlink Gen3. Sa longueur de 35 m permet d’adapter le raccordement à la disposition de votre installation. Il est équipé de deux connecteurs avec manchons de protection. Coloris indiqué : noir. Produit neuf avec étiquettes.",
+    "photos": [
+      "photos/xgmatt-1795599037275-1.jpg"
+    ],
+    "id": "xgmatt-cable-d-extension-etanche-xgmatt-pour-starlink-gen3-35-m-noir-1795599035388--taille-unique",
+    "variantGroupId": "xgmatt-cable-d-extension-etanche-xgmatt-pour-starlink-gen3-35-m-noir-1795599035388",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T09:30:39.176Z",
+    "updatedAt": "2026-11-25T09:30:39.176Z"
+  },
+  {
     "nom": "Tocol – Verre trempé anti-espion et anti-reflets pour iPhone 18 Pro – Clair",
     "marque": "Tocol",
     "etatProduit": "Neuf",
