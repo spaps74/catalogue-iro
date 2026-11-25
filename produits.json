@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Couverture en flanelle bleue « Je t’aime Papa » – Taille unique",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 20,
+    "prixVente": 8,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 10,
+    "description": "Cette couverture en flanelle de marque Autres présente un fond bleu et des inscriptions blanches dédiées à papa. Le message central « Je t’aime Papa » est entouré de mots affectueux, de cœurs et de motifs décoratifs. De forme rectangulaire, elle possède un revers blanc à l’aspect duveteux visible sur les photos. Une idée cadeau pour un anniversaire, la fête des Pères ou Noël. Taille unique, article neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795584352607-1.jpg",
+      "photos/autres-1795584354303-2.jpg",
+      "photos/autres-1795584356069-3.jpg",
+      "photos/autres-1795584357873-4.jpg",
+      "photos/autres-1795584359277-5.jpg"
+    ],
+    "id": "autres-couverture-en-flanelle-bleue-je-t-aime-papa-taille-unique-1795584351516--taille-unique",
+    "variantGroupId": "autres-couverture-en-flanelle-bleue-je-t-aime-papa-taille-unique-1795584351516",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T05:26:00.947Z",
+    "updatedAt": "2026-11-25T05:26:00.947Z"
+  },
+  {
     "nom": "Gamesir X4 Aileron – Manette Bluetooth pour Android avec joysticks à effet Hall",
     "marque": "Gamesir",
     "etatProduit": "Retour Amazon comme neuf",
