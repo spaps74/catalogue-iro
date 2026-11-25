@@ -1707,6 +1707,7 @@ body.category-focus #catalogTitle{
 @media(max-width:900px){
   .nav-inner .sale-types{flex-wrap:nowrap;overflow-x:auto;}
 }
+.quantity-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;font-size:13px;margin:8px 0}.quantity-picker input{width:72px;padding:7px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111}.quantity-picker small{font-weight:500;color:#666}.card-actions .quantity-picker{flex-basis:100%}
 </style></head><body>
 <header class="store-header">
   <div class="shopbar">
@@ -3190,9 +3191,18 @@ function statusClass(p){
 }
 function canAddToCart(p){
   const s=normalizedStatus(p);
-  return s==='disponible' && Number(p.stock||0)!==0;
+  return s==='disponible' && stockQty(p)>0;
 }
 
+function stockQty(p){return Math.max(0,Math.floor(Number(p?.stock)||0))}
+function cartQty(x){return Math.max(1,Math.floor(Number(x?.quantity)||1))}
+function remainingQty(p){return Math.max(0,stockQty(p)-cart.reduce((n,x)=>n+(x.id===p.id?cartQty(x):0),0))}
+function qtyPicker(p,kind){
+  const max=remainingQty(p);
+  if(stockQty(p)<=1 || max<=0) return '';
+  return `<label class="quantity-picker">Quantité <input type="number" min="1" max="${max}" step="1" value="1" aria-label="Quantité" data-quantity="${escapeHtml(kind)}"> <small>${max} disponible(s)</small></label>`;
+}
+function selectedQty(el){const input=el?.querySelector('[data-quantity]');return input?Number(input.value):1}
 function card(p){
   const variants=productVariants(p);
   const availableVariants=variants.filter(canAddToCart);
@@ -3204,7 +3214,7 @@ function card(p){
   const fav=variants.some(v=>isFavorite(v.id));
 
   const cartButton=availableVariants.length===1
-    ? `<button class="btn add" onclick="add('${availableVariants[0].id}')">Ajouter au panier</button>`
+    ? `<button class="btn add" onclick="add('${availableVariants[0].id}',selectedQty(this.parentElement))">Ajouter au panier</button>`
     : availableVariants.length>1
       ? `<button class="btn add" onclick="details('${p.id}')">Choisir la pointure</button>`
       : `<button class="btn add" disabled aria-disabled="true">Indisponible</button>`;
@@ -3228,6 +3238,7 @@ function card(p){
       <div class="card-actions">
         ${p.marque?`<span class="brand-badge">${escapeHtml(p.marque)}</span>`:''}
         <button class="btn details" onclick="details('${p.id}')">Voir le détail</button>
+        ${availableVariants.length===1?qtyPicker(availableVariants[0],'card'):''}
         ${cartButton}
       </div>
     </div>
@@ -3289,6 +3300,7 @@ function details(id){
     ${stateBadge(selected)}
     <div class="meta">${escapeHtml(selected.categorie||'')}${selected.taille?' · Pointure '+escapeHtml(selected.taille):''} <span class="detail-status ${statusClass(selected)}">${escapeHtml(selected.statut||'')}</span></div>
     ${sizeSelector}
+    ${available?qtyPicker(selected,'detail'):''}
     <div class="detailphotos">${(selected.photos||[]).map((x,i)=>`<img src="${x}" onclick="openZoomGallery('${selected.id}',${i})" title="Cliquer pour agrandir">`).join('')}</div>
     <p class="detail-description">${escapeHtml(selected.description||'Aucune description renseignée.')}</p>
     <div class="sale">${euro(selected.prixVente)}</div>
@@ -3317,8 +3329,8 @@ function toggleDetailFavorite(id,event){
 }
 
 function addFromDetail(id){
-  closeDetail();
-  add(id);
+  const qty=selectedQty(document.getElementById('detailBody'));
+  if(add(id,qty)) closeDetail();
 }
 
 function productShareKey(value){
@@ -3420,7 +3432,8 @@ function addFavoritesToCart(){
       nom:p.nom,
       marque:p.marque,
       taille:productSizeLabel(p),
-      prixVente:p.prixVente
+      prixVente:p.prixVente,
+      quantity:1
     });
     added++;
   }
@@ -3439,9 +3452,40 @@ function addFavoritesToCart(){
   }
 }
 
-function add(id){let p=products.find(x=>x.id===id);if(!p||!canAddToCart(p))return;if(!cart.some(x=>x.id===id))cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:p.taille,prixVente:p.prixVente});localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart();openCart()}
-function removeItem(id){cart=cart.filter(x=>x.id!==id);localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart));updateCart()}
-function updateCart(){document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartRows').innerHTML=cart.length?cart.map(x=>`<div class="cartrow"><div><b>${x.marque||''} ${x.nom}</b><div class="meta">Taille ${x.taille} · ${euro(x.prixVente)}</div></div><button onclick="removeItem('${x.id}')">Retirer</button></div>`).join(''):'Panier vide';document.getElementById('cartTotal').textContent=euro(cart.reduce((s,x)=>s+Number(x.prixVente||0),0))}
+function persistCart(){localStorage.setItem('upstyle_cart_v2',JSON.stringify(cart))}
+function add(id,quantity=1){
+  const p=products.find(x=>x.id===id);
+  if(!p||!canAddToCart(p))return false;
+  const remaining=remainingQty(p);
+  if(!Number.isInteger(quantity)||quantity<1||quantity>remaining){
+    alert(remaining?'Quantité disponible : '+remaining:'Le stock disponible est déjà dans votre panier.');
+    return false;
+  }
+  const row=cart.find(x=>x.id===id);
+  if(row)row.quantity=cartQty(row)+quantity;
+  else cart.push({id:p.id,nom:p.nom,marque:p.marque,taille:productSizeLabel(p),prixVente:p.prixVente,quantity});
+  persistCart();updateCart();render();openCart();return true;
+}
+function removeItem(id){cart=cart.filter(x=>x.id!==id);persistCart();updateCart();render()}
+function setCartQty(id,value){
+  const row=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);
+  if(!row||!p)return;
+  const q=Number(value);
+  if(!canAddToCart(p)||!Number.isInteger(q)||q<1||q>stockQty(p)){
+    alert('Quantité non disponible. Stock : '+(canAddToCart(p)?stockQty(p):0));updateCart();return;
+  }
+  row.quantity=q;persistCart();updateCart();render();
+}
+function cartTotalAmount(){return cart.reduce((s,x)=>s+Number(x.prixVente||0)*cartQty(x),0)}
+function validCartStock(){return cart.every(x=>{const p=products.find(p=>p.id===x.id);return p&&canAddToCart(p)&&cartQty(x)<=stockQty(p)})}
+function updateCart(){
+  document.getElementById('cartCount').textContent=cart.reduce((n,x)=>n+cartQty(x),0);
+  document.getElementById('cartRows').innerHTML=cart.length?cart.map(x=>{
+    const p=products.find(p=>p.id===x.id),max=p&&canAddToCart(p)?stockQty(p):0,q=cartQty(x);
+    return `<div class="cartrow"><div><b>${escapeHtml(x.marque||'')} ${escapeHtml(x.nom||'')}</b><div class="meta">${x.taille?'Taille '+escapeHtml(x.taille)+' · ':''}${euro(x.prixVente)} / unité</div><label class="quantity-picker">Quantité <input type="number" min="1" max="${Math.max(1,max)}" step="1" value="${q}" onchange="setCartQty('${escapeHtml(x.id)}',this.value)" ${max?'':'disabled'}></label>${q>max?'<div class="meta">Stock insuffisant — ajustez ou retirez cet article.</div>':''}<b>${euro(Number(x.prixVente||0)*q)}</b></div><button onclick="removeItem('${escapeHtml(x.id)}')">Retirer</button></div>`;
+  }).join(''):'Panier vide';
+  document.getElementById('cartTotal').textContent=euro(cartTotalAmount());
+}
 const MONDIAL_RELAY_KEY='upstyle_mondial_relay_point';
 
 function getMondialRelayPoint(){
@@ -3617,6 +3661,8 @@ async function loadPayPal(){
     const commonActions = {
       createOrder: async ()=>{
         if(!cart.length) throw new Error('Le panier est vide.');
+        if(!validCartStock()) throw new Error('Stock insuffisant : vérifiez votre panier.');
+        if(cart.some(x=>cartQty(x)>1)) throw new Error('Pour une commande de plusieurs exemplaires, utilisez la commande par e-mail. Le paiement PayPal multiquantité n’est pas encore disponible.');
 
         const relayPoint=requireMondialRelayPoint();
         if(!relayPoint) throw new Error('Point Mondial Relay requis.');
@@ -3753,13 +3799,14 @@ function order(){
   const relayPoint=requireMondialRelayPoint();
   if(!relayPoint) return;
 
-  const total=cart.reduce((s,x)=>s+Number(x.prixVente||0),0);
+  if(!validCartStock()){alert('Stock insuffisant : vérifiez votre panier.');return;}
+  const total=cartTotalAmount();
   const body=[
     'Bonjour',
     '',
     'Je souhaite commander :',
     '',
-    ...cart.map((x,i)=>`${i+1}. ${x.marque||''} ${x.nom} - Taille ${x.taille} - ${euro(x.prixVente)}`),
+    ...cart.map((x,i)=>`${i+1}. ${x.marque||''} ${x.nom}${x.taille?' - Taille '+x.taille:''} - Quantité : ${cartQty(x)} - ${euro(x.prixVente)} / unité - Sous-total : ${euro(Number(x.prixVente||0)*cartQty(x))}`),
     '',
     `Total : ${euro(total)}`,
     '',
