@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Lot de 2 lampes de table LED blanches sans fil rechargeables USB-C",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Luminaire",
+    "genre": "",
+    "prixRetail": 25,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Lot de 2 lampes de table LED blanches, portables et sans fil, de marque Autres. Leur silhouette élancée associe un abat-jour conique à un pied fin sur une base carrée avec patin antidérapant. Elles disposent d’une commande tactile sur le dessus et se rechargent par port USB-C. Leur éclairage apporte une lumière chaleureuse sur une table ou un chevet. État : Neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795603747626-1.jpg",
+      "photos/autres-1795603748949-2.jpg",
+      "photos/autres-1795603750517-3.jpg",
+      "photos/autres-1795603752046-4.jpg",
+      "photos/autres-1795603753730-5.jpg"
+    ],
+    "id": "autres-lot-de-2-lampes-de-table-led-blanches-sans-fil-rechargeables-usb-c-1795603746603--taille-unique",
+    "variantGroupId": "autres-lot-de-2-lampes-de-table-led-blanches-sans-fil-rechargeables-usb-c-1795603746603",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:49:15.452Z",
+    "updatedAt": "2026-11-25T10:49:15.452Z"
+  },
+  {
     "nom": "Lot de 2 petits pots noirs et 2 anneaux pour panneau acoustique",
     "marque": "Autres",
     "etatProduit": "Neuf",
