@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Kit d'irrigation goutte-à-goutte automatique 360° avec piquets – 2 x 20 m",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Jardin",
+    "genre": "",
+    "prixRetail": 86,
+    "prixVente": 40,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce système d'irrigation automatique de marque Autres est neuf et proposé au format 2 x 20 m. Il permet un réglage précis du débit et dispose de tiges orientables à 360° pour diriger l'arrosage. Les piquets permettent de positionner les buses auprès des plantes. Le kit présenté comprend un tuyau gris, des raccords, un répartiteur à deux sorties et un coupe-tuyau.",
+    "photos": [
+      "photos/autres-1795606075196-1.jpg",
+      "photos/autres-1795606077106-2.jpg",
+      "photos/autres-1795606078920-3.jpg",
+      "photos/autres-1795606080803-4.jpg",
+      "photos/autres-1795606082346-5.jpg"
+    ],
+    "id": "autres-kit-d-irrigation-goutte-a-goutte-automatique-360-avec-piquets-2-x-20-m-1795606072854--taille-unique",
+    "variantGroupId": "autres-kit-d-irrigation-goutte-a-goutte-automatique-360-avec-piquets-2-x-20-m-1795606072854",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:28:03.994Z",
+    "updatedAt": "2026-11-25T11:28:03.994Z"
+  },
+  {
     "nom": "Kit de diffuseurs de phéromones apaisantes pour chien avec 4 recharges",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
