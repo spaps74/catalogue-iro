@@ -757,6 +757,7 @@
 <div class="full">
 <label>Photos (jusqu'à 5) — la première sera la photo principale</label>
 <input id="photos" type="file" accept=".jpg,.jpeg,.png,.webp,.avif,image/*" multiple onchange="preview()">
+<div style="margin:10px 0"><button type="button" id="downloadAllPhotosBtn" onclick="downloadAllGalleryPhotos()" disabled>⬇ Télécharger toutes les photos (ZIP)</button><span id="photoDownloadStatus" role="status" aria-live="polite" class="muted" style="margin-left:8px"></span></div>
 <div class="photo-edit-grid" id="previews"></div>
 <div class="muted">Toutes les photos, y compris celles des annonces existantes, peuvent être recadrées, tournées, réordonnées ou supprimées. Faites glisser pour changer l’ordre ; la première photo est la photo principale. Formats conseillés : JPG, PNG, WebP et AVIF. Toutes les nouvelles photos sont automatiquement converties en JPEG optimisé avant publication.</div><div class="avif-note">Si une image n’est pas lisible par le navigateur, elle est signalée immédiatement et n’est pas ajoutée.</div>
 </div>
@@ -832,6 +833,7 @@ let products=[],editing=null,oldPhotos=[];
 let referenceDataLoaded=false;
 let selectedPhotoFiles=[];
 let galleryItems=[];
+let photoDownloadBusy=false;
 let productLookupResults=[];
 let productLookupSelectedIndex=-1;
 let productLookupSelectedImages=new Set();
@@ -2725,6 +2727,7 @@ function itemPreviewUrl(item){
 }
 
 function renderPhotoPreviews(){
+  if($('downloadAllPhotosBtn')) $('downloadAllPhotosBtn').disabled=!galleryItems.length || photoDownloadBusy;
   $('previews').innerHTML=galleryItems.map((item,i)=>{
     const u=itemPreviewUrl(item);
     const safe=u.replace(/'/g,"\\'");
@@ -2743,6 +2746,7 @@ function renderPhotoPreviews(){
         <button class="set-main ${i===0?'active':''}" type="button" onclick="setGalleryMain(${i})">${i===0?'✓ Photo principale':'Définir principale'}</button>
         <div class="photo-edit-actions">
           <button type="button" onclick="openGalleryImageEditor(${i})">Modifier</button>
+          <button type="button" title="Télécharger cette photo" onclick="downloadGalleryPhoto(${i})">⬇ Télécharger</button>
         </div>
       </div>`;
   }).join('');
@@ -2789,11 +2793,108 @@ function dropPhoto(e,targetIndex){
 
 async function galleryItemToFile(item,index){
   if(item.type==='new') return item.file;
-  const r=await fetch(item.path+'?edit='+Date.now(),{cache:'no-store'});
+  const url=new URL(item.path,document.baseURI);
+  url.searchParams.set('edit',Date.now());
+  const r=await fetch(url,{cache:'no-store'});
   if(!r.ok) throw new Error('Impossible de charger la photo existante.');
   const blob=await r.blob();
   const ext=(item.path.split('.').pop()||'jpg').split('?')[0];
   return new File([blob],`photo-existante-${index+1}.${ext}`,{type:blob.type||'image/jpeg'});
+}
+
+
+function galleryDownloadBase(){
+  return slug(String($('nom')?.value||'produit')).slice(0,100)||'produit';
+}
+
+async function galleryDownloadEntry(item,index,base){
+  const file=await galleryItemToFile(item,index);
+  const types={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/avif':'avif','image/gif':'gif','image/heic':'heic','image/heif':'heif','image/svg+xml':'svg'};
+  const ext=types[file.type] || String(file.name||'').split('.').pop().toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,8) || 'jpg';
+  return {name:base+'-'+String(index+1).padStart(2,'0')+'.'+ext,file};
+}
+
+function saveGalleryBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+
+async function downloadGalleryPhoto(index){
+  const item=galleryItems[index];
+  if(!item) return;
+  try{
+    const entry=await galleryDownloadEntry(item,index,galleryDownloadBase());
+    saveGalleryBlob(entry.file,entry.name);
+  }catch(e){alert('Téléchargement impossible : '+e.message);}
+}
+
+// ZIP standard sans compression ni dépendance externe ; les photos sont déjà compressées.
+function galleryZipCRC32(bytes){
+  let crc=0xffffffff;
+  for(const b of bytes){
+    crc^=b;
+    for(let k=0;k<8;k++) crc=(crc>>>1)^((crc&1)?0xedb88320:0);
+  }
+  return (crc^0xffffffff)>>>0;
+}
+
+async function buildGalleryZip(entries){
+  const parts=[],central=[];
+  let offset=0,centralSize=0;
+  const encoder=new TextEncoder();
+  const now=new Date();
+  const time=(now.getHours()<<11)|(now.getMinutes()<<5)|(now.getSeconds()>>1);
+  const date=((now.getFullYear()-1980)<<9)|((now.getMonth()+1)<<5)|now.getDate();
+  for(const entry of entries){
+    const name=encoder.encode(entry.name);
+    const bytes=new Uint8Array(await entry.file.arrayBuffer());
+    const crc=galleryZipCRC32(bytes);
+    const local=new Uint8Array(30+name.length);
+    const l=new DataView(local.buffer);
+    l.setUint32(0,0x04034b50,true);l.setUint16(4,20,true);l.setUint16(6,0x800,true);
+    l.setUint16(10,time,true);l.setUint16(12,date,true);l.setUint32(14,crc,true);
+    l.setUint32(18,bytes.length,true);l.setUint32(22,bytes.length,true);l.setUint16(26,name.length,true);
+    local.set(name,30);
+    const dir=new Uint8Array(46+name.length);
+    const d=new DataView(dir.buffer);
+    d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x800,true);
+    d.setUint16(12,time,true);d.setUint16(14,date,true);d.setUint32(16,crc,true);
+    d.setUint32(20,bytes.length,true);d.setUint32(24,bytes.length,true);d.setUint16(28,name.length,true);d.setUint32(42,offset,true);
+    dir.set(name,46);
+    parts.push(local,bytes);central.push(dir);
+    offset+=local.length+bytes.length;centralSize+=dir.length;
+  }
+  const end=new Uint8Array(22), e=new DataView(end.buffer);
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,entries.length,true);e.setUint16(10,entries.length,true);
+  e.setUint32(12,centralSize,true);e.setUint32(16,offset,true);
+  return new Blob([...parts,...central,end],{type:'application/zip'});
+}
+
+async function downloadAllGalleryPhotos(){
+  if(photoDownloadBusy || !galleryItems.length) return;
+  const items=galleryItems.slice(),base=galleryDownloadBase();
+  const btn=$('downloadAllPhotosBtn'),status=$('photoDownloadStatus');
+  photoDownloadBusy=true;btn.disabled=true;
+  try{
+    const entries=[];
+    for(let i=0;i<items.length;i++){
+      status.textContent='Chargement '+(i+1)+'/'+items.length+'…';
+      entries.push(await galleryDownloadEntry(items[i],i,base));
+    }
+    const zip=await buildGalleryZip(entries);
+    saveGalleryBlob(zip,base+'-photos.zip');
+    status.textContent=entries.length+' photo(s) — archive prête.';
+  }catch(e){
+    status.textContent='Erreur : '+e.message;
+  }finally{
+    photoDownloadBusy=false;btn.disabled=!galleryItems.length;
+  }
 }
 
 async function openGalleryImageEditor(index){
