@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Tablier de cuisine et BBQ noir imperméable réglable « Ma cuisine, mes lois »",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Cuisine",
+    "genre": "",
+    "prixRetail": 23,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 8,
+    "description": "Tablier noir de marque Autres, neuf avec étiquettes, pour la cuisine et le barbecue. Imperméable, il possède un tour de cou réglable et des poches à l’avant. Son inscription blanche « Ma cuisine mes lois » est accompagnée de motifs de toque et de fouet. La personnalisation est indiquée dans les informations fournies, sans précision sur ses modalités.",
+    "photos": [
+      "photos/autres-1795602095221-1.jpg",
+      "photos/autres-1795602096946-2.jpg",
+      "photos/autres-1795602098608-3.jpg",
+      "photos/autres-1795602100257-4.jpg",
+      "photos/autres-1795602101883-5.jpg"
+    ],
+    "id": "autres-tablier-de-cuisine-et-bbq-noir-impermeable-reglable-ma-cuisine-mes-lois-1795602093811--taille-unique",
+    "variantGroupId": "autres-tablier-de-cuisine-et-bbq-noir-impermeable-reglable-ma-cuisine-mes-lois-1795602093811",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:21:43.531Z",
+    "updatedAt": "2026-11-25T10:21:43.531Z"
+  },
+  {
     "nom": "Support carrousel noir pour 80 capsules Nespresso – Petit modèle",
     "marque": "Autres",
     "etatProduit": "Neuf",
