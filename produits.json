@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Caméra USB ELP 2 MP 1080p avec objectif fisheye grand angle 180°",
+    "marque": "ELP",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Divers",
+    "genre": "",
+    "prixRetail": 61.2,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cette caméra USB ELP associe une résolution de 2 MP en 1080p à un objectif fisheye grand angle de 180°. Elle intègre un capteur CMOS OV2710 et une interface USB 2.0 UVC pour une utilisation sur ordinateur, ordinateur portable ou Jetson Nano. Son boîtier noir est monté sur un support avec points de fixation. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/elp-1795602626118-1.jpg",
+      "photos/elp-1795602629169-2.jpg",
+      "photos/elp-1795602631617-3.jpg",
+      "photos/elp-1795602634164-4.jpg",
+      "photos/elp-1795602636203-5.jpg"
+    ],
+    "id": "elp-camera-usb-elp-2-mp-1080p-avec-objectif-fisheye-grand-angle-180-1795602623794--taille-unique",
+    "variantGroupId": "elp-camera-usb-elp-2-mp-1080p-avec-objectif-fisheye-grand-angle-180-1795602623794",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:30:38.761Z",
+    "updatedAt": "2026-11-25T10:30:38.761Z"
+  },
+  {
     "nom": "Piquet d’ancrage noir pour chien jusqu’à 100 kg, rotation à 360°",
     "marque": "Autres",
     "etatProduit": "Neuf",
