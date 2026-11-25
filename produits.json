@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Autres – Lotion corporelle coco & céramide 473 ml – Botanic Hearth",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 27,
+    "prixVente": 13,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 10,
+    "description": "Lotion corporelle Botanic Hearth coco & céramide, en flacon-pompe de 473 ml. Sa formule de soin 5 en 1 hydrate durablement et pénètre rapidement sans effet gras. L’étiquette mentionne de la vitamine E, de l’aloe et un mélange de cinq huiles et beurres. Produit neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795582141807-1.jpg",
+      "photos/autres-1795582143314-2.jpg",
+      "photos/autres-1795582144764-3.jpg",
+      "photos/autres-1795582146620-4.jpg",
+      "photos/autres-1795582148060-5.jpg"
+    ],
+    "id": "autres-autres-lotion-corporelle-coco-ceramide-473-ml-botanic-hearth-1795582139792--taille-unique",
+    "variantGroupId": "autres-autres-lotion-corporelle-coco-ceramide-473-ml-botanic-hearth-1795582139792",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T04:49:09.908Z",
+    "updatedAt": "2026-11-25T04:49:09.908Z"
+  },
+  {
     "nom": "Thermomètre auriculaire pour animaux – mesure en 1 seconde, °C/°F",
     "marque": "Autres",
     "etatProduit": "Retour Amazon comme neuf",
