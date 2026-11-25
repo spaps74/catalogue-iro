@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Défroisseur portable Steamery Cirrus Core blanc – 1 350 W",
+    "marque": "Autres",
+    "etatProduit": "Retour Amazon comme neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Soin de la personne",
+    "genre": "",
+    "prixRetail": 100,
+    "prixVente": 50,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce défroisseur portable blanc offre une puissance de 1 350 W et un débit de vapeur de 21 g/min. Il chauffe en 15 secondes et dispose de la technologie Dry Steam. Son réservoir d’eau translucide et amovible permet de surveiller facilement le niveau d’eau. Une boucle de suspension facilite son rangement. Marque renseignée : Autres. État : Retour Amazon comme neuf.",
+    "photos": [
+      "photos/autres-1795605051943-1.jpg",
+      "photos/autres-1795605053549-2.jpg",
+      "photos/autres-1795605055058-3.jpg",
+      "photos/autres-1795605056680-4.jpg",
+      "photos/autres-1795605058322-5.jpg"
+    ],
+    "id": "autres-defroisseur-portable-steamery-cirrus-core-blanc-1-350-w-1795605051032--taille-unique",
+    "variantGroupId": "autres-defroisseur-portable-steamery-cirrus-core-blanc-1-350-w-1795605051032",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:10:59.937Z",
+    "updatedAt": "2026-11-25T11:10:59.937Z"
+  },
+  {
     "nom": "Lisseur à air ionique PARWIN PRO BEAUTY humide à sec – Argenté",
     "marque": "PARWIN PRO BEAUTY",
     "etatProduit": "Neuf",
