@@ -1,5 +1,34 @@
 [
   {
+    "nom": "PPXIA Air Roll – Rouleau de gymnastique gonflable violet avec pompe",
+    "marque": "PPXIA",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires",
+    "genre": "",
+    "prixRetail": 80,
+    "prixVente": 49,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce rouleau de gymnastique gonflable PPXIA Air Roll accompagne les exercices de gym et de fitness à la maison. Son format cylindrique violet présente un logo blanc et deux poignées sur une extrémité. Il est fourni avec une pompe, un tuyau et trois embouts. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/ppxia-1795630370746-1.jpg",
+      "photos/ppxia-1795630372150-2.jpg",
+      "photos/ppxia-1795630373984-3.jpg",
+      "photos/ppxia-1795630376118-4.jpg"
+    ],
+    "id": "ppxia-ppxia-air-roll-rouleau-de-gymnastique-gonflable-violet-avec-pompe-1795630369481--taille-unique",
+    "variantGroupId": "ppxia-ppxia-air-roll-rouleau-de-gymnastique-gonflable-violet-avec-pompe-1795630369481",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T18:12:57.576Z",
+    "updatedAt": "2026-11-25T18:12:57.576Z"
+  },
+  {
     "nom": "Lighteu FUT036Z – Variateur Zigbee 3.0 pour bande LED monochrome 12/24 V",
     "marque": "Lighteu",
     "etatProduit": "Neuf sans boîte",
