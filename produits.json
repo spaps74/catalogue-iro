@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Binette cultivateur 3 dents Autres – manche long 127 cm, coloris argent",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Jardin",
+    "genre": "",
+    "prixRetail": 35,
+    "prixVente": 19,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 4,
+    "description": "Cette binette cultivateur de marque Autres possède une tête à 3 dents courbées pour travailler la terre du jardin. Son manche long de 127 cm est doté d’une poignée noire en forme de D pour faciliter la prise en main. L’outil présente un coloris argenté avec des détails noirs. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795601627719-1.jpg",
+      "photos/autres-1795601629121-2.jpg",
+      "photos/autres-1795601630739-3.jpg",
+      "photos/autres-1795601632312-4.jpg",
+      "photos/autres-1795601633918-5.jpg"
+    ],
+    "id": "autres-binette-cultivateur-3-dents-autres-manche-long-127-cm-coloris-argent-1795601626420--taille-unique",
+    "variantGroupId": "autres-binette-cultivateur-3-dents-autres-manche-long-127-cm-coloris-argent-1795601626420",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T10:13:55.413Z",
+    "updatedAt": "2026-11-25T10:13:55.413Z"
+  },
+  {
     "nom": "Housse clavier Fogari AZERTY avec pavé tactile pour Redmi Pad 2 Pro 12,1 pouces – Rose",
     "marque": "Fogari",
     "etatProduit": "Retour Amazon comme neuf",
