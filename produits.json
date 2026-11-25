@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Visière Everalo Iridium Chrome compatible Scorpion Exo 520, 1400, 391 et R1 Air",
+    "marque": "Everalo",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires moto",
+    "genre": "",
+    "prixRetail": 45,
+    "prixVente": 20,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Visière de casque moto Everalo neuve, en finition Iridium Chrome. Compatible avec les modèles Scorpion Exo 520, 1400, 391 et R1 Air. Prédisposée à recevoir un insert Pinlock. Sa forme incurvée présente des points de fixation latéraux et une languette de manipulation en partie basse.",
+    "photos": [
+      "photos/everalo-1795605662909-1.jpg",
+      "photos/everalo-1795605664532-2.jpg",
+      "photos/everalo-1795605666107-3.jpg"
+    ],
+    "id": "everalo-visiere-everalo-iridium-chrome-compatible-scorpion-exo-520-1400-391-et-r1-air-1795605661837--taille-unique",
+    "variantGroupId": "everalo-visiere-everalo-iridium-chrome-compatible-scorpion-exo-520-1400-391-et-r1-air-1795605661837",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:21:07.958Z",
+    "updatedAt": "2026-11-25T11:21:07.958Z"
+  },
+  {
     "nom": "Visière photochromique Everalo 391 R1 compatible Scorpion Exo 520-1400",
     "marque": "Everalo",
     "etatProduit": "Neuf",
