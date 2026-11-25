@@ -1,5 +1,33 @@
 [
   {
+    "nom": "Pantalon décontracté blanc en coton et lin – taille XL – Autres",
+    "marque": "Autres",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Pantalons",
+    "genre": "",
+    "prixRetail": 35,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Ce pantalon blanc en coton et lin présente une coupe ample aux jambes droites. Sa taille est dotée d’un lien à nouer sur le devant et ses jambes s’arrêtent au-dessus des chevilles. Un modèle décontracté pour la saison estivale, proposé en taille XL. Article neuf, de marque Autres.",
+    "photos": [
+      "photos/autres-1795598557969-1.jpg"
+    ],
+    "id": "autres-pantalon-decontracte-blanc-en-coton-et-lin-taille-xl-autres-1795598557305--taille-xl",
+    "variantGroupId": "autres-pantalon-decontracte-blanc-en-coton-et-lin-taille-xl-autres-1795598557305",
+    "variantSize": "XL",
+    "tailles": [
+      "XL"
+    ],
+    "taille": "XL",
+    "createdAt": "2026-11-25T09:22:39.407Z",
+    "updatedAt": "2026-11-25T09:22:39.407Z"
+  },
+  {
     "nom": "Boîte verrouillable avec minuterie pour téléphones et manettes – Finition bois",
     "marque": "Autres",
     "etatProduit": "Retour Amazon comme neuf",
