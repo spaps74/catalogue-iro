@@ -1,5 +1,34 @@
 [
   {
+    "nom": "Lot de 2 bols à ramen noirs 19 cm résistants aux chocs",
+    "marque": "Autres",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Cuisine",
+    "genre": "",
+    "prixRetail": 23.18,
+    "prixVente": 10,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Cet ensemble de la marque Autres comprend deux bols à ramen noirs de 19 cm. Leur forme ronde et évasée présente des lignes sobres, sans motif. Résistants aux chocs, ils conviennent au service des ramens et autres plats de nouilles. État : neuf avec étiquettes.",
+    "photos": [
+      "photos/autres-1795596405550-1.jpg",
+      "photos/autres-1795596407338-2.jpg",
+      "photos/autres-1795596408907-3.jpg",
+      "photos/autres-1795596410253-4.jpg"
+    ],
+    "id": "autres-lot-de-2-bols-a-ramen-noirs-19-cm-resistants-aux-chocs-1795596404160--taille-unique",
+    "variantGroupId": "autres-lot-de-2-bols-a-ramen-noirs-19-cm-resistants-aux-chocs-1795596404160",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T08:46:51.766Z",
+    "updatedAt": "2026-11-25T08:46:51.766Z"
+  },
+  {
     "nom": "Lighteu MiBoxer ML5 – Contrôleur LED 5-en-1 RGBCCT Matter Wi-Fi, DC 12–48 V",
     "marque": "Lighteu",
     "etatProduit": "Retour Amazon comme neuf",
