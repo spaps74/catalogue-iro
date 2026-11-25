@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Neutriherbs Superior Defining Gel raffermissant corps – 150 ml",
+    "marque": "Neutriherbs",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Cosmétiques",
+    "genre": "",
+    "prixRetail": 36,
+    "prixVente": 12,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Le Superior Defining Gel de Neutriherbs est un gel corporel tonifiant et raffermissant. Il est destiné aux bras, aux jambes et à la zone abdominale. Le tube mentionne la caféine et l’huile de pépins de raisin. Présenté en tube de 150 ml avec bouchon à clapet, cet article est neuf.",
+    "photos": [
+      "photos/neutriherbs-1795588313592-1.jpg",
+      "photos/neutriherbs-1795588314998-2.jpg",
+      "photos/neutriherbs-1795588316637-3.jpg",
+      "photos/neutriherbs-1795588318902-4.jpg",
+      "photos/neutriherbs-1795588320658-5.jpg"
+    ],
+    "id": "neutriherbs-neutriherbs-superior-defining-gel-raffermissant-corps-150-ml-1795588309318--taille-unique",
+    "variantGroupId": "neutriherbs-neutriherbs-superior-defining-gel-raffermissant-corps-150-ml-1795588309318",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T06:32:02.509Z",
+    "updatedAt": "2026-11-25T06:32:02.509Z"
+  },
+  {
     "nom": "Chaussons d’hiver Veilante en cuir camel à motifs bohèmes – Pointure 39",
     "marque": "Veilante",
     "etatProduit": "Neuf avec étiquettes",
