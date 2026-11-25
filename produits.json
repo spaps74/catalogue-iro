@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Triax DCT ATF – Huile synthétique pour boîte double embrayage – G 052 182 A2",
+    "marque": "Triax",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Bricolage",
+    "genre": "",
+    "prixRetail": 91,
+    "prixVente": 35,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "L’huile de transmission automatique Triax DCT ATF est entièrement synthétique. Elle est destinée aux boîtes à double embrayage de type Direct Shift et aux transmissions DCT/DSG. Elle est conforme à la norme G 052 182 A2. Produit neuf, présenté en bidon avec bouchon à vis. Vérifiez les préconisations du constructeur de votre véhicule avant utilisation.",
+    "photos": [
+      "photos/triax-1795582234447-1.jpg",
+      "photos/triax-1795582236005-2.jpg",
+      "photos/triax-1795582238040-3.jpg",
+      "photos/triax-1795582239760-4.jpg",
+      "photos/triax-1795582241320-5.jpg"
+    ],
+    "id": "triax-triax-dct-atf-huile-synthetique-pour-boite-double-embrayage-g-052-182-a2-1795582231420--taille-unique",
+    "variantGroupId": "triax-triax-dct-atf-huile-synthetique-pour-boite-double-embrayage-g-052-182-a2-1795582231420",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T04:50:42.948Z",
+    "updatedAt": "2026-11-25T04:50:42.948Z"
+  },
+  {
     "nom": "Autres – Lotion corporelle coco & céramide 473 ml – Botanic Hearth",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
