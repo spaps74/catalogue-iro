@@ -1,5 +1,31 @@
 [
   {
+    "nom": "EIGHTREE – Lot de 2 prises connectées WiFi 16 A avec suivi d’énergie pour mini-PV",
+    "marque": "EIGHTREE",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Maison, Déco, Animaux",
+    "sousCategorie": "Bricolage",
+    "genre": "",
+    "prixRetail": 33,
+    "prixVente": 15,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Lot de 2 prises connectées EIGHTREE neuves, blanches, de type F et d’une intensité de 16 A. Elles fonctionnent en WiFi 2,4 GHz et permettent de suivre la consommation d’énergie ainsi que la production électrique d’une installation mini-photovoltaïque. Compatibles avec Alexa, SmartThings et Google Home, elles prennent en charge la commande vocale. Leur format aux angles arrondis intègre un bouton sur le dessus.",
+    "photos": [
+      "photos/eightree-1795596511934-1.jpg"
+    ],
+    "id": "eightree-eightree-lot-de-2-prises-connectees-wifi-16-a-avec-suivi-d-energie-pour-mini-pv-1795596511056--taille-unique",
+    "variantGroupId": "eightree-eightree-lot-de-2-prises-connectees-wifi-16-a-avec-suivi-d-energie-pour-mini-pv-1795596511056",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T08:48:33.613Z",
+    "updatedAt": "2026-11-25T08:48:33.613Z"
+  },
+  {
     "nom": "Lot de 2 bols à ramen noirs 19 cm résistants aux chocs",
     "marque": "Autres",
     "etatProduit": "Neuf avec étiquettes",
