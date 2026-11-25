@@ -1,5 +1,31 @@
 [
   {
+    "nom": "Visière photochromique Everalo 391 R1 compatible Scorpion Exo 520-1400",
+    "marque": "Everalo",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "Loisirs",
+    "sousCategorie": "Accessoires moto",
+    "genre": "",
+    "prixRetail": 89,
+    "prixVente": 45,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Visière de casque moto Everalo, modèle 391 R1, compatible Scorpion Exo 520-1400. Photochromique, elle adapte sa teinte à la luminosité. Sa forme enveloppante comporte des points de fixation latéraux et une languette sur le bord inférieur. Article neuf.",
+    "photos": [
+      "photos/everalo-1795605611799-1.jpg"
+    ],
+    "id": "everalo-visiere-photochromique-everalo-391-r1-compatible-scorpion-exo-520-1400-1795605610430--taille-unique",
+    "variantGroupId": "everalo-visiere-photochromique-everalo-391-r1-compatible-scorpion-exo-520-1400-1795605610430",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-25T11:20:13.804Z",
+    "updatedAt": "2026-11-25T11:20:13.804Z"
+  },
+  {
     "nom": "Ugreen Câble USB-C vers USB-C 1 m – 240 W, 80 Gbps et vidéo 16K à 60 Hz",
     "marque": "Ugreen",
     "etatProduit": "Retour Amazon comme neuf",
