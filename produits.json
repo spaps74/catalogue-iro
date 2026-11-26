@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Marvel Iron Man Combinaison Pyjama L neuf",
+    "marque": "Marvel",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "Mode, Soins de la personne, Cosmétique",
+    "sousCategorie": "Déguisements",
+    "genre": "",
+    "prixRetail": 44,
+    "prixVente": 25,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "Combinaison pyjama Iron Man Marvel.\n- Capuche à capuchon\n- Imprimé armure rouge jaune et noir\n- Fermeture zippée\n\nUn esprit de super-héros pour les soirées d'hiver, pourquoi pas avec une tasse de thé.\n\nTaille L - État neuf",
+    "photos": [
+      "photos/marvel-1795680476274-1.jpg",
+      "photos/marvel-1795680478426-2.jpg",
+      "photos/marvel-1795680480394-3.jpg"
+    ],
+    "id": "marvel-marvel-iron-man-combinaison-pyjama-l-neuf-1795680475500--taille-l",
+    "variantGroupId": "marvel-marvel-iron-man-combinaison-pyjama-l-neuf-1795680475500",
+    "variantSize": "L",
+    "tailles": [
+      "L"
+    ],
+    "taille": "L",
+    "createdAt": "2026-11-26T08:08:02.181Z",
+    "updatedAt": "2026-11-26T08:08:02.181Z"
+  },
+  {
     "nom": "Kigurumi Onesie Pyjama Costume Animal Cosplay Hiver Unisexe",
     "marque": "Ovender",
     "etatProduit": "Neuf avec étiquettes",
