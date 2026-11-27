@@ -1,5 +1,35 @@
 [
   {
+    "nom": "MOFT Dynamic Folio Coque pour iPad Pro 11\" (4e/3e/2e gén., 2022/2021/2020)",
+    "marque": "MOFT",
+    "etatProduit": "Neuf",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "Étuis pour tablettes",
+    "genre": "",
+    "prixRetail": 55,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "",
+    "stock": 1,
+    "description": "oque MOFT Dynamic Folio, conçue spécifiquement pour l'iPad Pro 11 pouces (4e/3e/2e génération).\n- Type de produit : Coque / Étui\n- Marque : MOFT\n- Modèle : Dynamic Folio\n- Couleur : Rose\n- Compatibilité : iPad Pro 11\" (4e/3e/2e génération)\n- Fonctionnalités clés : Support intégré, Compatible Apple Pencil",
+    "photos": [
+      "photos/moft-1795766904084-1.jpg",
+      "photos/moft-1795766905766-2.jpg",
+      "photos/moft-1795766907244-3.jpg",
+      "photos/moft-1795766908830-4.jpg",
+      "photos/moft-1795766910361-5.jpg"
+    ],
+    "id": "moft-moft-dynamic-folio-coque-pour-ipad-pro-11-4e-3e-2e-gen-2022-2021-2020-1795766902663--taille-unique",
+    "variantGroupId": "moft-moft-dynamic-folio-coque-pour-ipad-pro-11-4e-3e-2e-gen-2022-2021-2020-1795766902663",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-27T08:08:31.702Z",
+    "updatedAt": "2026-11-27T08:08:31.702Z"
+  },
+  {
     "nom": "Batterie externe CUKTECH 15 SE 20 000 mAh 85 W – charge rapide PD 3.0",
     "marque": "CUKTECH",
     "etatProduit": "Neuf avec étiquettes",
