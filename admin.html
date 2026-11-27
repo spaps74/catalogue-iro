@@ -3194,18 +3194,23 @@ async function searchOriginalPriceAndPhotos(){
   }
 
   try{
-    setProductLookupStatus("Recherche web du prix public d'origine et des 10 meilleures photos…",'working');
+    setProductLookupStatus("Recherche du prix public et des photos (Amazon.fr et français prioritaires)…",'working');
 
     const enriched=await req('/admin/product-enrich',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
+        language:'fr', country:'FR', preferredDomains:['amazon.fr'],
         product:{
           ...r,
           title,
           brand,
           model,
-          sku:model
+          sku:model,
+          searchQuery:[brand,title,model,'site:amazon.fr'].filter(Boolean).join(' '),
+          preferredDomains:['amazon.fr'],
+          language:'fr',
+          country:'FR'
         }
       })
     });
@@ -3215,6 +3220,10 @@ async function searchOriginalPriceAndPhotos(){
     }
 
     const updated=enriched.product;
+    if(Array.isArray(updated.images)){
+      const rank=url=>{try{const host=new URL(url).hostname.toLowerCase();return /(^|\.)amazon\.fr$/.test(host)?0:/^(m\.media-amazon\.com|images.*\.ssl-images-amazon\.com)$/.test(host)?1:2;}catch(_){return 3;}};
+      updated.images=updated.images.slice().sort((a,b)=>rank(a)-rank(b));
+    }
     productLookupResults[productLookupSelectedIndex]=updated;
 
     if(updated.retailPrice){
