@@ -1,5 +1,35 @@
 [
   {
+    "nom": "Batterie externe CUKTECH 15 SE 20 000 mAh 85 W – charge rapide PD 3.0",
+    "marque": "CUKTECH",
+    "etatProduit": "Neuf avec étiquettes",
+    "miseEnPremierePage": false,
+    "categorie": "High-Tech",
+    "sousCategorie": "PowerBank",
+    "genre": "",
+    "prixRetail": 43,
+    "prixVente": 29,
+    "statut": "Disponible",
+    "sku": "",
+    "gtin": "6973886190773",
+    "stock": 1,
+    "description": "Batterie externe CUKTECH 15 SE de 20 000 mAh, neuve avec étiquettes. Puissance annoncée de 85 W, avec une charge rapide jusqu’à 65 W sur un seul port et prise en charge du protocole PD 3.0. Son boîtier argenté dispose d’un affichage numérique du niveau de batterie, de deux ports USB-C et d’un port USB-A. Un câble USB-C vers USB-C est visible sur la photo.",
+    "photos": [
+      "photos/cuktech-1795763906823-1.jpg",
+      "photos/cuktech-1795763908283-2.jpg",
+      "photos/cuktech-1795763909948-3.jpg",
+      "photos/cuktech-1795763911568-4.jpg",
+      "photos/cuktech-1795763913489-5.jpg"
+    ],
+    "id": "cuktech-batterie-externe-cuktech-15-se-20-000-mah-85-w-charge-rapide-pd-3-0-6973886190773--taille-unique",
+    "variantGroupId": "cuktech-batterie-externe-cuktech-15-se-20-000-mah-85-w-charge-rapide-pd-3-0-6973886190773",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
+    "createdAt": "2026-11-27T07:18:35.513Z",
+    "updatedAt": "2026-11-27T07:18:35.513Z"
+  },
+  {
     "nom": "MoKo Clavier Français Bluetooth AZERTY pour Surface Pro7+/7/6/5/4/3 Grigio | Bluetooth avec Pivot Rotatif Fin, Batterie au Lithium Intégrée",
     "marque": "Moko",
     "etatProduit": "Neuf",
