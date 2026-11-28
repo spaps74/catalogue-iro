@@ -4970,7 +4970,6 @@
     "updatedAt": "2026-11-23T09:36:37.262Z"
   },
   {
-    "id": "gardepro-gardepro-e8p-camera-de-chasse-wifi-64-mp-video-1296p-et-batterie-8-000-mah",
     "nom": "GardePro E8P – Caméra de chasse WiFi 64 MP, vidéo 1296P et batterie 8 000 mAh",
     "marque": "GardePro",
     "etatProduit": "Retour Amazon comme neuf",
@@ -4978,11 +4977,11 @@
     "categorie": "Loisirs",
     "sousCategorie": "Caméras de chasse",
     "genre": "",
-    "taille": "",
     "prixRetail": 88,
     "prixVente": 41,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "La caméra de chasse GardePro E8P permet d’observer les animaux en extérieur avec des photos de 64 MP et des vidéos en 1296P. Sa connexion WiFi permet une utilisation avec un téléphone. Elle dispose d’une vision nocturne à infrarouge invisible No Glow 940 nm et d’une batterie de 8 000 mAh. Son boîtier à motif camouflage bénéficie d’un indice de protection IP66. État : Retour Amazon comme neuf.",
     "photos": [
@@ -4992,8 +4991,13 @@
       "photos/gardepro-1795426475331-4.jpg",
       "photos/gardepro-1795426477393-5.jpg"
     ],
+    "id": "gardepro-gardepro-e8p-camera-de-chasse-wifi-64-mp-video-1296p-et-batterie-8-000-mah",
+    "variantGroupId": "gardepro-gardepro-e8p-camera-de-chasse-wifi-64-mp-video-1296p-et-batterie-8-000-mah",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-23T09:34:39.576Z",
-    "updatedAt": "2026-11-23T09:34:39.576Z"
+    "updatedAt": "2026-11-28T07:00:48.259Z"
   },
   {
     "id": "holimet-holimet-case-for-ipad-pro-11-inch-2022-2021-2020-with-pencil-holder-pu-leather-protective-case-tpu-back-shockproof-car-sleep-wake-support-pen-wireless-charging-cover-for-ipad-pro-11-4-3-2-green",
