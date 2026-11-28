@@ -5024,7 +5024,6 @@
     "updatedAt": "2026-11-23T09:38:03.808Z"
   },
   {
-    "id": "gardepro-gardepro-e8-2-0-camera-de-chasse-wifi-4k-64-mp-vision-nocturne-ip66",
     "nom": "GardePro E8 2.0 – Caméra de chasse WiFi 4K 64 MP, vision nocturne, IP66",
     "marque": "GardePro",
     "etatProduit": "Retour Amazon comme neuf",
@@ -5032,11 +5031,11 @@
     "categorie": "Loisirs",
     "sousCategorie": "Caméras de chasse",
     "genre": "",
-    "taille": "",
     "prixRetail": 76,
     "prixVente": 35,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
+    "gtin": "",
     "stock": 1,
     "description": "La caméra de chasse GardePro E8 2.0 capture des photos de 64 MP et des vidéos 4K avec encodage H.265 pour observer les animaux en extérieur. Sa connexion WiFi au téléphone offre une portée annoncée de 50 mètres. La vision nocturne utilise un éclairage infrarouge invisible No Glow de 940 nm. Son boîtier gris-vert à deux antennes bénéficie d’un indice de protection IP66. Un déclenchement de 0,1 seconde est annoncé sur le visuel du produit. État : Retour Amazon comme neuf.",
     "photos": [
@@ -5046,8 +5045,13 @@
       "photos/gardepro-1795425891955-4.jpg",
       "photos/gardepro-1795425893670-5.jpg"
     ],
+    "id": "gardepro-gardepro-e8-2-0-camera-de-chasse-wifi-4k-64-mp-vision-nocturne-ip66",
+    "variantGroupId": "gardepro-gardepro-e8-2-0-camera-de-chasse-wifi-4k-64-mp-vision-nocturne-ip66",
+    "variantSize": "",
+    "tailles": [],
+    "taille": "",
     "createdAt": "2026-11-23T09:24:55.372Z",
-    "updatedAt": "2026-11-23T09:24:55.372Z"
+    "updatedAt": "2026-11-28T07:00:59.982Z"
   },
   {
     "nom": "GardePro E8 – Caméra de chasse WiFi 64 MP, vidéo 1296P et vision nocturne",
