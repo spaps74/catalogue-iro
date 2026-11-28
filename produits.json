@@ -37,7 +37,7 @@
     "genre": "",
     "prixRetail": 55,
     "prixVente": 29,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
     "gtin": "",
     "stock": 1,
@@ -55,7 +55,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-27T08:08:31.702Z",
-    "updatedAt": "2026-11-27T08:08:31.702Z"
+    "updatedAt": "2026-11-28T06:43:02.597Z"
   },
   {
     "nom": "Batterie externe CUKTECH 15 SE 20 000 mAh 85 W – charge rapide PD 3.0",
