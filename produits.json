@@ -5063,7 +5063,7 @@
     "genre": "",
     "prixRetail": 68,
     "prixVente": 31,
-    "statut": "Disponible",
+    "statut": "Vendu",
     "sku": "",
     "gtin": "",
     "stock": 1,
@@ -5081,7 +5081,7 @@
     "tailles": [],
     "taille": "",
     "createdAt": "2026-11-23T09:22:38.939Z",
-    "updatedAt": "2026-11-25T17:10:40.908Z"
+    "updatedAt": "2026-11-28T07:01:12.464Z"
   },
   {
     "nom": "Pull long SÉZANE – 68 % Baby Alpaga – Camel",
